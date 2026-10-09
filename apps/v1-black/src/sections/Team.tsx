@@ -79,15 +79,6 @@ function OrgMark({ name }: { name: string }) {
   return <span className="text-[19px] font-semibold tracking-[-0.03em] md:text-[21px] lg:text-[26px]">{name}</span>
 }
 
-function Silhouette({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 200 220" aria-hidden className={className}>
-      <circle cx="100" cy="80" r="38" fill="#111114" stroke="#2E2E35" />
-      <path d="M24 220 C24 158 58 132 100 132 C142 132 176 158 176 220" fill="#111114" stroke="#2E2E35" />
-    </svg>
-  )
-}
-
 function Founders() {
   const rail = useRef<HTMLDivElement>(null)
   const [page, setPage] = useState(0)
@@ -126,12 +117,17 @@ function Founders() {
       >
         {team.founders.map((f, i) => (
           <article key={f.name} className="group flex w-[264px] flex-none snap-start flex-col gap-3.5 md:w-auto lg:gap-5">
-            <div className="dot-grid relative flex h-80 items-end justify-center overflow-hidden border border-rule transition-colors duration-500 group-hover:border-rule-3 md:h-[300px] lg:h-[440px]">
-              <Silhouette className="block w-[180px] transition-transform duration-700 ease-out-expo group-hover:-translate-y-1.5 md:w-[170px] lg:w-[260px]" />
-              <span className="absolute top-3 left-3 font-mono text-[10px] tracking-[0.06em] text-meta lg:top-4 lg:left-4 lg:text-[11px]">
-                [ DUMMY PHOTO ]
-              </span>
-              <span className="absolute top-3 right-3 hidden font-mono text-[11px] tracking-[0.06em] text-brand-lift lg:top-4 lg:right-4 lg:block">
+            <div className="relative h-80 overflow-hidden border border-rule bg-surface transition-colors duration-500 group-hover:border-rule-3 md:h-[300px] lg:h-[440px]">
+              <img
+                src={f.photo}
+                alt={`Portrait of ${f.name}`}
+                width={800}
+                height={1000}
+                loading="lazy"
+                decoding="async"
+                className="size-full object-cover object-[50%_25%] grayscale-[35%] transition duration-700 ease-out-expo group-hover:scale-[1.03] group-hover:grayscale-0"
+              />
+              <span className="absolute top-3 right-3 hidden bg-page/70 px-1.5 py-0.5 font-mono text-[11px] tracking-[0.06em] text-brand-lift lg:top-4 lg:right-4 lg:block">
                 F.{String(i + 1).padStart(2, '0')}
               </span>
             </div>

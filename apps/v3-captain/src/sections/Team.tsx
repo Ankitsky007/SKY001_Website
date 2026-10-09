@@ -3,17 +3,6 @@ import { Reveal, SplitReveal } from '@skyfall/core/motion'
 import { useRef, useState } from 'react'
 import { ButtonLink, CountUp, GUTTER, LABEL, SectionHead, WRAP } from '../lib/ui'
 
-function Avatar() {
-  return (
-    <svg viewBox="0 0 200 200" aria-hidden="true" className="block size-[200px] lg:size-[240px]">
-      <g className="fill-grey transition-colors duration-300 group-hover:fill-brand">
-        <circle cx="100" cy="80" r="36" />
-        <path d="M24 200 C 24 136, 176 136, 176 200 Z" />
-      </g>
-    </svg>
-  )
-}
-
 function Arrow({ flip }: { flip?: boolean }) {
   return (
     <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true" className={flip ? 'rotate-180' : ''}>
@@ -73,11 +62,19 @@ export function Team() {
               delay={i * 0.08}
               className="group flex w-[300px] shrink-0 snap-start flex-col border border-line transition-colors duration-300 hover:bg-pale md:w-auto md:border-t-0 md:border-l-0"
             >
-              <div className="dot-grid relative flex h-[300px] items-end justify-center bg-soft transition-colors duration-300 group-hover:bg-pale-2 group-hover:dot-grid-blue lg:h-[380px]">
-                <span className="absolute top-3 left-3 font-mono text-[10px] font-medium tracking-[0.04em] text-muted transition-colors group-hover:text-brand lg:top-4 lg:left-4 lg:text-[11px]">
-                  [ F.0{i + 1} · DUMMY PHOTO ]
+              <div className="relative h-[300px] overflow-hidden bg-soft lg:h-[380px]">
+                <img
+                  src={f.photo}
+                  alt={`Portrait of ${f.name}`}
+                  width={800}
+                  height={1000}
+                  loading="lazy"
+                  decoding="async"
+                  className="size-full object-cover object-[50%_25%] transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
+                />
+                <span className="absolute top-3 left-3 bg-white/85 px-1.5 py-0.5 font-mono text-[10px] font-medium tracking-[0.04em] text-muted transition-colors group-hover:text-brand lg:top-4 lg:left-4 lg:text-[11px]">
+                  [ F.0{i + 1} ]
                 </span>
-                <Avatar />
               </div>
               <div className="flex flex-col gap-1.5 p-5 lg:gap-2 lg:p-6">
                 <h3 className="text-[22px] font-normal tracking-[-0.03em] transition-colors group-hover:text-brand lg:text-[26px]">{f.name}</h3>

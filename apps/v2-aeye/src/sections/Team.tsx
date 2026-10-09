@@ -45,15 +45,6 @@ export function Team() {
   )
 }
 
-function Silhouette() {
-  return (
-    <svg viewBox="0 0 200 220" className="block h-auto w-[200px] md:w-[200px] lg:w-[240px]" aria-hidden="true">
-      <circle cx="100" cy="80" r="38" fill="#2B2B2B" stroke="#474747" />
-      <path d="M24 220 C24 158 58 132 100 132 C142 132 176 158 176 220" fill="#2B2B2B" stroke="#474747" />
-    </svg>
-  )
-}
-
 function Founders() {
   const track = useRef<HTMLUListElement>(null)
   const [snap, setSnap] = useState(0)
@@ -86,11 +77,16 @@ function Founders() {
             data-snap={i === snap}
             className="group relative flex w-[316px] max-w-[85vw] shrink-0 snap-start flex-col border border-night-line transition-colors duration-300 max-md:data-[snap=true]:border-brand md:w-auto md:max-w-none md:hover:border-brand"
           >
-            <div className="dots-dark relative flex h-[300px] items-end justify-center overflow-hidden md:h-[280px] lg:h-[360px]">
-              <div className="transition-transform duration-700 ease-out-expo md:group-hover:scale-[1.04]">
-                <Silhouette />
-              </div>
-              <span className="absolute top-3 left-3 bg-night-3 px-2 py-1 font-mono text-[11px] font-medium text-night-text uppercase md:top-4 md:left-4 md:text-xs">Dummy photo</span>
+            <div className="relative h-[300px] overflow-hidden bg-night-3 md:h-[280px] lg:h-[360px]">
+              <img
+                src={f.photo}
+                alt={`Portrait of ${f.name}`}
+                width={800}
+                height={1000}
+                loading="lazy"
+                decoding="async"
+                className="size-full object-cover object-[50%_25%] transition-transform duration-700 ease-out-expo md:group-hover:scale-[1.04]"
+              />
             </div>
             <div className="flex flex-col gap-2.5 p-5 md:p-6">
               <span className="font-mono text-xs font-medium text-muted transition-colors duration-300 max-md:group-data-[snap=true]:text-brand-lift md:text-[13px] md:group-hover:text-brand-lift">F.{pad2(i + 1)}</span>

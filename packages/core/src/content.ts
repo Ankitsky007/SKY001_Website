@@ -2,6 +2,12 @@
 // content doc (New Website <> Skyfall AI, tab "Skyfall Front Page") is made once.
 // Copy is verbatim from that doc, including its typos, until the team signs off edits.
 
+// Founder portraits: AI-generated studio shots from the founders' photos (round 1, option A),
+// pending Ankit's pick and founder consent.
+import kaheerPhoto from './assets/team/kaheer-suleman.jpg'
+import samPhoto from './assets/team/sam-pasupalak.jpg'
+import sumitPhoto from './assets/team/sumit-pasupalak.jpg'
+
 export const site = {
   name: 'Skyfall AI',
   tagline: 'Engineering World Models for the autonomous enterprise.',
@@ -84,9 +90,9 @@ export const team = {
   story:
     'Founded by Maluuba co-founders Sam Pasupalak and Kaheer Suleman, together with Sumit Pasupalak, Skyfall AI is building AI that understands the physical world. Sam and Kaheer were early pioneers of deep learning. They built Maluuba with advisors Yoshua Bengio and Richard Sutton, and Microsoft acquired it and turned it into its research lab in Canada. Sumit previously co-founded Ubiq, a Y Combinator company.',
   founders: [
-    { name: 'Sam Pasupalak', role: 'Co-founder · [Title]', note: 'Co-founded Maluuba' },
-    { name: 'Kaheer Suleman', role: 'Co-founder · [Title]', note: 'Co-founded Maluuba' },
-    { name: 'Sumit Pasupalak', role: 'Co-founder · [Title]', note: 'Co-founded Ubiq (YC)' },
+    { name: 'Sam Pasupalak', role: 'Co-founder · [Title]', note: 'Co-founded Maluuba', photo: samPhoto },
+    { name: 'Kaheer Suleman', role: 'Co-founder · [Title]', note: 'Co-founded Maluuba', photo: kaheerPhoto },
+    { name: 'Sumit Pasupalak', role: 'Co-founder · [Title]', note: 'Co-founded Ubiq (YC)', photo: sumitPhoto },
   ],
   experience:
     'Together, they bring more than 30 years of combined experience across business, product, and AI research, and they are now shaping the next era of AI.',
