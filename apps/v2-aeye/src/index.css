@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+@import '@skyfall/core/styles.css';
+@source '../../../packages/core/src';
+
+/* v2 aeye: version-specific tokens go here. */
+@theme {
+  --color-page: #ffffff;
+  --color-ink: #1a1a1a;
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
