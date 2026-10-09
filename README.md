@@ -82,4 +82,4 @@ Each version is its own Vercel project pointing at the same GitHub repo:
 
 - Copy comes from the content doc "New Website <> Skyfall AI" (front page tab).
 - The founder story (Maluuba, Bengio, Sutton) is not yet cleared for public use.
-- Logos are placeholders. Founder photos are AI-generated round-1 portraits (option A) in `packages/core/src/assets/team/`, pending the final pick and founder consent.
+- Logos are placeholders. Founder photos are AI-generated round-1 portraits (option A, approved) in `packages/core/src/assets/team/`, pending founder consent.

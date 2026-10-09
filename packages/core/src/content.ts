@@ -2,8 +2,8 @@
 // content doc (New Website <> Skyfall AI, tab "Skyfall Front Page") is made once.
 // Copy is verbatim from that doc, including its typos, until the team signs off edits.
 
-// Founder portraits: AI-generated studio shots from the founders' photos (round 1, option A),
-// pending Ankit's pick and founder consent.
+// Founder portraits: AI-generated studio shots from the founders' photos (round 1, option A,
+// approved by Ankit 2026-10-09), pending founder consent.
 import kaheerPhoto from './assets/team/kaheer-suleman.jpg'
 import samPhoto from './assets/team/sam-pasupalak.jpg'
 import sumitPhoto from './assets/team/sumit-pasupalak.jpg'
