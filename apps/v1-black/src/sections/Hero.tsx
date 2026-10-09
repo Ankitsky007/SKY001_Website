@@ -27,7 +27,7 @@ export function Hero() {
     <section
       ref={ref}
       id="top"
-      className="relative flex min-h-[calc(100svh-56px)] flex-col md:min-h-[calc(100svh-64px)] lg:min-h-[calc(100svh-72px)]"
+      className="relative flex min-h-[calc(100svh-56px)] flex-col md:min-h-0 lg:min-h-[calc(100svh-72px)]"
     >
       <div className="mx-auto w-full max-w-[1440px] px-5 pt-7 md:px-10 md:pt-14 lg:flex lg:items-start lg:justify-between lg:gap-16 lg:px-16 lg:pt-16">
         <div className="flex flex-col gap-[18px] md:gap-6 lg:max-w-[800px] lg:gap-7">

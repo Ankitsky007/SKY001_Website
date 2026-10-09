@@ -20,10 +20,19 @@ export function Bracket({ parts, className = '' }: { parts: ReactNode[]; classNa
       {parts.map((p, i) => (
         <span key={i} className="contents">
           {i > 0 && <Sq />}
-          <span>{p}</span>
+          {i === parts.length - 1 ? (
+            // Keep the closing bracket with the last word so it never wraps onto its own line.
+            <span className="whitespace-nowrap">
+              {p}
+              <span aria-hidden="true" className="ml-[5px] lg:ml-1.5">
+                ]
+              </span>
+            </span>
+          ) : (
+            <span>{p}</span>
+          )}
         </span>
       ))}
-      <span aria-hidden="true">]</span>
     </span>
   )
 }

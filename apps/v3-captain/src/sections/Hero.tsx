@@ -24,7 +24,7 @@ export function Hero() {
   )
 
   return (
-    <section ref={root} id="top" className="relative flex min-h-[calc(100svh-60px)] flex-col overflow-hidden bg-brand text-white lg:min-h-[max(760px,calc(100svh-64px))]">
+    <section ref={root} id="top" className="relative flex min-h-[calc(100svh-60px)] flex-col overflow-hidden bg-brand text-white md:min-h-0 lg:min-h-[max(760px,calc(100svh-64px))]">
       <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-col gap-5 px-6 pt-8 md:px-12 md:pt-12 lg:flex-row lg:items-start lg:justify-between lg:gap-12 lg:pt-14 xl:px-[116px]">
         <div className="flex max-w-[780px] flex-col items-start gap-5 lg:gap-6">
           <span data-intro className="bg-white/10 px-2 py-[5px] lg:px-2.5 lg:py-1.5">
