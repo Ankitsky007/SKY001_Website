@@ -50,7 +50,7 @@ export function Hero() {
       </HeroGrid>
 
       <div className="wrap pt-12 md:pt-16 lg:pt-20">
-        <SplitReveal as="h1" immediate className="text-[40px] leading-[1.1] font-normal tracking-[-0.06em] md:text-[64px] lg:text-[80px]">
+        <SplitReveal as="h1" immediate className="text-[clamp(30px,10vw,40px)] leading-[1.1] font-normal tracking-[-0.06em] md:text-[64px] lg:text-[80px]">
           {before}
           <PixelWord caret>{accent}</PixelWord>
           {after}
