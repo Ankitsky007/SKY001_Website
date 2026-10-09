@@ -1,0 +1,83 @@
+@import 'tailwindcss';
+@import '@skyfall/core/styles.css';
+@source '../../../packages/core/src';
+
+/* v1 Black: version-specific tokens (canvas.json notes.tokens). Radius 0, 1px lines, one blue accent. */
+@theme {
+  --color-page: #000000;
+  --color-surface: #0b0b0d;
+  --color-node: #08080a;
+  --color-ink: #f5f5f5;
+  --color-soft: #cfcfd4;
+  --color-body: #a3a3a3;
+  --color-meta: #808080;
+  --color-dim: #6b6b72;
+  --color-rule: #1e1e22;
+  --color-rule-2: #26262b;
+  --color-rule-3: #333338;
+  --color-wire: #3a3a42;
+  --color-cta: #05060f;
+  --color-sector: #0a0f2a;
+
+  --radius-none: 0;
+}
+
+html {
+  background: var(--color-page);
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  overflow-x: clip;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 1px solid var(--color-brand-lift);
+  outline-offset: 3px;
+}
+
+/* Board dot grids */
+.dot-grid {
+  background-color: var(--color-surface);
+  background-image: radial-gradient(1px at 1px 1px, #26262c 99%, transparent 100%);
+  background-size: 8px 8px;
+}
+.dot-grid-blue {
+  background-color: var(--color-cta);
+  background-image: radial-gradient(1px at 1px 1px, #1e2550 99%, transparent 100%);
+  background-size: 12px 12px;
+}
+
+/* SVG figure type: Geist Mono, tracked, as in the boards */
+.fig {
+  font-family: var(--font-mono);
+  letter-spacing: 0.6px;
+}
+
+/* FIG.03 step legend: spotlight one part of the figure, dim the rest */
+[data-step] {
+  transition: opacity 0.45s var(--ease-out-expo);
+}
+[data-show='learn'] [data-step]:not([data-step~='learn']),
+[data-show='simulate'] [data-step]:not([data-step~='simulate']),
+[data-show='plan'] [data-step]:not([data-step~='plan']),
+[data-show='guardrails'] [data-step]:not([data-step~='guardrails']) {
+  opacity: 0.18;
+}
+
+/* Horizontal founder rail on phones */
+.rail {
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
