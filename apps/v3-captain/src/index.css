@@ -2,14 +2,137 @@
 @import '@skyfall/core/styles.css';
 @source '../../../packages/core/src';
 
-/* v3 Captain: version-specific tokens go here. */
+/* v3 Captain: navy is our "black", logo blue the only accent, radius 0 everywhere. */
 @theme {
   --color-page: #ffffff;
   --color-ink: #0b1338;
+  --color-navy: #0b1338;
+  --color-navy-line: #1e2a52;
+  --color-navy-muted: #a9b2d0;
+  --color-lift: #8d9df0;
+  --color-pale: #eef1fc;
+  --color-pale-2: #e3e8fa;
+  --color-grey: #b9bfcb;
+  --color-muted: #6b7180;
+  --color-body: #3b4256;
+  --color-line: #e2e4ea;
+  --color-soft: #f7f8fb;
+  --color-chip: #f3f4f7;
+  --color-slab-deep: #24358f;
 }
 
 body {
   background: var(--color-page);
   color: var(--color-ink);
   font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* Captain's dot grid in one line (7px). */
+@utility dot-grid {
+  background-image: radial-gradient(1px at 1px 1px, rgba(11, 19, 56, 0.32) 99%, transparent 100%);
+  background-size: 7px 7px;
+}
+@utility dot-grid-blue {
+  background-image: radial-gradient(1px at 1px 1px, rgba(62, 87, 218, 0.45) 99%, transparent 100%);
+  background-size: 7px 7px;
+}
+@utility dot-grid-white {
+  background-image: radial-gradient(1px at 1px 1px, rgba(255, 255, 255, 0.4) 99%, transparent 100%);
+  background-size: 7px 7px;
+}
+
+/* Hero sea fallback rows (static SVG/CSS stand-in for the WebGL sea). */
+.sea-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  -webkit-mask-image: repeating-linear-gradient(90deg, #000 0 22%, rgba(0, 0, 0, 0.35) 38%, #000 55%, rgba(0, 0, 0, 0.6) 78%, #000 100%);
+  mask-image: repeating-linear-gradient(90deg, #000 0 22%, rgba(0, 0, 0, 0.35) 38%, #000 55%, rgba(0, 0, 0, 0.6) 78%, #000 100%);
+  -webkit-mask-size: var(--w) 100%;
+  mask-size: var(--w) 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sea-row {
+    animation: sea-wave var(--t) linear infinite;
+  }
+  .flow {
+    animation: flow 1.6s linear infinite;
+  }
+  .flow-slow {
+    animation: flow 2.4s linear infinite;
+  }
+  .reticle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: reticle 2.4s ease-in-out infinite;
+  }
+  .node-lit {
+    animation: lit 6s ease-in-out infinite;
+  }
+  .slab-wave {
+    animation: slab-wave 5s ease-in-out infinite alternate;
+  }
+  .globe-spin {
+    transform-box: view-box;
+    transform-origin: 220px 232px;
+    animation: spin 60s linear infinite;
+  }
+}
+
+@keyframes sea-wave {
+  to {
+    -webkit-mask-position: var(--w) 0;
+    mask-position: var(--w) 0;
+  }
+}
+@keyframes flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+@keyframes reticle {
+  50% {
+    transform: scale(1.28);
+    opacity: 0.5;
+  }
+}
+@keyframes lit {
+  0%,
+  100% {
+    fill: #3e57da;
+  }
+  10%,
+  30% {
+    fill: #ffffff;
+  }
+}
+@keyframes slab-wave {
+  to {
+    transform: translateX(-36px);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Live overlays start hidden until the scene has placed them (no jump on first frame). */
+[data-overlay] {
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-out-expo);
+}
+[data-overlay][data-ready] {
+  opacity: 1;
 }
