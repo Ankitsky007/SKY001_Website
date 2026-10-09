@@ -70,6 +70,14 @@ npm run build      # builds all three versions to apps/*/dist
 npm run preview    # serves the builds (ports 4171, 4172, 4173)
 ```
 
+## Hosting (Vercel)
+
+Each version is its own Vercel project pointing at the same GitHub repo:
+
+1. vercel.com/new → import `Ankitsky007/SKY001_Website`.
+2. Set **Root Directory** to `apps/v1-black` (then repeat for `apps/v2-aeye` and `apps/v3-captain`). Leave "Include files outside the root directory" on.
+3. Everything else comes from each app's `vercel.json`. Every push then gets a preview URL per version; `main` is production.
+
 ## Content status
 
 - Copy comes from the content doc "New Website <> Skyfall AI" (front page tab).
