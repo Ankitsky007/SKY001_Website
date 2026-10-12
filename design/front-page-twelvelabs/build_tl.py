@@ -44,32 +44,38 @@ body{{background:#222;font-family:'Geist',sans-serif;color:{INK};-webkit-font-sm
 .f{{width:1440px;background:{L};margin:0 auto;position:relative;overflow:hidden}}
 img{{display:block}}
 .mono{{font-family:'Geist Mono';font-size:12px;letter-spacing:.08em;text-transform:uppercase}}
-.pb{{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;font-size:15px;font-weight:500;white-space:nowrap}}
+.pb{{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 20px;border-radius:10px;font-size:15px;font-weight:500;white-space:nowrap}}
 .pb.w{{background:#fff;color:{INK}}}
 .pb.b{{background:{BLUE};color:#fff}}
 .pb.k{{background:{INK};color:#fff}}
 .pb.o{{border:1px solid rgba(255,255,255,.28);color:{P}}}
 .pb.ol{{border:1px solid rgba(11,12,14,.22);color:{INK}}}
 .dark{{background:{D};color:{P}}}
-nav{{height:76px;display:flex;align-items:center;padding:0 64px;position:relative}}
+nav{{height:72px;display:flex;align-items:center;padding:0 64px;position:relative;z-index:3;border-bottom:1px solid rgba(255,255,255,.06);background:rgba(7,8,10,.88)}}
 nav .logo{{width:150px;height:19px}}
 nav .links{{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:32px;font-size:15px;color:{PM}}}
-nav .r{{margin-left:auto;display:flex;gap:10px}}
-.ann{{display:flex;justify-content:center;padding:6px 0 0}}
-.ann span{{display:inline-flex;align-items:center;gap:12px;height:36px;padding:0 6px 0 16px;border-radius:999px;background:{D2};border:1px solid {DR};font-size:14px;color:{PM}}}
-.ann b{{color:{P};font-weight:500}}
-.ann i{{font-style:normal;height:26px;padding:0 12px;border-radius:999px;background:{BLUE};color:#fff;display:inline-flex;align-items:center;font-size:13px}}
-.gline{{height:1px;margin:0 64px;background:linear-gradient(90deg,rgba(62,87,218,0),{BLUE} 30%,{LIFT} 55%,rgba(111,131,240,0))}}
-.hero{{position:relative;height:820px;overflow:hidden}}
-.hero>img{{position:absolute;left:0;top:-40px;width:1440px;height:860px}}
-.hero .t{{position:absolute;left:64px;top:230px;width:580px}}
-.hero h1{{font-size:66px;font-weight:500;letter-spacing:-.04em;line-height:1.0}}
-.hero .sub{{font-size:19px;color:{PM};line-height:1.5;margin-top:24px;max-width:470px}}
-.hero .acts{{display:flex;gap:10px;margin-top:34px}}
-.hero .eb{{color:{LIFT};margin-bottom:22px}}
-.hero .note{{position:absolute;left:64px;bottom:40px;width:440px;font-family:'Geist Mono';font-size:11px;color:{PM};line-height:1.55}}
-.hero .ro{{position:absolute;right:64px;bottom:40px;display:grid;grid-template-columns:auto auto;gap:6px 22px}}
-.hero .ro span{{color:{PM}}} .hero .ro b{{font-weight:400;text-align:right}}
+nav .r{{margin-left:auto;display:flex;gap:10px;align-items:center}}
+nav .links i{{font-style:normal;font-size:11px;opacity:.7}}
+nav .nl{{font-size:15px;color:{PM};margin-right:10px}}
+.pb.sm{{height:36px;padding:0 14px;font-size:14px}}
+.pb b{{font-weight:400;font-size:14px}}
+.herox{{position:relative;height:900px;overflow:hidden}}
+.herox .field{{position:absolute;left:0;top:0;width:1440px;height:900px}}
+.herox .veil{{position:absolute;inset:0;background:linear-gradient(90deg,rgba(7,8,10,.92) 0%,rgba(7,8,10,.8) 38%,rgba(7,8,10,0) 62%),linear-gradient(0deg,rgba(7,8,10,.9),rgba(7,8,10,0) 18%)}}
+.herox .t{{position:absolute;left:64px;top:282px;width:600px;z-index:2}}
+.herox h1{{font-size:60px;font-weight:500;letter-spacing:-.04em;line-height:1.04}}
+.herox .sub{{font-size:18px;color:#B9BCC6;line-height:1.5;margin-top:26px;max-width:470px}}
+.herox .acts{{display:flex;gap:12px;margin-top:36px}}
+.herox .card{{position:absolute;right:64px;bottom:56px;width:360px;padding:10px;border-radius:16px;background:rgba(30,32,37,.86);border:1px solid rgba(255,255,255,.12);z-index:2}}
+.herox .cm{{position:relative;height:196px;border-radius:10px;overflow:hidden;background:#0D0F13}}
+.herox .cm img{{width:100%;height:100%;object-fit:cover}}
+.herox .pr{{position:absolute;left:14px;right:14px;bottom:14px;height:36px;border-radius:8px;background:rgba(7,8,10,.82);border:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:space-between;padding:0 6px 0 12px;font-size:13px;color:{P}}}
+.herox .pr b{{width:24px;height:24px;border-radius:6px;background:{BLUE};display:inline-flex;align-items:center;justify-content:center;font-weight:400;font-size:12px}}
+.herox .ct{{padding:12px 6px 6px}}
+.herox .rp{{display:inline-flex;height:22px;padding:0 8px;border-radius:6px;border:1px solid {LIFT};color:{LIFT};font-family:'Geist Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;align-items:center}}
+.herox .ct p{{font-size:15px;color:{P};margin-top:10px;line-height:1.4}}
+.herox .note{{position:absolute;left:64px;bottom:40px;font-family:'Geist Mono';font-size:11px;color:{PM};z-index:2}}
+
 .fade{{height:120px;background:linear-gradient({D},{L})}}
 .sec{{padding:120px 64px 0}}
 .kick{{color:{BLUE};margin-bottom:18px}}
@@ -93,6 +99,7 @@ h2{{font-size:56px;font-weight:500;letter-spacing:-.035em;line-height:1.04}}
 .figs{{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}}
 .fig{{background:{LC};border-radius:24px;padding:32px 32px 28px;border:1px solid {LR}}}
 .fig .top{{display:flex;justify-content:space-between;margin-bottom:22px;color:{IM}}}
+.lg{{display:inline-flex;align-items:center;gap:8px;margin:0 20px 8px 0;color:{INK};font-size:13px}} .lg i{{width:18px;height:3px;border-radius:2px;display:inline-block}} .lg i.dash{{background:repeating-linear-gradient(90deg,#9A9CA4 0 5px,transparent 5px 9px)}}
 .fig .fc{{font-size:14px;color:{IM};margin-top:16px;line-height:1.5}}
 .hd{{display:flex;justify-content:space-between;align-items:flex-end;gap:64px}}
 .hd .lead{{max-width:520px}}
@@ -172,45 +179,74 @@ footer .big{{height:170px;margin-top:88px;opacity:.95}}
 footer .copy{{border-top:1px solid {DR};margin-top:40px;padding:22px 0 26px;display:flex;justify-content:space-between;font-size:12px;color:{PM}}}
 """
 
+AX, GRID, LBL = '#9A9CA4', 'rgba(11,12,14,.08)', '#5E616B'
 def tokens_chart():
-    rows = [('Engineering World Model', 6, BLUE), ('LLM, short context', 38, '#c9cad0'), ('LLM, long context', 74, '#a9abb3'), ('LLM agent loop', 100, '#8a8d96')]
-    s = '<svg viewBox="0 0 520 190" width="100%" font-family="Geist" xmlns="http://www.w3.org/2000/svg">'
+    # horizontal bars, relative tokens per decision (agent loop = 100), x axis with ticks and title
+    W, H, L, R, T, B = 576, 290, 196, 34, 8, 58
+    pw = W - L - R
+    rows = [('Engineering World Model', 6, BLUE), ('LLM, short context', 38, '#B4B6BD'), ('LLM, long context', 74, '#9A9CA4'), ('LLM agent loop', 100, '#7D808A')]
+    bh, gap = 30, 22
+    ph = len(rows) * bh + (len(rows) + 1) * gap
+    s = f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="Geist" xmlns="http://www.w3.org/2000/svg">'
+    x0, y0 = L, T + ph
+    for v in range(0, 101, 25):
+        x = x0 + pw * v / 100
+        s += f'<line x1="{x:.1f}" y1="{T}" x2="{x:.1f}" y2="{y0}" stroke="{GRID}"/>'
+        s += f'<line x1="{x:.1f}" y1="{y0}" x2="{x:.1f}" y2="{y0+5}" stroke="{AX}"/>'
+        s += f'<text x="{x:.1f}" y="{y0+20}" font-size="12" fill="{LBL}" text-anchor="middle">{v}</text>'
+    s += f'<line x1="{x0}" y1="{T}" x2="{x0}" y2="{y0}" stroke="{AX}"/><line x1="{x0}" y1="{y0}" x2="{x0+pw}" y2="{y0}" stroke="{AX}"/>'
     for i, (lab, v, col) in enumerate(rows):
-        y = 10 + i * 44
-        s += f'<text x="0" y="{y+18}" font-size="14" fill="{INK if i == 0 else IM}">{lab}</text>'
-        s += f'<rect x="190" y="{y}" width="{max(v * 3.2, 44):.0f}" height="26" rx="13" fill="{col}"/>'
+        y = T + gap + i * (bh + gap)
+        w = pw * v / 100
+        s += f'<text x="{x0-14}" y="{y+bh/2+5}" font-size="14" fill="{INK if i == 0 else LBL}" text-anchor="end"{" font-weight=\"500\"" if i == 0 else ""}>{lab}</text>'
+        s += f'<rect x="{x0}" y="{y}" width="{w:.1f}" height="{bh}" rx="3" fill="{col}"/>'
+        s += f'<text x="{x0+w+8:.1f}" y="{y+bh/2+5}" font-size="13" fill="{INK}" font-family="Geist Mono">{v}</text>'
+    s += f'<text x="{x0+pw/2:.0f}" y="{y0+46}" font-size="12" fill="{LBL}" text-anchor="middle">Tokens per decision, relative (LLM agent loop = 100)</text>'
     return s + '</svg>'
 
 def pareto():
-    s = '<svg viewBox="0 0 520 210" width="100%" font-family="Geist" xmlns="http://www.w3.org/2000/svg">'
-    for i in range(4):
-        y = 20 + i * 52
-        s += f'<line x1="40" y1="{y}" x2="510" y2="{y}" stroke="rgba(11,12,14,.07)"/>'
-    s += f'<line x1="40" y1="176" x2="510" y2="176" stroke="#a9abb3"/><text x="510" y="200" font-size="12" fill="{IM}" text-anchor="end">Cost per decision →</text>'
-    s += f'<text x="40" y="12" font-size="12" fill="{IM}">Quality ↑</text>'
-    s += '<path d="M100 166 C 190 140, 300 80, 480 62" fill="none" stroke="#a9abb3" stroke-width="2" stroke-dasharray="5 5"/>'
-    for x, y, lab in [(145, 151, 'Human teams'), (270, 102, 'LLM agents'), (420, 67, 'Frontier LLMs')]:
-        s += f'<circle cx="{x}" cy="{y}" r="5" fill="#8a8d96"/><text x="{x+10}" y="{y+20}" font-size="12" fill="{IM}">{lab}</text>'
-    s += f'<path d="M46 120 C 66 60, 130 34, 280 26" fill="none" stroke="{BLUE}" stroke-width="3"/>'
-    s += f'<circle cx="78" cy="64" r="6" fill="{BLUE}"/><text x="96" y="90" font-size="13" font-weight="500" fill="{INK}">Engineering World Models</text>'
+    # quality vs cost; dashed grey = today's frontier through three systems; blue = Engineering World Models
+    W, H, L, R, T, B = 576, 290, 58, 16, 14, 58
+    pw, ph = W - L - R, H - T - B
+    X = lambda u: L + pw * u
+    Y = lambda v: T + ph * (1 - v)
+    s = f'<svg width="{W}" height="{H}" viewBox="0 0 {W} {H}" font-family="Geist" xmlns="http://www.w3.org/2000/svg">'
+    s += f'<defs><marker id="ah" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0 L8 4 L0 8 z" fill="{AX}"/></marker></defs>'
+    for v in (.25, .5, .75):
+        s += f'<line x1="{L}" y1="{Y(v):.1f}" x2="{L+pw}" y2="{Y(v):.1f}" stroke="{GRID}"/>'
+        s += f'<line x1="{X(v):.1f}" y1="{T}" x2="{X(v):.1f}" y2="{T+ph}" stroke="{GRID}"/>'
+    for v in (0, .25, .5, .75, 1):
+        s += f'<line x1="{X(v):.1f}" y1="{T+ph}" x2="{X(v):.1f}" y2="{T+ph+5}" stroke="{AX}"/><line x1="{L-5}" y1="{Y(v):.1f}" x2="{L}" y2="{Y(v):.1f}" stroke="{AX}"/>'
+    s += f'<line x1="{L}" y1="{T+ph}" x2="{L+pw}" y2="{T+ph}" stroke="{AX}" marker-end="url(#ah)"/>'
+    s += f'<line x1="{L}" y1="{T+ph}" x2="{L}" y2="{T}" stroke="{AX}" marker-end="url(#ah)"/>'
+    s += f'<text x="{X(0)}" y="{T+ph+20}" font-size="12" fill="{LBL}" text-anchor="middle">Low</text><text x="{X(1)}" y="{T+ph+20}" font-size="12" fill="{LBL}" text-anchor="end">High</text>'
+    s += f'<text x="{L+pw/2:.0f}" y="{H-12}" font-size="12" fill="{LBL}" text-anchor="middle">Cost per decision</text>'
+    s += f'<text x="{L-12}" y="{Y(0)+4:.1f}" font-size="12" fill="{LBL}" text-anchor="end">Low</text><text x="{L-12}" y="{Y(1)+8:.1f}" font-size="12" fill="{LBL}" text-anchor="end">High</text>'
+    s += f'<text transform="translate(16 {T+ph/2:.0f}) rotate(-90)" font-size="12" fill="{LBL}" text-anchor="middle">Quality</text>'
+    pts = [(.18, .22, 'Human teams', 1), (.5, .5, 'LLM agents', 1), (.86, .7, 'Frontier LLMs', 0)]
+    s += f'<path d="M{X(.06):.1f} {Y(.1):.1f} C {X(.3):.1f} {Y(.36):.1f}, {X(.6):.1f} {Y(.6):.1f}, {X(.98):.1f} {Y(.74):.1f}" fill="none" stroke="#9A9CA4" stroke-width="2" stroke-dasharray="5 5"/>'
+    for u, v, lab, below in pts:
+        s += f'<circle cx="{X(u):.1f}" cy="{Y(v):.1f}" r="5" fill="#7D808A"/>'
+        s += (f'<text x="{X(u)+10:.1f}" y="{Y(v)+18:.1f}" font-size="12" fill="{LBL}">{lab}</text>' if below else f'<text x="{X(u):.1f}" y="{Y(v)+22:.1f}" font-size="12" fill="{LBL}" text-anchor="middle">{lab}</text>')
+    s += f'<path d="M{X(.02):.1f} {Y(.5):.1f} C {X(.08):.1f} {Y(.78):.1f}, {X(.2):.1f} {Y(.9):.1f}, {X(.5):.1f} {Y(.95):.1f}" fill="none" stroke="{BLUE}" stroke-width="3"/>'
+    s += f'<text x="{X(.17):.1f}" y="{Y(.76):.1f}" font-size="13" font-weight="500" fill="{INK}">Engineering World Models</text>'
+    s += f'<text x="{X(.6):.1f}" y="{Y(.84):.1f}" font-size="12" fill="{LBL}">Today\'s frontier, dashed</text>' if False else ''
     return s + '</svg>'
 
 AR = '<span>→</span>'
 def page():
     return f'''<div class="f" data-name="Skyfall Front Page · Twelve Labs style · Desktop 1440">
-<div class="dark">
-<nav><span class="logo">{LW}</span><div class="links"><span>Research</span><span>SKY-001</span><span>Team</span><span>Careers</span></div>
-  <div class="r"><span class="pb o">Read the research</span><span class="pb w">Work with us</span></div></nav>
-<div class="ann"><span><b>SKY-001</b> The first world model for the engineered world <i>Read more →</i></span></div>
-<div class="hero" id="s1"><img id="bloom" src="{g('bloom.jpg')}"/>
-  <div class="t"><div class="mono eb">Skyfall AI · Engineering World Models</div>
-  <h1>Autonomous<br/>Business for the<br/>Post-Monolithic Era</h1>
+<div class="dark herox" id="s1">
+<img class="field" id="fieldimg" src="{g('field.jpg')}"/>
+<div class="veil"></div>
+<nav><span class="logo">{LW}</span><div class="links"><span>Research <i>⌄</i></span><span>SKY-001 <i>⌄</i></span><span>Team</span><span>Company <i>⌄</i></span></div>
+  <div class="r"><span class="nl">Contact</span><span class="pb w sm">Read the research</span><span class="pb o sm">Work with us</span></div></nav>
+<div class="t"><h1>Autonomous Business for the Post-Monolithic Era</h1>
   <p class="sub">We're enabling the future where an entire business can operate autonomously.</p>
-  <div class="acts"><span class="pb b">Read the research {AR}</span><span class="pb o">Meet SKY-001</span></div></div>
-  <p class="note">Demo asset: Jaguar E-Type CAD, 1,467 parts. Variants are illustrative, not SKY-001 output.</p>
-  <div class="ro mono"><span>Variants drawn</span><b style="color:{LIFT}">6</b><span>Windows</span><b>13</b><span>Focus</span><b>Drivetrain</b></div>
-</div>
-<div class="gline"></div>
+  <div class="acts"><span class="pb w">Read the research <b>↗</b></span><span class="pb o">Meet SKY-001 <b>↗</b></span></div></div>
+<div class="card"><div class="cm"><img src="{g('card.jpg')}"/><div class="pr"><span>Design a lighter differential for the E-Type</span><b>↗</b></div></div>
+  <div class="ct"><span class="rp">Research preview</span><p>Meet SKY-001, the first world model for the engineered world</p></div></div>
+<p class="note">Illustrative imagery. E-Type windows are a demo asset, not SKY-001 output.</p>
 </div>
 <section class="sec mis" id="s2" style="padding-top:128px"><div class="mono kick">Our mission</div>
   <h2>Our mission is to build the foundation infrastructure for autonomous enterprise <em>through Engineering World Models.</em></h2></section>
@@ -222,7 +258,7 @@ def page():
   </div>
   <div class="mc" style="height:620px"><img src="{g('t1.jpg')}"/><span class="tag">Illustrative</span></div></div>
   <div class="figs"><div class="fig"><div class="top mono"><span>Fig. 01 · Tokens per decision</span><span>Illustrative</span></div>{tokens_chart()}<div class="fc">Tokens burned per enterprise decision. Illustrative, not measured.</div></div>
-  <div class="fig"><div class="top mono"><span>Fig. 02 · A new Pareto frontier</span><span>Illustrative</span></div>{pareto()}<div class="fc">Cost, speed, and quality no longer have to be traded against each other. Illustrative, not benchmark data.</div></div></div>
+  <div class="fig"><div class="top mono"><span>Fig. 02 · A new Pareto frontier</span><span>Illustrative</span></div>{pareto()}<div class="fc"><span class="lg"><i style="background:#3E57DA"></i>Engineering World Models</span><span class="lg"><i class="dash"></i>Today’s frontier</span><br/>Cost, speed, and quality no longer have to be traded against each other. Illustrative, not benchmark data.</div></div></div>
 </section>
 <section class="sec" id="s4"><div class="hd"><div><div class="mono kick">Research</div><h2>AI for the Engineered World</h2></div>
   <p class="lead">Skyfall AI is developing Engineering World Models that learns the latent space of an enterprise across core functions: sales, design, engineering, customer support, finance and operations.</p></div>
