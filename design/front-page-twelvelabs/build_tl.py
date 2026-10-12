@@ -246,7 +246,7 @@ def page():
   <div class="acts"><span class="pb w">Read the research <b>↗</b></span><span class="pb o">Meet SKY-001 <b>↗</b></span></div></div>
 <div class="card"><div class="cm"><img src="{g('card.jpg')}"/><div class="pr"><span>Design a lighter differential for the E-Type</span><b>↗</b></div></div>
   <div class="ct"><span class="rp">Research preview</span><p>Meet SKY-001, the first world model for the engineered world</p></div></div>
-<p class="note">Illustrative imagery. E-Type windows are a demo asset, not SKY-001 output.</p>
+<p class="note">E-Type windows are a demo asset, not SKY-001 output.</p>
 </div>
 <section class="sec mis" id="s2" style="padding-top:128px"><div class="mono kick">Our mission</div>
   <h2>Our mission is to build the foundation infrastructure for autonomous enterprise <em>through Engineering World Models.</em></h2></section>
@@ -256,14 +256,14 @@ def page():
     <div class="tab off"><div class="h"><span class="mono">02</span>A living system</div><p>Autoregressive next-token prediction has been astonishingly successful for language. But an enterprise is a living system of parts, processes and decisions that is only partly observable and constantly changing, and next-token prediction does not transfer well here.</p></div>
     <div class="tab off"><div class="h"><span class="mono">03</span>Never written down</div><p>Much of what a business knows is however never written down. Large language models are pretrained on internet corpora and depend on in-context conditions which cannot keep pace with a rapidly changing business, and burn vast numbers of tokens per decision.</p></div>
   </div>
-  <div class="mc" style="height:620px"><img src="{g('t1.jpg')}"/><span class="tag">Illustrative</span></div></div>
+  <div class="mc" style="height:620px"><img src="{g('t1.jpg')}"/></div></div>
   <div class="figs"><div class="fig"><div class="top mono"><span>Fig. 01 · Tokens per decision</span><span>Illustrative</span></div>{tokens_chart()}<div class="fc">Tokens burned per enterprise decision. Illustrative, not measured.</div></div>
   <div class="fig"><div class="top mono"><span>Fig. 02 · A new Pareto frontier</span><span>Illustrative</span></div>{pareto()}<div class="fc"><span class="lg"><i style="background:#3E57DA"></i>Engineering World Models</span><span class="lg"><i class="dash"></i>Today’s frontier</span><br/>Cost, speed, and quality no longer have to be traded against each other. Illustrative, not benchmark data.</div></div></div>
 </section>
 <section class="sec" id="s4"><div class="hd"><div><div class="mono kick">Research</div><h2>AI for the Engineered World</h2></div>
   <p class="lead">Skyfall AI is developing Engineering World Models that learns the latent space of an enterprise across core functions: sales, design, engineering, customer support, finance and operations.</p></div>
   <div class="chips"><span class="on">Learn</span><span>Simulate</span><span>Plan</span><span>Guard</span></div>
-  <div class="feat"><div class="mc"><img src="{g('t11.jpg')}"/><span class="tag">Illustrative</span></div>
+  <div class="feat"><div class="mc"><img src="{g('t11.jpg')}"/></div>
     <div class="side"><div class="mono kick">01 · Learn</div><h3>The latent space of an enterprise</h3><p>One model across sales, design, engineering, customer support, finance and operations, instead of a separate tool for each function.</p>
     <div class="ft">These advanced models can simulate cause-and-effect relationships between functions and plan over long horizons to accomplish highly complex tasks, subject to safety guardrails.</div></div></div>
   <div class="three">
@@ -284,8 +284,8 @@ def page():
   <div class="acts"><span class="pb w">Read the research {AR}</span><span class="pb o">Meet SKY-001</span></div></div>
 <section class="sec" id="s7"><div class="hd"><h2>Research and models</h2><span class="pb ol">All research {AR}</span></div>
   <div class="prods">
-    <div class="pc"><div class="mc"><img src="{g('t10.jpg')}"/><span class="tag">Demo asset · illustrative</span></div><div class="tx"><div class="mono" style="color:{BLUE}">World model</div><h3>SKY-001</h3><p>The first world model for the engineered world. From a prompt to parts, 3D CAD, BIM floor plans and buildings.</p><div class="acts"><span class="pb k">Meet SKY-001 {AR}</span><span class="pb ol">Technical report</span></div></div></div>
-    <div class="pc"><div class="mc"><img src="{g('t2.jpg')}"/><span class="tag">Illustrative</span></div><div class="tx"><div class="mono" style="color:{BLUE}">Essay</div><h3>Engineering World Models</h3><p>Why next-token prediction does not transfer to the enterprise, and what a new Pareto frontier looks like.</p><div class="acts"><span class="pb k">Read the essay {AR}</span></div></div></div>
+    <div class="pc"><div class="mc"><img src="{g('t10.jpg')}"/><span class="tag">Demo asset</span></div><div class="tx"><div class="mono" style="color:{BLUE}">World model</div><h3>SKY-001</h3><p>The first world model for the engineered world. From a prompt to parts, 3D CAD, BIM floor plans and buildings.</p><div class="acts"><span class="pb k">Meet SKY-001 {AR}</span><span class="pb ol">Technical report</span></div></div></div>
+    <div class="pc"><div class="mc"><img src="{g('t2.jpg')}"/></div><div class="tx"><div class="mono" style="color:{BLUE}">Essay</div><h3>Engineering World Models</h3><p>Why next-token prediction does not transfer to the enterprise, and what a new Pareto frontier looks like.</p><div class="acts"><span class="pb k">Read the essay {AR}</span></div></div></div>
   </div></section>
 <section class="sec" id="s8"><div class="hd"><div><div class="mono kick">Founding team</div><h2>Founded by early pioneers of deep learning</h2></div></div>
   <div class="story"><div class="q"><p>Founded by Maluuba co-founders Sam Pasupalak and Kaheer Suleman, together with Sumit Pasupalak, Skyfall AI is building AI that understands the physical world. Sam and Kaheer were early pioneers of deep learning. They built Maluuba with advisors Yoshua Bengio and Richard Sutton, and Microsoft acquired it and turned it into its research lab in Canada. Sumit previously co-founded Ubiq, a Y Combinator company.</p><div class="who mono" style="margin-top:32px"><span>Maluuba → Microsoft → Skyfall AI</span></div></div>
@@ -303,8 +303,7 @@ def page():
 </section>
 <div class="cta" id="s9"><img src="{g('t12.jpg')}"/><div class="sh"></div>
   <div class="t"><h2>Build the autonomous enterprise</h2><p>Join a world class AI Research team across three countries.</p>
-  <div class="acts"><span class="pb w">Work with us {AR}</span><span class="pb o">See open roles</span></div></div>
-  <div class="ill">ILLUSTRATIVE IMAGERY · GENERATED</div></div>
+  <div class="acts"><span class="pb w">Work with us {AR}</span><span class="pb o">See open roles</span></div></div></div>
 <footer><div class="cols"><div><span class="logo" style="display:block;width:170px;height:21px;margin:0">{LW}</span><p>Engineering World Models for the autonomous enterprise.</p></div>
   <div><div class="mono h">Company</div><span>About</span><span>Team</span><span>Careers</span><span>Contact</span></div>
   <div><div class="mono h">Research</div><span>SKY-001</span><span>Technical report</span><span>Essays</span></div>

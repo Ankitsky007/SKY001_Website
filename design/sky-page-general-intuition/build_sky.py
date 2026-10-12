@@ -248,8 +248,7 @@ def page():
     <li><div class="q">I have further questions. How to contact the team?<i>+</i></div><div class="a" style="display:none"><span class="mono" style="color:{BLUE}">Doc note</span>team email E.G. hello@sky001.ai</div></li>
   </ul></div></div>
 <div class="full cta" id="s13"><img src="{img('a8.jpg')}"/>
-  <div class="card"><h3>Get Early Access</h3><p>Join the waitlist now for early access.</p><div style="display:flex;gap:12px;margin-top:28px"><span class="btn" style="margin-top:0">Join the waitlist</span><span class="btn" style="margin-top:0;background:#fff;color:#000;border:1px solid #c9c9d2">Watch Launch Video ↗</span></div></div>
-  <div class="ill">ILLUSTRATIVE IMAGERY · GENERATED</div></div>
+  <div class="card"><h3>Get Early Access</h3><p>Join the waitlist now for early access.</p><div style="display:flex;gap:12px;margin-top:28px"><span class="btn" style="margin-top:0">Join the waitlist</span><span class="btn" style="margin-top:0;background:#fff;color:#000;border:1px solid #c9c9d2">Watch Launch Video ↗</span></div></div></div>
 <footer class="row" style="border-top:1px solid {LINE}">
   <div class="cols"><div><div class="mono">SKY-001</div><span>Technical report</span><span>Technical blog</span><span>Watch launch video</span></div><div><div class="mono">Socials</div><span>X</span><span>LinkedIn</span></div><div><div class="mono">Work with us</div><span>Partnerships</span><span>Join the waitlist</span><span>Contact</span></div><div><div class="mono">Legal</div><span>Terms of Service</span><span>Privacy Policy</span></div></div>
   <div class="big" style="border-top:1px solid {LINE}"><span class="logo">{LOGO}</span></div>

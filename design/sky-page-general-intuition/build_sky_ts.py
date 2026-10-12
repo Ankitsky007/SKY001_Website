@@ -59,7 +59,6 @@ HERO = f'''<div class="tsh" id="s1"><img class="sky" id="skyimg" src="{sky}"/>
   <h1>The First World Model for the Engineered World; AI moving beyond language into latent space</h1>
   <div class="vert">{VEC}</div>
   <div class="cta"><a>Join the waitlist</a><span class="sub">Watch Launch Video ↗</span></div>
-  <span class="ill2">ILLUSTRATIVE SKY · DITHERED PHOTO</span>
   <span class="corner" style="left:14px">∵ ×</span><span class="corner" style="right:14px">× ∵</span>
 </div>
 '''

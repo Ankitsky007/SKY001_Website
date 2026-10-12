@@ -220,8 +220,7 @@ def page():
 </section>
 <div class="cta" id="s9"><img src="{g('o12.jpg')}"/><div class="sh"></div>
   <div class="t"><h2 class="disp">Build the autonomous enterprise</h2><p>Join a world class AI Research team across three countries.</p>
-  <div class="acts"><span class="btn l">Contact us <span class="a">→</span></span><span class="btn">See open roles {A}</span></div></div>
-  <div class="ill">ILLUSTRATIVE IMAGERY · GENERATED</div></div>
+  <div class="acts"><span class="btn l">Contact us <span class="a">→</span></span><span class="btn">See open roles {A}</span></div></div></div>
 <footer><div><span class="logo" style="display:block;width:170px;height:21px;margin:0">{LOGO}</span><span style="margin-top:20px">Engineering World Models for the autonomous enterprise.</span></div>
   <div><div class="h">Company</div><span>About</span><span>Team</span><span>Contact</span></div>
   <div><div class="h">Research</div><span>SKY-001</span><span>Technical report</span><span>Essays</span></div>

@@ -260,7 +260,6 @@ def page():
   <div class="t"><h1 class="lt">Autonomous Business for the Post-Monolithic Era</h1>
   <p>We're enabling the future where an entire business can operate autonomously.</p>
   <span class="btn">Read the research</span></div>
-  <span class="cap">Illustrative · generated imagery</span>
 </div>
 <div class="rows" id="s2">
   <div class="row"><div class="ob"><img src="{g('d5.png')}"/></div><h3 class="lt">Learn the latent<br/><span class="g">space of an enterprise</span></h3><div class="r"><p>Across core functions: sales, design, engineering, customer support, finance and operations.</p><div class="m">/A.01</div></div></div>
@@ -300,7 +299,7 @@ def page():
   <p>Skyfall AI is developing Engineering World Models that learns the latent space of an enterprise across core functions: sales, design, engineering, customer support, finance and operations.</p>
   <span class="btn">Read the research</span></div>
 <div class="reel"><img src="{g('d11.jpg')}"/>{notch(1440, 720, 'tr bl')}
-  <div class="ctl"><span>‹</span><span class="nm">Industrial</span><span>♪</span><span>›</span></div><span class="ill">ILLUSTRATIVE · GENERATED</span></div>
+  <div class="ctl"><span>‹</span><span class="nm">Industrial</span><span>♪</span><span>›</span></div></div>
 <div class="sec"><div class="tg"><span class="on">Industrial</span><span>Healthcare</span><span>Chemical</span><span>Enterprise</span></div>
   <p>Skyfall AI will advance AI research and develop AI systems for the engineered world where long horizon planning, adaptability, and reliability really matter, especially for the industrial, healthcare, chemical, enterprise sectors and beyond.</p></div>
 <div class="dream" id="s9"><div class="m">/F.01 [X 70.0, Y 45.0]</div><h2 class="lt">With world models, AI systems can ‘dream’ <span class="g">what a successful business requires, and then execute it.</span></h2>

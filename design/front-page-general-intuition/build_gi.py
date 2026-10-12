@@ -267,8 +267,7 @@ def page():
     <div><h3>Research</h3><ul style="margin-top:18px"><li>Introducing SKY-001 <i>2026</i></li><li>SKY-001 technical report <i>2026</i></li><li>Engineering World Models <i>2026</i></li></ul></div>
   </div></div>
 <div class="full cta" id="s12"><img src="{img('a8.jpg')}"/>
-  <div class="card"><h3>The foundation infrastructure for autonomous enterprise.</h3><p>Build Engineering World Models with a world class AI Research team across three countries.</p><span class="btn">Join the team</span></div>
-  <div class="ill">ILLUSTRATIVE IMAGERY · GENERATED</div></div>
+  <div class="card"><h3>The foundation infrastructure for autonomous enterprise.</h3><p>Build Engineering World Models with a world class AI Research team across three countries.</p><span class="btn">Join the team</span></div></div>
 <footer class="row" style="border-top:1px solid {LINE}">
   <div class="cols"><div><div class="mono">Explore</div><span>Research</span><span>SKY-001</span><span>Team</span></div><div><div class="mono">Socials</div><span>X</span><span>LinkedIn</span></div><div><div class="mono">Careers</div><span>Join the team</span><span>Partner with us</span><span>Contact</span></div><div><div class="mono">Legal</div><span>Terms of Service</span><span>Privacy Policy</span></div></div>
   <div class="big" style="border-top:1px solid {LINE}"><span class="logo">{LOGO}</span></div>
