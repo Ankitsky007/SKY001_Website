@@ -1,0 +1,302 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Skyfall SKY-001 Page · TypeSafe hero</title><style>
+@font-face{font-family:'Geist';font-weight:300;src:url(file:///tmp/claude-0/sp/package/dist/fonts/geist-sans/Geist-Light.woff2)}
+@font-face{font-family:'Geist';font-weight:400;src:url(file:///tmp/claude-0/sp/package/dist/fonts/geist-sans/Geist-Regular.woff2)}
+@font-face{font-family:'Geist';font-weight:500;src:url(file:///tmp/claude-0/sp/package/dist/fonts/geist-sans/Geist-Medium.woff2)}
+@font-face{font-family:'Geist Mono';font-weight:400;src:url(file:///tmp/claude-0/sp/package/dist/fonts/geist-mono/GeistMono-Regular.woff2)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#222;font-family:'Geist',sans-serif;color:#ffffff;-webkit-font-smoothing:antialiased}
+.f{width:1440px;background:#050507;margin:0 auto;position:relative;overflow:hidden}
+img{display:block}
+.vl{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.14);z-index:3;pointer-events:none}
+.row{position:relative;border-top:1px solid rgba(255,255,255,.14);margin:0 64px}
+.full{position:relative;border-top:1px solid rgba(255,255,255,.14)}
+.mono{font-family:'Geist Mono';font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#7c7c8a}
+.btn{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px;background:#fff;color:#000;font-size:15px;font-weight:500}
+.btn.k{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4)}
+h2{font-weight:400;font-size:40px;line-height:1.12;letter-spacing:-.025em}
+p{font-size:19px;line-height:1.5;color:#b4b4c0}
+.hero{height:900px;position:relative}
+.hero>img{position:absolute;inset:0;width:100%;height:100%}
+.hero .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,5,7,.55),rgba(5,5,7,0) 30%,rgba(5,5,7,0) 60%,rgba(5,5,7,.9))}
+.hero .logo{position:absolute;left:88px;top:44px;width:420px;height:52px;z-index:4}
+.hero .top{position:absolute;right:88px;top:48px;z-index:4;display:flex;gap:12px}
+.hero .card{position:absolute;left:64px;bottom:96px;width:656px;background:#fff;color:#000;padding:40px 40px 36px;z-index:4}
+.hero .card h1{font-weight:400;font-size:44px;line-height:1.06;letter-spacing:-.03em}
+.hero .card p{color:#3a3a44;font-size:18px;margin-top:20px;line-height:1.45}
+.hero .card .inv{display:flex;gap:22px;margin-top:30px;padding-top:20px;border-top:1px solid #e4e4ea;font-size:15px;font-weight:500;color:#111;letter-spacing:-.01em}
+.hero .card .inv span:first-child{font-family:'Geist Mono';font-weight:400;font-size:11px;letter-spacing:.08em;color:#7c7c8a;text-transform:uppercase;align-self:center}
+.ascset{position:absolute;right:64px;bottom:96px;z-index:4;width:328px;background:rgba(5,5,7,.82);border:1px solid rgba(255,255,255,.14);padding:16px 18px;font-family:'Geist Mono';font-size:11px;letter-spacing:.06em;color:#b4b4c0}
+.ascset div{display:flex;justify-content:space-between;padding:5px 0}
+.ascset b{font-weight:400;color:#fff}
+.links{display:grid;grid-template-columns:repeat(4,1fr)}
+.links div{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;font-size:17px;border-right:1px solid rgba(255,255,255,.14)}
+.links div:last-child{border-right:0}
+.links i{font-style:normal;color:#7c7c8a;font-size:15px}
+.split{display:grid;grid-template-columns:656px 656px}
+.split .txt{padding:56px 48px;display:flex;flex-direction:column}
+.split .txt p{margin-top:22px}
+.split .txt .acts{margin-top:auto;padding-top:36px;display:flex;gap:12px}
+.sect-h{display:grid;grid-template-columns:656px 656px;padding:88px 0 72px}
+.sect-h>*{padding-left:24px;padding-right:48px}
+.sect-h h2.m{font-size:44px;line-height:1.1}
+.sect-h h2{font-size:56px;line-height:1.04;letter-spacing:-.035em}
+.sect-h p{padding-top:8px}
+.cells4{display:grid;grid-template-columns:repeat(4,1fr)}
+.cells4>div{border-right:1px solid rgba(255,255,255,.14);padding:28px 24px 32px}
+.cells4>div:last-child{border-right:0}
+.cells4 h3{font-size:22px;font-weight:400;letter-spacing:-.02em;margin-top:14px}
+.cells4 p{font-size:16px;margin-top:10px;line-height:1.45}
+.quote{padding:56px 48px;display:flex;flex-direction:column}
+.quote blockquote{font-size:30px;line-height:1.3;letter-spacing:-.02em;color:#fff}
+.quote .qm{font-size:120px;line-height:.6;color:#7c7c8a;font-family:'Geist';margin-top:auto;align-self:flex-end;height:60px}
+.quote .by{margin-top:28px;font-size:14px;color:#7c7c8a}
+.quote .by b{display:block;color:#fff;font-weight:500;margin-top:6px}
+.marks{display:grid}
+.marks span{height:96px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:500;letter-spacing:-.02em;border-right:1px solid rgba(255,255,255,.14)}
+.marks span:last-child{border-right:0}
+.sectors{display:grid;grid-template-columns:repeat(4,328px)}
+.sectors>div{border-right:1px solid rgba(255,255,255,.14)}
+.sectors>div:last-child{border-right:0}
+.sectors img{width:328px;height:328px}
+.sectors .lab{padding:22px 24px 28px;border-top:1px solid rgba(255,255,255,.14)}
+.sectors h3{font-size:22px;font-weight:400;letter-spacing:-.02em;margin-top:10px;line-height:1.2}
+.team{display:grid;grid-template-columns:repeat(3,1fr)}
+.team>div{border-right:1px solid rgba(255,255,255,.14)}
+.team>div:last-child{border-right:0}
+.team img{width:100%;height:520px;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+.team .lab{padding:22px 24px 28px;border-top:1px solid rgba(255,255,255,.14)}
+.team h3{font-size:22px;font-weight:400;letter-spacing:-.02em}
+.team .lab p{font-size:15px;margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr)}
+.stats>div{padding:40px 24px 44px;border-right:1px solid rgba(255,255,255,.14)}
+.stats>div:last-child{border-right:0}
+.stats b{display:block;font-weight:300;font-size:96px;letter-spacing:-.05em;line-height:1}
+.stats span{display:block;font-size:16px;color:#b4b4c0;margin-top:16px;line-height:1.45;max-width:340px}
+.chart{padding:40px 48px 36px}
+.cap{font-size:13px;color:#7c7c8a;margin-top:16px;line-height:1.45}
+.work{display:grid;grid-template-columns:repeat(3,1fr)}
+.work>div{border-right:1px solid rgba(255,255,255,.14);padding:36px 32px 40px;display:flex;flex-direction:column;min-height:330px}
+.work>div:last-child{border-right:0}
+.work h3{font-size:28px;font-weight:400;letter-spacing:-.02em}
+.work p{font-size:16px;margin-top:14px}
+.work .b{margin-top:auto;padding-top:28px}
+.work li{list-style:none;display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid rgba(255,255,255,.14);font-size:16px}
+.work li i{font-style:normal;color:#7c7c8a;font-family:'Geist Mono';font-size:12px;letter-spacing:.06em}
+.cta{height:640px;position:relative}
+.cta>img{position:absolute;inset:0;width:100%;height:100%}
+.cta .card{position:absolute;left:64px;top:120px;width:656px;background:#fff;color:#000;padding:40px;z-index:4}
+.cta .card h3{font-size:34px;font-weight:400;letter-spacing:-.025em;line-height:1.12}
+.cta .card p{color:#3a3a44;font-size:17px;margin-top:16px}
+.cta .card .btn{background:#000;color:#fff;margin-top:28px}
+.ill{position:absolute;right:80px;bottom:16px;z-index:4;font-family:'Geist Mono';font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.7);background:rgba(5,5,7,.6);padding:4px 7px}
+footer .cols{display:grid;grid-template-columns:repeat(4,328px)}
+footer .cols>div{padding:36px 24px 44px;border-right:1px solid rgba(255,255,255,.14)}
+footer .cols>div:last-child{border-right:0}
+footer .cols span{display:block;font-size:15px;color:#b4b4c0;margin-top:12px}
+footer .big{height:164px;display:flex;align-items:center;padding:0 24px}
+footer .big .logo{width:640px;height:80px}
+footer .copy{display:flex;justify-content:space-between;padding:20px 24px 28px;font-size:13px;color:#7c7c8a}
+
+.hero .card .news{display:flex;align-items:center;gap:18px;margin-top:30px;padding-top:20px;border-top:1px solid #e4e4ea;font-size:15px;color:#111}
+.hero .card .news .mono{color:#7c7c8a;font-size:11px;white-space:nowrap}
+.hero .card .news b{font-weight:500;letter-spacing:-.01em;flex:1}
+.hero .card .news i{font-style:normal;font-family:'Geist Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#3E57DA;white-space:nowrap}
+.hero .card .acts{display:flex;gap:12px;margin-top:28px}
+.hero .card .acts .btn{background:#000;color:#fff}
+.hero .card .acts .btn.k{background:#fff;color:#000;border:1px solid #c9c9d2}
+.hero .nav{position:absolute;right:88px;top:48px;z-index:4;display:flex;gap:28px;align-items:center}
+.hero .nav a{color:#fff;font-size:15px;text-decoration:none}
+.intro h3{font-size:24px;font-weight:400;letter-spacing:-.02em;color:#fff;margin-top:12px}
+.intro h2{font-size:46px;line-height:1.06;letter-spacing:-.035em;margin-top:40px}
+.cells3{display:grid;grid-template-columns:repeat(3,1fr)}
+.cells3>div{border-right:1px solid rgba(255,255,255,.14);padding:28px 24px 40px}
+.cells3>div:last-child{border-right:0}
+.cells3 h3{font-size:24px;font-weight:400;letter-spacing:-.02em;margin-top:14px}
+.cells3 p{font-size:16px;margin-top:14px;line-height:1.5}
+.stats4{display:grid;grid-template-columns:repeat(4,1fr)}
+.stats4>div{padding:36px 24px 40px;border-right:1px solid rgba(255,255,255,.14)}
+.stats4>div:last-child{border-right:0}
+.stats4 b{display:block;font-weight:300;font-size:88px;letter-spacing:-.05em;line-height:1}
+.stats4 b small{font-size:40px;letter-spacing:-.03em;color:#b4b4c0}
+.stats4 span{display:block;font-size:16px;color:#b4b4c0;margin-top:16px;line-height:1.45}
+.stats4 .mono{margin-bottom:22px}
+.race>div{padding:28px 24px 32px}
+.race .t{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px}
+.race .t h3{margin-top:0}
+.race .t b{font-family:'Geist Mono';font-weight:400;font-size:28px;letter-spacing:-.02em}
+.race svg{display:block;margin-top:22px}
+.race .st{margin-top:16px;font-family:'Geist Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#7c7c8a}
+.race .st.ok{color:#8fa2ff}
+.stages{display:grid;grid-template-columns:1fr 1fr}
+.stages>div{border-right:1px solid rgba(255,255,255,.14)}
+.stages>div:nth-child(2n){border-right:0}
+.stages>div:nth-child(n+3){border-top:1px solid rgba(255,255,255,.14)}
+.stages img,.stages canvas.asc{width:656px;height:400px}
+.stages .lab{padding:28px 24px 40px;border-top:1px solid rgba(255,255,255,.14)}
+.stages h3{font-size:26px;font-weight:400;letter-spacing:-.02em;margin-top:12px;line-height:1.15}
+.stages p{font-size:16px;margin-top:14px}
+.faq{display:grid;grid-template-columns:656px 656px}
+.faq ul{list-style:none}
+.faq li{border-bottom:1px solid rgba(255,255,255,.14);padding:22px 24px}
+.faq li:last-child{border-bottom:0}
+.faq li .q{display:flex;justify-content:space-between;gap:24px;font-size:18px;letter-spacing:-.01em}
+.faq li .q i{font-style:normal;font-family:'Geist Mono';color:#7c7c8a}
+.faq li .a{font-size:16px;color:#b4b4c0;margin-top:12px}
+.people{display:grid;grid-template-columns:repeat(3,1fr)}
+.people>div{padding:24px 24px 28px;border-right:1px solid rgba(255,255,255,.14)}
+.people>div:last-child{border-right:0}
+.people h3{font-size:20px;font-weight:400;letter-spacing:-.02em;margin-top:12px}
+
+.tsh{position:relative;height:1600px;background:#fff;color:#1e1e1e;overflow:hidden}
+.tsh .sky{position:absolute;left:0;top:0;width:1440px;height:880px;image-rendering:pixelated}
+.tsh .chip{position:absolute;top:0;height:37px;padding:0 9px;display:flex;align-items:center;background:#fff;color:#1e1e1e;font-size:17px;font-weight:500;letter-spacing:-.01em;z-index:3}
+.tsh .chip.k{background:#1e1e1e;color:#fff}
+.tsh .chip.logo{left:0;padding:0 10px;gap:0}
+.tsh .chip.logo span{display:block;width:150px;height:18px}
+.tsh .mid{position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;gap:3px;z-index:3}
+.tsh .mid .chip,.tsh .rt .chip{position:static}
+.tsh .rt{position:absolute;top:0;right:0;display:flex;gap:3px;z-index:3}
+.tsh .win{position:absolute;left:50%;transform:translateX(-50%);width:372px;background:#dedede;border:1px solid #1e1e1e;box-shadow:inset 0 0 0 2px #f4f4f4,0 0 0 3px rgba(255,255,255,.55);font-family:'Geist Mono';color:#1e1e1e;z-index:3}
+.tsh .win .tb{background:#1e1e1e;color:#fff;font-size:11px;letter-spacing:.02em;padding:4px 8px}
+.tsh .win .bd{padding:12px 16px 14px;text-align:center;font-size:13px;line-height:1.35}
+.tsh .win .bd b{display:block;font-weight:400;letter-spacing:.06em;text-transform:uppercase}
+.tsh .win .go{display:inline-flex;align-items:center;height:30px;padding:0 16px;margin-top:10px;background:#1e1e1e;color:#fff;font-size:12px}
+.tsh .win u{display:inline-block;margin-top:8px;text-underline-offset:3px}
+.tsh .lead{position:absolute;top:500px;left:0;right:0;text-align:center;z-index:3}
+.tsh .lead h2{max-width:640px;margin:0 auto;text-shadow:0 0 14px #fff,0 0 4px #fff;font-size:40px;font-weight:500;letter-spacing:-.03em;line-height:1.05;color:#1e1e1e}
+.tsh .lead p{text-shadow:0 0 10px #fff,0 0 3px #fff;font-size:17px;line-height:1.45;color:#4a4a52;max-width:560px;margin:14px auto 0}
+.tsh .lead p.s{color:#1e1e1e;margin-top:6px}
+.tsh .intro{position:absolute;top:760px;left:0;right:0;display:flex;justify-content:center;gap:28px;font-size:16px;font-weight:500;letter-spacing:-.01em;z-index:3}
+.tsh h1{position:absolute;top:812px;left:100px;width:1240px;text-align:center;font-size:118px;font-weight:500;line-height:.86;letter-spacing:-.045em;text-transform:capitalize;color:#1e1e1e;z-index:3}
+.tsh .vert{position:absolute;left:62px;top:880px;transform-origin:left top;transform:rotate(90deg);font-family:'Geist Mono';font-size:10px;letter-spacing:.06em;color:#7c7c8a;white-space:nowrap;z-index:3}
+.tsh .cta{position:absolute;top:1400px;left:0;right:0;text-align:center;z-index:3}
+.tsh .cta a{font-size:52px;font-weight:500;letter-spacing:-.04em;color:#1e1e1e;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:9px}
+.tsh .cta .sub{display:block;margin-top:22px;font-family:'Geist Mono';font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#3E57DA}
+.tsh .corner{position:absolute;bottom:14px;font-family:'Geist Mono';font-size:10px;color:#7c7c8a}
+.tsh .ill2{position:absolute;right:14px;top:50px;font-family:'Geist Mono';font-size:10px;letter-spacing:.1em;color:#7c7c8a;z-index:3;background:#fff;padding:3px 6px}
+</style></head><body><div class="f" data-name="Skyfall SKY-001 Page · TypeSafe hero · Desktop 1440">
+<div class="vl" style="left:64px"></div><div class="vl" style="left:1375px"></div>
+<div class="tsh" id="s1"><img class="sky" id="skyimg" src="out/clouds.png"/>
+  <div class="chip logo"><span><svg width="100%" height="100%" preserveAspectRatio="xMinYMid meet" viewBox="0 0 258 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<path d="M37.1894 11.2425C37.0781 11.6877 36.6781 12 36.2192 12H20.5308C20.0719 12 19.6719 12.3123 19.5606 12.7575L18.1894 18.2425C18.0781 18.6877 17.6781 19 17.2192 19H1.28078C0.630206 19 0.152847 18.3886 0.310634 17.7575L1.81063 11.7575C1.92193 11.3123 2.32191 11 2.78078 11H18.4692C18.9281 11 19.3281 10.6877 19.4394 10.2425L20.8106 4.75746C20.9219 4.3123 21.3219 4 21.7808 4H37.7192C38.3698 4 38.8472 4.61139 38.6894 5.24254L37.1894 11.2425Z" fill="#1A1A1A"/>
+<path d="M36.9091 21.2425C36.7978 21.6877 36.3978 22 35.9389 22H20.2505C19.7916 22 19.3917 22.3123 19.2804 22.7575L17.9091 28.2425C17.7978 28.6877 17.3978 29 16.9389 29H1.0005C0.349933 29 -0.127426 28.3886 0.0303605 27.7575L1.53036 21.7575C1.64165 21.3123 2.04164 21 2.5005 21H18.1889C18.6478 21 19.0478 20.6877 19.1591 20.2425L20.5304 14.7575C20.6417 14.3123 21.0416 14 21.5005 14H37.4389C38.0895 14 38.5669 14.6114 38.4091 15.2425L36.9091 21.2425Z" fill="#1A1A1A"/>
+<path d="M65.0157 25.24C63.8637 25.24 62.8717 25.048 62.0397 24.664C61.2237 24.28 60.5917 23.728 60.1437 23.008C59.6957 22.288 59.4637 21.432 59.4477 20.44H61.6077C61.6077 21.32 61.9037 22.016 62.4957 22.528C63.1037 23.04 63.9437 23.296 65.0157 23.296C66.0237 23.296 66.8077 23.048 67.3677 22.552C67.9437 22.056 68.2317 21.368 68.2317 20.488C68.2317 19.784 68.0397 19.168 67.6557 18.64C67.2877 18.112 66.7517 17.744 66.0477 17.536L63.6717 16.792C62.4717 16.424 61.5437 15.808 60.8877 14.944C60.2477 14.08 59.9277 13.064 59.9277 11.896C59.9277 10.952 60.1357 10.136 60.5517 9.448C60.9837 8.744 61.5837 8.2 62.3517 7.816C63.1197 7.416 64.0237 7.216 65.0637 7.216C66.5997 7.216 67.8317 7.648 68.7597 8.512C69.6877 9.36 70.1597 10.496 70.1757 11.92H68.0157C68.0157 11.056 67.7517 10.384 67.2237 9.904C66.7117 9.408 65.9837 9.16 65.0397 9.16C64.1117 9.16 63.3837 9.384 62.8557 9.832C62.3437 10.28 62.0877 10.904 62.0877 11.704C62.0877 12.424 62.2797 13.048 62.6637 13.576C63.0477 14.104 63.5997 14.48 64.3197 14.704L66.7197 15.472C67.8877 15.84 68.7917 16.464 69.4317 17.344C70.0717 18.224 70.3917 19.256 70.3917 20.44C70.3917 21.4 70.1677 22.24 69.7197 22.96C69.2717 23.68 68.6397 24.24 67.8237 24.64C67.0237 25.04 66.0877 25.24 65.0157 25.24ZM81.9984 25V7.48H84.1584V14.992H86.7504L90.6384 7.48H92.9904L88.6464 15.904L93.2304 25H90.7584L86.6784 16.888H84.1584V25H81.9984ZM107.981 25V18.448L102.701 7.48H104.933L108.413 14.68C108.605 15.08 108.757 15.424 108.869 15.712C108.981 15.984 109.053 16.184 109.085 16.312C109.117 16.184 109.189 15.984 109.301 15.712C109.429 15.424 109.589 15.08 109.781 14.68L113.189 7.48H115.421L110.141 18.448V25H107.981ZM126.212 25V7.456H136.532V9.424H128.324V15.256H135.908V17.224H128.372V25H126.212ZM147.202 25L151.762 7.48H154.666L159.202 25H157.018L155.866 20.344H150.562L149.41 25H147.202ZM150.994 18.52H155.41L154.066 13.12C153.81 12.096 153.61 11.24 153.466 10.552C153.322 9.864 153.234 9.416 153.202 9.208C153.17 9.416 153.082 9.864 152.938 10.552C152.794 11.24 152.594 12.088 152.338 13.096L150.994 18.52ZM170.833 25V7.48H172.993V23.032H180.913V25H170.833ZM192.903 25V7.48H195.063V23.032H202.983V25H192.903Z" fill="#1A1A1A"/>
+<path d="M221.92 25L226.48 7.48H229.384L233.92 25H231.736L230.584 20.344H225.28L224.128 25H221.92ZM225.712 18.52H230.128L228.784 13.12C228.528 12.096 228.328 11.24 228.184 10.552C228.04 9.864 227.952 9.416 227.92 9.208C227.888 9.416 227.8 9.864 227.656 10.552C227.512 11.24 227.312 12.088 227.056 13.096L225.712 18.52ZM245.31 25V23.032H248.886V9.448H245.31V7.48H254.67V9.448H251.094V23.032H254.67V25H245.31Z" fill="#1A1A1A"/>
+</svg>
+</span></div>
+  <div class="mid"><span class="chip">Technical report</span><span class="chip">Technical blog</span><span class="chip">Partnerships</span></div>
+  <div class="rt"><span class="chip">Watch launch video</span><span class="chip k">Join the waitlist</span></div>
+  <div class="win" style="top:92px"><div class="tb">SKY-001 · Early access</div><div class="bd"><b>Get Early Access</b>Join the waitlist now for early access.<br/><span class="go">Join the waitlist</span></div></div>
+  <div class="win" style="top:252px"><div class="tb">Oct 19, 2026 · Skyfall News</div><div class="bd">Skyfall AI announces SKY-001, a Latent World Model<br/><u>Read more</u></div></div>
+  <div class="lead"><h2>First World Model for the Engineered World</h2>
+    <p>Accelerating innovations in the physical economy with world models by building the foundation layer that powers enterprises.</p>
+    <p class="s">Our first stop is Design Engineering.</p></div>
+  <div class="intro"><span>Introducing SKY-001,</span><span>Intelligence for general engineering</span></div>
+  <h1>The First World Model for the Engineered World; AI moving beyond language into latent space</h1>
+  <div class="vert">z = [0.124, -0.873, 1.071, 0.002, -0.415, 0.660, 0.318, -1.204, 0.057]  ·  latent state 34/34</div>
+  <div class="cta"><a>Join the waitlist</a><span class="sub">Watch Launch Video ↗</span></div>
+  <span class="corner" style="left:14px">∵ ×</span><span class="corner" style="right:14px">× ∵</span>
+</div>
+<div class="row" id="s2"><div class="links"><div>Technical report <i>↗</i></div><div>Technical blog <i>↗</i></div><div>Partnerships <i>↗</i></div><div>Watch launch video <i>↗</i></div></div></div>
+<div class="row" id="s3"><div class="split">
+  <img src="out/a1.jpg" style="width:656px;height:620px"/>
+  <div class="txt intro" style="border-left:1px solid rgba(255,255,255,.14)"><div class="mono">Introducing SKY-001,</div><h3>Intelligence for general engineering</h3>
+    <h2>The First World Model for the Engineered World; AI moving beyond language into latent space</h2>
+    <p><span style="color:#fff">Get Early Access:</span> Join the waitlist now for early access.</p>
+    <div class="acts"><span class="btn">Join the waitlist</span><span class="btn k">Watch Launch Video ↗</span></div></div>
+</div></div>
+<div class="row" id="s4"><div class="sect-h"><h2>We're taking a contrarian approach to research</h2><p></p></div>
+  <div class="cells3" style="border-top:1px solid rgba(255,255,255,.14)">
+    <div><div class="mono">01</div><h3>Not a plug-in</h3><p>Large language models excel at conversation, and a wave of wrappers now points them at every industry. But, engineering design isn't a language problem. It's a sequential decision problem that requires a model that can reason about geometry and truly understand the latent space.</p></div>
+    <div><div class="mono">02</div><h3>First Model that can Dream</h3><p>We built a new type of world model with a new architecture for the non-molithic era. SKY-001 is designed for the next generation of AI that can 'dream' anything in the physical world. We believe we cannot build something that we can't dream about. SKY-001 is a general engineer that can dream from product concept to factory</p></div>
+    <div><div class="mono">03</div><h3>One Model, Many Domains</h3><p>As a latent world model, SKY-001 learns how physical systems are designed, built and run, in any domain. From engineering to operations, the possibilities are endless.</p></div>
+  </div></div>
+<div class="row" id="s5"><div class="sect-h"><h2>Designing a New Pareto Frontier with World Models</h2>
+  <p>We are pushing the boundaries of what's possible in physical design with world modeling not just in one category but two.</p></div>
+  <div class="split" style="border-top:1px solid rgba(255,255,255,.14)">
+    <div class="chart"><div class="mono" style="margin-bottom:20px">Fig. 01 · 3D CAD benchmark · 20 parts</div><svg viewBox="0 0 560 400" width="560" height="400" font-family="Geist" xmlns="http://www.w3.org/2000/svg"><line x1="56" y1="336.0" x2="540" y2="336.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="340.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">0%</text><line x1="56" y1="273.6" x2="540" y2="273.6" stroke="rgba(255,255,255,.07)"/><text x="46" y="277.6" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">20%</text><line x1="56" y1="211.2" x2="540" y2="211.2" stroke="rgba(255,255,255,.07)"/><text x="46" y="215.2" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">40%</text><line x1="56" y1="148.8" x2="540" y2="148.8" stroke="rgba(255,255,255,.07)"/><text x="46" y="152.8" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">60%</text><line x1="56" y1="86.4" x2="540" y2="86.4" stroke="rgba(255,255,255,.07)"/><text x="46" y="90.4" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">80%</text><line x1="56" y1="24.0" x2="540" y2="24.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="28.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">100%</text><line x1="56.0" y1="24" x2="56.0" y2="336" stroke="rgba(255,255,255,.05)"/><line x1="56.0" y1="336" x2="56.0" y2="341" stroke="#7c7c8a"/><text x="56.0" y="356" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">$0.001</text><line x1="217.3" y1="24" x2="217.3" y2="336" stroke="rgba(255,255,255,.05)"/><line x1="217.3" y1="336" x2="217.3" y2="341" stroke="#7c7c8a"/><text x="217.3" y="356" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">$0.01</text><line x1="378.7" y1="24" x2="378.7" y2="336" stroke="rgba(255,255,255,.05)"/><line x1="378.7" y1="336" x2="378.7" y2="341" stroke="#7c7c8a"/><text x="378.7" y="356" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">$0.10</text><line x1="540.0" y1="24" x2="540.0" y2="336" stroke="rgba(255,255,255,.05)"/><line x1="540.0" y1="336" x2="540.0" y2="341" stroke="#7c7c8a"/><text x="540.0" y="356" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">$1.00</text><line x1="56" y1="336" x2="540" y2="336" stroke="#7c7c8a"/><line x1="56" y1="24" x2="56" y2="336" stroke="#7c7c8a"/><text x="298" y="386" font-size="12" fill="#b4b4c0" text-anchor="middle">Cost per part (USD, log scale)</text><text transform="translate(14 180) rotate(-90)" font-size="12" fill="#b4b4c0" text-anchor="middle">Accuracy (IoU)</text><text x="540" y="16" font-size="11" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">BETTER: UP AND TO THE LEFT ↖</text><polyline points="363.0,164.4 455.6,120.7 519.8,89.5" fill="none" stroke="#5d5d6c" stroke-width="1.5" stroke-dasharray="4 4"/><line x1="168.8" y1="87.3" x2="519.8" y2="87.3" stroke="#3E57DA" stroke-width="1.5"/><rect x="161.8" y="80.3" width="14" height="14" fill="#3E57DA"/><line x1="168.8" y1="87.3" x2="180.8" y2="67.3" stroke="#3E57DA" stroke-width="1"/><text x="184.8" y="71.3" font-size="13" font-weight="500" fill="#fff" text-anchor="start">SKY-001 <tspan font-family="Geist Mono" fill="#3E57DA" font-size="11">79.7%</tspan></text><rect x="515.3" y="85.0" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="519.8" y1="89.5" x2="509.8" y2="71.5" stroke="#7c7c8a" stroke-width="1"/><text x="505.8" y="75.5" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">GPT-6 Astra <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">79%</tspan></text><rect x="451.1" y="116.2" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="455.6" y1="120.7" x2="445.6" y2="138.7" stroke="#7c7c8a" stroke-width="1"/><text x="441.6" y="142.7" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">Opus 5.5 <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">69%</tspan></text><rect x="358.5" y="159.9" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="363.0" y1="164.4" x2="353.0" y2="148.4" stroke="#7c7c8a" stroke-width="1"/><text x="349.0" y="152.4" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">Gemini 3.8 Flash <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">55%</tspan></text><rect x="451.1" y="225.4" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="455.6" y1="229.9" x2="445.6" y2="229.9" stroke="#7c7c8a" stroke-width="1"/><text x="441.6" y="233.9" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">Qwen 3.8 Max <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">34%</tspan></text><rect x="392.5" y="303.4" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="397.0" y1="307.9" x2="407.0" y2="307.9" stroke="#7c7c8a" stroke-width="1"/><text x="411.0" y="311.9" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="start">Kimi K3 <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">9%</tspan></text></svg></div>
+    <div class="chart" style="border-left:1px solid rgba(255,255,255,.14)"><div class="mono" style="margin-bottom:20px">Fig. 02 · BIM benchmark · 20 parts</div><svg viewBox="0 0 560 400" width="560" height="400" font-family="Geist" xmlns="http://www.w3.org/2000/svg"><line x1="56" y1="336.0" x2="540" y2="336.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="340.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">20%</text><line x1="56" y1="284.0" x2="540" y2="284.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="288.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">25%</text><line x1="56" y1="232.0" x2="540" y2="232.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="236.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">30%</text><line x1="56" y1="180.0" x2="540" y2="180.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="184.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">35%</text><line x1="56" y1="128.0" x2="540" y2="128.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="132.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">40%</text><line x1="56" y1="76.0" x2="540" y2="76.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="80.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">45%</text><line x1="56" y1="24.0" x2="540" y2="24.0" stroke="rgba(255,255,255,.07)"/><text x="46" y="28.0" font-size="12" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">50%</text><line x1="56.0" y1="24" x2="56.0" y2="336" stroke="rgba(255,255,255,.05)"/><line x1="56.0" y1="336" x2="56.0" y2="341" stroke="#7c7c8a"/><text x="56.0" y="356" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">$0.001</text><line x1="217.3" y1="24" x2="217.3" y2="336" stroke="rgba(255,255,255,.05)"/><line x1="217.3" y1="336" x2="217.3" y2="341" stroke="#7c7c8a"/><text x="217.3" y="356" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">$0.01</text><line x1="378.7" y1="24" x2="378.7" y2="336" stroke="rgba(255,255,255,.05)"/><line x1="378.7" y1="336" x2="378.7" y2="341" stroke="#7c7c8a"/><text x="378.7" y="356" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">$0.10</text><line x1="540.0" y1="24" x2="540.0" y2="336" stroke="rgba(255,255,255,.05)"/><line x1="540.0" y1="336" x2="540.0" y2="341" stroke="#7c7c8a"/><text x="540.0" y="356" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">$1.00</text><line x1="56" y1="336" x2="540" y2="336" stroke="#7c7c8a"/><line x1="56" y1="24" x2="56" y2="336" stroke="#7c7c8a"/><text x="298" y="386" font-size="12" fill="#b4b4c0" text-anchor="middle">Cost per part (USD, log scale)</text><text transform="translate(14 180) rotate(-90)" font-size="12" fill="#b4b4c0" text-anchor="middle">Accuracy (IoU)</text><text x="540" y="16" font-size="11" fill="#7c7c8a" text-anchor="end" font-family="Geist Mono">BETTER: UP AND TO THE LEFT ↖</text><polyline points="385.3,242.4 433.9,107.2" fill="none" stroke="#5d5d6c" stroke-width="1.5" stroke-dasharray="4 4"/><line x1="210.0" y1="90.6" x2="433.9" y2="90.6" stroke="#3E57DA" stroke-width="1.5"/><rect x="203.0" y="83.6" width="14" height="14" fill="#3E57DA"/><line x1="210.0" y1="90.6" x2="222.0" y2="68.6" stroke="#3E57DA" stroke-width="1"/><text x="226.0" y="72.6" font-size="13" font-weight="500" fill="#fff" text-anchor="start">SKY-001 <tspan font-family="Geist Mono" fill="#3E57DA" font-size="11">43.6%</tspan></text><rect x="429.4" y="102.7" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="433.9" y1="107.2" x2="423.9" y2="121.2" stroke="#7c7c8a" stroke-width="1"/><text x="419.9" y="125.2" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">Gemini 3.8 Flash <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">42%</tspan></text><rect x="479.6" y="118.3" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="484.1" y1="122.8" x2="474.1" y2="162.8" stroke="#7c7c8a" stroke-width="1"/><text x="470.1" y="166.8" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">GPT-6 Astra <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">40.5%</tspan></text><rect x="443.8" y="180.7" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="448.3" y1="185.2" x2="438.3" y2="183.2" stroke="#7c7c8a" stroke-width="1"/><text x="434.3" y="187.2" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">Opus 5.5 <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">34.5%</tspan></text><rect x="443.8" y="189.0" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="448.3" y1="193.5" x2="438.3" y2="215.5" stroke="#7c7c8a" stroke-width="1"/><text x="434.3" y="219.5" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">Kimi K3 <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">33.7%</tspan></text><rect x="380.8" y="237.9" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="385.3" y1="242.4" x2="375.3" y2="242.4" stroke="#7c7c8a" stroke-width="1"/><text x="371.3" y="246.4" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="end">Qwen 3.8 Max <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">29%</tspan></text><rect x="451.1" y="248.3" width="9" height="9" fill="#050507" stroke="#b4b4c0" stroke-width="1.5"/><line x1="455.6" y1="252.8" x2="465.6" y2="270.8" stroke="#7c7c8a" stroke-width="1"/><text x="469.6" y="274.8" font-size="12" font-weight="400" fill="#b4b4c0" text-anchor="start">Grok 4.7 <tspan font-family="Geist Mono" fill="#7c7c8a" font-size="11">28%</tspan></text></svg></div>
+  </div>
+  <div class="cap" style="padding:0 24px 28px;margin-top:0;border-top:1px solid rgba(255,255,255,.14);padding-top:16px">Dashed line: best LLM trade-off. Blue line: SKY-001 at frontier accuracy for a fraction of the cost. Values read from the content doc's charts; final benchmark data to replace them.</div></div>
+<div class="row" id="s6"><div class="sect-h"><div><div class="mono" style="margin-bottom:20px">Defining Moment in History</div><h2>Frontier Accuracy at 1/150th the cost of LLMs</h2></div>
+  <p>Our world model beats GPT-6 Astra because LLMs are autoregressive in nature and not designed for visual reasoning. Our approach is undoubtedly the best path for scale compared to LLMs and a game changer for the AI industry.</p></div>
+  <div class="stats4" style="border-top:1px solid rgba(255,255,255,.14)">
+    <div><div class="mono">3D CAD · per-part sketch modelling</div><b>150<small>×</small></b><span>cheaper than GPT-6 Astra</span></div>
+    <div><div class="mono">3D CAD · per-part sketch modelling</div><b>51<small>×</small></b><span>faster, ≈4 s against ≈200 s</span></div>
+    <div><div class="mono">BIM</div><b>50<small>×</small></b><span>cheaper than GPT-6 Astra</span></div>
+    <div><div class="mono">BIM</div><b>32<small>×</small></b><span>faster, ≈5 s against ≈160 s</span></div>
+  </div>
+  <div class="split" style="border-top:1px solid rgba(255,255,255,.14)">
+    <div class="chart"><div class="mono" style="margin-bottom:24px">Fig. 03 · Time per part</div><svg viewBox="0 0 560 260" width="560" height="260" font-family="Geist" xmlns="http://www.w3.org/2000/svg"><line x1="150.0" y1="16" x2="150.0" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="150.0" y1="200" x2="150.0" y2="205" stroke="#7c7c8a"/><text x="150.0" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">0</text><line x1="233.5" y1="16" x2="233.5" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="233.5" y1="200" x2="233.5" y2="205" stroke="#7c7c8a"/><text x="233.5" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">50</text><line x1="317.0" y1="16" x2="317.0" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="317.0" y1="200" x2="317.0" y2="205" stroke="#7c7c8a"/><text x="317.0" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">100</text><line x1="400.5" y1="16" x2="400.5" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="400.5" y1="200" x2="400.5" y2="205" stroke="#7c7c8a"/><text x="400.5" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">150</text><line x1="484.0" y1="16" x2="484.0" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="484.0" y1="200" x2="484.0" y2="205" stroke="#7c7c8a"/><text x="484.0" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">200</text><line x1="150" y1="200" x2="484" y2="200" stroke="#7c7c8a"/><line x1="150" y1="16" x2="150" y2="200" stroke="#7c7c8a"/><text x="317" y="254" font-size="12" fill="#b4b4c0" text-anchor="middle">Seconds per part</text><text x="0" y="42" font-size="11" fill="#7c7c8a" font-family="Geist Mono" letter-spacing=".06em">3D CAD</text><text x="140" y="42" font-size="13" fill="#fff" text-anchor="end">SKY-001</text><rect x="150" y="28" width="6.7" height="20" fill="#3E57DA"/><text x="164.7" y="43" font-size="12" fill="#fff" font-family="Geist Mono">≈4 s</text><text x="140" y="86" font-size="13" fill="#b4b4c0" text-anchor="end">GPT-6 Astra</text><rect x="150" y="72" width="334.0" height="20" fill="#5d5d6c"/><text x="492.0" y="87" font-size="12" fill="#b4b4c0" font-family="Geist Mono">≈200 s</text><text x="0" y="130" font-size="11" fill="#7c7c8a" font-family="Geist Mono" letter-spacing=".06em">BIM</text><text x="140" y="130" font-size="13" fill="#fff" text-anchor="end">SKY-001</text><rect x="150" y="116" width="8.3" height="20" fill="#3E57DA"/><text x="166.3" y="131" font-size="12" fill="#fff" font-family="Geist Mono">≈5 s</text><text x="140" y="174" font-size="13" fill="#b4b4c0" text-anchor="end">GPT-6 Astra</text><rect x="150" y="160" width="267.2" height="20" fill="#5d5d6c"/><text x="425.2" y="175" font-size="12" fill="#b4b4c0" font-family="Geist Mono">≈160 s</text></svg></div>
+    <div class="chart" style="border-left:1px solid rgba(255,255,255,.14)"><div class="mono" style="margin-bottom:24px">Fig. 04 · Accuracy at that speed</div><svg viewBox="0 0 560 260" width="560" height="260" font-family="Geist" xmlns="http://www.w3.org/2000/svg"><line x1="150.0" y1="16" x2="150.0" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="150.0" y1="200" x2="150.0" y2="205" stroke="#7c7c8a"/><text x="150.0" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">0</text><line x1="216.8" y1="16" x2="216.8" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="216.8" y1="200" x2="216.8" y2="205" stroke="#7c7c8a"/><text x="216.8" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">20</text><line x1="283.6" y1="16" x2="283.6" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="283.6" y1="200" x2="283.6" y2="205" stroke="#7c7c8a"/><text x="283.6" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">40</text><line x1="350.4" y1="16" x2="350.4" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="350.4" y1="200" x2="350.4" y2="205" stroke="#7c7c8a"/><text x="350.4" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">60</text><line x1="417.2" y1="16" x2="417.2" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="417.2" y1="200" x2="417.2" y2="205" stroke="#7c7c8a"/><text x="417.2" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">80</text><line x1="484.0" y1="16" x2="484.0" y2="200" stroke="rgba(255,255,255,.06)"/><line x1="484.0" y1="200" x2="484.0" y2="205" stroke="#7c7c8a"/><text x="484.0" y="220" font-size="12" fill="#7c7c8a" text-anchor="middle" font-family="Geist Mono">100</text><line x1="150" y1="200" x2="484" y2="200" stroke="#7c7c8a"/><line x1="150" y1="16" x2="150" y2="200" stroke="#7c7c8a"/><text x="317" y="254" font-size="12" fill="#b4b4c0" text-anchor="middle">Accuracy (IoU, %)</text><text x="0" y="42" font-size="11" fill="#7c7c8a" font-family="Geist Mono" letter-spacing=".06em">3D CAD</text><text x="140" y="42" font-size="13" fill="#fff" text-anchor="end">SKY-001</text><rect x="150" y="28" width="266.2" height="20" fill="#3E57DA"/><text x="424.2" y="43" font-size="12" fill="#fff" font-family="Geist Mono">79.7%</text><text x="140" y="86" font-size="13" fill="#b4b4c0" text-anchor="end">GPT-6 Astra</text><rect x="150" y="72" width="263.9" height="20" fill="#5d5d6c"/><text x="421.9" y="87" font-size="12" fill="#b4b4c0" font-family="Geist Mono">79%</text><text x="0" y="130" font-size="11" fill="#7c7c8a" font-family="Geist Mono" letter-spacing=".06em">BIM</text><text x="140" y="130" font-size="13" fill="#fff" text-anchor="end">SKY-001</text><rect x="150" y="116" width="145.6" height="20" fill="#3E57DA"/><text x="303.6" y="131" font-size="12" fill="#fff" font-family="Geist Mono">43.6%</text><text x="140" y="174" font-size="13" fill="#b4b4c0" text-anchor="end">GPT-6 Astra</text><rect x="150" y="160" width="135.3" height="20" fill="#5d5d6c"/><text x="293.3" y="175" font-size="12" fill="#b4b4c0" font-family="Geist Mono">40.5%</text></svg></div>
+  </div></div>
+<div class="row" id="s7"><div class="sect-h"><h2>World Models vs. LLMs</h2><p>Source: Skyfall technical blog.</p></div>
+  <div class="cells3 race" style="border-top:1px solid rgba(255,255,255,.14)"><div><div class="mono">01 · World model</div>
+      <div class="t"><h3 style="font-size:24px;font-weight:400;letter-spacing:-.02em">SKY-001</h3><b style="color:#fff">≈4.2 s</b></div>
+      <svg viewBox="0 0 380 46" width="380" height="46" font-family="Geist Mono" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="6" width="380" height="10" fill="rgba(255,255,255,.06)"/><rect x="0" y="6" width="8.0" height="10" fill="#3E57DA"/><line x1="8.0" y1="2" x2="8.0" y2="20" stroke="#b4b4c0"/><text x="0.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="start">0s</text><text x="95.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">50s</text><text x="190.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">100s</text><text x="285.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">150s</text><text x="380.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="end">200s</text></svg><div class="st ok">Done at 4.2 s</div></div><div><div class="mono">02 · LLM</div>
+      <div class="t"><h3 style="font-size:24px;font-weight:400;letter-spacing:-.02em">GPT-6 Astra</h3><b style="color:#b4b4c0">≈199 s</b></div>
+      <svg viewBox="0 0 380 46" width="380" height="46" font-family="Geist Mono" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="6" width="380" height="10" fill="rgba(255,255,255,.06)"/><rect x="0" y="6" width="8.0" height="10" fill="#5d5d6c"/><line x1="378.1" y1="2" x2="378.1" y2="20" stroke="#b4b4c0"/><text x="0.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="start">0s</text><text x="95.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">50s</text><text x="190.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">100s</text><text x="285.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">150s</text><text x="380.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="end">200s</text></svg><div class="st">2% of run at 4.2 s</div></div><div><div class="mono">03 · LLM</div>
+      <div class="t"><h3 style="font-size:24px;font-weight:400;letter-spacing:-.02em">Opus 5.5</h3><b style="color:#b4b4c0">≈110 s</b></div>
+      <svg viewBox="0 0 380 46" width="380" height="46" font-family="Geist Mono" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="6" width="380" height="10" fill="rgba(255,255,255,.06)"/><rect x="0" y="6" width="8.0" height="10" fill="#5d5d6c"/><line x1="209.0" y1="2" x2="209.0" y2="20" stroke="#b4b4c0"/><text x="0.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="start">0s</text><text x="95.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">50s</text><text x="190.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">100s</text><text x="285.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="middle">150s</text><text x="380.0" y="38" font-size="10" fill="#7c7c8a" text-anchor="end">200s</text></svg><div class="st">4% of run at 4.2 s</div></div></div>
+  <div class="links rc" style="border-top:1px solid rgba(255,255,255,.14);grid-template-columns:1fr 1fr 1fr 2fr"><div>↺ Restart</div><div>‹ Step</div><div>Step ›</div><div style="justify-content:flex-start;gap:16px"><span class="mono">Time</span><span class="track" style="flex:1"><span style="flex:1;height:2px;background:rgba(255,255,255,.14);position:relative;display:block"><span class="knob" style="position:absolute;left:calc(2.1% - 6px);top:-5px;width:12px;height:12px;background:#fff"></span></span></span><span class="mono tlab" style="color:#fff">4.2 s</span></div></div></div>
+<div class="row" id="s8"><div class="sect-h"><h2>How SKY-001 beats Prompt-Based Methods Step-By-Step</h2><p></p></div>
+  <div class="stages" style="border-top:1px solid rgba(255,255,255,.14)">
+    <div><img src="out/a2.jpg"/><div class="lab"><div class="mono">Stage 1</div><h3>Parallel Explorations Through World Modeling</h3><p>Our model converts a 2D sketch or text prompt into several rough 3D assets at once. This lets you instantly explore different visual directions and pick the best foundation before diving into details.</p></div></div>
+    <div><img src="out/a3.jpg"/><div class="lab"><div class="mono">Stage 2</div><h3>Recursive Diffusion-Based 3D Decomposition</h3><p>Once selected, it breaks down the high-level designs into smaller, individual parts, from large structural pieces all the way down to tiny screws and fasteners. By working layer by layer, our model keeps complex designs organized and easy to build, excelling in long horizon planning.</p></div></div>
+    <div><img src="out/a4.jpg"/><div class="lab"><div class="mono">Stage 3</div><h3>Multi-step 2d to 3D Latent Action World Model</h3><p>It brings each part to life by recreating how a real designer works step-by-step. It starts by drawing precise 2D sketches stroke-by-stroke, then stretches, cuts, or shapes those sketches into finished 3D objects.</p></div></div>
+    <div><img src="out/a5.jpg"/><div class="lab"><div class="mono">Stage 4</div><h3>3D Construction World Model</h3><p>Finally, it assembles all the parts, layer by layer again, in hierarchical order into a complete 3D assembly that you can visualize immediately in standard CAD software</p></div></div>
+  </div></div>
+<div class="row" id="s9"><div class="sect-h" style="padding-bottom:56px"><h2>Why do the World Models excel here?</h2><p></p></div>
+  <div class="cells4" style="border-top:1px solid rgba(255,255,255,.14)">
+    <div><div class="mono">01</div><h3>Cause &amp; effect</h3></div>
+    <div><div class="mono">02</div><h3>Physics</h3><p>Understand geometry</p></div>
+    <div><div class="mono">03</div><h3>Latent space</h3></div>
+    <div><div class="mono">04</div><h3>Long horizon planning</h3><p>Hierarchical decomposition</p></div>
+  </div></div>
+<div class="row" id="s10"><div class="sect-h"><h2>Reinventing the physical economy with world models</h2>
+  <p>Today, SKY-001 is a hierarchical visual world model that plans and designs the assembly of engineered objects. By pairing it with a vision-language-action (VLA) agent in the next phase, we transition from plan generation to physical execution. Beyond manufacturing, SKY-001 is designed to become the underlying blueprint for complex physical design, spanning PCB design, Aerospace engineering, Energy and Power systems, Protein folding, Molecule design, Computer Use Agents, Enterprise Software and beyond.</p></div>
+  <div class="split" style="border-top:1px solid rgba(255,255,255,.14)">
+    <img src="out/a6.jpg" style="width:656px;height:520px"/>
+    <div class="quote" style="border-left:1px solid rgba(255,255,255,.14)"><blockquote>Wherever structure, constraints, and sequence matter, SKY-001 plans and powers the build.</blockquote><div class="qm">”</div></div>
+  </div>
+  <div class="marks" style="grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.14)"><span>PCB design</span><span>Aerospace engineering</span><span>Energy and Power systems</span><span>Protein folding</span></div>
+  <div class="marks" style="grid-template-columns:repeat(4,1fr);border-top:1px solid rgba(255,255,255,.14)"><span>Molecule design</span><span>Computer Use Agents</span><span>Enterprise Software</span><span style="color:#7c7c8a">and beyond</span></div>
+</div>
+<div class="row" id="s11"><div class="sect-h" style="padding-bottom:56px"><h2>The team behind <span style="white-space:nowrap">SKY-001</span></h2><p></p></div>
+  <div class="team" style="border-top:1px solid rgba(255,255,255,.14)">
+    <div><img src="file:///mnt/project-files/brand/team-portraits/final/sumit.jpg"/><div class="lab"><div class="mono">Leadership</div><h3 style="margin-top:10px">Sumit Pasupalak</h3></div></div>
+    <div><img src="file:///mnt/project-files/brand/team-portraits/final/kaheer.jpg"/><div class="lab"><div class="mono">Leadership</div><h3 style="margin-top:10px">Kaheer Suleman</h3></div></div>
+    <div><img src="file:///mnt/project-files/brand/team-portraits/final/sam.jpg"/><div class="lab"><div class="mono">Leadership</div><h3 style="margin-top:10px">Sam Pasupalak</h3></div></div>
+  </div>
+  <div class="people" style="border-top:1px solid rgba(255,255,255,.14)">
+    <div><div class="mono">Core contributors</div><h3>Haoye, Zichen, Mike <span class="mono" style="color:#3E57DA">TBD</span></h3></div>
+    <div><div class="mono">Full team</div><h3>Pavan et. al</h3></div>
+    <div><div class="mono">Leadership</div><h3>Sumit, Kaheer, Sam</h3></div>
+  </div></div>
+<div class="row" id="s12"><div class="faq">
+  <div class="sect-h" style="display:block;padding:88px 0 0"><div style="padding:0 48px 0 24px"><div class="mono" style="margin-bottom:20px">FAQ Section</div><h2>What you might be wondering</h2></div></div>
+  <ul style="border-left:1px solid rgba(255,255,255,.14)">
+    <li class="open"><div class="q">What are SKY models and SKY-001?<i>−</i></div><div class="a">Foundation world models</div></li>
+    <li><div class="q">How is SKY related to autonomous businesses?<i>+</i></div></li>
+    <li><div class="q">Is SKY-001 just another LLM-foundation model?<i>+</i></div><div class="a" style="display:none"><span class="mono" style="color:#3E57DA">Doc note</span>No, explain difference</div></li>
+    <li><div class="q">Why are World Models better for physical object design?<i>+</i></div><div class="a" style="display:none"><span class="mono" style="color:#3E57DA">Doc note</span>Better at long-term planning; Actually understands the world + simulation; Better for real automation due to little to zero human input; Needs different type of AI</div></li>
+    <li><div class="q">Can SKY-001 build a physical object?<i>+</i></div><div class="a" style="display:none"><span class="mono" style="color:#3E57DA">Doc note</span>Not yet, eventually we will have a VLA agent</div></li>
+    <li><div class="q">How do I get access to SKY-001?<i>+</i></div><div class="a" style="display:none"><span class="mono" style="color:#3E57DA">Doc note</span>Join waitlist to be the first to hear when it goes public</div></li>
+    <li><div class="q">What is SKY-001 good at?<i>+</i></div><div class="a" style="display:none"><span class="mono" style="color:#3E57DA">Doc note</span>Great for designing complex objects that require long term planning</div></li>
+    <li><div class="q">What else can we design with SKY-001?<i>+</i></div><div class="a" style="display:none"><span class="mono" style="color:#3E57DA">Doc note</span>Applies to numerous sectors: robotics, drug discovery, PCB design, BIM etc..</div></li>
+    <li><div class="q">I have further questions. How to contact the team?<i>+</i></div><div class="a" style="display:none"><span class="mono" style="color:#3E57DA">Doc note</span>team email E.G. hello@sky001.ai</div></li>
+  </ul></div></div>
+<div class="full cta" id="s13"><img src="out/a8.jpg"/>
+  <div class="card"><h3>Get Early Access</h3><p>Join the waitlist now for early access.</p><div style="display:flex;gap:12px;margin-top:28px"><span class="btn" style="margin-top:0">Join the waitlist</span><span class="btn" style="margin-top:0;background:#fff;color:#000;border:1px solid #c9c9d2">Watch Launch Video ↗</span></div></div></div>
+<footer class="row" style="border-top:1px solid rgba(255,255,255,.14)">
+  <div class="cols"><div><div class="mono">SKY-001</div><span>Technical report</span><span>Technical blog</span><span>Watch launch video</span></div><div><div class="mono">Socials</div><span>X</span><span>LinkedIn</span></div><div><div class="mono">Work with us</div><span>Partnerships</span><span>Join the waitlist</span><span>Contact</span></div><div><div class="mono">Legal</div><span>Terms of Service</span><span>Privacy Policy</span></div></div>
+  <div class="big" style="border-top:1px solid rgba(255,255,255,.14)"><span class="logo"><svg width="100%" height="100%" preserveAspectRatio="xMinYMid meet" viewBox="0 0 258 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<path d="M37.1894 11.2425C37.0781 11.6877 36.6781 12 36.2192 12H20.5308C20.0719 12 19.6719 12.3123 19.5606 12.7575L18.1894 18.2425C18.0781 18.6877 17.6781 19 17.2192 19H1.28078C0.630206 19 0.152847 18.3886 0.310634 17.7575L1.81063 11.7575C1.92193 11.3123 2.32191 11 2.78078 11H18.4692C18.9281 11 19.3281 10.6877 19.4394 10.2425L20.8106 4.75746C20.9219 4.3123 21.3219 4 21.7808 4H37.7192C38.3698 4 38.8472 4.61139 38.6894 5.24254L37.1894 11.2425Z" fill="white"/>
+<path d="M36.9091 21.2425C36.7978 21.6877 36.3978 22 35.9389 22H20.2505C19.7916 22 19.3917 22.3123 19.2804 22.7575L17.9091 28.2425C17.7978 28.6877 17.3978 29 16.9389 29H1.0005C0.349933 29 -0.127426 28.3886 0.0303605 27.7575L1.53036 21.7575C1.64165 21.3123 2.04164 21 2.5005 21H18.1889C18.6478 21 19.0478 20.6877 19.1591 20.2425L20.5304 14.7575C20.6417 14.3123 21.0416 14 21.5005 14H37.4389C38.0895 14 38.5669 14.6114 38.4091 15.2425L36.9091 21.2425Z" fill="white"/>
+<path d="M65.0157 25.24C63.8637 25.24 62.8717 25.048 62.0397 24.664C61.2237 24.28 60.5917 23.728 60.1437 23.008C59.6957 22.288 59.4637 21.432 59.4477 20.44H61.6077C61.6077 21.32 61.9037 22.016 62.4957 22.528C63.1037 23.04 63.9437 23.296 65.0157 23.296C66.0237 23.296 66.8077 23.048 67.3677 22.552C67.9437 22.056 68.2317 21.368 68.2317 20.488C68.2317 19.784 68.0397 19.168 67.6557 18.64C67.2877 18.112 66.7517 17.744 66.0477 17.536L63.6717 16.792C62.4717 16.424 61.5437 15.808 60.8877 14.944C60.2477 14.08 59.9277 13.064 59.9277 11.896C59.9277 10.952 60.1357 10.136 60.5517 9.448C60.9837 8.744 61.5837 8.2 62.3517 7.816C63.1197 7.416 64.0237 7.216 65.0637 7.216C66.5997 7.216 67.8317 7.648 68.7597 8.512C69.6877 9.36 70.1597 10.496 70.1757 11.92H68.0157C68.0157 11.056 67.7517 10.384 67.2237 9.904C66.7117 9.408 65.9837 9.16 65.0397 9.16C64.1117 9.16 63.3837 9.384 62.8557 9.832C62.3437 10.28 62.0877 10.904 62.0877 11.704C62.0877 12.424 62.2797 13.048 62.6637 13.576C63.0477 14.104 63.5997 14.48 64.3197 14.704L66.7197 15.472C67.8877 15.84 68.7917 16.464 69.4317 17.344C70.0717 18.224 70.3917 19.256 70.3917 20.44C70.3917 21.4 70.1677 22.24 69.7197 22.96C69.2717 23.68 68.6397 24.24 67.8237 24.64C67.0237 25.04 66.0877 25.24 65.0157 25.24ZM81.9984 25V7.48H84.1584V14.992H86.7504L90.6384 7.48H92.9904L88.6464 15.904L93.2304 25H90.7584L86.6784 16.888H84.1584V25H81.9984ZM107.981 25V18.448L102.701 7.48H104.933L108.413 14.68C108.605 15.08 108.757 15.424 108.869 15.712C108.981 15.984 109.053 16.184 109.085 16.312C109.117 16.184 109.189 15.984 109.301 15.712C109.429 15.424 109.589 15.08 109.781 14.68L113.189 7.48H115.421L110.141 18.448V25H107.981ZM126.212 25V7.456H136.532V9.424H128.324V15.256H135.908V17.224H128.372V25H126.212ZM147.202 25L151.762 7.48H154.666L159.202 25H157.018L155.866 20.344H150.562L149.41 25H147.202ZM150.994 18.52H155.41L154.066 13.12C153.81 12.096 153.61 11.24 153.466 10.552C153.322 9.864 153.234 9.416 153.202 9.208C153.17 9.416 153.082 9.864 152.938 10.552C152.794 11.24 152.594 12.088 152.338 13.096L150.994 18.52ZM170.833 25V7.48H172.993V23.032H180.913V25H170.833ZM192.903 25V7.48H195.063V23.032H202.983V25H192.903Z" fill="white"/>
+<path d="M221.92 25L226.48 7.48H229.384L233.92 25H231.736L230.584 20.344H225.28L224.128 25H221.92ZM225.712 18.52H230.128L228.784 13.12C228.528 12.096 228.328 11.24 228.184 10.552C228.04 9.864 227.952 9.416 227.92 9.208C227.888 9.416 227.8 9.864 227.656 10.552C227.512 11.24 227.312 12.088 227.056 13.096L225.712 18.52ZM245.31 25V23.032H248.886V9.448H245.31V7.48H254.67V9.448H251.094V23.032H254.67V25H245.31Z" fill="white"/>
+</svg>
+</span></div>
+  <div class="copy" style="border-top:1px solid rgba(255,255,255,.14)"><span>© 2026 SKYFALL AI. ALL RIGHTS RESERVED.</span><span>FIRST WORLD MODEL FOR THE ENGINEERED WORLD</span></div>
+</footer>
+</div></body></html>

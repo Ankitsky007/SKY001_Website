@@ -1,0 +1,170 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Skyfall Front Page · Odyssey style</title><style>
+@font-face{font-family:'Geist';font-weight:300;src:url(file:///tmp/claude-0/sp/package/dist/fonts/geist-sans/Geist-Light.woff2)}
+@font-face{font-family:'Geist';font-weight:400;src:url(file:///tmp/claude-0/sp/package/dist/fonts/geist-sans/Geist-Regular.woff2)}
+@font-face{font-family:'Geist';font-weight:500;src:url(file:///tmp/claude-0/sp/package/dist/fonts/geist-sans/Geist-Medium.woff2)}
+@font-face{font-family:'Geist Mono';font-weight:400;src:url(file:///tmp/claude-0/sp/package/dist/fonts/geist-mono/GeistMono-Regular.woff2)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#222;font-family:'Geist',sans-serif;color:#f3f3f4;-webkit-font-smoothing:antialiased}
+.f{width:1440px;background:#0a0a0b;margin:0 auto;position:relative;overflow:hidden}
+img{display:block}
+.col{width:1104px;margin:0 auto;background:#0e0e10;border-left:1px solid rgba(255,255,255,.09);border-right:1px solid rgba(255,255,255,.09);position:relative}
+nav{height:72px;border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;padding:0 32px;position:relative}
+nav .logo{width:150px;height:19px}
+nav .links{position:absolute;left:50%;transform:translateX(-50%);display:flex;gap:28px;font-size:14px;color:#a3a3ad}
+nav .btn{margin-left:auto}
+.btn{display:inline-flex;align-items:center;gap:14px;height:38px;padding:0 4px 0 14px;background:#3E57DA;color:#fff;font-size:14px;font-weight:500}
+.btn .a{width:30px;height:30px;background:#fff;color:#3E57DA;display:inline-flex;align-items:center;justify-content:center;font-size:15px}
+.btn.l{background:#e8e8ea;color:#111;padding-right:14px}
+.btn.l .a{background:transparent;color:#111;width:auto}
+.disp{font-weight:300;letter-spacing:-.035em;line-height:1.04}
+.hero{height:760px;position:relative;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.09)}
+.hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .fade{position:absolute;left:0;right:0;bottom:0;height:420px;background:linear-gradient(rgba(14,14,16,0),#0e0e10 92%)}
+.hero .t{position:absolute;left:0;right:0;bottom:64px;text-align:center}
+.hero h1{font-size:76px}
+.hero p{font-size:18px;color:#a3a3ad;max-width:620px;margin:20px auto 0;line-height:1.45}
+.hero .acts{display:flex;gap:12px;justify-content:center;margin-top:30px}
+.orn{height:56px;border-bottom:1px solid rgba(255,255,255,.09);display:flex;align-items:center;justify-content:center}
+.pill{display:flex;justify-content:center;padding:36px 0}
+.pill span{display:inline-flex;align-items:center;border:1px solid rgba(255,255,255,.18);font-size:14px;height:34px}
+.pill b{font-weight:500;padding:0 12px;border-right:1px solid rgba(255,255,255,.18);height:100%;display:flex;align-items:center}
+.pill i{font-style:normal;padding:0 14px;color:#a3a3ad}
+section{padding:112px 72px 0;position:relative}
+.ctr{text-align:center}
+.ctr h2{font-size:56px;max-width:900px;margin:0 auto}
+.ctr .sub{font-size:19px;color:#a3a3ad;line-height:1.5;max-width:700px;margin:22px auto 0}
+.cap{font-family:'Geist Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#3E57DA}
+.big{margin-top:64px;border:1px solid rgba(255,255,255,.09);overflow:hidden}
+.big img{width:100%;height:540px;object-fit:cover}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:56px}
+.two p{font-size:17px;line-height:1.6;color:#a3a3ad}
+.figs{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.fig{background:#141417;border:1px solid rgba(255,255,255,.09);padding:28px 28px 24px}
+.fig .fc{font-size:13px;color:#6f6f7a;margin-top:14px;line-height:1.45}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.c4{background:#141417;border:1px solid rgba(255,255,255,.09)}
+.c4 .tx{padding:26px 28px 22px}
+.c4 h3{font-size:24px;font-weight:300;letter-spacing:-.02em}
+.c4 p{font-size:15px;color:#a3a3ad;margin-top:8px;line-height:1.45}
+.c4 img{width:100%;height:200px;object-fit:cover}
+.tags{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:40px}
+.tags span{border:1px solid rgba(255,255,255,.18);padding:9px 16px;font-size:14px;color:#f3f3f4}
+.dream{height:640px;position:relative;margin-top:112px;background:#000;border-top:1px solid rgba(255,255,255,.09);border-bottom:1px solid rgba(255,255,255,.09);overflow:hidden}
+.dream .rk{position:absolute;top:0;height:100%;width:340px;object-fit:cover}
+.dream .t{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center}
+.dream h2{font-size:46px;max-width:620px;margin:0 auto}
+.dream h2 span{color:#6f6f7a}
+.dream p{font-size:17px;color:#a3a3ad;margin:24px auto 0;max-width:420px;line-height:1.5}
+.marks{display:grid;border-top:1px solid rgba(255,255,255,.09);border-left:1px solid rgba(255,255,255,.09);margin-top:36px}
+.marks span{height:92px;display:flex;align-items:center;justify-content:center;border-right:1px solid rgba(255,255,255,.09);border-bottom:1px solid rgba(255,255,255,.09);font-size:19px;font-weight:500;letter-spacing:-.01em;color:#a3a3ad}
+.lbl{text-align:center;font-size:15px;color:#a3a3ad}
+.models{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:56px}
+.m{position:relative;height:440px;border:1px solid rgba(255,255,255,.09);overflow:hidden;background:#000}
+.m img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.m .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.72),rgba(0,0,0,.1) 55%,rgba(0,0,0,.55))}
+.m .tx{position:absolute;left:28px;top:26px;right:28px}
+.m h3{font-size:38px;font-weight:300;letter-spacing:-.03em;margin-top:8px}
+.m p{font-size:15px;color:#d0d0d6;margin-top:10px;line-height:1.45;max-width:330px}
+.m .acts{position:absolute;left:28px;bottom:26px;display:flex;gap:10px}
+.team{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:56px}
+.team .p{background:#141417;border:1px solid rgba(255,255,255,.09)}
+.team img{width:100%;height:400px;object-fit:cover}
+.team .tx{padding:20px 22px 22px}
+.team h3{font-size:20px;font-weight:400}
+.team p{font-size:14px;color:#a3a3ad;margin-top:4px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.09);margin-top:56px}
+.stats div{padding:36px 8px 0}
+.stats b{display:block;font-size:72px;font-weight:300;letter-spacing:-.04em}
+.stats span{display:block;font-size:15px;color:#a3a3ad;margin-top:10px;line-height:1.45;max-width:280px}
+.adv{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+.adv div{background:#141417;border:1px solid rgba(255,255,255,.09);padding:26px 28px;display:flex;justify-content:space-between;align-items:center}
+.adv h3{font-size:24px;font-weight:300}
+.adv span{font-size:14px;color:#a3a3ad}
+.cta{height:620px;position:relative;margin-top:112px;border-top:1px solid rgba(255,255,255,.09);overflow:hidden}
+.cta img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cta .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(14,14,16,.96) 18%,rgba(14,14,16,.2) 58%,rgba(14,14,16,.6))}
+.cta .t{position:absolute;left:0;right:0;top:56px;text-align:center}
+.cta h2{font-size:64px}
+.cta p{font-size:18px;color:#a3a3ad;margin-top:16px}
+.cta .acts{display:flex;gap:12px;justify-content:center;margin-top:28px}
+.ill{position:absolute;right:16px;bottom:14px;font-family:'Geist Mono';font-size:10px;letter-spacing:.1em;color:rgba(255,255,255,.65)}
+footer{border-top:1px solid rgba(255,255,255,.09);display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;padding:48px 32px 40px}
+footer .h{font-family:'Geist Mono';font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6f6f7a}
+footer span{display:block;font-size:14px;color:#a3a3ad;margin-top:12px}
+.copy{border-top:1px solid rgba(255,255,255,.09);padding:18px 32px 22px;display:flex;justify-content:space-between;font-size:12px;color:#6f6f7a}
+</style></head><body><div class="f" data-name="Skyfall Front Page · Odyssey style · Desktop 1440"><div class="col">
+<nav><span class="logo"><svg width="100%" height="100%" preserveAspectRatio="xMinYMid meet" viewBox="0 0 258 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<path d="M37.1894 11.2425C37.0781 11.6877 36.6781 12 36.2192 12H20.5308C20.0719 12 19.6719 12.3123 19.5606 12.7575L18.1894 18.2425C18.0781 18.6877 17.6781 19 17.2192 19H1.28078C0.630206 19 0.152847 18.3886 0.310634 17.7575L1.81063 11.7575C1.92193 11.3123 2.32191 11 2.78078 11H18.4692C18.9281 11 19.3281 10.6877 19.4394 10.2425L20.8106 4.75746C20.9219 4.3123 21.3219 4 21.7808 4H37.7192C38.3698 4 38.8472 4.61139 38.6894 5.24254L37.1894 11.2425Z" fill="white"/>
+<path d="M36.9091 21.2425C36.7978 21.6877 36.3978 22 35.9389 22H20.2505C19.7916 22 19.3917 22.3123 19.2804 22.7575L17.9091 28.2425C17.7978 28.6877 17.3978 29 16.9389 29H1.0005C0.349933 29 -0.127426 28.3886 0.0303605 27.7575L1.53036 21.7575C1.64165 21.3123 2.04164 21 2.5005 21H18.1889C18.6478 21 19.0478 20.6877 19.1591 20.2425L20.5304 14.7575C20.6417 14.3123 21.0416 14 21.5005 14H37.4389C38.0895 14 38.5669 14.6114 38.4091 15.2425L36.9091 21.2425Z" fill="white"/>
+<path d="M65.0157 25.24C63.8637 25.24 62.8717 25.048 62.0397 24.664C61.2237 24.28 60.5917 23.728 60.1437 23.008C59.6957 22.288 59.4637 21.432 59.4477 20.44H61.6077C61.6077 21.32 61.9037 22.016 62.4957 22.528C63.1037 23.04 63.9437 23.296 65.0157 23.296C66.0237 23.296 66.8077 23.048 67.3677 22.552C67.9437 22.056 68.2317 21.368 68.2317 20.488C68.2317 19.784 68.0397 19.168 67.6557 18.64C67.2877 18.112 66.7517 17.744 66.0477 17.536L63.6717 16.792C62.4717 16.424 61.5437 15.808 60.8877 14.944C60.2477 14.08 59.9277 13.064 59.9277 11.896C59.9277 10.952 60.1357 10.136 60.5517 9.448C60.9837 8.744 61.5837 8.2 62.3517 7.816C63.1197 7.416 64.0237 7.216 65.0637 7.216C66.5997 7.216 67.8317 7.648 68.7597 8.512C69.6877 9.36 70.1597 10.496 70.1757 11.92H68.0157C68.0157 11.056 67.7517 10.384 67.2237 9.904C66.7117 9.408 65.9837 9.16 65.0397 9.16C64.1117 9.16 63.3837 9.384 62.8557 9.832C62.3437 10.28 62.0877 10.904 62.0877 11.704C62.0877 12.424 62.2797 13.048 62.6637 13.576C63.0477 14.104 63.5997 14.48 64.3197 14.704L66.7197 15.472C67.8877 15.84 68.7917 16.464 69.4317 17.344C70.0717 18.224 70.3917 19.256 70.3917 20.44C70.3917 21.4 70.1677 22.24 69.7197 22.96C69.2717 23.68 68.6397 24.24 67.8237 24.64C67.0237 25.04 66.0877 25.24 65.0157 25.24ZM81.9984 25V7.48H84.1584V14.992H86.7504L90.6384 7.48H92.9904L88.6464 15.904L93.2304 25H90.7584L86.6784 16.888H84.1584V25H81.9984ZM107.981 25V18.448L102.701 7.48H104.933L108.413 14.68C108.605 15.08 108.757 15.424 108.869 15.712C108.981 15.984 109.053 16.184 109.085 16.312C109.117 16.184 109.189 15.984 109.301 15.712C109.429 15.424 109.589 15.08 109.781 14.68L113.189 7.48H115.421L110.141 18.448V25H107.981ZM126.212 25V7.456H136.532V9.424H128.324V15.256H135.908V17.224H128.372V25H126.212ZM147.202 25L151.762 7.48H154.666L159.202 25H157.018L155.866 20.344H150.562L149.41 25H147.202ZM150.994 18.52H155.41L154.066 13.12C153.81 12.096 153.61 11.24 153.466 10.552C153.322 9.864 153.234 9.416 153.202 9.208C153.17 9.416 153.082 9.864 152.938 10.552C152.794 11.24 152.594 12.088 152.338 13.096L150.994 18.52ZM170.833 25V7.48H172.993V23.032H180.913V25H170.833ZM192.903 25V7.48H195.063V23.032H202.983V25H192.903Z" fill="white"/>
+<path d="M221.92 25L226.48 7.48H229.384L233.92 25H231.736L230.584 20.344H225.28L224.128 25H221.92ZM225.712 18.52H230.128L228.784 13.12C228.528 12.096 228.328 11.24 228.184 10.552C228.04 9.864 227.952 9.416 227.92 9.208C227.888 9.416 227.8 9.864 227.656 10.552C227.512 11.24 227.312 12.088 227.056 13.096L225.712 18.52ZM245.31 25V23.032H248.886V9.448H245.31V7.48H254.67V9.448H251.094V23.032H254.67V25H245.31Z" fill="white"/>
+</svg>
+</span><div class="links"><span>Research</span><span>SKY-001</span><span>Team</span><span>Careers</span><span>Contact</span></div><span class="btn">Read the research <span class="a">→</span></span></nav>
+<div class="hero" id="s1"><img src="out/o0.jpg"/><div class="fade"></div>
+  <div class="t"><h1 class="disp">Autonomous Business<br/>for the Post-Monolithic Era</h1>
+  <p>We're enabling the future where an entire business can operate autonomously.</p>
+  <div class="acts"><span class="btn l">Our mission <span class="a">→</span></span><span class="btn">Meet SKY-001 <span class="a">→</span></span></div></div></div>
+<div class="orn"><svg width="1040" height="24" viewBox="0 0 1040 24" xmlns="http://www.w3.org/2000/svg" fill="none"><line x1="0" y1="12" x2="496" y2="12" stroke="#6f6f7a" stroke-width="1"/><line x1="544" y1="12" x2="1040" y2="12" stroke="#6f6f7a" stroke-width="1"/><line x1="0" y1="8.0" x2="0" y2="16.0" stroke="#6f6f7a"/><line x1="1040" y1="8.0" x2="1040" y2="16.0" stroke="#6f6f7a"/><line x1="16" y1="10.0" x2="16" y2="14.0" stroke="#6f6f7a"/><line x1="1024" y1="10.0" x2="1024" y2="14.0" stroke="#6f6f7a"/><line x1="32" y1="10.0" x2="32" y2="14.0" stroke="#6f6f7a"/><line x1="1008" y1="10.0" x2="1008" y2="14.0" stroke="#6f6f7a"/><line x1="48" y1="10.0" x2="48" y2="14.0" stroke="#6f6f7a"/><line x1="992" y1="10.0" x2="992" y2="14.0" stroke="#6f6f7a"/><line x1="64" y1="10.0" x2="64" y2="14.0" stroke="#6f6f7a"/><line x1="976" y1="10.0" x2="976" y2="14.0" stroke="#6f6f7a"/><line x1="80" y1="8.0" x2="80" y2="16.0" stroke="#6f6f7a"/><line x1="960" y1="8.0" x2="960" y2="16.0" stroke="#6f6f7a"/><line x1="96" y1="10.0" x2="96" y2="14.0" stroke="#6f6f7a"/><line x1="944" y1="10.0" x2="944" y2="14.0" stroke="#6f6f7a"/><line x1="112" y1="10.0" x2="112" y2="14.0" stroke="#6f6f7a"/><line x1="928" y1="10.0" x2="928" y2="14.0" stroke="#6f6f7a"/><line x1="128" y1="10.0" x2="128" y2="14.0" stroke="#6f6f7a"/><line x1="912" y1="10.0" x2="912" y2="14.0" stroke="#6f6f7a"/><line x1="144" y1="10.0" x2="144" y2="14.0" stroke="#6f6f7a"/><line x1="896" y1="10.0" x2="896" y2="14.0" stroke="#6f6f7a"/><line x1="160" y1="8.0" x2="160" y2="16.0" stroke="#6f6f7a"/><line x1="880" y1="8.0" x2="880" y2="16.0" stroke="#6f6f7a"/><line x1="176" y1="10.0" x2="176" y2="14.0" stroke="#6f6f7a"/><line x1="864" y1="10.0" x2="864" y2="14.0" stroke="#6f6f7a"/><line x1="192" y1="10.0" x2="192" y2="14.0" stroke="#6f6f7a"/><line x1="848" y1="10.0" x2="848" y2="14.0" stroke="#6f6f7a"/><line x1="208" y1="10.0" x2="208" y2="14.0" stroke="#6f6f7a"/><line x1="832" y1="10.0" x2="832" y2="14.0" stroke="#6f6f7a"/><line x1="224" y1="10.0" x2="224" y2="14.0" stroke="#6f6f7a"/><line x1="816" y1="10.0" x2="816" y2="14.0" stroke="#6f6f7a"/><line x1="240" y1="8.0" x2="240" y2="16.0" stroke="#6f6f7a"/><line x1="800" y1="8.0" x2="800" y2="16.0" stroke="#6f6f7a"/><line x1="256" y1="10.0" x2="256" y2="14.0" stroke="#6f6f7a"/><line x1="784" y1="10.0" x2="784" y2="14.0" stroke="#6f6f7a"/><line x1="272" y1="10.0" x2="272" y2="14.0" stroke="#6f6f7a"/><line x1="768" y1="10.0" x2="768" y2="14.0" stroke="#6f6f7a"/><line x1="288" y1="10.0" x2="288" y2="14.0" stroke="#6f6f7a"/><line x1="752" y1="10.0" x2="752" y2="14.0" stroke="#6f6f7a"/><line x1="304" y1="10.0" x2="304" y2="14.0" stroke="#6f6f7a"/><line x1="736" y1="10.0" x2="736" y2="14.0" stroke="#6f6f7a"/><line x1="320" y1="8.0" x2="320" y2="16.0" stroke="#6f6f7a"/><line x1="720" y1="8.0" x2="720" y2="16.0" stroke="#6f6f7a"/><line x1="336" y1="10.0" x2="336" y2="14.0" stroke="#6f6f7a"/><line x1="704" y1="10.0" x2="704" y2="14.0" stroke="#6f6f7a"/><line x1="352" y1="10.0" x2="352" y2="14.0" stroke="#6f6f7a"/><line x1="688" y1="10.0" x2="688" y2="14.0" stroke="#6f6f7a"/><line x1="368" y1="10.0" x2="368" y2="14.0" stroke="#6f6f7a"/><line x1="672" y1="10.0" x2="672" y2="14.0" stroke="#6f6f7a"/><line x1="384" y1="10.0" x2="384" y2="14.0" stroke="#6f6f7a"/><line x1="656" y1="10.0" x2="656" y2="14.0" stroke="#6f6f7a"/><line x1="400" y1="8.0" x2="400" y2="16.0" stroke="#6f6f7a"/><line x1="640" y1="8.0" x2="640" y2="16.0" stroke="#6f6f7a"/><line x1="416" y1="10.0" x2="416" y2="14.0" stroke="#6f6f7a"/><line x1="624" y1="10.0" x2="624" y2="14.0" stroke="#6f6f7a"/><line x1="432" y1="10.0" x2="432" y2="14.0" stroke="#6f6f7a"/><line x1="608" y1="10.0" x2="608" y2="14.0" stroke="#6f6f7a"/><line x1="448" y1="10.0" x2="448" y2="14.0" stroke="#6f6f7a"/><line x1="592" y1="10.0" x2="592" y2="14.0" stroke="#6f6f7a"/><line x1="464" y1="10.0" x2="464" y2="14.0" stroke="#6f6f7a"/><line x1="576" y1="10.0" x2="576" y2="14.0" stroke="#6f6f7a"/><line x1="480" y1="8.0" x2="480" y2="16.0" stroke="#6f6f7a"/><line x1="560" y1="8.0" x2="560" y2="16.0" stroke="#6f6f7a"/><line x1="496" y1="10.0" x2="496" y2="14.0" stroke="#6f6f7a"/><line x1="544" y1="10.0" x2="544" y2="14.0" stroke="#6f6f7a"/><circle cx="520" cy="12" r="9" stroke="#a3a3ad"/><line x1="504" y1="12" x2="536" y2="12" stroke="#a3a3ad"/><line x1="520" y1="0" x2="520" y2="24" stroke="#a3a3ad"/><rect x="517" y="9" width="6" height="6" fill="#3E57DA"/></svg></div>
+<div class="pill"><span><b>SKY-001</b><i>The first world model for the engineered world →</i></span></div>
+<section id="s2" style="padding-top:72px"><div class="ctr"><div class="cap">Our mission</div><h2 class="disp" style="margin-top:20px;font-size:48px;max-width:860px">Our mission is to build the foundation infrastructure for autonomous enterprise through Engineering World Models.</h2></div></section>
+<section id="s3"><div class="ctr"><h2 class="disp">Enterprise work is long horizon, constrained and always evolving.</h2>
+  <p class="sub">A single decision ripples through thousands of downstreams steps from design, engineering, finance, operations, customer service and sales.</p></div>
+  <div class="big"><img src="out/o2.jpg"/></div>
+  <div class="two"><p>Autoregressive next-token prediction has been astonishingly successful for language. But an enterprise is a living system of parts, processes and decisions that is only partly observable and constantly changing, and next-token prediction does not transfer well here.</p>
+  <p>Much of what a business knows is however never written down. Large language models are pretrained on internet corpora and depend on in-context conditions which cannot keep pace with a rapidly changing business, and burn vast numbers of tokens per decision.</p></div>
+  <div class="figs"><div class="fig"><div class="cap" style="margin-bottom:22px">Fig. 01 · Tokens per decision</div><svg viewBox="0 0 460 190" width="100%" font-family="Geist" xmlns="http://www.w3.org/2000/svg"><text x="0" y="28" font-size="13" fill="#f3f3f4">Engineering World Model</text><rect x="170" y="10" width="17" height="26" fill="#3E57DA"/><text x="0" y="72" font-size="13" fill="#a3a3ad">LLM, short context</text><rect x="170" y="54" width="106" height="26" fill="#3c3c46"/><text x="0" y="116" font-size="13" fill="#a3a3ad">LLM, long context</text><rect x="170" y="98" width="207" height="26" fill="#4d4d58"/><text x="0" y="160" font-size="13" fill="#a3a3ad">LLM agent loop</text><rect x="170" y="142" width="280" height="26" fill="#62626e"/></svg><div class="fc">Tokens burned per enterprise decision. Illustrative, not measured.</div></div>
+  <div class="fig"><div class="cap" style="margin-bottom:8px">Fig. 02 · A new Pareto frontier</div><svg viewBox="0 0 460 210" width="100%" font-family="Geist" xmlns="http://www.w3.org/2000/svg"><line x1="40" y1="20" x2="450" y2="20" stroke="rgba(255,255,255,.07)"/><line x1="40" y1="72" x2="450" y2="72" stroke="rgba(255,255,255,.07)"/><line x1="40" y1="124" x2="450" y2="124" stroke="rgba(255,255,255,.07)"/><line x1="40" y1="176" x2="450" y2="176" stroke="rgba(255,255,255,.07)"/><line x1="40" y1="176" x2="450" y2="176" stroke="#6f6f7a"/><text x="450" y="200" font-size="12" fill="#6f6f7a" text-anchor="end">Cost per decision →</text><text x="40" y="12" font-size="12" fill="#6f6f7a">Quality ↑</text><path d="M90 166 C 170 140, 270 80, 430 62" fill="none" stroke="#4d4d58" stroke-width="2" stroke-dasharray="5 5"/><rect x="125" y="147" width="10" height="10" fill="#4d4d58"/><text x="140" y="172" font-size="12" fill="#a3a3ad">Human teams</text><rect x="235" y="99" width="10" height="10" fill="#4d4d58"/><text x="250" y="124" font-size="12" fill="#a3a3ad">LLM agents</text><rect x="375" y="63" width="10" height="10" fill="#4d4d58"/><text x="390" y="88" font-size="12" fill="#a3a3ad">Frontier LLMs</text><path d="M46 120 C 66 60, 120 34, 250 26" fill="none" stroke="#3E57DA" stroke-width="3"/><rect x="72" y="58" width="12" height="12" fill="#3E57DA"/><text x="92" y="52" font-size="13" font-weight="500" fill="#f3f3f4">Engineering World Models</text></svg><div class="fc">Cost, speed, and quality no longer have to be traded against each other. Illustrative, not benchmark data.</div></div></div>
+</section>
+<section id="s4"><div class="ctr"><div class="cap">Research</div><h2 class="disp" style="margin-top:20px">AI for the Engineered World</h2>
+  <p class="sub">Skyfall AI is developing Engineering World Models that learns the latent space of an enterprise across core functions: sales, design, engineering, customer support, finance and operations.</p></div>
+  <div class="big"><img src="out/o7.jpg"/></div>
+  <div class="grid4">
+    <div class="c4"><div class="tx"><h3>Learn</h3><p>The latent space of an enterprise across every core function.</p></div><img src="out/o3.jpg"/></div>
+    <div class="c4"><div class="tx"><h3>Simulate</h3><p>Cause-and-effect relationships between functions.</p></div><img src="out/o4.jpg"/></div>
+    <div class="c4"><div class="tx"><h3>Plan</h3><p>Over long horizons, to accomplish highly complex tasks.</p></div><img src="out/o5.jpg"/></div>
+    <div class="c4"><div class="tx"><h3>Guard</h3><p>Every plan stays subject to safety guardrails.</p></div><img src="out/o6.jpg"/></div>
+  </div>
+  <div class="ctr" style="margin-top:96px"><h2 class="disp" style="font-size:44px">Built for the engineered world</h2>
+  <p class="sub">Skyfall AI will advance AI research and develop AI systems for the engineered world where long horizon planning, adaptability, and reliability really matter, especially for the industrial, healthcare, chemical, enterprise sectors and beyond.</p></div>
+  <div class="tags"><span>Industrial</span><span>Healthcare</span><span>Chemical</span><span>Enterprise</span><span>Design</span><span>Engineering</span><span>Operations</span><span>And beyond</span></div>
+</section>
+<div class="dream" id="s5"><img class="rk" src="out/o1.jpg" style="left:0"/><img class="rk" src="out/o1f.jpg" style="right:0"/>
+  <div class="t"><h2 class="disp">With world models, AI systems can ‘dream’ <span>what a successful business requires, and then execute it.</span></h2>
+  <p>We are building the foundation infrastructure for the software that powers enterprises.</p></div></div>
+<section id="s6" style="padding-top:96px"><div class="ctr"><h2 class="disp" style="font-size:48px">Research and models</h2></div>
+  <div class="models">
+    <div class="m"><img src="out/o8.jpg"/><div class="sh"></div><div class="tx"><div class="cap">World model</div><h3>SKY-001</h3><p>The first world model for the engineered world. From a prompt to parts, 3D CAD, BIM floor plans and buildings.</p></div><div class="acts"><span class="btn l">Learn more <span class="a">→</span></span><span class="btn">Technical report <span class="a">→</span></span></div></div>
+    <div class="m"><img src="out/o9.jpg"/><div class="sh"></div><div class="tx"><div class="cap">Research</div><h3>Engineering World Models</h3><p>Why next-token prediction does not transfer to the enterprise, and what does.</p></div><div class="acts"><span class="btn l">Read the essay <span class="a">→</span></span></div></div>
+    <div class="m"><img src="out/o10.jpg"/><div class="sh"></div><div class="tx"><div class="cap">Research</div><h3>A new Pareto frontier</h3><p>Exploring far more of the solution space than any human team or language model can.</p></div><div class="acts"><span class="btn l">Learn more <span class="a">→</span></span></div></div>
+    <div class="m"><img src="out/o11.jpg"/><div class="sh"></div><div class="tx"><div class="cap">Company</div><h3>From Maluuba to Skyfall AI</h3><p>A world class AI Research team of 25 across three countries.</p></div><div class="acts"><span class="btn l">Meet the team <span class="a">→</span></span></div></div>
+  </div></section>
+<section id="s7"><div class="ctr"><div class="cap">Founding team</div><h2 class="disp" style="margin-top:20px;font-size:48px">Founded by early pioneers of deep learning</h2>
+  <p class="sub" style="max-width:820px">Founded by Maluuba co-founders Sam Pasupalak and Kaheer Suleman, together with Sumit Pasupalak, Skyfall AI is building AI that understands the physical world. Sam and Kaheer were early pioneers of deep learning. They built Maluuba with advisors Yoshua Bengio and Richard Sutton, and Microsoft acquired it and turned it into its research lab in Canada. Sumit previously co-founded Ubiq, a Y Combinator company.</p></div>
+  <div class="team">
+    <div class="p"><img src="file:///mnt/project-files/brand/team-portraits/final/sam.jpg"/><div class="tx"><h3>Sam Pasupalak</h3><p>Co-founder · co-founded Maluuba</p></div></div>
+    <div class="p"><img src="file:///mnt/project-files/brand/team-portraits/final/kaheer.jpg"/><div class="tx"><h3>Kaheer Suleman</h3><p>Co-founder · co-founded Maluuba</p></div></div>
+    <div class="p"><img src="file:///mnt/project-files/brand/team-portraits/final/sumit.jpg"/><div class="tx"><h3>Sumit Pasupalak</h3><p>Co-founder · co-founded Ubiq (YC)</p></div></div>
+  </div>
+  <div class="stats"><div><b>30+</b><span>years of combined experience across business, product, and AI research</span></div><div><b>25</b><span>engineers and researchers in a world class AI Research team</span></div><div><b>3</b><span>countries, and now shaping the next era of AI</span></div></div>
+</section>
+<section id="s8"><p class="lbl">Our teams bring experience from</p>
+  <div class="marks" style="grid-template-columns:repeat(6,1fr)"><span>Maluuba</span><span>Microsoft</span><span>Waterloo</span><span>Y Combinator</span><span>MILA</span><span>Vector</span></div>
+  <p class="lbl" style="margin-top:72px">We're backed by</p>
+  <div class="marks" style="grid-template-columns:repeat(4,1fr)"><span>Fidelity</span><span>Touring Capital</span><span>M13</span><span>Inovia Capital</span></div>
+  <div class="adv"><div><h3>François Chollet</h3><span>Advisor · Google · Keras · NDEA</span></div><div><h3>Naveen Rao</h3><span>Advisor · Intel · Databricks</span></div></div>
+</section>
+<div class="cta" id="s9"><img src="out/o12.jpg"/><div class="sh"></div>
+  <div class="t"><h2 class="disp">Build the autonomous enterprise</h2><p>Join a world class AI Research team across three countries.</p>
+  <div class="acts"><span class="btn l">Contact us <span class="a">→</span></span><span class="btn">See open roles <span class="a">→</span></span></div></div></div>
+<footer><div><span class="logo" style="display:block;width:170px;height:21px;margin:0"><svg width="100%" height="100%" preserveAspectRatio="xMinYMid meet" viewBox="0 0 258 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:c2pa="http://c2pa.org/manifest">
+<path d="M37.1894 11.2425C37.0781 11.6877 36.6781 12 36.2192 12H20.5308C20.0719 12 19.6719 12.3123 19.5606 12.7575L18.1894 18.2425C18.0781 18.6877 17.6781 19 17.2192 19H1.28078C0.630206 19 0.152847 18.3886 0.310634 17.7575L1.81063 11.7575C1.92193 11.3123 2.32191 11 2.78078 11H18.4692C18.9281 11 19.3281 10.6877 19.4394 10.2425L20.8106 4.75746C20.9219 4.3123 21.3219 4 21.7808 4H37.7192C38.3698 4 38.8472 4.61139 38.6894 5.24254L37.1894 11.2425Z" fill="white"/>
+<path d="M36.9091 21.2425C36.7978 21.6877 36.3978 22 35.9389 22H20.2505C19.7916 22 19.3917 22.3123 19.2804 22.7575L17.9091 28.2425C17.7978 28.6877 17.3978 29 16.9389 29H1.0005C0.349933 29 -0.127426 28.3886 0.0303605 27.7575L1.53036 21.7575C1.64165 21.3123 2.04164 21 2.5005 21H18.1889C18.6478 21 19.0478 20.6877 19.1591 20.2425L20.5304 14.7575C20.6417 14.3123 21.0416 14 21.5005 14H37.4389C38.0895 14 38.5669 14.6114 38.4091 15.2425L36.9091 21.2425Z" fill="white"/>
+<path d="M65.0157 25.24C63.8637 25.24 62.8717 25.048 62.0397 24.664C61.2237 24.28 60.5917 23.728 60.1437 23.008C59.6957 22.288 59.4637 21.432 59.4477 20.44H61.6077C61.6077 21.32 61.9037 22.016 62.4957 22.528C63.1037 23.04 63.9437 23.296 65.0157 23.296C66.0237 23.296 66.8077 23.048 67.3677 22.552C67.9437 22.056 68.2317 21.368 68.2317 20.488C68.2317 19.784 68.0397 19.168 67.6557 18.64C67.2877 18.112 66.7517 17.744 66.0477 17.536L63.6717 16.792C62.4717 16.424 61.5437 15.808 60.8877 14.944C60.2477 14.08 59.9277 13.064 59.9277 11.896C59.9277 10.952 60.1357 10.136 60.5517 9.448C60.9837 8.744 61.5837 8.2 62.3517 7.816C63.1197 7.416 64.0237 7.216 65.0637 7.216C66.5997 7.216 67.8317 7.648 68.7597 8.512C69.6877 9.36 70.1597 10.496 70.1757 11.92H68.0157C68.0157 11.056 67.7517 10.384 67.2237 9.904C66.7117 9.408 65.9837 9.16 65.0397 9.16C64.1117 9.16 63.3837 9.384 62.8557 9.832C62.3437 10.28 62.0877 10.904 62.0877 11.704C62.0877 12.424 62.2797 13.048 62.6637 13.576C63.0477 14.104 63.5997 14.48 64.3197 14.704L66.7197 15.472C67.8877 15.84 68.7917 16.464 69.4317 17.344C70.0717 18.224 70.3917 19.256 70.3917 20.44C70.3917 21.4 70.1677 22.24 69.7197 22.96C69.2717 23.68 68.6397 24.24 67.8237 24.64C67.0237 25.04 66.0877 25.24 65.0157 25.24ZM81.9984 25V7.48H84.1584V14.992H86.7504L90.6384 7.48H92.9904L88.6464 15.904L93.2304 25H90.7584L86.6784 16.888H84.1584V25H81.9984ZM107.981 25V18.448L102.701 7.48H104.933L108.413 14.68C108.605 15.08 108.757 15.424 108.869 15.712C108.981 15.984 109.053 16.184 109.085 16.312C109.117 16.184 109.189 15.984 109.301 15.712C109.429 15.424 109.589 15.08 109.781 14.68L113.189 7.48H115.421L110.141 18.448V25H107.981ZM126.212 25V7.456H136.532V9.424H128.324V15.256H135.908V17.224H128.372V25H126.212ZM147.202 25L151.762 7.48H154.666L159.202 25H157.018L155.866 20.344H150.562L149.41 25H147.202ZM150.994 18.52H155.41L154.066 13.12C153.81 12.096 153.61 11.24 153.466 10.552C153.322 9.864 153.234 9.416 153.202 9.208C153.17 9.416 153.082 9.864 152.938 10.552C152.794 11.24 152.594 12.088 152.338 13.096L150.994 18.52ZM170.833 25V7.48H172.993V23.032H180.913V25H170.833ZM192.903 25V7.48H195.063V23.032H202.983V25H192.903Z" fill="white"/>
+<path d="M221.92 25L226.48 7.48H229.384L233.92 25H231.736L230.584 20.344H225.28L224.128 25H221.92ZM225.712 18.52H230.128L228.784 13.12C228.528 12.096 228.328 11.24 228.184 10.552C228.04 9.864 227.952 9.416 227.92 9.208C227.888 9.416 227.8 9.864 227.656 10.552C227.512 11.24 227.312 12.088 227.056 13.096L225.712 18.52ZM245.31 25V23.032H248.886V9.448H245.31V7.48H254.67V9.448H251.094V23.032H254.67V25H245.31Z" fill="white"/>
+</svg>
+</span><span style="margin-top:20px">Engineering World Models for the autonomous enterprise.</span></div>
+  <div><div class="h">Company</div><span>About</span><span>Team</span><span>Contact</span></div>
+  <div><div class="h">Research</div><span>SKY-001</span><span>Technical report</span><span>Essays</span></div>
+  <div><div class="h">Information</div><span>Careers</span><span>Privacy Policy</span><span>Terms of Service</span></div></footer>
+<div class="copy"><span>© 2026 SKYFALL AI. ALL RIGHTS RESERVED.</span><span>X · LinkedIn</span></div>
+</div></div></body></html>
