@@ -232,12 +232,10 @@ def page():
     <img src="{img('a3.jpg')}" style="width:{COL*4}px;height:640px"/>
     <div class="txt" style="border-left:1px solid {LINE}">
       <p style="margin-top:0">Autoregressive next-token prediction has been astonishingly successful for language. But an enterprise is a living system of parts, processes and decisions that is only partly observable and constantly changing, and next-token prediction does not transfer well here.</p>
-      <p>Much of what a business knows is however never written down. Large language models are pretrained on internet corpora and depend on in-context conditions which cannot keep pace with a rapidly changing business, and burn vast numbers of tokens per decision.</p></div>
+      <p>Much of what a business knows is however never written down. Large language models are pretrained on internet corpora and depend on in-context conditions which cannot keep pace with a rapidly changing business, and burn vast numbers of tokens per decision.</p>
+      <p>By exploring far more of the solution space than any human team or language model can, they push enterprises onto a new Pareto frontier, where cost, speed, and quality no longer have to be traded against each other.</p></div>
   </div>
-  <div class="split" style="border-top:1px solid {LINE}">
-    <div class="chart"><div class="mono" style="margin-bottom:24px">Fig. 01 · Tokens per decision</div>{tokens_chart()}<div class="cap">Tokens burned per enterprise decision. Illustrative, not measured.</div></div>
-    <div class="chart" style="border-left:1px solid {LINE}"><div class="mono" style="margin-bottom:8px">Fig. 02 · A new Pareto frontier</div>{pareto()}<div class="cap">By exploring far more of the solution space than any human team or language model can, they push enterprises onto a new Pareto frontier, where cost, speed, and quality no longer have to be traded against each other. Illustrative, not benchmark data.</div></div>
-  </div></div>
+</div>
 <div class="row" id="s8"><div class="sect-h"><h2>Built for the engineered world.</h2>
   <p>Skyfall AI will advance AI research and develop AI systems for the engineered world where long horizon planning, adaptability, and reliability really matter, especially for the industrial, healthcare, chemical, enterprise sectors and beyond.</p></div>
   <div class="sectors" style="border-top:1px solid {LINE}">
