@@ -336,7 +336,7 @@ const SRC = {"0": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBA
 const RAMP = " .,:;-~=+*!?/|()[]{}1tfjrxnuvczXYUJCLQ0OZmwqpdbkhao#MW&8%B@$";
 const N = RAMP.length - 1;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const S = {cellScale: 1, text: 1, tile: 0.8};
+const S = {cellScale: 0.75, text: 2, tile: 2};  // cell 6, text 200, tile 200
 const page = document.querySelector('.f');
 function fit(){ const z = Math.min(1, document.documentElement.clientWidth / 1440); page.style.setProperty('--z', z); }
 fit(); addEventListener('resize', () => { fit(); items.forEach(sizeOf); });
@@ -403,8 +403,8 @@ function draw(it, now){
       if (L < 0.04 || S.text <= 0) continue;
       const jit = (hash(x, y, reduce ? 0 : ft + (near > 0 ? Math.floor(t * 20) : 0)) - 0.5) * (near > 0 ? 18 : 3);
       const gi = Math.max(1, Math.min(N, Math.round(L * N + jit)));
-      const b = 1.45, lift = 0.3 * L + near * 0.5;
-      ctx.fillStyle = `rgba(${Math.min(255, (rr * b + lift) * 255) | 0},${Math.min(255, (gg * b + lift) * 255) | 0},${Math.min(255, (bb * b + lift + near * 0.4) * 255) | 0},${S.text})`;
+      const b = 1.45 * (1 + Math.max(0, S.text - 1) * .5), lift = 0.3 * L + near * 0.5;
+      ctx.fillStyle = `rgba(${Math.min(255, (rr * b + lift) * 255) | 0},${Math.min(255, (gg * b + lift) * 255) | 0},${Math.min(255, (bb * b + lift + near * 0.4) * 255) | 0},${Math.min(1, S.text)})`;
       ctx.fillText(RAMP[gi], x * cell + cell * 0.12, y * cell);
     }
   }
@@ -428,8 +428,8 @@ const bind = (id, out, fn) => $(id) && $(id).addEventListener('input', e => { $(
 bind('cellsize', 'cellv', v => S.cellScale = v / 8);
 bind('textop', 'textv', v => S.text = v / 100);
 bind('tileop', 'tilev', v => S.tile = v / 100);
-if ($('ascclose')) $('ascclose').onclick = () => { $('ascset').hidden = true; $('ascopen').hidden = false; };
-if ($('ascopen')) $('ascopen').onclick = () => { $('ascset').hidden = false; $('ascopen').hidden = true; };
+if ($('ascclose')) if ($('ascclose')) $('ascclose').onclick = () => { $('ascset').hidden = true; $('ascopen').hidden = false; };
+if ($('ascopen')) if ($('ascopen')) $('ascopen').onclick = () => { $('ascset').hidden = false; $('ascopen').hidden = true; };
 })();
 </script>
 <script>

@@ -75,17 +75,17 @@ panel = '''<div class="ascset" id="ascset"><div><span>ASCII SETTINGS</span><butt
 <label for="textop"><span>Text opacity</span><input id="textop" type="range" min="0" max="100" value="100"><b id="textv">100</b></label>
 <label for="tileop"><span>Tile opacity</span><input id="tileop" type="range" min="0" max="100" value="80"><b id="tilev">80</b></label>
 <div class="hint">Move the pointer over any image.</div></div>'''
-html = html.replace(old_panel, panel)
+html = html.replace(old_panel, '')  # settings panel removed (Ankit, 14:02); defaults baked in below
 
 JS = r'''
-<button class="reopen" id="ascopen" hidden>ASCII SETTINGS</button>
+
 <script>
 (() => {
 const SRC = __SRC__;
 const RAMP = " .,:;-~=+*!?/|()[]{}1tfjrxnuvczXYUJCLQ0OZmwqpdbkhao#MW&8%B@$";
 const N = RAMP.length - 1;
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const S = {cellScale: 1, text: 1, tile: 0.8};
+const S = {cellScale: 0.75, text: 2, tile: 2};  // cell 6, text 200, tile 200
 const page = document.querySelector('.f');
 function fit(){ const z = Math.min(1, document.documentElement.clientWidth / 1440); page.style.setProperty('--z', z); }
 fit(); addEventListener('resize', () => { fit(); items.forEach(sizeOf); });
@@ -152,8 +152,8 @@ function draw(it, now){
       if (L < 0.04 || S.text <= 0) continue;
       const jit = (hash(x, y, reduce ? 0 : ft + (near > 0 ? Math.floor(t * 20) : 0)) - 0.5) * (near > 0 ? 18 : 3);
       const gi = Math.max(1, Math.min(N, Math.round(L * N + jit)));
-      const b = 1.45, lift = 0.3 * L + near * 0.5;
-      ctx.fillStyle = `rgba(${Math.min(255, (rr * b + lift) * 255) | 0},${Math.min(255, (gg * b + lift) * 255) | 0},${Math.min(255, (bb * b + lift + near * 0.4) * 255) | 0},${S.text})`;
+      const b = 1.45 * (1 + Math.max(0, S.text - 1) * .5), lift = 0.3 * L + near * 0.5;
+      ctx.fillStyle = `rgba(${Math.min(255, (rr * b + lift) * 255) | 0},${Math.min(255, (gg * b + lift) * 255) | 0},${Math.min(255, (bb * b + lift + near * 0.4) * 255) | 0},${Math.min(1, S.text)})`;
       ctx.fillText(RAMP[gi], x * cell + cell * 0.12, y * cell);
     }
   }
@@ -173,12 +173,12 @@ document.fonts.load('10px "Geist Mono"').finally(() => {
 
 // settings panel
 const $ = id => document.getElementById(id);
-const bind = (id, out, fn) => $(id).addEventListener('input', e => { $(out).textContent = e.target.value; fn(+e.target.value); if (reduce) items.forEach(it => draw(it, performance.now())); });
+const bind = (id, out, fn) => $(id) && $(id).addEventListener('input', e => { $(out).textContent = e.target.value; fn(+e.target.value); if (reduce) items.forEach(it => draw(it, performance.now())); });
 bind('cellsize', 'cellv', v => S.cellScale = v / 8);
 bind('textop', 'textv', v => S.text = v / 100);
 bind('tileop', 'tilev', v => S.tile = v / 100);
-$('ascclose').onclick = () => { $('ascset').hidden = true; $('ascopen').hidden = false; };
-$('ascopen').onclick = () => { $('ascset').hidden = false; $('ascopen').hidden = true; };
+if ($('ascclose')) $('ascclose').onclick = () => { $('ascset').hidden = true; $('ascopen').hidden = false; };
+if ($('ascopen')) $('ascopen').onclick = () => { $('ascset').hidden = false; $('ascopen').hidden = true; };
 })();
 </script>'''.replace('__SRC__', __import__('json').dumps(SRC))
 
