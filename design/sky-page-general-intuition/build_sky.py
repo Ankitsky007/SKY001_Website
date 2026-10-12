@@ -179,12 +179,7 @@ def page():
     <div><div class="mono">03</div><h3>One Model, Many Domains</h3><p>As a latent world model, SKY-001 learns how physical systems are designed, built and run, in any domain. From engineering to operations, the possibilities are endless.</p></div>
   </div></div>
 <div class="row" id="s5"><div class="sect-h"><h2>Designing a New Pareto Frontier with World Models</h2>
-  <p>We are pushing the boundaries of what's possible in physical design with world modeling not just in one category but two.</p></div>
-  <div class="split" style="border-top:1px solid {LINE}">
-    <div class="chart"><div class="mono" style="margin-bottom:20px">Fig. 01 · 3D CAD benchmark · 20 parts</div>{scatter('3D CAD', CAD, 0, 100, 20, ['Gemini 3.8 Flash', 'Opus 5.5', 'GPT-6 Astra'], CAD_POS)}</div>
-    <div class="chart" style="border-left:1px solid {LINE}"><div class="mono" style="margin-bottom:20px">Fig. 02 · BIM benchmark · 20 parts</div>{scatter('BIM', BIM, 20, 50, 5, ['Qwen 3.8 Max', 'Gemini 3.8 Flash'], BIM_POS)}</div>
-  </div>
-  <div class="cap" style="padding:0 24px 28px;margin-top:0;border-top:1px solid {LINE};padding-top:16px">Dashed line: best LLM trade-off. Blue line: SKY-001 at frontier accuracy for a fraction of the cost. Values read from the content doc's charts; final benchmark data to replace them.</div></div>
+  <p>We are pushing the boundaries of what's possible in physical design with world modeling not just in one category but two.</p></div></div>
 <div class="row" id="s6"><div class="sect-h"><div><div class="mono" style="margin-bottom:20px">Defining Moment in History</div><h2>Frontier Accuracy at 1/150th the cost of LLMs</h2></div>
   <p>Our world model beats GPT-6 Astra because LLMs are autoregressive in nature and not designed for visual reasoning. Our approach is undoubtedly the best path for scale compared to LLMs and a game changer for the AI industry.</p></div>
   <div class="stats4" style="border-top:1px solid {LINE}">
@@ -193,10 +188,7 @@ def page():
     <div><div class="mono">BIM</div><b>50<small>×</small></b><span>cheaper than GPT-6 Astra</span></div>
     <div><div class="mono">BIM</div><b>32<small>×</small></b><span>faster, ≈5 s against ≈160 s</span></div>
   </div>
-  <div class="split" style="border-top:1px solid {LINE}">
-    <div class="chart"><div class="mono" style="margin-bottom:24px">Fig. 03 · Time per part</div>{bars('Time', 'Seconds per part', [('3D CAD', 'SKY-001', 4, True), ('', 'GPT-6 Astra', 200, False), ('BIM', 'SKY-001', 5, True), ('', 'GPT-6 Astra', 160, False)], 200, 50, lambda v: f'≈{v:g} s')}</div>
-    <div class="chart" style="border-left:1px solid {LINE}"><div class="mono" style="margin-bottom:24px">Fig. 04 · Accuracy at that speed</div>{bars('Accuracy', 'Accuracy (IoU, %)', [('3D CAD', 'SKY-001', 79.7, True), ('', 'GPT-6 Astra', 79, False), ('BIM', 'SKY-001', 43.6, True), ('', 'GPT-6 Astra', 40.5, False)], 100, 20, lambda v: f'{v:g}%')}</div>
-  </div></div>
+</div>
 <div class="row" id="s7"><div class="sect-h"><h2>World Models vs. LLMs</h2><p>Source: Skyfall technical blog.</p></div>
   <div class="cells3 race" style="border-top:1px solid {LINE}">{race}</div>
   <div class="links rc" style="border-top:1px solid {LINE};grid-template-columns:1fr 1fr 1fr 2fr"><div>↺ Restart</div><div>‹ Step</div><div>Step ›</div><div style="justify-content:flex-start;gap:16px"><span class="mono">Time</span><span class="track" style="flex:1"><span style="flex:1;height:2px;background:{LINE};position:relative;display:block"><span class="knob" style="position:absolute;left:calc(2.1% - 6px);top:-5px;width:12px;height:12px;background:#fff"></span></span></span><span class="mono tlab" style="color:#fff">4.2 s</span></div></div></div>

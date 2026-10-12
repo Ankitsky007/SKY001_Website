@@ -257,8 +257,7 @@ def page():
     <div class="tab off"><div class="h"><span class="mono">03</span>Never written down</div><p>Much of what a business knows is however never written down. Large language models are pretrained on internet corpora and depend on in-context conditions which cannot keep pace with a rapidly changing business, and burn vast numbers of tokens per decision.</p></div>
   </div>
   <div class="mc" style="height:620px"><img src="{g('t1.jpg')}"/></div></div>
-  <div class="figs"><div class="fig"><div class="top mono"><span>Fig. 01 · Tokens per decision</span><span>Illustrative</span></div>{tokens_chart()}<div class="fc">Tokens burned per enterprise decision. Illustrative, not measured.</div></div>
-  <div class="fig"><div class="top mono"><span>Fig. 02 · A new Pareto frontier</span><span>Illustrative</span></div>{pareto()}<div class="fc"><span class="lg"><i style="background:#3E57DA"></i>Engineering World Models</span><span class="lg"><i class="dash"></i>Today’s frontier</span><br/>Cost, speed, and quality no longer have to be traded against each other. Illustrative, not benchmark data.</div></div></div>
+  <p class="lead" style="max-width:820px;margin-top:64px">By exploring far more of the solution space than any human team or language model can, they push enterprises onto a new Pareto frontier, where cost, speed, and quality no longer have to be traded against each other.</p>
 </section>
 <section class="sec" id="s4"><div class="hd"><div><div class="mono kick">Research</div><h2>AI for the Engineered World</h2></div>
   <p class="lead">Skyfall AI is developing Engineering World Models that learns the latent space of an enterprise across core functions: sales, design, engineering, customer support, finance and operations.</p></div>

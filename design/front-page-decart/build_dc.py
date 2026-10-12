@@ -279,11 +279,7 @@ def page():
   <p>Autoregressive next-token prediction has been astonishingly successful for language. But an enterprise is a living system of parts, processes and decisions that is only partly observable and constantly changing, and next-token prediction does not transfer well here.</p>
   <p>Much of what a business knows is however never written down. Large language models are pretrained on internet corpora and depend on in-context conditions which cannot keep pace with a rapidly changing business, and burn vast numbers of tokens per decision.</p></div>
   <div>{exploded()}</div></div>
-<div class="tail"><h2 class="lt">from a prompt <span class="g">to everything that is built.</span></h2></div>
-<div class="figs" id="s6">
-  <div class="fig"><div class="tp m"><span>/E.01 Tokens per decision</span><span style="color:{GREY}">Illustrative</span></div>{tokens_chart()}<div class="fc">Tokens burned per enterprise decision. Illustrative, not measured.</div></div>
-  <div class="fig"><div class="tp m"><span>/E.02 A new Pareto frontier</span><span style="color:{GREY}">Illustrative</span></div>{pareto()}<div class="fc"><span class="lg"><i style="background:{BLUE}"></i>Engineering World Models</span><span class="lg"><i class="dash"></i>Today’s frontier</span><br/>By exploring far more of the solution space than any human team or language model can, they push enterprises onto a new Pareto frontier, where cost, speed, and quality no longer have to be traded against each other.</div></div>
-</div>
+<div class="tail"><h2 class="lt">from a prompt <span class="g">to everything that is built.</span></h2><p style="max-width:760px;margin:40px auto 0;font-size:19px;line-height:1.55;color:{GREY}">By exploring far more of the solution space than any human team or language model can, they push enterprises onto a new Pareto frontier, where cost, speed, and quality no longer have to be traded against each other.</p></div>
 <div class="cols" id="s7" style="margin-top:140px"><svg class="slant" width="1312" height="900" viewBox="0 0 1312 900" xmlns="http://www.w3.org/2000/svg"><line x1="690" y1="0" x2="622" y2="900" stroke="{RULE}"/></svg>
   <div class="col"><div class="m">/C.02</div><div class="hd">{glyph('S')}<div class="nm">SKY-001<br/><span>World model</span></div></div>
     <div class="sq"><img src="{g('d9.png')}"/></div>

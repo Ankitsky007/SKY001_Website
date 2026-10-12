@@ -110,7 +110,6 @@ def iso_bars():
     s = bar(70, 205, 280, '#ffffff', 0.04) + bar(70, 160, 40, BL, 1)
     s += f'<text x="70" y="240" font-size="8" letter-spacing="1" fill="{W}0.55)">LLM · TOKENS PER DECISION</text>'
     s += f'<text x="70" y="148" font-size="8" letter-spacing="1" fill="{BL2}">WORLD MODEL</text>'
-    s += f'<text x="392" y="20" font-size="7" letter-spacing="1" fill="{W}0.35)" text-anchor="end">ILLUSTRATIVE</text>'
     return svg(s)
 
 def sphere_svg():
@@ -150,7 +149,6 @@ def pareto_svg():
         s += f'<circle cx="{x}" cy="{y}" r="5" fill="{BL}"/>'
     s += f'<text x="400" y="122" font-size="9" letter-spacing="1" fill="{W}0.6)">HUMAN TEAMS · LLMS</text>'
     s += f'<text x="206" y="66" font-size="9" letter-spacing="1" fill="{BL2}">ENGINEERING WORLD MODELS</text>'
-    s += f'<text x="560" y="14" font-size="8" letter-spacing="1" fill="{W}0.35)" text-anchor="end">ILLUSTRATIVE</text>'
     return svg(s, '0 0 580 240')
 
 HERO_RIPPLE = svg(ripple_svg(310, 300, 1.3), '0 0 620 600')
@@ -332,8 +330,7 @@ def page(bp):
         <div class="vis"><img src="{IMG['slab']}"/><div class="svg">{sphere_svg()}</div><span class="tag">Latent space of an enterprise</span></div>
       </div>
       <div class="row3">
-        <div class="card chart"><div class="mono">A new Pareto frontier</div><div class="svg">{pareto_svg()}</div></div>
-        <div class="card csq">
+        <div class="card csq" style="grid-column:1/-1">
           <p style="font-size:17px;color:{W}.8)">By exploring far more of the solution space than any human team or language model can, they push enterprises onto a new Pareto frontier, where cost, speed, and quality no longer have to be traded against each other.</p>
           <div style="margin-top:auto;padding-top:28px"><div class="k"><span>Cost</span><b>↓</b></div><div class="k"><span>Speed</span><b>↑</b></div><div class="k"><span>Quality</span><b>↑</b></div></div>
         </div>

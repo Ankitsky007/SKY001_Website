@@ -177,8 +177,7 @@ def page():
   <div class="big"><img src="{g('o2.jpg')}"/></div>
   <div class="two"><p>Autoregressive next-token prediction has been astonishingly successful for language. But an enterprise is a living system of parts, processes and decisions that is only partly observable and constantly changing, and next-token prediction does not transfer well here.</p>
   <p>Much of what a business knows is however never written down. Large language models are pretrained on internet corpora and depend on in-context conditions which cannot keep pace with a rapidly changing business, and burn vast numbers of tokens per decision.</p></div>
-  <div class="figs"><div class="fig"><div class="cap" style="margin-bottom:22px">Fig. 01 · Tokens per decision</div>{tokens_chart()}<div class="fc">Tokens burned per enterprise decision. Illustrative, not measured.</div></div>
-  <div class="fig"><div class="cap" style="margin-bottom:8px">Fig. 02 · A new Pareto frontier</div>{pareto()}<div class="fc">Cost, speed, and quality no longer have to be traded against each other. Illustrative, not benchmark data.</div></div></div>
+  <div class="ctr"><p class="sub" style="margin-top:72px;max-width:820px">By exploring far more of the solution space than any human team or language model can, they push enterprises onto a new Pareto frontier, where cost, speed, and quality no longer have to be traded against each other.</p></div>
 </section>
 <section id="s4"><div class="ctr"><div class="cap">Research</div><h2 class="disp" style="margin-top:20px">AI for the Engineered World</h2>
   <p class="sub">Skyfall AI is developing Engineering World Models that learns the latent space of an enterprise across core functions: sales, design, engineering, customer support, finance and operations.</p></div>
