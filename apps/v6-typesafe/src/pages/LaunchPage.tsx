@@ -132,7 +132,7 @@ function Results() {
 function Moment() {
   const { moment } = sky001
   return (
-    <Section ground="blue" field={<HalftoneField tone="blue" fade="up" cell={10} />}>
+    <Section ground="blue" field={<HalftoneField tone="blue" cell={10} className="opacity-55 [mask-image:linear-gradient(to_bottom,#000_50%,transparent_70%)]" />}>
       <Display tone="dark" align="left" note={moment.eyebrow}>
         {moment.before}
         {moment.emphasis}
