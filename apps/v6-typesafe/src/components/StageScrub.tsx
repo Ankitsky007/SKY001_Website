@@ -16,7 +16,7 @@ const STAGE_OF: Record<string, number> = { clay: 0, color: 1, explode: 1, explod
 function StageText({ i, active }: { i: number; active: boolean }) {
   const s = STAGES[i]
   return (
-    <li aria-current={active ? 'step' : undefined} className={`border-b border-line px-4 py-3 transition-colors duration-300 last:border-b-0 ${active ? 'bg-paper' : ''}`}>
+    <li aria-current={active ? 'step' : undefined} className={`border px-4 py-4 backdrop-blur-sm transition-colors duration-300 lg:px-5 lg:py-5 ${active ? 'border-ink bg-paper' : 'border-line bg-studio/90'}`}>
       <span className={`${LABEL} flex items-center gap-2 ${active ? 'text-brand' : 'text-faint'}`}>
         <span aria-hidden="true" className={`block size-2 ${active ? 'bg-brand' : 'bg-line'}`} />
         {s.label}
@@ -37,9 +37,9 @@ function StageList({ model }: { model: ModelId }) {
     <div className={`${GUTTER} pb-16`}>
       <div className={WRAP}>
         <ReelVideo model={model} className="aspect-[8/5] w-full" />
-        <ol className="mt-8 grid gap-2 md:grid-cols-2">
+        <ol className="mt-8 grid gap-5 md:grid-cols-2">
           {STAGES.map((s) => (
-            <li key={s.key} className="border border-line bg-paper p-5">
+            <li key={s.key} className="border border-line bg-paper p-5 pb-6">
               <span className={`${LABEL} text-brand`}>{s.label}</span>
               <h3 className={`${H3} mt-1`}>{s.title}</h3>
               <p className={`${BODY} mt-2`}>{s.body}</p>
@@ -60,6 +60,7 @@ function PinnedScrub({ model }: { model: ModelId }) {
   const info = showcase.models.find((m) => m.id === model)!
   const track = useRef<HTMLDivElement>(null)
   const canvas = useRef<HTMLCanvasElement>(null)
+  const list = useRef<HTMLOListElement>(null)
   const [active, setActive] = useState(0)
   const [loaded, setLoaded] = useState(0)
   const [failed, setFailed] = useState(false)
@@ -89,12 +90,23 @@ function PinnedScrub({ model }: { model: ModelId }) {
     ctx.fillStyle = STUDIO
     ctx.fillRect(0, 0, W, H)
     if (!img) return
-    const s = Math.min(W / img.width, H / img.height) * (W < H ? 1.4 : 1.06)
-    ctx.imageSmoothingQuality = 'high'
-    // On wide screens the model sits right of centre so the stage list never covers it.
-    // Tablets put the list at the bottom, so the model moves up instead.
+    // Fit the whole frame into the space the stage list leaves free, so no part of the model ever
+    // plays behind the text: right of the list on wide screens, above it on tablets.
+    const l = list.current?.getBoundingClientRect()
     const wide = rect.width >= 1024
-    ctx.drawImage(img, (W - img.width * s) / 2 + (wide ? W * 0.1 : 0), (H - img.height * s) / 2 - (wide ? 0 : H * 0.16), img.width * s, img.height * s)
+    const pad = 24
+    const free = {
+      left: wide && l ? l.right - rect.left + pad : pad,
+      top: 72,
+      right: rect.width - pad,
+      bottom: !wide && l ? l.top - rect.top - pad : rect.height - 88,
+    }
+    const fw = Math.max(1, free.right - free.left) * dpr
+    const fh = Math.max(1, free.bottom - free.top) * dpr
+    // The frames carry empty margin around the model, so a little overscan still stays clear of the list.
+    const s = Math.min(fw / img.width, fh / img.height) * 1.08
+    ctx.imageSmoothingQuality = 'high'
+    ctx.drawImage(img, free.left * dpr + (fw - img.width * s) / 2, free.top * dpr + (fh - img.height * s) / 2, img.width * s, img.height * s)
   }
 
   useEffect(() => {
@@ -152,8 +164,8 @@ function PinnedScrub({ model }: { model: ModelId }) {
       <div className="sticky top-0 flex h-svh flex-col overflow-hidden pt-16">
         <canvas ref={canvas} role="img" aria-label={`${info.title}: scroll to watch one image become ${info.leaves} parts and a finished assembly`} className="absolute inset-0 size-full" />
         <div className={`${GUTTER} relative flex min-h-0 flex-1 items-center`}>
-          <div className={`${WRAP} flex h-full items-end pb-3 lg:items-center lg:pb-0`}>
-            <ol className="flex w-full max-w-[340px] flex-col border border-line bg-studio/90 backdrop-blur-sm lg:max-w-[380px]">
+          <div className={`${WRAP} flex h-full items-end pb-3 lg:items-start lg:pt-6 lg:pb-0`}>
+            <ol ref={list} className="flex w-full max-w-[340px] flex-col gap-3 lg:max-w-[380px] lg:gap-4">
               {STAGES.map((s, i) => (
                 <StageText key={s.key} i={i} active={i === active} />
               ))}

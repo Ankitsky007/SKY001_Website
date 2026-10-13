@@ -165,7 +165,7 @@ function Moment() {
 function Stages() {
   return (
     <section id="how" aria-labelledby="how-title" className="border-t border-line bg-studio">
-      <div className={`${GUTTER} pt-16 pb-8 md:pt-24 lg:pt-28`}>
+      <div className={`${GUTTER} pt-16 md:pt-24 lg:pt-28`}>
         <div className={WRAP}>
           <Display id="how-title" size="md">
             {sky001.stages.title}
