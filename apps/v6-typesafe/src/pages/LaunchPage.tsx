@@ -15,11 +15,11 @@ import { Footer } from '../components/Footer'
 import { HalftoneField } from '../components/HalftoneField'
 import { Nav } from '../components/Nav'
 import { NewsCard } from '../components/NewsCard'
-import type { PixelIconName } from '../components/PixelIcon'
 import { Reel } from '../components/Reel'
 import { StageScrub } from '../components/StageScrub'
+import { WorldModelDiagram } from '../components/WorldModelDiagram'
 import { media, type ModelId } from '../lib/media'
-import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
+import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const MODELS = showcase.models.map((m) => m.id) as ModelId[]
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
@@ -226,22 +226,13 @@ function Explore() {
   )
 }
 
-const WHY_ICONS: PixelIconName[] = ['simulate', 'chemical', 'learn', 'plan']
-
 function Why() {
-  const { why } = sky001
   return (
     <Section ground="studio">
-      <Display size="md">{why.title}</Display>
-      <ol className="mt-10 grid border-t border-l border-line bg-paper sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
-        {why.items.map((item, i) => (
-          <IconCell key={item.title} icon={WHY_ICONS[i]} className="min-h-52">
-            <span className={`${LABEL} block text-brand`}>[0{i + 1}]</span>
-            <span className={`${H3} mt-1 block`}>{item.title}</span>
-            {item.note && <span className="mt-1 block text-[15px] text-muted">{item.note}</span>}
-          </IconCell>
-        ))}
-      </ol>
+      <Display size="md">{sky001.why.title}</Display>
+      <div className="mt-4 lg:mt-6">
+        <WorldModelDiagram />
+      </div>
     </Section>
   )
 }
