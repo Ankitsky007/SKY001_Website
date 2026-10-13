@@ -5,6 +5,7 @@ import heroPoster from '../assets/media/s-hero.jpg'
 import { Clip } from '../components/Clip'
 import { Footer } from '../components/Footer'
 import { HalftoneField } from '../components/HalftoneField'
+import { HeroBackdrop } from '../components/HeroBackdrop'
 import { LogoRow } from '../components/LogoRow'
 import { Nav } from '../components/Nav'
 import { NewsCard } from '../components/NewsCard'
@@ -23,12 +24,12 @@ const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 function Hero() {
   return (
     <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-28 md:pb-20`}>
-      <HalftoneField tone="light" fade="down" className="h-[300px] md:h-[400px]" />
-      <div className={`relative ${WRAP} flex flex-col items-center text-center`}>
+      <HeroBackdrop />
+      <div className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <NewsCard href={LAUNCH} />
         <p className="mt-12 text-[15px] font-medium tracking-[-0.02em] md:mt-20 md:text-base">{site.tagline}</p>
-        <h1 className={`${H1} mt-6 max-w-[11ch] md:mt-8`}>{hero.title}</h1>
-        <p className={`${COPY} mt-8 max-w-[34ch] text-body`}>{hero.lede}</p>
+        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[11ch] md:mt-8`}>{hero.title}</h1>
+        <p data-grid-avoid className={`${COPY} mt-8 max-w-[34ch] text-body`}>{hero.lede}</p>
         <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
           <BigLink href={route(hero.primaryCta.href)}>{hero.primaryCta.label}</BigLink>
           <TextLink href={hero.secondaryCta.href} className="border-b-0">

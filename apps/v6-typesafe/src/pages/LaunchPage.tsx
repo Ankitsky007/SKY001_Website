@@ -13,6 +13,7 @@ import { Clip } from '../components/Clip'
 import { ExplorerGrid } from '../components/Explorer'
 import { Footer } from '../components/Footer'
 import { HalftoneField } from '../components/HalftoneField'
+import { HeroBackdrop } from '../components/HeroBackdrop'
 import { Nav } from '../components/Nav'
 import { NewsCard } from '../components/NewsCard'
 import { Reel } from '../components/Reel'
@@ -29,16 +30,16 @@ function Hero() {
   const { hero, intro } = sky001
   return (
     <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-28 md:pb-20`}>
-      <HalftoneField tone="light" fade="down" className="h-[300px] md:h-[400px]" />
-      <div className={`relative ${WRAP} flex flex-col items-center text-center`}>
+      <HeroBackdrop />
+      <div className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <NewsCard />
         <p className="mt-12 text-[15px] font-medium tracking-[-0.02em] md:mt-20 md:text-base">
           {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
           {intro.before.replace('SKY-001', 'SKY‑001')}
           {intro.emphasis}
         </p>
-        <h1 className={`${H1} mt-6 max-w-[10ch] md:mt-8`}>{hero.title}</h1>
-        <p className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
+        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[10ch] md:mt-8`}>{hero.title}</h1>
+        <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
         <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
         <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
           <BigLink href={intro.waitlist.cta.href}>{intro.waitlist.cta.label}</BigLink>

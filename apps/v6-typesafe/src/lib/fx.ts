@@ -1,12 +1,15 @@
 import { useSyncExternalStore } from 'react'
 
-/** The WebGL backgrounds on offer. Pick one with `?fx=<id>` or the review picker. */
+/** The backgrounds on offer. Pick one with `?fx=<id>` or the review picker. */
 export const FX = [
   { id: 'dots', label: 'Dots', mode: 0 },
   { id: 'contours', label: 'Contours', mode: 1 },
   { id: 'cells', label: 'Grid cells', mode: 2 },
   { id: 'floor', label: 'Floor grid', mode: 3 },
   { id: 'dither', label: 'Dither cloud', mode: 4 },
+  // Hero-only experiments (DOM and 2D canvas, not WebGL). Other sections keep the contours while one is on.
+  { id: 'warp', label: 'Warp', mode: 1 },
+  { id: 'pulse', label: 'Grid pulse', mode: 1 },
 ] as const
 
 export type FxId = (typeof FX)[number]['id']
