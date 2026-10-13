@@ -5,6 +5,7 @@ import heroPoster from '../assets/media/s-hero.jpg'
 import { Clip } from '../components/Clip'
 import { Footer } from '../components/Footer'
 import { HalftoneField } from '../components/HalftoneField'
+import { LogoRow } from '../components/LogoRow'
 import { Nav } from '../components/Nav'
 import { NewsCard } from '../components/NewsCard'
 import type { PixelIconName } from '../components/PixelIcon'
@@ -237,13 +238,7 @@ function Team() {
         <RuleCol label="[03]">
           <p className="text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base">{team.researchTeam}</p>
         </RuleCol>
-        <ul className="flex flex-wrap content-start gap-1.5">
-          {team.experienceFrom.map((org) => (
-            <li key={org} className="bg-ink px-1.5 py-0.5 font-mono text-[13px] font-medium text-white">
-              {org}
-            </li>
-          ))}
-        </ul>
+        <LogoRow names={team.experienceFrom} />
       </Reveal>
       <div id="careers" className="mt-8">
         <TextLink href={team.careersCta.href}>{team.careersCta.label}</TextLink>
