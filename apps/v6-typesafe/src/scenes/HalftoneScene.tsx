@@ -122,7 +122,8 @@ void main() {
     a = step(bayer4(c), level) * 0.8;
   }
 
-  gl_FragColor = vec4(uDot * a, a);
+  // Straight (not premultiplied) colour: three's normal blending multiplies by alpha itself.
+  gl_FragColor = vec4(uDot, a);
 }
 `
 

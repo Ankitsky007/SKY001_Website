@@ -70,7 +70,7 @@ export function StepCards() {
       {steps.map((step, i) => {
         const on = i < reached
         return (
-          <li key={step.key} className="relative flex flex-col border border-line bg-paper transition-colors duration-300 hover:border-faint lg:h-[460px]">
+          <li key={step.key} className="relative flex flex-col border border-line bg-paper transition-colors duration-300 hover:border-faint lg:min-h-[480px]">
             <button
               type="button"
               aria-pressed={on}
@@ -93,7 +93,7 @@ export function StepCards() {
               <span data-bar className="block h-1.5 bg-brand md:h-2" style={{ width: 0 }} />
               <span className="hidden size-1.5 shrink-0 bg-brand md:size-2" />
             </div>
-            <div className="hidden flex-col justify-between gap-6 p-6 md:flex lg:h-[190px]">
+            <div className="hidden flex-col justify-between gap-6 p-6 md:flex lg:min-h-[236px]">
               <h3 className={`text-[28px] leading-[1.15] font-medium tracking-[-0.05em] transition-colors duration-300 ${on ? 'text-brand' : 'text-faint'}`}>{step.title}</h3>
               <PixelIcon name={ICONS[i]} active={on} className="size-20 self-end" />
             </div>
