@@ -106,7 +106,13 @@ function PinnedScrub({ model }: { model: ModelId }) {
     // The frames carry empty margin around the model, so a little overscan still stays clear of the list.
     const s = Math.min(fw / img.width, fh / img.height) * 1.08
     ctx.imageSmoothingQuality = 'high'
-    ctx.drawImage(img, free.left * dpr + (fw - img.width * s) / 2, free.top * dpr + (fh - img.height * s) / 2, img.width * s, img.height * s)
+    const dw = img.width * s
+    const dh = img.height * s
+    // Wide screens: the model's middle sits level with the middle of the stage list. The model
+    // rides a little low inside its frame (room for the shadow), so the frame is nudged up to match.
+    const middle = wide && l ? l.top - rect.top + l.height / 2 : (free.top + free.bottom) / 2
+    const top = Math.max(56 * dpr, middle * dpr - dh / 2 - (wide ? dh * 0.045 : 0))
+    ctx.drawImage(img, free.left * dpr + (fw - dw) / 2, top, dw, dh)
   }
 
   useEffect(() => {
@@ -173,7 +179,7 @@ function PinnedScrub({ model }: { model: ModelId }) {
           </div>
         </div>
         <div className={`${GUTTER} relative pb-5`}>
-          <div className={`${WRAP} flex items-end justify-between gap-4`}>
+          <div className={`${WRAP} flex items-end justify-between gap-4 lg:justify-end lg:gap-8`}>
             <p className={`${LABEL} text-muted`} aria-live="polite">
               {failed ? 'Frames failed to load. Reload to try again.' : loaded > 0 && loaded < 1 ? `Loading frames · ${Math.round(loaded * 100)}%` : `${info.title} · ${info.leaves} parts · depth ${info.depth}`}
             </p>
