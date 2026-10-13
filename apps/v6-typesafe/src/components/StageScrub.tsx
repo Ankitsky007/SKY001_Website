@@ -140,8 +140,12 @@ function PinnedScrub({ model }: { model: ModelId }) {
         : null
     if (el) io?.observe(el)
     window.addEventListener('resize', draw)
+    // The open stage block grows and shrinks; follow it so the model stays level with the list.
+    const ro = typeof ResizeObserver !== 'undefined' && list.current ? new ResizeObserver(draw) : null
+    if (ro && list.current) ro.observe(list.current)
     return () => {
       io?.disconnect()
+      ro?.disconnect()
       window.removeEventListener('resize', draw)
       seq.dispose()
       st.seq = null
@@ -170,7 +174,7 @@ function PinnedScrub({ model }: { model: ModelId }) {
       <div className="sticky top-0 flex h-svh flex-col overflow-hidden pt-16">
         <canvas ref={canvas} role="img" aria-label={`${info.title}: scroll to watch one image become ${info.leaves} parts and a finished assembly`} className="absolute inset-0 size-full" />
         <div className={`${GUTTER} relative flex min-h-0 flex-1 items-center`}>
-          <div className={`${WRAP} flex h-full items-end pb-3 lg:items-start lg:pt-6 lg:pb-0`}>
+          <div className={`${WRAP} flex h-full items-end pb-3 lg:items-center lg:pb-0`}>
             <ol ref={list} className="flex w-full max-w-[340px] flex-col gap-3 lg:max-w-[380px] lg:gap-4">
               {STAGES.map((s, i) => (
                 <StageText key={s.key} i={i} active={i === active} />

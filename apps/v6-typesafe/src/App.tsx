@@ -1,6 +1,7 @@
 import { VersionSwitcher } from '@skyfall/core'
 import { ScrollTrigger, SmoothScroll, useLenis } from '@skyfall/core/motion'
 import { useEffect } from 'react'
+import { FxPicker } from './components/FxPicker'
 import { FrontPage, LAUNCH } from './pages/FrontPage'
 import { LaunchPage } from './pages/LaunchPage'
 
@@ -56,6 +57,7 @@ function App() {
       <AnchorScroll />
       <TriggerRefresh />
       {launch ? <LaunchPage /> : <FrontPage />}
+      <FxPicker />
       <VersionSwitcher current="v6" />
     </SmoothScroll>
   )

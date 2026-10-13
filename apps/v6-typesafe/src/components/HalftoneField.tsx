@@ -1,5 +1,6 @@
 import { hasWebGL2 } from '../lib/inView'
 import { lazy, Suspense, useState } from 'react'
+import { useFx } from '../lib/fx'
 import { FIELD_CSS, type FieldTone } from '../scenes/halftone'
 
 const HalftoneScene = lazy(() => import('../scenes/HalftoneScene'))
@@ -12,11 +13,12 @@ const MASK = {
 } as const
 
 /**
- * Live halftone field behind a section: a WebGL grid of dots whose size drifts with slow noise and
- * swells under the pointer. Purely decorative. Without WebGL2 (and while the three.js chunk loads)
+ * Live field behind a section: one WebGL shader with several looks (see lib/fx.ts), all drifting
+ * with slow noise and reacting to the pointer. Purely decorative. Without WebGL2 (and while the three.js chunk loads)
  * it is a static CSS dot grid in the same colour; reduced motion renders one still frame.
  */
 export function HalftoneField({ tone = 'light', fade = 'none', cell = 9, className = '' }: { tone?: FieldTone; fade?: keyof typeof FADE; cell?: number; className?: string }) {
+  const fx = useFx()
   const [webgl] = useState(() => typeof document !== 'undefined' && hasWebGL2())
   const still = (
     <div
@@ -34,7 +36,7 @@ export function HalftoneField({ tone = 'light', fade = 'none', cell = 9, classNa
     <div aria-hidden="true" className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
       {webgl ? (
         <Suspense fallback={still}>
-          <HalftoneScene tone={tone} fade={FADE[fade]} cell={cell} fallback={still} className="size-full" />
+          <HalftoneScene key={fx.id} tone={tone} fade={FADE[fade]} cell={cell} mode={fx.mode} fallback={still} className="size-full" />
         </Suspense>
       ) : (
         still
