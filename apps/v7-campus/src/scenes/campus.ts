@@ -19,10 +19,12 @@ export type CampusPalette = {
   blue: string
   /** Accent used for active lines and labels. */
   lift: string
+  /** Strip behind each department's name on the ground. */
+  label: string
 }
 
-export const CAMPUS_LIGHT: CampusPalette = { bg: '#FFFFFF', carbon: '#F1F2F5', panel: '#F8F8FA', rule: '#D9DCE2', ruleHi: '#B7BCC7', paper: '#1A1A1A', muted: '#7A7A7A', blue: '#3E57DA', lift: '#3E57DA' }
-export const CAMPUS_DARK: CampusPalette = { bg: '#07080A', carbon: '#14171C', panel: '#0D0F13', rule: '#262A32', ruleHi: '#3A3F4B', paper: '#ECEDEF', muted: '#8B90A0', blue: '#3E57DA', lift: '#6F83F0' }
+export const CAMPUS_LIGHT: CampusPalette = { bg: '#FFFFFF', carbon: '#F1F2F5', panel: '#F8F8FA', rule: '#D9DCE2', ruleHi: '#B7BCC7', paper: '#1A1A1A', muted: '#7A7A7A', blue: '#3E57DA', lift: '#3E57DA', label: '#E3E5EA' }
+export const CAMPUS_DARK: CampusPalette = { bg: '#07080A', carbon: '#14171C', panel: '#0D0F13', rule: '#262A32', ruleHi: '#3A3F4B', paper: '#ECEDEF', muted: '#8B90A0', blue: '#3E57DA', lift: '#6F83F0', label: '#22262E' }
 
 type DeptKey = keyof typeof campus.departments
 type Pt = [number, number]
@@ -521,6 +523,37 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, onSt
     }
     cv.style.cursor = hover ? 'pointer' : 'default'
     const act = activeKey(T)
+    // department names, painted on the ground in the campus's own perspective: a light grey strip
+    // along the front edge of each tile, in line with its buildings
+    const o0 = P(0, 0, 0)
+    const ex = P(1, 0, 0)
+    const ez = P(0, 0, 1)
+    const U = 100 // local units per world unit, so type can be set at a sane size
+    const drawName = (key: DeptKey) => {
+      const x0 = GEO[key].g[0] * GAP
+      const z0 = GEO[key].g[1] * GAP + 1.04
+      const depth = 0.2
+      const name = up(campus.departments[key].name)
+      const hot = key === act || key === hover
+      poly([P(x0, 0, z0), P(x0 + 1, 0, z0), P(x0 + 1, 0, z0 + depth), P(x0, 0, z0 + depth)], C.label, hot ? C.lift : null, A, 1)
+      const at = P(x0, 0, z0)
+      g.save()
+      g.setTransform((DPR * (ex[0] - o0[0])) / U, (DPR * (ex[1] - o0[1])) / U, (DPR * (ez[0] - o0[0])) / U, (DPR * (ez[1] - o0[1])) / U, DPR * at[0], DPR * at[1])
+      let fs = depth * U * 0.62
+      g.font = `500 ${fs}px ${MONO}`
+      const tw = g.measureText(name).width
+      if (tw > U - 8) {
+        fs *= (U - 8) / tw
+        g.font = `500 ${fs}px ${MONO}`
+      }
+      g.globalAlpha = A
+      g.fillStyle = hot ? C.lift : C.paper
+      g.textAlign = 'center'
+      g.textBaseline = 'middle'
+      g.fillText(name, U / 2, (depth * U) / 2 + 0.5)
+      g.restore()
+      g.textBaseline = 'alphabetic'
+    }
     // tiles and buildings, back to front
     const order = KEYS.slice().sort((a, b) => GEO[a].g[0] + GEO[a].g[1] - (GEO[b].g[0] + GEO[b].g[1]))
     for (const key of order) {
@@ -558,20 +591,8 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, onSt
         }
       }
     }
-    for (const key of order) {
-      const x0 = GEO[key].g[0] * GAP
-      const z0 = GEO[key].g[1] * GAP
-      const name = up(campus.departments[key].name)
-      const lp = P(x0 + 0.5, 0, z0 + 1)
-      const fs = Math.max(8, (narrow ? 8 : 10) * k * Math.min(1.3, V.zoom))
-      g.font = `500 ${fs}px ${MONO}`
-      const tw = g.measureText(name).width
-      g.globalAlpha = A * 0.85
-      g.fillStyle = C.bg
-      g.fillRect(lp[0] - tw / 2 - 4, lp[1] + 5, tw + 8, fs + 5)
-      g.globalAlpha = A
-      label(name, lp[0], lp[1] + fs + 6, fs, key === act || key === hover ? C.lift : C.muted, 'center', 500)
-    }
+    // names go on last, over the buildings: a tall neighbour would otherwise hide half a name
+    for (const key of order) drawName(key)
     // the world model: a turning sphere of points above the campus
     const oc = P(ext[0] / 2, 1.6, ext[1] / 2)
     const imag = (T >= 6 && T < 10.8) || (T >= 28.7 && T < 29.4)
