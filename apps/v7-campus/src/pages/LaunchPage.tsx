@@ -27,8 +27,10 @@ const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 function Hero() {
   const { hero, intro } = sky001
   return (
-    <section id="top" className="flex min-h-[calc(100svh-4rem)] flex-col bg-studio pt-8 pb-10 md:min-h-svh md:pt-24">
-      <div className={`${GUTTER} flex flex-col items-center text-center`}>
+    <section id="top" className="relative flex min-h-[calc(100svh-4rem)] flex-col bg-paper pt-8 pb-10 md:min-h-svh md:pt-24">
+      {/* Top glow, after the "gradient background, top" pattern Ankit pointed to, in logo blue: white from the lower middle out to blue at the top edge. */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ background: 'radial-gradient(125% 125% at 50% 90%, #ffffff 40%, var(--color-brand) 100%)' }} />
+      <div className={`${GUTTER} relative flex flex-col items-center text-center`}>
         <NewsCard />
         <p className="mt-8 text-[15px] font-medium tracking-[-0.02em] md:mt-10 md:text-base">
           {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
@@ -38,7 +40,7 @@ function Hero() {
         <h1 className={`${DISPLAY} mt-4 max-w-[16ch] text-[38px] leading-[0.95] sm:text-[56px] lg:text-[76px] lg:leading-[0.92]`}>{hero.title}</h1>
       </div>
       <TiltedModels className="my-6 min-h-[240px] flex-1 md:my-8 md:min-h-[300px]" />
-      <div className={`${GUTTER} flex flex-col items-center text-center`}>
+      <div className={`${GUTTER} relative flex flex-col items-center text-center`}>
         <p className={`${COPY} max-w-[44ch] text-body`}>{hero.lede}</p>
         <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
