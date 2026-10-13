@@ -1,4 +1,4 @@
-import { benchmarks, showcase, sky001 } from '@skyfall/core'
+import { benchmarks, docCharts, showcase, sky001 } from '@skyfall/core'
 import { Reveal } from '@skyfall/core/motion'
 import extrudeClip from '../assets/media/extrude.mp4'
 import plansClip from '../assets/media/plans.mp4'
@@ -8,7 +8,7 @@ import plansPoster from '../assets/media/s-plans.jpg'
 import restackPoster from '../assets/media/s-restack.jpg'
 import towerPoster from '../assets/media/s-tower.jpg'
 import towerClip from '../assets/media/tower.mp4'
-import { BarWindow, ScatterWindow, type BarRow, type ScatterPoint } from '../components/Charts'
+import { ParetoScatter, VersusLines } from '../components/Charts'
 import { Clip } from '../components/Clip'
 import { ExplorerGrid } from '../components/Explorer'
 import { Footer } from '../components/Footer'
@@ -22,8 +22,6 @@ import { media, type ModelId } from '../lib/media'
 import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const MODELS = showcase.models.map((m) => m.id) as ModelId[]
-const money = (n: number) => `$${n < 0.01 ? n.toFixed(3) : n.toFixed(2)}`
-const secs = (n: number) => `${n.toLocaleString('en-US')} s`
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 
@@ -107,16 +105,10 @@ function Contrarian() {
 }
 
 function Results() {
-  const { cad, bim } = benchmarks
-  const iou: BarRow[] = cad.rows.map((r) => ({ model: r.model, ours: r.ours, value: r.iou, display: r.iou === null ? '—' : `${r.iou.toFixed(1)}%`, sub: `${r.success} success` }))
-  const time: BarRow[] = cad.rows.map((r) => ({ model: r.model, ours: r.ours, value: r.seconds, display: secs(r.seconds) }))
-  const cost: BarRow[] = cad.rows.map((r) => ({ model: r.model, ours: r.ours, value: r.cost, display: money(r.cost) }))
-  const bimTime: BarRow[] = bim.rows.map((r) => ({ model: r.model, ours: r.ours, value: r.seconds, display: secs(r.seconds) }))
-  const points: ScatterPoint[] = cad.rows.flatMap((r) => (r.iou === null ? [] : [{ model: r.model, ours: r.ours, cost: r.cost, iou: r.iou }]))
-
+  const { pareto } = docCharts
   return (
     <Section id="results" ground="studio">
-      <Display size="md" align="left" note={`${cad.title} / ${bim.title}`}>
+      <Display size="md" align="left" note={`${pareto.cad.title} / ${pareto.bim.title}`}>
         {sky001.pareto.title}
       </Display>
       <Reveal>
@@ -124,29 +116,14 @@ function Results() {
           <p className={`${COPY} text-[20px] md:text-[26px]`}>{sky001.pareto.body}</p>
         </RuleCol>
       </Reveal>
-
       <div className="mt-12 grid gap-x-6 gap-y-10 lg:mt-16 lg:grid-cols-2">
-        <Panel tag="Accuracy vs. Cost" title={cad.title} caption={`${cad.cases}. Up and to the left is better. Grok 4.7 completed 0/20 cases and has no IoU to plot.`}>
-          <ScatterWindow title="Pareto.Curve" label="Accuracy (IoU) against cost per sample for the 3D Construction World Model and six language models; ours has the highest IoU at the lowest cost." points={points} />
+        <Panel tag="3D CAD" title={pareto.cad.title} caption={`${pareto.yLabel} against ${pareto.xLabel.toLowerCase()}. ${pareto.hint}.`}>
+          <ParetoScatter chart="cad" />
         </Panel>
-        <Panel tag="Accuracy" title="IoU" caption={`Higher is better. ${cad.notes[2]}`}>
-          <BarWindow title="IoU / success" label="IoU, Higher is better" rows={iou} max={100} ticks={['0%', '50%', '100%']} />
-        </Panel>
-        <Panel tag="Speed" title="Time per sample" caption={`Lower is better. ${cad.cases}.`}>
-          <BarWindow title="Seconds per sample" label="Time per sample, 3D Construction, Lower is better" rows={time} max={1300} ticks={['0 s', '650 s', '1,300 s']} />
-        </Panel>
-        <Panel tag="Cost" title="Cost per sample" caption={`Lower is better. ${cad.notes[1]}`}>
-          <BarWindow title="USD per sample" label="Cost per sample, Lower is better" rows={cost} max={0.8} ticks={['$0', '$0.40', '$0.80']} />
-        </Panel>
-        <Panel tag="BIM.Speed" title={bim.title} caption={`${bim.cases}. Lower is better. ${bim.notes[0]}`} className="lg:col-span-2">
-          <div className="mx-auto max-w-[760px]">
-            <BarWindow title="Seconds per sample" label="Time per sample, BIM Construction, Lower is better" rows={bimTime} max={600} ticks={['0 s', '300 s', '600 s']} />
-          </div>
+        <Panel tag="BIM" title={pareto.bim.title} caption={`${pareto.yLabel} against ${pareto.xLabel.toLowerCase()}. ${pareto.hint}.`}>
+          <ParetoScatter chart="bim" />
         </Panel>
       </div>
-      <p className="mt-6 font-mono text-[11px] leading-relaxed text-muted md:text-xs">
-        {cad.notes[0]} Bar lengths use linear scales. Source: {benchmarks.source}.
-      </p>
     </Section>
   )
 }
@@ -165,6 +142,10 @@ function Moment() {
           <p className={COPY}>{moment.body}</p>
         </RuleCol>
       </Reveal>
+      <div className="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2">
+        <VersusLines chart="cost" />
+        <VersusLines chart="time" />
+      </div>
       <dl className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6 lg:mt-16 lg:gap-12">
         {benchmarks.headline.map((h) => (
           <RuleCol key={h.detail} tone="dark" label={<dt>{h.detail}</dt>}>

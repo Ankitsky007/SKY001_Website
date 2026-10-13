@@ -1,6 +1,6 @@
 // Reveal hides blocks (visibility) until they scroll into view. Hidden nodes have no accessible
 // name, so headings inside them are matched by their text instead (minus the decorative slashes).
-import { backers, benchmarks, hero, research, showcase, sky001, sky001Cta, team } from '@skyfall/core'
+import { backers, benchmarks, docCharts, hero, research, showcase, sky001, sky001Cta, team } from '@skyfall/core'
 import { cleanup, render, screen, within } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import App from './App'
@@ -57,21 +57,21 @@ describe('Launch page', () => {
     for (const s of sky001.stages.items) expect(heading(s.title)).toBeInTheDocument()
   })
 
-  it('charts print the exact benchmark values', () => {
+  it('redraws the four doc charts with the doc axes and values', () => {
     render(<LaunchPage />)
-    const iou = screen.getByRole('group', { name: /^IoU/ })
-    expect(within(iou).getByText('79.7%')).toBeInTheDocument()
-    expect(within(iou).getByText('79.1%')).toBeInTheDocument()
-    expect(within(iou).getByText('—')).toBeInTheDocument()
-    const cost = screen.getByRole('group', { name: /^Cost per sample/ })
-    expect(within(cost).getByText('$0.005')).toBeInTheDocument()
-    expect(within(cost).getByText('$0.75')).toBeInTheDocument()
-    const [cadTime, bimTime] = screen.getAllByRole('group', { name: /^Time per sample/ })
-    expect(within(cadTime).getByText('3.9 s')).toBeInTheDocument()
-    expect(within(cadTime).getByText('1,250 s')).toBeInTheDocument()
-    expect(within(bimTime).getByText('4.5 s')).toBeInTheDocument()
-    expect(within(bimTime).getByText('144.4 s')).toBeInTheDocument()
-    expect(within(iou).getAllByRole('listitem')).toHaveLength(benchmarks.cad.rows.length)
+    const { pareto, versus } = docCharts
+    const cad = screen.getByRole('img', { name: new RegExp(`^${pareto.cad.title}`), hidden: true })
+    for (const tick of ['0%', '25%', '50%', '75%', '100%', '$0.001', '$0.01', '$0.10', '$1.00']) expect(within(cad).getByText(tick)).toBeInTheDocument()
+    for (const p of pareto.cad.points) expect(within(cad).getByText(p.model, { exact: false })).toBeInTheDocument()
+    expect(within(cad).getByText('79.7%')).toBeInTheDocument()
+    const bim = screen.getByRole('img', { name: new RegExp(`^${pareto.bim.title}`), hidden: true })
+    for (const tick of ['20%', '30%', '40%', '50%']) expect(within(bim).getByText(tick)).toBeInTheDocument()
+    expect(within(bim).getByText('43.6%')).toBeInTheDocument()
+    expect(within(bim).getAllByText(/^(Gemini|GPT|Opus|Kimi|Qwen|Grok)/)).toHaveLength(6)
+    const cost = screen.getByRole('img', { name: new RegExp(`^${versus.cost.title}`), hidden: true })
+    for (const t of ['30', '90', '$0.001', '$1', '150× cheaper', '50× cheaper']) expect(within(cost).getByText(t)).toBeInTheDocument()
+    const time = screen.getByRole('img', { name: new RegExp(`^${versus.time.title}`), hidden: true })
+    for (const t of ['1.0 s', '10 s', '100 s', '1000 s', '51× faster', '32× faster']) expect(within(time).getByText(t)).toBeInTheDocument()
   })
 
   it('lists all four showcase models in the explorer grid', () => {

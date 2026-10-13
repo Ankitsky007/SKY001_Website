@@ -305,6 +305,75 @@ export const benchmarks = {
 } as const
 
 // ---------------------------------------------------------------------------------------------
+// The four charts embedded in the content doc ("SKY PAGE" images 03 and 04), as data, so a page can
+// redraw them with the same axes. Labels are the doc's. Values are the research team's figures
+// behind those images (benchmark deck and source notes, 28 Sep 2026); the BIM dollar costs are the
+// notes' calculated per-part costs and the BIM IoU is the notes' reported mean.
+// ---------------------------------------------------------------------------------------------
+export const docCharts = {
+  /** Image 03: accuracy (IoU %) against cost per part (USD, log scale $0.001 to $1.00). */
+  pareto: {
+    hint: 'Better: up and to the left',
+    xLabel: 'Cost per part, log scale',
+    yLabel: 'Accuracy (IoU)',
+    cad: {
+      title: '3D CAD benchmark, 20 parts',
+      yDomain: [0, 100],
+      yTicks: [0, 25, 50, 75, 100],
+      points: [
+        { model: 'SKY-001', ours: true, cost: 0.005, iou: 79.7 },
+        { model: 'GPT-6 Astra', ours: false, cost: 0.75, iou: 79.1 },
+        { model: 'Opus 5.5', ours: false, cost: 0.31, iou: 69.4 },
+        { model: 'Gemini 3.8 Flash', ours: false, cost: 0.08, iou: 54.7 },
+        { model: 'Qwen 3.8 Max', ours: false, cost: 0.3, iou: 34.4 },
+        { model: 'Kimi K3', ours: false, cost: 0.13, iou: 9.5 },
+      ],
+    },
+    bim: {
+      title: 'BIM benchmark, 20 parts',
+      yDomain: [20, 50],
+      yTicks: [20, 30, 40, 50],
+      points: [
+        { model: 'SKY-001', ours: true, cost: 0.00875, iou: 43.6 },
+        { model: 'Gemini 3.8 Flash', ours: false, cost: 0.2185, iou: 42.3 },
+        { model: 'GPT-6 Astra', ours: false, cost: 0.4465, iou: 40.6 },
+        { model: 'Opus 5.5', ours: false, cost: 0.276, iou: 34.4 },
+        { model: 'Kimi K3', ours: false, cost: 0.27, iou: 33.7 },
+        { model: 'Qwen 3.8 Max', ours: false, cost: 0.111, iou: 28.8 },
+        { model: 'Grok 4.7', ours: false, cost: 0.305, iou: 28.2 },
+      ],
+    },
+  },
+  /** Image 04: SKY-001 against GPT-6 Astra. Accuracy (IoU %) on a 30 to 90 axis, x on a log scale. */
+  versus: {
+    legend: { cad: '3D CAD', bim: 'BIM', ours: 'SKY-001', other: 'GPT-6 Astra' },
+    yLabel: 'Accuracy (IoU %)',
+    yDomain: [30, 90],
+    yTicks: [30, 40, 50, 60, 70, 80, 90],
+    cost: {
+      title: 'Accuracy vs cost per part',
+      xLabel: 'Cost per part (USD, log scale)',
+      xTicks: [0.001, 0.01, 0.1, 1],
+      xDomain: [0.001, 3],
+      series: [
+        { key: 'cad', label: '150× cheaper', ours: { x: 0.005, iou: 79.7 }, other: { x: 0.75, iou: 79.1 } },
+        { key: 'bim', label: '50× cheaper', ours: { x: 0.00875, iou: 43.6 }, other: { x: 0.4465, iou: 40.6 } },
+      ],
+    },
+    time: {
+      title: 'Accuracy vs time per part',
+      xLabel: 'Time per part (seconds, log scale)',
+      xTicks: [1, 10, 100, 1000],
+      xDomain: [1, 1000],
+      series: [
+        { key: 'cad', label: '51× faster', ours: { x: 3.9, iou: 79.7 }, other: { x: 199, iou: 79.1 } },
+        { key: 'bim', label: '32× faster', ours: { x: 4.5, iou: 43.6 }, other: { x: 144.4, iou: 40.6 } },
+      ],
+    },
+  },
+} as const
+
+// ---------------------------------------------------------------------------------------------
 // Showcase ("One image. Every part."). Model facts and captions are from the research team's
 // showcase site; its captions are not in the content doc and still need the team's sign-off.
 // ---------------------------------------------------------------------------------------------

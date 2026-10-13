@@ -1,127 +1,216 @@
+import { docCharts } from '@skyfall/core'
 import { gsap, prefersReducedMotion, useGSAP } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import { Window } from '../lib/ui'
 
-export type BarRow = { model: string; ours: boolean; value: number | null; display: string; sub?: string }
+// The content doc's charts, redrawn with the doc's axes, ticks and labels inside terminal windows.
+// Positions come straight from the values in content; nothing is placed by eye.
 
-/**
- * TypeSafe-style bar chart in a terminal window: each row is a name tag (blue for ours, black for
- * the rest) over a full-width grey track with a solid fill, and the exact value on the right.
- * Linear scale from zero. Bars grow in once on scroll.
- */
-export function BarWindow({ title, label, rows, max, ticks }: { title: string; label: string; rows: readonly BarRow[]; max: number; ticks: readonly string[] }) {
+const INK = '#1a1a1a'
+const BRAND = '#3e57da'
+const GRID = '#e0e0e0'
+const AXIS = '#474747'
+const mono = { fontFamily: 'var(--font-mono)', fontSize: 11 } as const
+const sans = { fontFamily: 'var(--font-sans)', fontSize: 12.5, letterSpacing: '-0.01em' } as const
+
+const usd = (t: number) => (t < 0.01 ? '$0.001' : t < 0.1 ? '$0.01' : t < 1 ? '$0.10' : '$1.00')
+
+/** Points fade and rise in once, lines draw. */
+function useReveal() {
   const ref = useRef<HTMLDivElement>(null)
-
   useGSAP(
     () => {
       if (!ref.current || prefersReducedMotion()) return
-      gsap.from(ref.current.querySelectorAll('[data-bar]'), {
-        scaleX: 0,
-        duration: 1.1,
-        stagger: 0.06,
-        ease: 'power3.out',
-        scrollTrigger: { trigger: ref.current, start: 'top 85%', once: true },
-      })
+      const st = { trigger: ref.current, start: 'top 85%', once: true }
+      gsap.from(ref.current.querySelectorAll('[data-pt]'), { autoAlpha: 0, scale: 0, transformOrigin: 'center', duration: 0.6, stagger: 0.07, ease: 'back.out(2)', scrollTrigger: st })
+      gsap.from(ref.current.querySelectorAll('[data-line]'), { strokeDashoffset: 1, duration: 1.2, ease: 'power2.out', delay: 0.3, scrollTrigger: st })
     },
     { scope: ref },
   )
+  return ref
+}
+
+type ParetoKey = 'cad' | 'bim'
+
+// Which side of its point each label sits on, following the doc's image so labels never collide.
+const LABEL_SIDE: Record<ParetoKey, Record<string, 'left' | 'right' | 'above' | 'aboveRight' | 'below'>> = {
+  cad: { 'GPT-6 Astra': 'left', 'Opus 5.5': 'left', 'Gemini 3.8 Flash': 'right', 'Qwen 3.8 Max': 'left', 'Kimi K3': 'right' },
+  bim: { 'Gemini 3.8 Flash': 'aboveRight', 'GPT-6 Astra': 'below', 'Opus 5.5': 'above', 'Kimi K3': 'below', 'Qwen 3.8 Max': 'left', 'Grok 4.7': 'right' },
+}
+
+/**
+ * Doc image 03: accuracy (IoU) against cost per part on a log scale from $0.001 to $1.00.
+ * SKY-001 is the large blue point with its value; the other models are dark points with labels.
+ */
+export function ParetoScatter({ chart }: { chart: ParetoKey }) {
+  const ref = useReveal()
+  const { hint, xLabel, yLabel } = docCharts.pareto
+  const data = docCharts.pareto[chart]
+  const W = 560
+  const H = 400
+  const box = { l: 58, r: 30, t: 14, b: 50 }
+  const [y0, y1] = data.yDomain
+  const x = (cost: number) => box.l + ((Math.log10(cost) + 3) / 3) * (W - box.l - box.r)
+  const y = (iou: number) => H - box.b - ((iou - y0) / (y1 - y0)) * (H - box.t - box.b)
+  const summary = data.points.map((p) => `${p.model} ${p.iou}% at $${p.cost}`).join('; ')
 
   return (
-    <div ref={ref} role="group" aria-label={label}>
-      <Window title={title}>
-        <ul className="flex flex-col gap-2.5 px-2 pt-3 pb-1 font-mono">
-          {rows.map((r) => (
-            <li key={r.model}>
-              <div className="flex items-center gap-2 text-xs md:text-[13px]">
-                <span className={`px-1 py-px font-medium text-white ${r.ours ? 'bg-brand' : 'bg-ink'}`}>{r.model}</span>
-                {r.sub && <span className="text-muted">{r.sub}</span>}
-              </div>
-              <div className="mt-0.5 flex items-center gap-2">
-                <span className="block h-3 flex-1 bg-line" aria-hidden="true">
-                  {r.value !== null && <span data-bar className={`block h-full min-w-[2px] origin-left ${r.ours ? 'bg-brand' : 'bg-ink'}`} style={{ width: `${(r.value / max) * 100}%` }} />}
-                </span>
-                <span className={`w-[4.6em] text-right text-xs tabular-nums md:text-[13px] ${r.ours ? 'font-semibold text-brand' : ''}`}>{r.display}</span>
-              </div>
-            </li>
+    <div ref={ref}>
+      <Window title={data.title}>
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${data.title}. ${yLabel} against ${xLabel}. ${hint}. ${summary}.`} className="block w-full">
+          {data.yTicks.map((t) => (
+            <g key={t}>
+              <path d={`M${box.l} ${y(t)}H${W - box.r}`} stroke={GRID} />
+              <text x={box.l - 8} y={y(t) + 4} textAnchor="end" fill={AXIS} style={mono}>
+                {t}%
+              </text>
+            </g>
           ))}
-        </ul>
-        <div className="flex justify-between px-2 pt-1 pb-2 pr-[calc(4.6em+1rem)] font-mono text-[10px] text-muted" aria-hidden="true">
-          {ticks.map((t) => (
-            <span key={t}>{t}</span>
+          {[0.001, 0.01, 0.1, 1].map((t) => (
+            <g key={t}>
+              <path d={`M${x(t)} ${box.t}V${H - box.b}`} stroke={GRID} />
+              <text x={x(t)} y={H - box.b + 17} textAnchor="middle" fill={AXIS} style={mono}>
+                {usd(t)}
+              </text>
+            </g>
           ))}
-        </div>
+          <rect x={box.l} y={box.t} width={W - box.l - box.r} height={H - box.t - box.b} fill="none" stroke={INK} />
+          <text x={box.l + 10} y={box.t + 20} fill={BRAND} style={{ ...sans, fontWeight: 600 }}>
+            {hint}
+          </text>
+          <text x={(box.l + W - box.r) / 2} y={H - 10} textAnchor="middle" fill={AXIS} style={mono}>
+            {xLabel}
+          </text>
+          <text transform={`translate(14 ${(box.t + H - box.b) / 2}) rotate(-90)`} textAnchor="middle" fill={AXIS} style={mono}>
+            {yLabel}
+          </text>
+          {data.points.map((p) => {
+            const cx = x(p.cost)
+            const cy = y(p.iou)
+            if (p.ours) {
+              return (
+                <g key={p.model}>
+                  <circle data-pt cx={cx} cy={cy} r="11" fill={BRAND} />
+                  <text x={cx + 18} y={cy + 4.5} fill={BRAND} style={{ ...sans, fontSize: 14, fontWeight: 600 }}>
+                    {p.model}
+                    <tspan dx="8">{p.iou}%</tspan>
+                  </text>
+                </g>
+              )
+            }
+            const side = LABEL_SIDE[chart][p.model] ?? 'right'
+            const lx = side === 'right' ? cx + 13 : side === 'left' ? cx - 13 : side === 'aboveRight' ? cx - 8 : cx - 10
+            const ly = side === 'above' || side === 'aboveRight' ? cy - 12 : side === 'below' ? cy + 20 : cy + 4
+            return (
+              <g key={p.model}>
+                <circle data-pt cx={cx} cy={cy} r="6.5" fill={INK} />
+                <text x={lx} y={ly} textAnchor={side === 'right' || side === 'aboveRight' ? 'start' : 'end'} fill={INK} style={sans}>
+                  {p.model}
+                </text>
+              </g>
+            )
+          })}
+        </svg>
       </Window>
     </div>
   )
 }
 
-export type ScatterPoint = { model: string; ours: boolean; cost: number; iou: number }
-
-const COST_TICKS = [0.001, 0.01, 0.1, 1]
-const IOU_TICKS = [0, 25, 50, 75, 100]
+type VersusKey = 'cost' | 'time'
 
 /**
- * Accuracy against cost in a terminal window, cost on a log scale ($0.001 to $1). Every point is
- * placed from its exact source values; ours is the blue star. Up and to the left is better.
+ * Doc image 04: SKY-001 (filled circle) joined to GPT-6 Astra (open square) for 3D CAD (solid) and
+ * BIM (dashed), accuracy on a 30 to 90 axis against cost or time per part on a log scale.
  */
-export function ScatterWindow({ title, label, points }: { title: string; label: string; points: readonly ScatterPoint[] }) {
-  const W = 520
-  const H = 360
-  const box = { l: 46, r: 16, t: 16, b: 40 }
-  const x = (cost: number) => box.l + ((Math.log10(cost) + 3) / 3) * (W - box.l - box.r)
-  const y = (iou: number) => H - box.b - (iou / 100) * (H - box.t - box.b)
-  const ours = points.find((p) => p.ours)
-  const star = (cx: number, cy: number, r: number) =>
-    Array.from({ length: 10 }, (_, i) => {
-      const a = (i / 10) * Math.PI * 2 - Math.PI / 2
-      const rr = i % 2 ? r * 0.45 : r
-      return `${cx + Math.cos(a) * rr},${cy + Math.sin(a) * rr}`
-    }).join(' ')
-  const mono = { fontFamily: 'var(--font-mono)', fontSize: 11 } as const
+export function VersusLines({ chart }: { chart: VersusKey }) {
+  const ref = useReveal()
+  const v = docCharts.versus
+  const data = v[chart]
+  const W = 560
+  const H = 400
+  const box = { l: 58, r: 34, t: 16, b: 62 }
+  const [y0, y1] = v.yDomain
+  const [x0, x1] = data.xDomain.map(Math.log10)
+  const x = (val: number) => box.l + ((Math.log10(val) - x0) / (x1 - x0)) * (W - box.l - box.r)
+  const y = (iou: number) => H - box.b - ((iou - y0) / (y1 - y0)) * (H - box.t - box.b)
+  const tick = (t: number) => (chart === 'cost' ? (t === 1 ? '$1' : usd(t)) : `${t >= 10 ? t : t.toFixed(1)} s`)
+  const summary = data.series.map((s) => `${v.legend[s.key]}: ${v.legend.ours} ${s.ours.iou}% at ${s.ours.x}, ${v.legend.other} ${s.other.iou}% at ${s.other.x}, ${s.label}`).join('; ')
 
   return (
-    <Window title={title}>
-      <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label} className="block w-full">
-        {IOU_TICKS.map((t) => (
-          <g key={t}>
-            <path d={`M${box.l} ${y(t)}H${W - box.r}`} stroke="#e0e0e0" />
-            <text x={box.l - 8} y={y(t) + 4} textAnchor="end" fill="#474747" style={mono}>
-              {t}%
-            </text>
-          </g>
-        ))}
-        {COST_TICKS.map((t) => (
-          <g key={t}>
-            <path d={`M${x(t)} ${box.t}V${H - box.b}`} stroke="#e0e0e0" />
-            <text x={x(t)} y={H - box.b + 16} textAnchor="middle" fill="#474747" style={mono}>
-              ${t < 0.01 ? t.toFixed(3) : t < 0.1 ? t.toFixed(2) : t.toFixed(t < 1 ? 1 : 0)}
-            </text>
-          </g>
-        ))}
-        <path d={`M${box.l} ${box.t}V${H - box.b}H${W - box.r}`} fill="none" stroke="#1a1a1a" />
-        {ours && <path d={`M${x(ours.cost)} ${y(ours.iou)}H${W - box.r}`} stroke="#3e57da" strokeDasharray="3 4" className="flow" />}
-        {points
-          .filter((p) => !p.ours)
-          .map((p) => (
-            <g key={p.model}>
-              <rect x={x(p.cost) - 4} y={y(p.iou) - 4} width="8" height="8" fill="#1a1a1a" transform={`rotate(45 ${x(p.cost)} ${y(p.iou)})`} />
-              <text x={x(p.cost)} y={y(p.iou) + 18} textAnchor="middle" fill="#1a1a1a" style={mono}>
-                {p.model}
+    <div ref={ref}>
+      <Window title={data.title}>
+        <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${data.title}. ${summary}.`} className="block w-full">
+          {v.yTicks.map((t) => (
+            <g key={t}>
+              <path d={`M${box.l} ${y(t)}H${W - box.r}`} stroke={GRID} />
+              <text x={box.l - 8} y={y(t) + 4} textAnchor="end" fill={AXIS} style={mono}>
+                {t}
               </text>
             </g>
           ))}
-        {ours && (
-          <g>
-            <polygon points={star(x(ours.cost), y(ours.iou), 10)} fill="#3e57da" />
-            <text x={x(ours.cost) + 14} y={y(ours.iou) - 10} fill="#3e57da" style={{ ...mono, fontWeight: 600 }}>
-              {ours.model}
-            </text>
-          </g>
-        )}
-        <text x={(box.l + W - box.r) / 2} y={H - 6} textAnchor="middle" fill="#474747" style={mono}>
-          cost per sample (usd, log scale)
-        </text>
-      </svg>
-    </Window>
+          {data.xTicks.map((t) => (
+            <g key={t}>
+              <path d={`M${x(t)} ${box.t}V${H - box.b}`} stroke={GRID} />
+              <text x={x(t)} y={H - box.b + 17} textAnchor="middle" fill={AXIS} style={mono}>
+                {tick(t)}
+              </text>
+            </g>
+          ))}
+          <rect x={box.l} y={box.t} width={W - box.l - box.r} height={H - box.t - box.b} fill="none" stroke={INK} />
+          <text x={(box.l + W - box.r) / 2} y={H - 24} textAnchor="middle" fill={AXIS} style={mono}>
+            {data.xLabel}
+          </text>
+          <text transform={`translate(14 ${(box.t + H - box.b) / 2}) rotate(-90)`} textAnchor="middle" fill={AXIS} style={mono}>
+            {v.yLabel}
+          </text>
+          {data.series.map((s) => {
+            const color = s.key === 'cad' ? BRAND : INK
+            const ax = x(s.ours.x)
+            const ay = y(s.ours.iou)
+            const bx = x(s.other.x)
+            const by = y(s.other.iou)
+            const below = s.key === 'bim'
+            return (
+              <g key={s.key}>
+                {s.key === 'cad' ? (
+                  <path data-line d={`M${ax} ${ay}L${bx} ${by}`} stroke={color} strokeWidth="2.5" pathLength="1" strokeDasharray="1" />
+                ) : (
+                  <path d={`M${ax} ${ay}L${bx} ${by}`} stroke={color} strokeWidth="2" strokeDasharray="6 5" className="flow" />
+                )}
+                <circle data-pt cx={ax} cy={ay} r="9" fill={color} />
+                <rect data-pt x={bx - 6} y={by - 6} width="12" height="12" fill="#fff" stroke={color} strokeWidth="2" />
+                <text x={ax - 14} y={ay + 4.5} textAnchor="end" fill={INK} style={sans}>
+                  {v.legend.ours}
+                </text>
+                <text x={bx + 12} y={below ? by + 18 : by - 10} fill={INK} style={sans}>
+                  Astra
+                </text>
+                <text x={(ax + bx) / 2} y={below ? (ay + by) / 2 + 26 : (ay + by) / 2 - 14} textAnchor="middle" fill={color} style={{ ...sans, fontSize: 15, fontWeight: 600 }}>
+                  {s.label}
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+        <ul className="flex flex-wrap gap-x-5 gap-y-1 border-t border-ink px-3 py-2 font-mono text-[11px] md:text-xs">
+          <li className="flex items-center gap-1.5">
+            <span aria-hidden="true" className="block h-0.5 w-5 bg-brand" />
+            {v.legend.cad}
+          </li>
+          <li className="flex items-center gap-1.5">
+            <span aria-hidden="true" className="block w-5 border-t-2 border-dashed border-ink" />
+            {v.legend.bim}
+          </li>
+          <li className="flex items-center gap-1.5">
+            <span aria-hidden="true" className="block size-2.5 rounded-full bg-ink" />
+            {v.legend.ours}
+          </li>
+          <li className="flex items-center gap-1.5">
+            <span aria-hidden="true" className="block size-2.5 border-2 border-ink" />
+            {v.legend.other}
+          </li>
+        </ul>
+      </Window>
+    </div>
   )
 }
