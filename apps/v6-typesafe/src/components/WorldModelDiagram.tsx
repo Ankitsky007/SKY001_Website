@@ -3,9 +3,12 @@ import { Reveal } from '@skyfall/core/motion'
 import { lazy, Suspense, useState } from 'react'
 import { hasWebGL2 } from '../lib/inView'
 import { H3, LABEL } from '../lib/ui'
+import { PixelIcon, type PixelIconName } from './PixelIcon'
 
 const GlobeScene = lazy(() => import('../scenes/GlobeScene'))
 const BAND = 'World Model'
+// One pixel icon per reason, in the doc's order: cause & effect, physics, latent space, long horizon planning.
+const ICONS: PixelIconName[] = ['simulate', 'geometry', 'learn', 'plan']
 
 /** Static globe in the same colours: shown without WebGL2 and while the three.js chunk loads. */
 function GlobeStill() {
@@ -43,13 +46,18 @@ function GlobeStill() {
   )
 }
 
-/** Dotted strands fanning from the globe down to the cards: `ends` are the card centres in % of the width. */
+/**
+ * Dotted strands running from behind the globe down to the cards. The drawing starts at the
+ * globe's centre and sits under it, so the strands visibly come out of the globe. `ends` are the
+ * card centres in % of the width.
+ */
 function Fan({ ends, className }: { ends: readonly number[]; className: string }) {
-  const strands = ends.flatMap((end, i) => [-1, 1].map((side, j) => ({ end: end + side * (ends.length > 1 ? 3.2 : 4), start: 50 + (i * 2 + j - (ends.length * 2 - 1) / 2) * (ends.length > 2 ? 2.1 : 3) })))
+  const n = ends.length * 2
+  const strands = ends.flatMap((end, i) => [-1, 1].map((side, j) => ({ end: end + side * (ends.length > 1 ? 3.2 : 5), start: 50 + (i * 2 + j - (n - 1) / 2) * (ends.length > 2 ? 1.5 : ends.length > 1 ? 3 : 6) })))
   return (
-    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" className={`w-full ${className}`}>
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" className={`relative z-0 w-full ${className}`}>
       {strands.map((s) => (
-        <path key={s.start} d={`M${s.start} 0C${s.start} 62 ${s.end} 38 ${s.end} 100`} fill="none" stroke="#3e57da" strokeWidth="2" strokeDasharray="2 5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="flow" />
+        <path key={s.start} d={`M${s.start} 0V46C${s.start} 80 ${s.end} 66 ${s.end} 100`} fill="none" stroke="#3e57da" strokeWidth="2" strokeDasharray="2 5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="flow" />
       ))}
     </svg>
   )
@@ -65,7 +73,7 @@ export function WorldModelDiagram() {
   const { items } = sky001.why
   return (
     <div>
-      <div role="img" aria-label={`A globe labelled ${BAND}, connected by dotted lines to: ${items.map((i) => i.title).join(', ')}.`} className="relative mx-auto size-[260px] md:size-[340px]">
+      <div role="img" aria-label={`A globe labelled ${BAND}, connected by dotted lines to: ${items.map((i) => i.title).join(', ')}.`} className="relative z-10 mx-auto size-[260px] md:size-[340px]">
         {webgl ? (
           <Suspense fallback={<GlobeStill />}>
             <GlobeScene label={BAND} fallback={<GlobeStill />} className="size-full" />
@@ -74,15 +82,20 @@ export function WorldModelDiagram() {
           <GlobeStill />
         )}
       </div>
-      <Fan ends={[50]} className="-mt-8 h-16 sm:hidden" />
-      <Fan ends={[25, 75]} className="-mt-10 hidden h-28 sm:block lg:hidden" />
-      <Fan ends={[12.5, 37.5, 62.5, 87.5]} className="-mt-12 hidden h-40 lg:block" />
+      <Fan ends={[50]} className="-mt-[130px] h-[190px] sm:hidden" />
+      <Fan ends={[25, 75]} className="-mt-[130px] hidden h-[250px] sm:block md:-mt-[170px] md:h-[290px] lg:hidden" />
+      <Fan ends={[12.5, 37.5, 62.5, 87.5]} className="-mt-[170px] hidden h-[330px] lg:block" />
       <Reveal as="ol" stagger={0.08} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item, i) => (
-          <li key={item.title} className="flex min-h-36 flex-col border border-brand bg-paper p-5 shadow-[3px_3px_0_0_rgba(62,87,218,0.25)] md:min-h-44 md:p-6">
-            <span className={`${LABEL} text-faint`}>[0{i + 1}]</span>
-            <span className={`${H3} mt-3 block text-brand`}>{item.title}</span>
-            {item.note && <span className="mt-2 block text-[17px] leading-snug tracking-[-0.02em] text-body">{item.note}</span>}
+          <li key={item.title} className="flex min-h-44 flex-col justify-between gap-6 border border-brand bg-paper p-5 shadow-[3px_3px_0_0_rgba(62,87,218,0.25)] md:min-h-56 md:p-6">
+            <div className="flex items-start justify-between gap-4">
+              <PixelIcon name={ICONS[i]} active className="size-14 md:size-16" />
+              <span className={`${LABEL} text-faint`}>[0{i + 1}]</span>
+            </div>
+            <div>
+              <span className={`${H3} block text-brand`}>{item.title}</span>
+              {item.note && <span className="mt-2 block text-[17px] leading-snug tracking-[-0.02em] text-body">{item.note}</span>}
+            </div>
           </li>
         ))}
       </Reveal>
