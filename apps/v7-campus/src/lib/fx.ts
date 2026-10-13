@@ -27,7 +27,11 @@ function read(): FxId {
 export function setFx(id: FxId) {
   const url = new URL(window.location.href)
   url.searchParams.set('fx', id)
-  window.history.replaceState(null, '', url)
+  try {
+    window.history.replaceState(null, '', url)
+  } catch {
+    /* some embedded viewers refuse address changes */
+  }
   listeners.forEach((l) => l())
 }
 
@@ -55,7 +59,11 @@ export function setCampusTone(tone: CampusTone) {
   const url = new URL(window.location.href)
   if (tone === 'dark') url.searchParams.set('campus', 'dark')
   else url.searchParams.delete('campus')
-  window.history.replaceState(null, '', url)
+  try {
+    window.history.replaceState(null, '', url)
+  } catch {
+    /* some embedded viewers refuse address changes */
+  }
   listeners.forEach((l) => l())
 }
 

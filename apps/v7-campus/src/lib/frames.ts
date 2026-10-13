@@ -1,7 +1,8 @@
 import { media, type ModelId } from './media'
 
 type Range = { start: number; end: number }
-type Meta = { w: number; h: number; n: number; offsets: number[]; sizes: number[]; timeline: Record<string, Range> }
+// `parts` is optional: hosts with a per-file size limit serve the .bin as several files, in order.
+type Meta = { w: number; h: number; n: number; offsets: number[]; sizes: number[]; timeline: Record<string, Range>; parts?: string[] }
 
 /**
  * One showcase frame sequence: a JSON index plus a single .bin of WebP frames rendered on
@@ -26,18 +27,22 @@ export class FrameSequence {
   load(onProgress: (p: number) => void) {
     this.loading ??= (async () => {
       const meta = (await (await fetch(media.seqMeta(this.id))).json()) as Meta
-      const res = await fetch(media.seqFrames(this.id))
-      if (!res.ok || !res.body) throw new Error(`frames ${res.status}`)
+      const whole = media.seqFrames(this.id)
+      const urls = meta.parts?.map((name) => whole.replace(/[^/]+$/, name)) ?? [whole]
       const total = meta.offsets[meta.offsets.length - 1] + meta.sizes[meta.sizes.length - 1]
-      const reader = res.body.getReader()
       const parts: BlobPart[] = []
       let got = 0
-      for (;;) {
-        const { done, value } = await reader.read()
-        if (done) break
-        parts.push(value)
-        got += value.length
-        onProgress(Math.min(0.99, got / total))
+      for (const url of urls) {
+        const res = await fetch(url)
+        if (!res.ok || !res.body) throw new Error(`frames ${res.status}`)
+        const reader = res.body.getReader()
+        for (;;) {
+          const { done, value } = await reader.read()
+          if (done) break
+          parts.push(value)
+          got += value.length
+          onProgress(Math.min(0.99, got / total))
+        }
       }
       this.blob = new Blob(parts)
       this.meta = meta
