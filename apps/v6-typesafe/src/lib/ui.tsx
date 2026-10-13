@@ -20,12 +20,14 @@ export const LEAD = 'text-xl leading-[1.25] font-medium tracking-[-0.045em] md:t
 /* TypeSafe sets headings very large, medium weight, capitalised, with lines almost touching. */
 export const DISPLAY = 'font-medium capitalize tracking-[-0.045em] text-balance'
 
-type Ground = 'paper' | 'studio' | 'night' | 'blue'
+type Ground = 'paper' | 'studio' | 'night' | 'ink' | 'blue'
 
 const GROUNDS: Record<Ground, string> = {
   paper: 'bg-paper text-ink',
   studio: 'bg-studio text-ink',
   night: 'grid-dark text-white',
+  // The same dark without the grid, for sections where text must read cleanly.
+  ink: 'bg-night text-white',
   blue: 'bg-brand text-white',
 }
 

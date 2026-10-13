@@ -187,7 +187,7 @@ const BIM_CLIPS = [
 function Bim() {
   const bimHeadline = benchmarks.headline[2]
   return (
-    <Section id="bim" ground="night" field={<HalftoneField tone="night" fade="down" cell={11} />}>
+    <Section id="bim" ground="night">
       <Display tone="dark" align="left" note={bimHeadline.detail}>
         {benchmarks.bim.title}
       </Display>
@@ -287,7 +287,7 @@ function Team() {
 function Faq() {
   const { faq } = sky001
   return (
-    <Section id="faq" ground="night">
+    <Section id="faq" ground="ink">
       <Display tone="dark" size="md">
         {faq.title}
       </Display>
@@ -302,7 +302,7 @@ function Faq() {
                 </svg>
               </span>
             </summary>
-            {item.a && <p className={`${COPY} max-w-[60ch] pb-5 text-night-text`}>{item.a}</p>}
+            {item.a && <p className={`${COPY} max-w-[60ch] pb-5 text-white/85`}>{item.a}</p>}
           </details>
         ))}
       </div>
