@@ -2,7 +2,7 @@ import { VersionSwitcher } from '@skyfall/core'
 import { ScrollTrigger, SmoothScroll, useLenis } from '@skyfall/core/motion'
 import { useEffect } from 'react'
 import { FxPicker } from './components/FxPicker'
-import { isLaunchPath } from './lib/routes'
+import { goTo, usePage } from './lib/routes'
 import { FrontPage } from './pages/FrontPage'
 import { LaunchPage } from './pages/LaunchPage'
 
@@ -17,6 +17,12 @@ function AnchorScroll() {
       const href = a.getAttribute('href')!
       if (href === '#') {
         e.preventDefault()
+        return
+      }
+      if (goTo(href)) {
+        e.preventDefault()
+        if (lenis) lenis.scrollTo(0, { immediate: true, force: true })
+        else window.scrollTo(0, 0)
         return
       }
       const target = document.querySelector(href)
@@ -57,12 +63,12 @@ function TriggerRefresh() {
 
 // v7 Campus (v6 with the enterprise campus hero on the front page). Two pages in one app: the Skyfall front page at "/" and the SKY-001 launch page at "/sky-001".
 function App() {
-  const launch = typeof window !== 'undefined' && isLaunchPath(window.location.pathname)
+  const launch = usePage() === 'launch'
   return (
     <SmoothScroll>
       <AnchorScroll />
       <TriggerRefresh />
-      {launch ? <LaunchPage /> : <FrontPage />}
+      {launch ? <LaunchPage key="launch" /> : <FrontPage key="home" />}
       <FxPicker />
       <VersionSwitcher current="v7" />
     </SmoothScroll>

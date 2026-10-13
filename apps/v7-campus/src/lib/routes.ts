@@ -1,14 +1,38 @@
-// Where the two pages live. A normal deploy serves the front page at "/" and the launch page at
-// "/sky-001". A static bundle with no server routing (the Claude artifact build) sets
-// VITE_HOME_HREF and VITE_LAUNCH_HREF to two real files instead, e.g. ./index.html and ./sky-001.html.
-export const HOME = (import.meta.env.VITE_HOME_HREF as string | undefined) ?? '/'
-export const LAUNCH = (import.meta.env.VITE_LAUNCH_HREF as string | undefined) ?? '/sky-001'
+import { useSyncExternalStore } from 'react'
 
-/**
- * True when the current page is the launch page: by address under either scheme, or because the
- * static bundle's launch file marks itself with <html data-page="launch">.
- */
-export function isLaunchPath(pathname: string) {
-  if (typeof document !== 'undefined' && document.documentElement.dataset.page === 'launch') return true
-  return /\/sky-001(\.html)?\/?$/.test(pathname)
+// Where the two pages live. A normal deploy serves the front page at "/" and the launch page at
+// "/sky-001". A host that serves one file and blocks navigation (the Claude artifact build) sets
+// VITE_ROUTER=memory: the two links become in-page hashes (valid as
+// selectors, since the nav looks its links up) and the app swaps pages in place.
+export const IN_PLACE = import.meta.env.VITE_ROUTER === 'memory'
+export const HOME = IN_PLACE ? '#page-home' : '/'
+export const LAUNCH = IN_PLACE ? '#page-sky-001' : '/sky-001'
+
+type Page = 'home' | 'launch'
+
+function initial(): Page {
+  if (typeof window === 'undefined') return 'home'
+  return /\/sky-001\/?$/.test(window.location.pathname) ? 'launch' : 'home'
+}
+
+let page: Page = initial()
+const listeners = new Set<() => void>()
+
+/** Swap pages in place when `href` is one of the two page links. Returns false for any other link. */
+export function goTo(href: string) {
+  if (!IN_PLACE || (href !== HOME && href !== LAUNCH)) return false
+  page = href === LAUNCH ? 'launch' : 'home'
+  listeners.forEach((l) => l())
+  return true
+}
+
+export function usePage() {
+  return useSyncExternalStore(
+    (l) => {
+      listeners.add(l)
+      return () => listeners.delete(l)
+    },
+    () => page,
+    () => page,
+  )
 }
