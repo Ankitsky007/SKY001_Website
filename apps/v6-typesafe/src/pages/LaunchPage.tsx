@@ -313,7 +313,7 @@ function Faq() {
 function Waitlist() {
   const { waitlist, video } = sky001.intro
   return (
-    <Section id="waitlist" field={<HalftoneField tone="light" fade="up" className="top-auto h-[420px]" />}>
+    <Section id="waitlist" field={<HalftoneField tone="light" fade="up" className="top-auto h-[420px] [mask-image:linear-gradient(to_bottom,#000_45%,transparent_96%)]" />}>
       <div className="flex flex-col items-center text-center">
         <NewsCard />
         <p className="mt-10 text-[15px] font-medium tracking-[-0.02em] md:text-base">{waitlist.title}</p>
