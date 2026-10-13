@@ -9,6 +9,7 @@ Three design versions of the Skyfall AI company page, each in its own folder wit
 | v3 · Captain style (blue) | `apps/v3-captain` | http://localhost:5173 |
 | v4 · Light (visual direction 03): front page at `/`, SKY-001 launch page at `/sky-001` | `apps/v4-light` | http://localhost:5174 |
 | v5 · Hybrid: aeye structure and icons with the v4 Light content, same two pages | `apps/v5-hybrid` | http://localhost:5175 |
+| v6 · TypeSafe: TypeSafe type and terminal-window charts in the v5 blue theme, with WebGL dot fields | `apps/v6-typesafe` | http://localhost:5176 |
 
 ## Run it
 
@@ -22,6 +23,7 @@ npm run dev:v2
 npm run dev:v3
 npm run dev:v4     # light theme, both pages (port 5174)
 npm run dev:v5     # aeye + light hybrid, both pages (port 5175)
+npm run dev:v6     # TypeSafe type and charts, blue theme, WebGL (port 5176)
 ```
 
 While running locally, a small pill in the bottom-right corner jumps between the three versions.

@@ -1,0 +1,382 @@
+import { benchmarks, showcase, sky001 } from '@skyfall/core'
+import { Reveal } from '@skyfall/core/motion'
+import extrudeClip from '../assets/media/extrude.mp4'
+import plansClip from '../assets/media/plans.mp4'
+import restackClip from '../assets/media/restack.mp4'
+import extrudePoster from '../assets/media/s-extrude.jpg'
+import plansPoster from '../assets/media/s-plans.jpg'
+import restackPoster from '../assets/media/s-restack.jpg'
+import towerPoster from '../assets/media/s-tower.jpg'
+import towerClip from '../assets/media/tower.mp4'
+import { BarWindow, ScatterWindow, type BarRow, type ScatterPoint } from '../components/Charts'
+import { Clip } from '../components/Clip'
+import { ExplorerGrid } from '../components/Explorer'
+import { Footer } from '../components/Footer'
+import { HalftoneField } from '../components/HalftoneField'
+import { Nav } from '../components/Nav'
+import { NewsCard } from '../components/NewsCard'
+import type { PixelIconName } from '../components/PixelIcon'
+import { Reel } from '../components/Reel'
+import { StageScrub } from '../components/StageScrub'
+import { media, type ModelId } from '../lib/media'
+import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
+
+const MODELS = showcase.models.map((m) => m.id) as ModelId[]
+const money = (n: number) => `$${n < 0.01 ? n.toFixed(3) : n.toFixed(2)}`
+const secs = (n: number) => `${n.toLocaleString('en-US')} s`
+const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
+const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
+
+function Hero() {
+  const { hero, intro } = sky001
+  return (
+    <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-28 md:pb-20`}>
+      <HalftoneField tone="light" fade="down" className="h-[300px] md:h-[400px]" />
+      <div className={`relative ${WRAP} flex flex-col items-center text-center`}>
+        <NewsCard />
+        <p className="mt-12 text-[15px] font-medium tracking-[-0.02em] md:mt-20 md:text-base">
+          {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
+          {intro.before.replace('SKY-001', 'SKY‑001')}
+          {intro.emphasis}
+        </p>
+        <h1 className={`${H1} mt-6 max-w-[10ch] md:mt-8`}>{hero.title}</h1>
+        <p className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
+        <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
+        <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
+          <BigLink href={intro.waitlist.cta.href}>{intro.waitlist.cta.label}</BigLink>
+          <TextLink href={intro.video.href} className="border-b-0">
+            {intro.video.label}
+          </TextLink>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ReelBand() {
+  return (
+    <section className={`bg-studio ${GUTTER} py-6 md:py-10`}>
+      <div className={WRAP}>
+        <Window title="SKY-001.Output" bodyClassName="bg-studio">
+          <div className="px-3 pb-3 md:px-5">
+            <Reel models={MODELS} className="h-[62svh] min-h-[380px]" />
+          </div>
+        </Window>
+      </div>
+    </section>
+  )
+}
+
+function Intro() {
+  const { intro } = sky001
+  return (
+    <Section id="intro">
+      <Reveal>
+        <p className={`${DISPLAY} max-w-[20ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:text-[80px] lg:leading-[0.94]`}>{intro.statement}</p>
+      </Reveal>
+    </Section>
+  )
+}
+
+// One real showcase render beside each of the three points.
+const POINT_MEDIA: { src: string; alt: string; file: string }[] = [
+  { src: media.poster('arcmate'), alt: 'Welding robot as a clay 3D shape, generated from one image', file: 'Shape.Welding robot' },
+  { src: media.final('tractor'), alt: 'Compact tractor, 92 refined parts', file: 'Parts.Compact tractor' },
+  { src: media.final('jet'), alt: 'Jet engine, 70 refined parts', file: 'Parts.Turbofan' },
+]
+
+function Contrarian() {
+  const { contrarian } = sky001
+  return (
+    <Section className="border-t border-line">
+      <Display>{contrarian.title}</Display>
+      <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-10">
+        {contrarian.points.map((p, i) => (
+          <li key={p.title} className="flex flex-col gap-5">
+            <Window title={POINT_MEDIA[i].file} bodyClassName="bg-studio">
+              <img src={POINT_MEDIA[i].src} alt={POINT_MEDIA[i].alt} loading="lazy" className="aspect-[8/5] w-full object-contain" />
+            </Window>
+            <RuleCol label={<h3>{p.title}</h3>} className="flex-1">
+              <p className={SMALL}>{p.body}</p>
+            </RuleCol>
+          </li>
+        ))}
+      </Reveal>
+    </Section>
+  )
+}
+
+function Results() {
+  const { cad, bim } = benchmarks
+  const iou: BarRow[] = cad.rows.map((r) => ({ model: r.model, ours: r.ours, value: r.iou, display: r.iou === null ? '—' : `${r.iou.toFixed(1)}%`, sub: `${r.success} success` }))
+  const time: BarRow[] = cad.rows.map((r) => ({ model: r.model, ours: r.ours, value: r.seconds, display: secs(r.seconds) }))
+  const cost: BarRow[] = cad.rows.map((r) => ({ model: r.model, ours: r.ours, value: r.cost, display: money(r.cost) }))
+  const bimTime: BarRow[] = bim.rows.map((r) => ({ model: r.model, ours: r.ours, value: r.seconds, display: secs(r.seconds) }))
+  const points: ScatterPoint[] = cad.rows.flatMap((r) => (r.iou === null ? [] : [{ model: r.model, ours: r.ours, cost: r.cost, iou: r.iou }]))
+
+  return (
+    <Section id="results" ground="studio">
+      <Display size="md" align="left" note={`${cad.title} / ${bim.title}`}>
+        {sky001.pareto.title}
+      </Display>
+      <Reveal>
+        <RuleCol label="[01]" className="mt-10 max-w-[560px]">
+          <p className={`${COPY} text-[20px] md:text-[26px]`}>{sky001.pareto.body}</p>
+        </RuleCol>
+      </Reveal>
+
+      <div className="mt-12 grid gap-x-6 gap-y-10 lg:mt-16 lg:grid-cols-2">
+        <Panel tag="Accuracy vs. Cost" title={cad.title} caption={`${cad.cases}. Up and to the left is better. Grok 4.7 completed 0/20 cases and has no IoU to plot.`}>
+          <ScatterWindow title="Pareto.Curve" label="Accuracy (IoU) against cost per sample for the 3D Construction World Model and six language models; ours has the highest IoU at the lowest cost." points={points} />
+        </Panel>
+        <Panel tag="Accuracy" title="IoU" caption={`Higher is better. ${cad.notes[2]}`}>
+          <BarWindow title="IoU / success" label="IoU, Higher is better" rows={iou} max={100} ticks={['0%', '50%', '100%']} />
+        </Panel>
+        <Panel tag="Speed" title="Time per sample" caption={`Lower is better. ${cad.cases}.`}>
+          <BarWindow title="Seconds per sample" label="Time per sample, 3D Construction, Lower is better" rows={time} max={1300} ticks={['0 s', '650 s', '1,300 s']} />
+        </Panel>
+        <Panel tag="Cost" title="Cost per sample" caption={`Lower is better. ${cad.notes[1]}`}>
+          <BarWindow title="USD per sample" label="Cost per sample, Lower is better" rows={cost} max={0.8} ticks={['$0', '$0.40', '$0.80']} />
+        </Panel>
+        <Panel tag="BIM.Speed" title={bim.title} caption={`${bim.cases}. Lower is better. ${bim.notes[0]}`} className="lg:col-span-2">
+          <div className="mx-auto max-w-[760px]">
+            <BarWindow title="Seconds per sample" label="Time per sample, BIM Construction, Lower is better" rows={bimTime} max={600} ticks={['0 s', '300 s', '600 s']} />
+          </div>
+        </Panel>
+      </div>
+      <p className="mt-6 font-mono text-[11px] leading-relaxed text-muted md:text-xs">
+        {cad.notes[0]} Bar lengths use linear scales. Source: {benchmarks.source}.
+      </p>
+    </Section>
+  )
+}
+
+function Moment() {
+  const { moment } = sky001
+  return (
+    <Section ground="blue" field={<HalftoneField tone="blue" fade="up" cell={10} />}>
+      <Display tone="dark" align="left" note={moment.eyebrow}>
+        {moment.before}
+        {moment.emphasis}
+        {moment.after}
+      </Display>
+      <Reveal>
+        <RuleCol tone="dark" label={moment.versus} className="mt-10 max-w-[620px]">
+          <p className={COPY}>{moment.body}</p>
+        </RuleCol>
+      </Reveal>
+      <dl className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6 lg:mt-16 lg:gap-12">
+        {benchmarks.headline.map((h) => (
+          <RuleCol key={h.detail} tone="dark" label={<dt>{h.detail}</dt>}>
+            <dd>
+              <span className={`${DISPLAY} block text-[88px] leading-[0.85] sm:text-[104px] lg:text-[150px]`}>
+                <CountUp value={h.value} />
+              </span>
+              <span className={`${H3} mt-2 block`}>{h.label}</span>
+            </dd>
+          </RuleCol>
+        ))}
+      </dl>
+    </Section>
+  )
+}
+
+function Stages() {
+  return (
+    <section id="how" aria-labelledby="how-title" className="border-t border-line bg-studio">
+      <div className={`${GUTTER} pt-16 pb-8 md:pt-24 lg:pt-28`}>
+        <div className={WRAP}>
+          <Display id="how-title" size="md">
+            {sky001.stages.title}
+          </Display>
+        </div>
+      </div>
+      <StageScrub model="jaguar" />
+    </section>
+  )
+}
+
+const BIM_CLIPS = [
+  { src: plansClip, poster: plansPoster, label: 'SKY-001 output: floor plan candidates for one level, one selected', hud: 'Floor plan candidates' },
+  { src: extrudeClip, poster: extrudePoster, label: 'SKY-001 output: a floor plan extruded into a 3D level', hud: 'Plan to 3D' },
+  { src: restackClip, poster: restackPoster, label: 'SKY-001 output: levels stacked into a building', hud: 'Level by level' },
+]
+
+function Bim() {
+  const bimHeadline = benchmarks.headline[2]
+  return (
+    <Section id="bim" ground="night" field={<HalftoneField tone="night" fade="down" cell={11} />}>
+      <Display tone="dark" align="left" note={bimHeadline.detail}>
+        {benchmarks.bim.title}
+      </Display>
+      <div className="mt-10 grid gap-3 lg:grid-cols-[1.6fr_1fr]">
+        <Reveal>
+          <Clip src={towerClip} poster={towerPoster} label="SKY-001 output: a 36-level tower built level by level" hud="BIM / 36 levels" />
+        </Reveal>
+        <RuleCol tone="dark" label={benchmarks.bim.cases} className="py-2">
+          <span className={`${DISPLAY} block text-[88px] leading-[0.85] text-brand-lift lg:text-[150px]`}>{bimHeadline.value}</span>
+          <span className={`${H3} mt-2 block`}>{bimHeadline.label}</span>
+        </RuleCol>
+      </div>
+      <Reveal as="div" stagger={0.08} className="mt-3 grid gap-3 md:grid-cols-3">
+        {BIM_CLIPS.map((c) => (
+          <Clip key={c.hud} {...c} />
+        ))}
+      </Reveal>
+    </Section>
+  )
+}
+
+function Explore() {
+  const { explore } = showcase
+  return (
+    <Section id="explore">
+      <Display note={explore.eyebrow}>{explore.title}</Display>
+      <Reveal>
+        <RuleCol label="[01]" className="mt-10 max-w-[520px]">
+          <p className={`${COPY} text-[20px] md:text-[26px]`}>{explore.body}</p>
+        </RuleCol>
+      </Reveal>
+      <div className="mt-10 lg:mt-14">
+        <ExplorerGrid />
+      </div>
+      <p className="mt-4 font-mono text-[11px] text-muted md:text-xs">{showcase.disclaimer}</p>
+    </Section>
+  )
+}
+
+const WHY_ICONS: PixelIconName[] = ['simulate', 'chemical', 'learn', 'plan']
+
+function Why() {
+  const { why } = sky001
+  return (
+    <Section ground="studio">
+      <Display size="md">{why.title}</Display>
+      <ol className="mt-10 grid border-t border-l border-line bg-paper sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
+        {why.items.map((item, i) => (
+          <IconCell key={item.title} icon={WHY_ICONS[i]} className="min-h-52">
+            <span className={`${LABEL} block text-brand`}>[0{i + 1}]</span>
+            <span className={`${H3} mt-1 block`}>{item.title}</span>
+            {item.note && <span className="mt-1 block text-[15px] text-muted">{item.note}</span>}
+          </IconCell>
+        ))}
+      </ol>
+    </Section>
+  )
+}
+
+function Next() {
+  const { next } = sky001
+  return (
+    <Section>
+      <Display>{next.title}</Display>
+      <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-2 lg:gap-12">
+        <Reveal className="flex">
+          <RuleCol label="[01]">
+            <p className={COPY}>{next.body}</p>
+          </RuleCol>
+        </Reveal>
+        <Reveal className="flex flex-col justify-between gap-8">
+          <ul className="flex flex-wrap gap-1.5">
+            {next.domains.map((d) => (
+              <li key={d} className="bg-ink px-1.5 py-0.5 font-mono text-[13px] font-medium text-white md:text-sm">
+                {d}
+              </li>
+            ))}
+          </ul>
+          <RuleCol label="[02]">
+            <p className={`${COPY} text-[20px] text-brand md:text-[26px]`}>{next.closing}</p>
+          </RuleCol>
+        </Reveal>
+      </div>
+    </Section>
+  )
+}
+
+function Team() {
+  const { team } = sky001
+  return (
+    <Section className="border-t border-line">
+      <Display size="md">{team.title}</Display>
+      <Reveal>
+        <dl className="mt-10 grid gap-8 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-12">
+          {team.groups.map((g) => (
+            <RuleCol key={g.label} label={<dt>{g.label}</dt>}>
+              <dd className={`${DISPLAY} text-[28px] leading-[1] sm:text-[36px]`}>{g.names}</dd>
+            </RuleCol>
+          ))}
+        </dl>
+      </Reveal>
+    </Section>
+  )
+}
+
+function Faq() {
+  const { faq } = sky001
+  return (
+    <Section id="faq" ground="night">
+      <Display tone="dark" size="md">
+        {faq.title}
+      </Display>
+      <div className="mx-auto mt-10 max-w-[860px] border-t border-night-mid lg:mt-14">
+        {faq.items.map((item) => (
+          <details key={item.q} className="group border-b border-night-mid">
+            <summary className="flex min-h-14 cursor-pointer items-center gap-4 py-3 font-mono text-[13px] tracking-[0.03em] group-open:text-brand-lift md:text-sm">
+              <span className="flex-1">{item.q}</span>
+              <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center bg-white text-ink transition-colors duration-300 group-open:bg-brand group-open:text-white">
+                <svg viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.6" className="transition-transform duration-300 group-open:rotate-45">
+                  <path d="M6 1v10M1 6h10" />
+                </svg>
+              </span>
+            </summary>
+            {item.a && <p className={`${COPY} max-w-[60ch] pb-5 text-night-text`}>{item.a}</p>}
+          </details>
+        ))}
+      </div>
+    </Section>
+  )
+}
+
+function Waitlist() {
+  const { waitlist, video } = sky001.intro
+  return (
+    <Section id="waitlist" field={<HalftoneField tone="light" fade="up" className="top-auto h-[420px]" />}>
+      <div className="flex flex-col items-center text-center">
+        <NewsCard />
+        <p className="mt-10 text-[15px] font-medium tracking-[-0.02em] md:text-base">{waitlist.title}</p>
+        <h2 className={`${H1} mt-6 max-w-[11ch]`}>{waitlist.body}</h2>
+        <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
+          <ButtonLink href="#">{waitlist.cta.label}</ButtonLink>
+          <TextLink href={video.href} className="border-b-0">
+            {video.label}
+          </TextLink>
+        </div>
+      </div>
+    </Section>
+  )
+}
+
+export function LaunchPage() {
+  return (
+    <>
+      <Nav home="/" tabs={[{ label: 'SKY-001', href: '#top', current: true }, ...sky001.nav]} cta={sky001.intro.waitlist.cta} />
+      <main>
+        <Hero />
+        <ReelBand />
+        <Intro />
+        <Contrarian />
+        <Results />
+        <Moment />
+        <Stages />
+        <Bim />
+        <Explore />
+        <Why />
+        <Next />
+        <Team />
+        <Faq />
+        <Waitlist />
+      </main>
+      <Footer pages={[{ label: 'Skyfall AI', href: '/' }, ...sky001.nav]} />
+    </>
+  )
+}

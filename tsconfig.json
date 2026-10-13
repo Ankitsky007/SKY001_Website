@@ -6,6 +6,7 @@
     { "path": "./apps/v2-aeye" },
     { "path": "./apps/v3-captain" },
     { "path": "./apps/v4-light" },
-    { "path": "./apps/v5-hybrid" }
+    { "path": "./apps/v5-hybrid" },
+    { "path": "./apps/v6-typesafe" }
   ]
 }
