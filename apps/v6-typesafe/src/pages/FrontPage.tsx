@@ -144,7 +144,7 @@ function Sky001Band() {
       </Display>
       <div className="mt-10 grid gap-8 lg:grid-cols-[1.5fr_1fr] lg:items-end lg:gap-12">
         <Reveal>
-          <Clip src={heroClip} poster={heroPoster} label="SKY-001 output: a V8 engine assembly separating into its major assemblies" hud="SKY-001 output" />
+          <Clip src={heroClip} poster={heroPoster} label="SKY-001 output: a V8 engine assembly separating into its major assemblies" hud="SKY-001 output" tone="light" />
         </Reveal>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 lg:justify-end">
           <ButtonLink href={route(sky001Cta.primary.href)} tone="light">
