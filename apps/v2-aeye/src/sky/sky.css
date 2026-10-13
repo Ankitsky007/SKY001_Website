@@ -1,0 +1,14 @@
+/* SKY-001 page extras on top of the v2 aeye theme. */
+@keyframes stage-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* The page keeps to Geist and Geist Mono: aeye's pixel-font slashes are set in Geist Mono here. */
+:root {
+  --font-pixel: 'Geist Mono', ui-monospace, monospace;
+}

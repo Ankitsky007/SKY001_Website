@@ -5,7 +5,20 @@ import { scrambleOnHover } from '../lib/motion'
 import { PrimaryButton } from '../components/ui'
 
 // Sections that light a nav tab while they fill the middle of the viewport. Backers has no tab.
-const SPY = ['top', 'research', 'team', 'backers', 'sky-001', 'contact'] as const
+const SPY = ['top', 'research', 'team', 'backers', 'sky-001', 'contact']
+
+type Tab = { id: string; label: string; href: string }
+type NavProps = {
+  /** Boxed tabs on md+; the first is the page top. */
+  tabs?: Tab[]
+  /** Section ids watched for the current tab (defaults to the front page's). */
+  spy?: string[]
+  cta?: { label: string; href: string }
+  /** Chip beside the phone logo. */
+  badge?: string
+}
+
+const FRONT_TABS: Tab[] = [{ id: 'top', label: 'Home', href: '#top' }, ...site.nav.map((n) => ({ id: n.href.slice(1), label: n.label, href: n.href }))]
 
 /** `<Label>` wrapping for the current tab, as in aeye. */
 const current = (label: string) => `<${label}>`
@@ -14,14 +27,14 @@ const current = (label: string) => `<${label}>`
  * aeye boxed nav: on md+ a row of white tabs hangs from the top edge (the current section is the
  * tall blue tab) with the CTA on the right; on phones a white header with a menu sheet.
  */
-export function Nav() {
+export function Nav({ tabs = FRONT_TABS, spy = SPY, cta = hero.primaryCta, badge = 'Lab' }: NavProps = {}) {
   const [active, setActive] = useState<string>('top')
   const [open, setOpen] = useState(false)
   const lenis = useLenis()
   const menuBtn = useRef<HTMLButtonElement>(null)
 
   useGSAP(() => {
-    const triggers = SPY.map((id) =>
+    const triggers = spy.map((id) =>
       ScrollTrigger.create({
         trigger: `#${id}`,
         start: 'top 50%',
@@ -48,8 +61,6 @@ export function Nav() {
       btn?.focus()
     }
   }, [open, lenis])
-
-  const tabs = [{ id: 'top', label: 'Home', href: '#top' }, ...site.nav.map((n) => ({ id: n.href.slice(1), label: n.label, href: n.href }))]
 
   return (
     <>
@@ -78,7 +89,7 @@ export function Nav() {
             })}
           </ul>
           <a
-            href={hero.primaryCta.href}
+            href={cta.href}
             onPointerEnter={scrambleOnHover}
             className="group pointer-events-auto flex h-[52px] items-center gap-3 border border-t-0 border-night-mid bg-white px-4 font-mono text-[14px] font-semibold tracking-[-0.02em] text-ink uppercase transition-colors duration-300 hover:text-brand lg:px-5 lg:text-[15px]"
           >
@@ -90,7 +101,7 @@ export function Nav() {
                 <path d="M3 11 L11 3 M5 3 H11 V9" fill="none" stroke="currentColor" strokeWidth="1.6" />
               </svg>
             </span>
-            <span data-scramble>{hero.primaryCta.label}</span>
+            <span data-scramble>{cta.label}</span>
           </a>
         </div>
       </nav>
@@ -99,7 +110,7 @@ export function Nav() {
       <header className="sticky top-0 z-50 flex h-[72px] items-center justify-between bg-white pr-4 pl-6 md:hidden">
         <a href="#top" className="flex min-h-11 items-center gap-2.5 text-ink" aria-label={site.name}>
           <SkyfallLogo width={161} />
-          <span className="bg-chip px-1.5 py-[3px] font-mono text-[11px] font-medium tracking-[-0.02em] text-body uppercase">Lab</span>
+          <span className="bg-chip px-1.5 py-[3px] font-mono text-[11px] font-medium tracking-[-0.02em] text-body uppercase">{badge}</span>
         </a>
         <button
           ref={menuBtn}
@@ -124,7 +135,7 @@ export function Nav() {
         }`}
       >
         <ul className="border-t border-line">
-          {site.nav.map((item, i) => (
+          {tabs.slice(1).map((item, i) => (
             <li key={item.href} className="border-b border-line">
               <a
                 href={item.href}
@@ -143,8 +154,8 @@ export function Nav() {
           ))}
         </ul>
         <div onClick={() => setOpen(false)}>
-          <PrimaryButton href={hero.primaryCta.href} className="w-full">
-            {hero.primaryCta.label}
+          <PrimaryButton href={cta.href} className="w-full">
+            {cta.label}
           </PrimaryButton>
         </div>
       </div>

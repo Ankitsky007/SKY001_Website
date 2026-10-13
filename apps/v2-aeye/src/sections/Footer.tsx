@@ -6,7 +6,7 @@ const heading = 'mb-1 text-[15px] font-semibold tracking-[-0.02em] uppercase md:
 const link = 'flex min-h-11 items-center text-[17px] tracking-[-0.03em] text-body transition-colors duration-300 hover:text-brand md:text-lg'
 
 /** aeye-style footer: boxed grid with tagline + big wordmark, pages, socials, contact, then the legal row. */
-export function Footer() {
+export function Footer({ pages = site.nav, tagline = site.tagline }: { pages?: readonly { label: string; href: string }[]; tagline?: string } = {}) {
   const lenis = useLenis()
   const toTop = () => (lenis ? lenis.scrollTo(0) : window.scrollTo({ top: 0, behavior: 'smooth' }))
 
@@ -16,7 +16,7 @@ export function Footer() {
         <div className="flex flex-col justify-between gap-8 border-b border-line p-6 md:p-12 lg:gap-24 lg:border-r lg:border-b-0">
           <div className="flex flex-col gap-4">
             <p className="text-xl leading-[1.25] font-medium tracking-[-0.05em] md:text-[30px] md:leading-[1.2]">
-              <span className="text-brand">/</span> {site.tagline}
+              <span className="text-brand">/</span> {tagline}
             </p>
             <span className="hidden font-mono text-[13px] font-medium text-muted uppercase lg:block">{site.name} · Research lab</span>
           </div>
@@ -28,7 +28,7 @@ export function Footer() {
             <nav aria-label="Footer pages" className="flex flex-col border-b border-line p-6 md:border-r md:border-b-0 md:p-12">
               <span className={heading}>Pages</span>
               <ul className="grid grid-cols-2 gap-x-4 md:grid-cols-1">
-                {site.nav.map((item) => (
+                {pages.map((item) => (
                   <li key={item.href}>
                     <a href={item.href} className={link} onPointerEnter={scrambleOnHover}>
                       <span data-scramble>{item.label}</span>
