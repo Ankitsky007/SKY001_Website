@@ -13,54 +13,38 @@ import { Clip } from '../components/Clip'
 import { ExplorerGrid } from '../components/Explorer'
 import { Footer } from '../components/Footer'
 import { HalftoneField } from '../components/HalftoneField'
-import { HeroBackdrop } from '../components/HeroBackdrop'
 import { Nav } from '../components/Nav'
 import { NewsCard } from '../components/NewsCard'
-import { Reel } from '../components/Reel'
 import { StageScrub } from '../components/StageScrub'
+import { TiltedModels } from '../components/TiltedModels'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
-import { media, type ModelId } from '../lib/media'
-import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
+import { media } from '../lib/media'
+import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
-const MODELS = showcase.models.map((m) => m.id) as ModelId[]
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 
 function Hero() {
   const { hero, intro } = sky001
   return (
-    <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-28 md:pb-20`}>
-      <HeroBackdrop />
-      <div className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
+    <section id="top" className="flex min-h-[calc(100svh-4rem)] flex-col bg-studio pt-8 pb-10 md:min-h-svh md:pt-24">
+      <div className={`${GUTTER} flex flex-col items-center text-center`}>
         <NewsCard />
-        <p className="mt-12 text-[15px] font-medium tracking-[-0.02em] md:mt-20 md:text-base">
+        <p className="mt-8 text-[15px] font-medium tracking-[-0.02em] md:mt-10 md:text-base">
           {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
-          {intro.before.replace('SKY-001', 'SKY‑001')}
+          {intro.before.replace('SKY-001', 'SKY\u2011001')}
           {intro.emphasis}
         </p>
-        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[10ch] md:mt-8`}>{hero.title}</h1>
-        <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
-        <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
-        <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
-          <BigLink href={intro.waitlist.cta.href}>{intro.waitlist.cta.label}</BigLink>
-          <TextLink href={intro.video.href} className="border-b-0">
-            {intro.video.label}
-          </TextLink>
-        </div>
+        <h1 className={`${DISPLAY} mt-4 max-w-[16ch] text-[38px] leading-[0.95] sm:text-[56px] lg:text-[76px] lg:leading-[0.92]`}>{hero.title}</h1>
       </div>
-    </section>
-  )
-}
-
-function ReelBand() {
-  return (
-    <section className={`bg-studio ${GUTTER} py-6 md:py-10`}>
-      <div className={WRAP}>
-        <Window title="SKY-001.Output" bodyClassName="bg-studio">
-          <div className="px-3 pb-3 md:px-5">
-            <Reel models={MODELS} className="h-[62svh] min-h-[380px]" />
-          </div>
-        </Window>
+      <TiltedModels className="my-6 min-h-[240px] flex-1 md:my-8 md:min-h-[300px]" />
+      <div className={`${GUTTER} flex flex-col items-center text-center`}>
+        <p className={`${COPY} max-w-[44ch] text-body`}>{hero.lede}</p>
+        <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          <ButtonLink href={intro.waitlist.cta.href}>{intro.waitlist.cta.label}</ButtonLink>
+          <TextLink href={intro.video.href}>{intro.video.label}</TextLink>
+        </div>
       </div>
     </section>
   )
@@ -335,7 +319,6 @@ export function LaunchPage() {
       <Nav home="/" tabs={[{ label: 'SKY-001', href: '#top', current: true }, ...sky001.nav]} cta={sky001.intro.waitlist.cta} />
       <main>
         <Hero />
-        <ReelBand />
         <Intro />
         <Contrarian />
         <Results />

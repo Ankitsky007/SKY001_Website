@@ -94,3 +94,13 @@ details > summary::-webkit-details-marker {
     stroke-dashoffset: -24;
   }
 }
+
+/* Tilted model row (SKY-001 hero): the ring of tiles turns by one full set of models, so the loop is seamless. */
+@keyframes tilt-ring {
+  from {
+    transform: translateZ(var(--ring-r)) rotateY(0deg);
+  }
+  to {
+    transform: translateZ(var(--ring-r)) rotateY(var(--ring-turn));
+  }
+}

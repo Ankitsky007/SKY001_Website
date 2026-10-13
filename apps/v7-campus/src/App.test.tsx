@@ -81,6 +81,11 @@ describe('Launch page', () => {
     for (const t of ['1.0 s', '10 s', '100 s', '1000 s', '51× faster', '32× faster']) expect(within(time).getByText(t)).toBeInTheDocument()
   })
 
+  it('offers a film for each of the four models in the hero row', () => {
+    render(<LaunchPage />)
+    for (const m of showcase.models) expect(screen.getByRole('button', { name: `Play the film: ${m.title}` })).toBeInTheDocument()
+  })
+
   it('lists all four showcase models in the explorer grid', () => {
     render(<LaunchPage />)
     for (const m of showcase.models) expect(screen.getByRole('button', { name: `${showcase.explore.cta}: ${m.title}`, hidden: true })).toBeInTheDocument()
