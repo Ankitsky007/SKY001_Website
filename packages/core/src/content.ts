@@ -394,3 +394,82 @@ export const showcase = {
     { id: 'tractor', title: 'Minitractor 4×4', kind: 'Compact tractor', leaves: 92, nodes: 130, depth: 5 },
   ],
 } as const
+
+// ---------------------------------------------------------------------------------------------
+// Enterprise campus hero (v7). Text for the animated front-page hero, taken as written from
+// Ankit's "Autonomous Enterprise Campus" direction (2026-10-13). The scenario is a made-up story
+// of one business running itself: every figure in it (MRR, tickets, discounts, sites) is a
+// placeholder, not Skyfall data, and needs the team's sign-off before the page is public.
+// ---------------------------------------------------------------------------------------------
+export const campus = {
+  alt: 'An isometric campus with eight departments: support, product, design, engineering, marketing, sales, finance and operations, with a world model floating above. A churn signal in support makes the model imagine three futures for monthly recurring revenue and pick one. Work then travels department to department, a finance guardrail blocks an oversized discount, and when the loop closes MRR rises from 1.20 to 1.29 million dollars. A second, faster loop from a sales lead takes it to 1.34 million.',
+  model: 'World model',
+  departments: {
+    support: { name: 'Customer support', stat: ['214 tickets resolved today', '3 escalated to a human'] },
+    product: { name: 'Product', stat: ['Roadmap: 12 items', '1 moved to P0 today'] },
+    design: { name: 'Design', stat: ['3 flows drafted', '1 picked and shipped'] },
+    engineering: { name: 'Engineering', stat: ['18 PRs merged', '0 rollbacks'] },
+    marketing: { name: 'Marketing', stat: ['41 accounts emailed', '2 campaigns live'] },
+    sales: { name: 'Sales', stat: ['Pipeline $2.1M', '12 sites in trial'] },
+    finance: { name: 'Finance', stat: ['6 guardrails active', '1 held today'] },
+    operations: { name: 'Operations', stat: ['Uptime 99.98%', 'Capacity +22% this week'] },
+  },
+  /** Work travelling between departments: seconds into the 44 s loop, the artefact carried, and the log line on arrival. `bounce` is the offer the finance guardrail turns back. */
+  hops: [
+    { from: 'support', to: 'product', t0: 12, t1: 13.2, artefact: 'Ticket', log: 'Product · exports moved to P0', bounce: false },
+    { from: 'product', to: 'design', t0: 13.4, t1: 14.6, artefact: 'Spec', log: 'Design · 3 flows drafted, 1 picked', bounce: false },
+    { from: 'design', to: 'engineering', t0: 14.8, t1: 16, artefact: 'Mock', log: 'Engineering · PR merged, exports 6× faster', bounce: false },
+    { from: 'engineering', to: 'marketing', t0: 16.2, t1: 17.4, artefact: 'Build', log: 'Marketing · release note to 41 accounts', bounce: false },
+    { from: 'marketing', to: 'sales', t0: 17.6, t1: 18.8, artefact: 'Launch', log: 'Sales · renewal drafted at 40% off', bounce: false },
+    { from: 'sales', to: 'finance', t0: 19, t1: 20.6, artefact: '40% off', log: 'Finance guardrail · discount capped at 15%, offer returned', bounce: true },
+    { from: 'sales', to: 'finance', t0: 21.2, t1: 22.2, artefact: 'Contract', log: 'Finance · 38 renewals booked at list price', bounce: false },
+    { from: 'finance', to: 'operations', t0: 22.4, t1: 23.4, artefact: 'Forecast', log: 'Operations · capacity scaled +22%', bounce: false },
+    { from: 'operations', to: 'support', t0: 23.6, t1: 24.6, artefact: 'Status', log: 'Support · churn risk cleared, 3 cases to a human', bounce: false },
+    { from: 'sales', to: 'design', t0: 29.4, t1: 30.3, artefact: 'Brief', log: 'Design · pilot workspace configured', bounce: false },
+    { from: 'design', to: 'engineering', t0: 30.4, t1: 31.3, artefact: 'Spec', log: 'Engineering · ERP integration shipped', bounce: false },
+    { from: 'engineering', to: 'marketing', t0: 31.4, t1: 32.3, artefact: 'Story', log: 'Marketing · case study drafted', bounce: false },
+    { from: 'marketing', to: 'sales', t0: 32.4, t1: 33.3, artefact: 'Proof', log: 'Sales · 12 sites signed', bounce: false },
+    { from: 'sales', to: 'finance', t0: 33.4, t1: 34.3, artefact: 'Contract', log: 'Finance · +$50K MRR booked', bounce: false },
+    { from: 'finance', to: 'operations', t0: 34.4, t1: 35.3, artefact: 'Order', log: 'Operations · 12 sites onboarded', bounce: false },
+  ],
+  /** Other log lines: time, who speaks ("model" is the world model), text, and whether it is a headline moment. */
+  logs: [
+    { t: 0.6, who: 'operations', text: 'Steady state · 8 functions running', key: false },
+    { t: 3, who: 'support', text: 'Churn risk · 41 accounts flag slow exports', key: true },
+    { t: 6, who: 'model', text: 'World model · simulating 3 futures, 6 weeks ahead', key: false },
+    { t: 10.8, who: 'model', text: 'Plan · ship faster exports (best MRR, margin intact)', key: true },
+    { t: 20.8, who: 'sales', text: 'Sales · renewal at list price + annual plan', key: false },
+    { t: 26.4, who: 'finance', text: 'MRR $1.20M → $1.29M', key: true },
+    { t: 28, who: 'sales', text: 'Inbound · 12-site manufacturer asks for a pilot', key: true },
+    { t: 28.7, who: 'model', text: 'World model · 2 futures, pick: pilot + integration', key: false },
+    { t: 37.4, who: 'finance', text: 'MRR $1.29M → $1.34M', key: true },
+    { t: 38.6, who: 'model', text: '+$140K MRR · 2 loops · 1 guardrail held', key: true },
+  ],
+  /** The status line under the hero copy: from this second on, show this title and line. */
+  states: [
+    { t: 0, title: 'Week 0', line: 'Business as usual' },
+    { t: 3, title: 'Signal', line: 'Support spots churn risk' },
+    { t: 6, title: 'Imagine', line: 'Three futures, six weeks ahead' },
+    { t: 10.8, title: 'Plan', line: 'Pick the best future' },
+    { t: 12, title: 'Ripple', line: 'Work moves department to department' },
+    { t: 19, title: 'Guardrail', line: 'Finance blocks a 40% discount' },
+    { t: 21, title: 'Ripple', line: 'Back on plan' },
+    { t: 24.6, title: 'Loop closed', line: 'MRR rises' },
+    { t: 28, title: 'Second loop', line: 'A new lead, handled faster' },
+    { t: 37.4, title: 'Compounding', line: 'Two loops, one guardrail held' },
+  ],
+  futures: [
+    { key: 'A', name: 'Ship faster exports', mrr: 1.29 },
+    { key: 'B', name: '40% discount', mrr: 1.18 },
+    { key: 'C', name: 'Do nothing', mrr: 1.15 },
+  ],
+  labels: {
+    live: 'Live',
+    guardrail: 'Guardrail · max discount 15%',
+    counter: 'Sales counter · MRR',
+    mrr: 'MRR',
+    flat: 'Flat for 2 weeks',
+    /** "+$90K booked since week 0": the amount is filled in. */
+    booked: 'booked since week 0',
+  },
+} as const
