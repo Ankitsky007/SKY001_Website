@@ -8,15 +8,16 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "concurrently -k -n v1,v2,v3 -c blue,green,magenta \"npm:dev:v1\" \"npm:dev:v2\" \"npm:dev:v3\"",
+    "dev": "concurrently -k -n v1,v2,v3,v4 -c blue,green,magenta,cyan \"npm:dev:v1\" \"npm:dev:v2\" \"npm:dev:v3\" \"npm:dev:v4\"",
     "dev:v1": "npm run dev -w @skyfall/v1-black",
     "dev:v2": "npm run dev -w @skyfall/v2-aeye",
     "dev:v3": "npm run dev -w @skyfall/v3-captain",
-    "build": "npm run build -w @skyfall/v1-black -w @skyfall/v2-aeye -w @skyfall/v3-captain",
-    "preview": "concurrently -k -n v1,v2,v3 -c blue,green,magenta \"npm run preview -w @skyfall/v1-black\" \"npm run preview -w @skyfall/v2-aeye\" \"npm run preview -w @skyfall/v3-captain\"",
+    "dev:v4": "npm run dev -w @skyfall/v4-light",
+    "build": "npm run build -w @skyfall/v1-black -w @skyfall/v2-aeye -w @skyfall/v3-captain -w @skyfall/v4-light",
+    "preview": "concurrently -k -n v1,v2,v3,v4 -c blue,green,magenta,cyan \"npm run preview -w @skyfall/v1-black\" \"npm run preview -w @skyfall/v2-aeye\" \"npm run preview -w @skyfall/v3-captain\" \"npm run preview -w @skyfall/v4-light\"",
     "lint": "oxlint",
     "test": "vitest run",
-    "typecheck": "tsc -b packages/core apps/v1-black apps/v2-aeye apps/v3-captain"
+    "typecheck": "tsc -b packages/core apps/v1-black apps/v2-aeye apps/v3-captain apps/v4-light"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",

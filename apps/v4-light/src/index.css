@@ -1,0 +1,62 @@
+@import 'tailwindcss';
+@import '@skyfall/core/styles.css';
+@source '../../../packages/core/src';
+
+/* v4 Light: white and studio-grey grounds, logo blue the only accent, a dark stage used sparingly.
+   --color-studio must stay #f6f6f6: the showcase frames and reels are rendered on exactly that grey. */
+@theme {
+  --color-paper: #ffffff;
+  --color-studio: #f6f6f6;
+  --color-ink: #0e1116;
+  --color-muted: #5c6474;
+  --color-faint: #8a92a3;
+  --color-line: #e2e6ee;
+  --color-tint: #eef1fd;
+  --color-bar: #c9cfdb;
+  --color-stage: #0b0d12;
+  --color-stage-line: #232836;
+  --color-stage-muted: #9aa3b5;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Reels are encoded video on studio grey; fading the edges hides any codec drift from #f6f6f6. */
+@utility edge-fade {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent), linear-gradient(to bottom, transparent, #000 5%, #000 95%, transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .flow {
+    animation: flow 1.8s linear infinite;
+  }
+}
+@keyframes flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}

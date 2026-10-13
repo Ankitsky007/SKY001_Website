@@ -4,6 +4,7 @@
     { "path": "./packages/core" },
     { "path": "./apps/v1-black" },
     { "path": "./apps/v2-aeye" },
-    { "path": "./apps/v3-captain" }
+    { "path": "./apps/v3-captain" },
+    { "path": "./apps/v4-light" }
   ]
 }
