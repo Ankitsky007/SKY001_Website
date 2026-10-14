@@ -117,7 +117,7 @@ function Results() {
         {sky001.pareto.title}
       </Display>
       <Reveal>
-        <RuleCol label="[01]" className="mt-10 max-w-[560px]">
+        <RuleCol className="mt-10 max-w-[560px]">
           <p className={`${COPY} text-[20px] md:text-[26px]`}>{sky001.pareto.body}</p>
         </RuleCol>
       </Reveal>
@@ -212,7 +212,7 @@ function Explore() {
     <Section id="explore">
       <Display note={explore.eyebrow}>{explore.title}</Display>
       <Reveal>
-        <RuleCol label="[01]" className="mt-10 max-w-[520px]">
+        <RuleCol className="mt-10 max-w-[520px]">
           <p className={`${COPY} text-[20px] md:text-[26px]`}>{explore.body}</p>
         </RuleCol>
       </Reveal>
