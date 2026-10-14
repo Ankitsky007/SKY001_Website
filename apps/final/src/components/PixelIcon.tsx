@@ -11,7 +11,7 @@ const outline = (cells: readonly (readonly [number, number])[], dx = 0, dy = 0) 
  * Crossfades between the grey outline and the blue pixel icon; when it turns active the blue
  * cells assemble in a random order (a small "pixel reveal"), skipped for reduced motion.
  */
-export function PixelIcon({ name, active, className = 'size-[50px] lg:size-20' }: { name: PixelIconName; active: boolean; className?: string }) {
+export function PixelIcon({ name, active, className = 'size-[50px] lg:size-20', color = '#3E57DA', ghost = '#B9C3F2' }: { name: PixelIconName; active: boolean; className?: string; color?: string; ghost?: string }) {
   const ref = useRef<SVGSVGElement>(null)
   const cells = CELLS[name]
   const was = useRef(active)
@@ -30,8 +30,8 @@ export function PixelIcon({ name, active, className = 'size-[50px] lg:size-20' }
     <svg ref={ref} viewBox="0 0 80 80" className={`block shrink-0 overflow-visible ${className}`} aria-hidden="true">
       <path d={outline(cells)} fill="none" stroke="#ADADAD" className={`transition-opacity duration-300 ${active ? 'opacity-0' : 'opacity-100'}`} />
       <g className={`transition-opacity duration-300 ${active ? 'opacity-100' : 'opacity-0'}`}>
-        <path d={outline(cells, 1, -1)} fill="none" stroke="#B9C3F2" />
-        <g fill="#3E57DA">
+        <path d={outline(cells, 1, -1)} fill="none" stroke={ghost} />
+        <g fill={color}>
           {cells.map(([c, r]) => (
             <rect key={`${c}-${r}`} data-px x={c * 8} y={r * 8} width="8" height="8" />
           ))}

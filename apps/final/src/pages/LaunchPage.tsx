@@ -14,7 +14,7 @@ import { Clip } from '../components/Clip'
 import { ExplorerGrid } from '../components/Explorer'
 import { ContrarianFigure } from '../components/ContrarianFigures'
 import { PixelIcon } from '../components/PixelIcon'
-import { DOMAIN_ICONS, type PixelIconName } from '../lib/pixelIcons'
+import { DOMAIN_ICONS, DOMAIN_TONES, type PixelIconName } from '../lib/pixelIcons'
 import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
 import { WarpBackground } from '../components/ui/warp-background'
@@ -264,13 +264,12 @@ function Why() {
   )
 }
 
-/** One domain: its pixel icon over its name. The icon turns blue while the cell is pointed at or focused. */
-function DomainCell({ name, icon }: { name: string; icon: PixelIconName }) {
-  const [on, setOn] = useState(false)
+/** One domain: its pixel icon, in the domain's own muted tone, over its name. */
+function DomainCell({ name, icon, tone }: { name: string; icon: PixelIconName; tone: { color: string; ghost: string } }) {
   return (
-    <li tabIndex={0} onPointerEnter={() => setOn(true)} onPointerLeave={() => setOn(false)} onFocus={() => setOn(true)} onBlur={() => setOn(false)} className={`flex min-h-32 flex-col justify-between gap-4 border-r border-b border-line p-4 outline-none transition-colors ${on ? 'bg-studio' : ''}`}>
-      <PixelIcon name={icon} active={on} className="size-10 lg:size-12" />
-      <span className={`font-mono text-[13px] font-medium tracking-[-0.01em] transition-colors md:text-sm ${on ? 'text-brand' : 'text-ink'}`}>{name}</span>
+    <li className="flex min-h-32 flex-col justify-between gap-4 border-r border-b border-line p-4 transition-colors hover:bg-studio">
+      <PixelIcon name={icon} active className="size-10 lg:size-12" color={tone.color} ghost={tone.ghost} />
+      <span className="font-mono text-[13px] font-medium tracking-[-0.01em] text-ink md:text-sm">{name}</span>
     </li>
   )
 }
@@ -289,7 +288,7 @@ function Next() {
         <Reveal className="flex flex-col justify-between gap-8">
           <ul className="grid grid-cols-2 border-t border-l border-line sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
             {next.domains.map((d, i) => (
-              <DomainCell key={d} name={d} icon={DOMAIN_ICONS[i]} />
+              <DomainCell key={d} name={d} icon={DOMAIN_ICONS[i]} tone={DOMAIN_TONES[i]} />
             ))}
           </ul>
           <RuleCol label="[02]">

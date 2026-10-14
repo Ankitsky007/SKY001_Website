@@ -39,3 +39,17 @@ export const CELLS = Object.fromEntries(
 
 /** One icon per domain on the SKY-001 page, in the order of `sky001.next.domains`. */
 export const DOMAIN_ICONS: PixelIconName[] = ['pcb', 'aerospace', 'energy', 'protein', 'molecule', 'cua', 'software']
+
+/**
+ * A muted tone per domain for its icon, in the same order (Ankit's palette, 2026-10-14): olive,
+ * winkle, arizona, mauve, storm, twang, moss. The pale ghost behind each is the same tone, lighter.
+ */
+export const DOMAIN_TONES: { color: string; ghost: string }[] = [
+  { color: '#4A5B46', ghost: '#C9D0C6' },
+  { color: '#97ABC5', ghost: '#DCE3EC' },
+  { color: '#CA8F73', ghost: '#EFD9CE' },
+  { color: '#84565C', ghost: '#DCCACD' },
+  { color: '#6D8C8E', ghost: '#CDD9DA' },
+  { color: '#CDAD91', ghost: '#EFE4DA' },
+  { color: '#A7B89F', ghost: '#E1E8DD' },
+]
