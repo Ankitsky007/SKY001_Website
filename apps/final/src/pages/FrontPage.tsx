@@ -19,6 +19,9 @@ import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Pan
 const route = (href: string) => (href === '#sky-001' ? LAUNCH : href)
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 
+// The SKY-001 output reel under the hero is hidden for now (Ankit, 2026-10-14); flip to bring it back.
+const SHOW_REEL = false
+
 function ReelBand() {
   return (
     <section className={`bg-studio ${GUTTER} py-6 md:py-10`}>
@@ -265,7 +268,7 @@ export function FrontPage() {
       <Nav home={HOME} tabs={tabs} cta={{ label: hero.primaryCta.label, href: LAUNCH }} />
       <main>
         <CampusHero launchHref={LAUNCH} />
-        <ReelBand />
+        {SHOW_REEL && <ReelBand />}
         <Mission />
         <Problem />
         <Build />
