@@ -1,6 +1,11 @@
 import { ScrollTrigger, SmoothScroll, useLenis } from '@skyfall/core/motion'
 import { useEffect } from 'react'
+import { PartnershipForm } from './components/PartnershipForm'
+import { VideoModal } from './components/VideoModal'
+import { WaitlistForm } from './components/WaitlistForm'
+import { currentPage } from './lib/routes'
 import { FrontPage } from './pages/FrontPage'
+import { LaunchPage } from './pages/LaunchPage'
 
 /** In-page links glide with Lenis (offset by the sticky header); bare "#" placeholders do nothing. */
 function AnchorScroll() {
@@ -51,13 +56,18 @@ function TriggerRefresh() {
   return null
 }
 
-// Final Skyfall site, started from v7 Campus. Front page only for now.
+// Final Skyfall site: the front page at "/" and the SKY-001 page at "/sky-001", with the pop-ups
+// (partnership, waitlist, launch video) shared by both.
 function App() {
+  const page = currentPage()
   return (
     <SmoothScroll>
       <AnchorScroll />
       <TriggerRefresh />
-      <FrontPage />
+      {page === 'launch' ? <LaunchPage /> : <FrontPage />}
+      <PartnershipForm />
+      <WaitlistForm />
+      <VideoModal />
     </SmoothScroll>
   )
 }

@@ -545,3 +545,26 @@ export const partnership = {
     close: 'Close',
   },
 } as const
+
+// ---------------------------------------------------------------------------------------------
+// Waitlist pop-up and launch video pop-up (final site). The success line follows Ankit's wording
+// (2026-10-14); the video is a stand-in clip until the real launch video exists.
+// ---------------------------------------------------------------------------------------------
+export const waitlistForm = {
+  title: 'Join the waitlist',
+  email: 'Work email',
+  submit: 'Submit',
+  sending: 'Sending',
+  required: 'Required',
+  success: {
+    title: 'Thank you',
+    body: 'We have received your information and will mail you the necessary details.',
+    close: 'Close',
+  },
+} as const
+
+export const launchVideo = {
+  title: 'Launch video',
+  /** Shown under the stand-in clip; remove once the real video is in. */
+  note: 'Placeholder clip. The launch video will appear here.',
+} as const

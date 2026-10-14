@@ -1,4 +1,4 @@
-import { backers, hero, partnership, research, showcase, site, sky001Cta, team } from '@skyfall/core'
+import { backers, hero, research, showcase, sky001Cta, team } from '@skyfall/core'
 import { gsap, Reveal, ScrollTrigger, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useEffect, useRef } from 'react'
 import heroClip from '../assets/media/hero.mp4'
@@ -8,14 +8,13 @@ import { Clip } from '../components/Clip'
 import { Footer } from '../components/Footer'
 import { HalftoneField } from '../components/HalftoneField'
 import { LogoRow } from '../components/LogoRow'
-import { Nav, type NavTab } from '../components/Nav'
+import { Nav } from '../components/Nav'
 import type { PixelIconName } from '../components/PixelIcon'
 import { Reel } from '../components/Reel'
 import { StepCards } from '../components/StepCards'
 import { ParetoFigure, ProblemFigure } from '../figures/front'
 import { startGlobe } from '../scenes/globe'
-import { PartnershipForm } from '../components/PartnershipForm'
-import { PARTNERSHIP_HREF } from '../lib/partnership'
+import { footerPages, navTabs } from '../lib/nav'
 import { media } from '../lib/media'
 import { HOME, LAUNCH, RESEARCH } from '../lib/routes'
 import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
@@ -299,11 +298,7 @@ function Backers() {
   )
 }
 
-// The logo is the way home, so there is no Home tab; Careers and Contact stay in the footer only.
-const TABS: NavTab[] = site.nav
-  .filter((n) => n.href !== '#careers' && n.href !== '#contact')
-  .map((n): NavTab => ({ label: n.label, href: route(n.href), spy: n.href === '#research' ? { from: '#problem', to: '#matters' } : undefined }))
-  .concat({ label: partnership.nav, href: PARTNERSHIP_HREF, spy: undefined })
+const TABS = navTabs('home')
 
 export function FrontPage() {
   return (
@@ -321,8 +316,7 @@ export function FrontPage() {
         <Team />
         <Backers />
       </main>
-      <PartnershipForm />
-      <Footer pages={site.nav.map((n) => ({ ...n, href: route(n.href) }))} />
+      <Footer pages={footerPages()} />
     </>
   )
 }
