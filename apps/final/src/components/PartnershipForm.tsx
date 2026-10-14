@@ -32,8 +32,8 @@ async function send(v: Values, trap: string) {
 }
 
 /**
- * Partnership enquiry form in a dialog: a panel from the right on desktop, a full-screen sheet on
- * phones. Opens from any link to #partnership. Fields check themselves when left, all of them on
+ * Partnership enquiry form in a dialog: a box centred on the screen on tablet and desktop, a
+ * full-screen sheet on phones. Opens from any link to #partnership. Fields check themselves when left, all of them on
  * submit; a failed send keeps what was typed.
  */
 export function PartnershipForm() {
@@ -172,7 +172,7 @@ export function PartnershipForm() {
       aria-labelledby={`${uid}-title`}
       data-lenis-prevent
       onClick={(e) => e.target === dialog.current && close()}
-      className="m-0 ml-auto h-dvh max-h-none w-full max-w-none bg-paper p-0 text-ink backdrop:bg-ink/40 backdrop:backdrop-blur-[2px] sm:w-[min(100vw,560px)] sm:border-l sm:border-ink"
+      className="m-0 h-dvh max-h-none w-full max-w-none bg-paper p-0 text-ink backdrop:bg-ink/40 backdrop:backdrop-blur-[2px] sm:m-auto sm:h-auto sm:max-h-[min(90dvh,860px)] sm:w-[min(calc(100vw-3rem),560px)] sm:border sm:border-ink"
     >
       <div className="flex min-h-full flex-col">
         <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b border-line bg-paper pr-3 pl-6 sm:pl-8">
@@ -259,7 +259,7 @@ export function PartnershipForm() {
               </p>
             )}
 
-            <div className="mt-auto pt-2">
+            <div className="mt-auto pt-2 sm:mt-0">
               <button
                 type="submit"
                 disabled={status === 'sending'}
