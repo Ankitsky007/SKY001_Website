@@ -1,5 +1,8 @@
-// Every logo file in assets/logos, keyed by file name without extension. Adding a file is enough.
-const FILES = import.meta.glob<string>('../assets/logos/*.{svg,png,webp}', { eager: true, query: '?url', import: 'default' })
+// Every logo file in assets/logos and assets/logos/investors, keyed by file name without extension. Adding a file is enough.
+const FILES = {
+  ...import.meta.glob<string>('../assets/logos/*.{svg,png,webp}', { eager: true, query: '?url', import: 'default' }),
+  ...import.meta.glob<string>('../assets/logos/investors/*.{svg,png,webp}', { eager: true, query: '?url', import: 'default' }),
+}
 const LOGOS = Object.fromEntries(Object.entries(FILES).map(([path, url]) => [path.split('/').pop()!.replace(/\.\w+$/, ''), url]))
 
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -8,9 +11,9 @@ const slug = (name: string) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').re
  * Row of organisations: each shows its official logo when a file for it exists in assets/logos,
  * and a mono name tag otherwise. The files are monochrome ink on a transparent background.
  */
-export function LogoRow({ names }: { names: readonly string[] }) {
+export function LogoRow({ names, cols = 'grid-cols-2 sm:grid-cols-3' }: { names: readonly string[]; cols?: string }) {
   return (
-    <ul className="grid grid-cols-2 border-t border-l border-line sm:grid-cols-3">
+    <ul className={`grid ${cols} border-t border-l border-line`}>
       {names.map((name) => {
         const src = LOGOS[slug(name)]
         return (

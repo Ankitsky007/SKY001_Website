@@ -19,3 +19,10 @@ for this purpose, unaltered, and check each one's brand guidelines before launch
   organisation from Mila, the Quebec AI Institute named in the content doc. It is not used.
 - The Microsoft original came with a stock-site watermark and a baked checkerboard; both are removed
   in the monochrome version. Replace it with a file from Microsoft's own brand page before launch.
+
+## Investors (`investors/`)
+
+- `fidelity.png`, `touring-capital.png`, `m13.png`, `inovia-capital.png`: the investor logos for the
+  "support of our investors" section, named by the slug of each name in `backers.investors`. Made
+  from the files Ankit supplied (2026-10-14, in `investors/originals/`): white background removed,
+  recoloured to the same monochrome ink as the logos above, lighter tones kept as lighter greys.

@@ -271,14 +271,8 @@ function Backers() {
   return (
     <Section className="border-b border-line">
       <Display size="md">{backers.title}</Display>
-      <Reveal as="ul" stagger={0.06} className="mt-10 grid grid-cols-2 gap-x-4 gap-y-8 lg:mt-14 lg:grid-cols-4 lg:gap-x-12">
-        {backers.investors.map((name, i) => (
-          <li key={name}>
-            <RuleCol label={`[0${i + 1}]`}>
-              <span className={`${DISPLAY} block text-[26px] leading-[0.95] sm:text-[40px]`}>{name}</span>
-            </RuleCol>
-          </li>
-        ))}
+      <Reveal className="mt-10 lg:mt-14">
+        <LogoRow names={backers.investors} cols="grid-cols-2 lg:grid-cols-4" />
       </Reveal>
       <ul className="mt-10 grid gap-3 sm:grid-cols-2 lg:mt-14">
         {backers.advisors.map((a) => (
