@@ -368,11 +368,17 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, stil
     g.setTransform((DPR * (ex[0] - o[0])) / U, (DPR * (ex[1] - o[1])) / U, (DPR * (ez[0] - o[0])) / U, (DPR * (ez[1] - o[1])) / U, DPR * o[0], DPR * o[1])
   }
 
-  /** MRR in $ at story time T: the starting figure plus every hand-off that has landed, each rolling in over a moment. */
+  /** MRR in $ at story time T: it climbs from the start figure to the end figure over the loop, each landed hand-off adding its share as it rolls in. */
   const mrr = () => {
-    let v = campusFlow.startMrr * 1e6
-    for (const h of story.hands) if (!h.bounce && T >= h.t1) v += h.k * 1000 * ease(seg(T, h.t1, h.t1 + 0.8))
-    return v
+    const { start, end } = campusFlow.mrr
+    let total = 0
+    let done = 0
+    for (const h of story.hands) {
+      if (h.bounce) continue
+      total += h.k
+      if (T >= h.t1) done += h.k * ease(seg(T, h.t1, h.t1 + 0.8))
+    }
+    return total ? start + (end - start) * (done / total) : start
   }
 
   /** The long floor at the front: the operating log on the left, MRR on the right. */

@@ -478,13 +478,13 @@ export const campus = {
 // Enterprise campus hero, final site. Same campus as v7, reworked on 2026-10-14: work is handed
 // between departments in a random order instead of one fixed loop, every hand-off adds a little to
 // MRR, and the log runs on a long floor beside the MRR figure. Hand-off lines reuse the v7 story
-// where they can; `k` is the MRR each hand-off books, in $K. Every figure is still a placeholder,
+// where they can; `k` is each hand-off's share of the climb from `mrr.start` to `mrr.end` ($). Every figure is still a placeholder,
 // not Skyfall data, and needs the team's sign-off before the page is public.
 // ---------------------------------------------------------------------------------------------
 export const campusFlow = {
   alt: 'An isometric campus with eight departments: support, product, design, engineering, marketing, sales, finance and operations, with a world model floating above them. Work is handed from department to department in no fixed order, several hand-offs at a time, and each one adds to monthly recurring revenue on a counter at the front. Once, a finance guardrail turns back an oversized discount.',
   model: 'World model',
-  startMrr: 1.2,
+  mrr: { start: 1248, end: 10480 },
   handoffs: [
     { from: 'support', to: 'product', artefact: 'Ticket', log: 'Product · exports moved to P0', k: 2 },
     { from: 'product', to: 'design', artefact: 'Spec', log: 'Design · 3 flows drafted, 1 picked', k: 2 },
