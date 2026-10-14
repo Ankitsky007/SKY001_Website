@@ -3,6 +3,7 @@ import { useLenis } from '@skyfall/core/motion'
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
 import { capWords, countWords, EMPTY, MAX_WORDS, PARTNERSHIP_HREF, validate, type Field, type Values } from '../lib/partnership'
 import { LABEL } from '../lib/ui'
+import { PartnershipArt } from './PartnershipArt'
 
 // Submissions go to a Google Sheet through a Google Apps Script web app (see
 // docs/partnership-form.md). Its URL is set with VITE_PARTNERSHIP_ENDPOINT. Without it, the dev
@@ -186,6 +187,8 @@ export function PartnershipForm() {
             </span>
           </button>
         </header>
+        <PartnershipArt />
+
 
         {status === 'sent' ? (
           <div role="status" className="flex flex-1 flex-col justify-center px-6 py-10 sm:px-8">
