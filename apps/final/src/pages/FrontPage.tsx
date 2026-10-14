@@ -16,7 +16,7 @@ import { ParetoFigure, ProblemFigure } from '../figures/front'
 import { startGlobe } from '../scenes/globe'
 import { media } from '../lib/media'
 import { HOME, LAUNCH, RESEARCH } from '../lib/routes'
-import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Panel, RuleCol, Section, SquareLabel, TextLink, Window, WRAP } from '../lib/ui'
+import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const route = (href: string) => (href === '#sky-001' ? LAUNCH : href === '#research' ? RESEARCH : href)
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
@@ -71,7 +71,7 @@ function Mission() {
     <Section id="research">
       <div ref={section} className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-12">
         <div>
-          <p className={`${LABEL} text-brand`}>[ 01 / {research.mission.label} ]</p>
+          <p className={`${LABEL} text-brand`}>[ {research.mission.label} ]</p>
           <p ref={ref} className={`${DISPLAY} mt-6 max-w-[19ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[clamp(56px,5vw,76px)] lg:leading-[0.94]`}>
             {words.map(({ w, em }, i) => (
               <span key={i} data-word className={em ? 'text-brand' : undefined}>
@@ -89,7 +89,7 @@ function Mission() {
 
 function Problem() {
   return (
-    <Section className="border-t border-line">
+    <Section ground="studio">
       <Display>{research.problem.title}</Display>
       <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-[1.3fr_1fr] lg:gap-12">
         <Reveal as="div" stagger={0.08} className="grid gap-8 sm:grid-cols-3 lg:gap-6">
@@ -115,7 +115,7 @@ function Problem() {
 
 function Build() {
   return (
-    <Section ground="studio">
+    <Section>
       <Display>{research.build.title}</Display>
       <Reveal className="mt-10 grid gap-8 md:grid-cols-2 lg:mt-14 lg:gap-12">
         <RuleCol label="[01]">
@@ -134,7 +134,7 @@ function Build() {
 
 function Pareto() {
   return (
-    <Section>
+    <Section ground="studio">
       <Display align="left" note={research.pareto.axes.join(' / ')}>
         {research.pareto.title}
       </Display>
@@ -185,7 +185,7 @@ const SECTOR_ICONS: PixelIconName[] = ['industrial', 'healthcare', 'chemical', '
 function Matters() {
   const m = research.matters
   return (
-    <Section>
+    <Section id="matters">
       <Display align="left">
         {m.statement.before}
         <span className="text-brand">{m.statement.emphasis}</span>
@@ -223,7 +223,7 @@ function Matters() {
 
 function Team() {
   return (
-    <Section id="team" className="border-t border-line">
+    <Section id="team" ground="studio">
       <Display>{team.title}</Display>
       <div className="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-[1fr_1.4fr] lg:gap-12">
         <Reveal className="grid gap-8">
@@ -269,7 +269,7 @@ function Team() {
 
 function Backers() {
   return (
-    <Section ground="studio">
+    <Section className="border-b border-line">
       <Display size="md">{backers.title}</Display>
       <Reveal as="ul" stagger={0.06} className="mt-10 grid grid-cols-2 gap-x-4 gap-y-8 lg:mt-14 lg:grid-cols-4 lg:gap-x-12">
         {backers.investors.map((name, i) => (
@@ -294,16 +294,19 @@ function Backers() {
           </li>
         ))}
       </ul>
-      <SquareLabel className="mt-6">{showcase.disclaimer}</SquareLabel>
     </Section>
   )
 }
 
+// The logo is the way home, so there is no Home tab; Careers and Contact stay in the footer only.
+const TABS = site.nav
+  .filter((n) => n.href !== '#careers' && n.href !== '#contact')
+  .map((n) => ({ label: n.label, href: route(n.href), spy: n.href === '#research' ? { from: '#research', to: '#matters' } : undefined }))
+
 export function FrontPage() {
-  const tabs = [{ label: 'Home', href: '#top', current: true }, ...site.nav.map((n) => ({ label: n.label, href: route(n.href) }))]
   return (
     <>
-      <Nav home={HOME} tabs={tabs} cta={{ label: hero.primaryCta.label, href: LAUNCH }} />
+      <Nav home={HOME} tabs={TABS} cta={{ label: hero.primaryCta.label, href: LAUNCH }} />
       <main>
         <CampusHero launchHref={LAUNCH} researchHref={RESEARCH} />
         {SHOW_REEL && <ReelBand />}

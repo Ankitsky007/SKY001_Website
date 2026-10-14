@@ -1,10 +1,10 @@
 import { SkyfallLogo } from '@skyfall/core'
-import { ScrollTrigger, useGSAP } from '@skyfall/core/motion'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { scrambleOnHover } from '../lib/scramble'
 import { ButtonLink } from '../lib/ui'
 
-export type NavTab = { label: string; href: string; current?: boolean }
+/** A nav tab. `spy` lights it while the page is between those two sections (ids), so a tab that links elsewhere can still mark its part of the page. */
+export type NavTab = { label: string; href: string; current?: boolean; spy?: { from: string; to?: string } }
 
 const ext = (href: string) => (href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})
 
@@ -18,14 +18,39 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
   const [spied, setSpied] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
 
-  useGSAP(() => {
-    const triggers = tabs
-      .filter((t) => t.href.startsWith('#') && t.href.length > 1 && document.querySelector(t.href))
-      .map((t) => ScrollTrigger.create({ trigger: t.href, start: 'top 50%', end: 'bottom 50%', onToggle: (self) => setSpied(self.isActive ? t.href : null) }))
-    return () => triggers.forEach((t) => t.kill())
-  })
+  // Light the tab whose part of the page crosses a line 40% down the screen. Measured from the
+  // live layout on every scroll, so pinned sections and late-loading media cannot throw it off.
+  useEffect(() => {
+    const spies = tabs
+      .map((t) => ({ label: t.label, spy: t.spy ?? (t.href.startsWith('#') && t.href.length > 1 ? { from: t.href } : null) }))
+      .filter((x): x is { label: string; spy: { from: string; to?: string } } => !!x.spy)
+    let raf = 0
+    const check = () => {
+      raf = 0
+      const line = window.innerHeight * 0.4
+      let hit: string | null = null
+      for (const { label, spy } of spies) {
+        const a = document.querySelector(spy.from)
+        const b = spy.to ? document.querySelector(spy.to) : a
+        if (!a || !b) continue
+        if (a.getBoundingClientRect().top <= line && b.getBoundingClientRect().bottom > line) hit = label
+      }
+      setSpied(hit)
+    }
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check)
+    }
+    check()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
+  }, [tabs])
 
-  const isActive = (t: NavTab) => (spied ? t.href === spied : !!t.current)
+  const isActive = (t: NavTab) => (spied ? t.label === spied : !!t.current)
 
   return (
     <>
@@ -59,7 +84,7 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
           <a
             href={cta.href}
             onPointerEnter={scrambleOnHover}
-            className="group pointer-events-auto flex h-[52px] items-center gap-3 border border-t-0 border-night-mid bg-white px-4 font-mono text-[14px] font-semibold tracking-[-0.02em] text-ink uppercase transition-colors duration-300 hover:text-brand lg:px-5 lg:text-[15px]"
+            className="group pointer-events-auto flex h-11 items-center gap-3 border border-t-0 border-night-mid bg-white px-4 font-mono text-[14px] font-semibold tracking-[-0.02em] text-ink uppercase transition-colors duration-300 hover:text-brand lg:px-5 lg:text-[15px]"
           >
             <span aria-hidden="true" className="block size-2 bg-brand transition-transform duration-300 group-hover:-rotate-180" />
             <span data-scramble>{cta.label}</span>

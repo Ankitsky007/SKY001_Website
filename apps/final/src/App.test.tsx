@@ -1,6 +1,6 @@
 // Reveal hides blocks (visibility) until they scroll into view. Hidden nodes have no accessible
 // name, so headings inside them are matched by their text instead (minus the decorative slashes).
-import { backers, campusFlow, hero, research, sky001Cta, team } from '@skyfall/core'
+import { backers, campusFlow, hero, research, team } from '@skyfall/core'
 import { cleanup, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import App from './App'
@@ -32,7 +32,7 @@ describe('Front page', () => {
 
   it('renders every section heading from content', () => {
     render(<FrontPage />)
-    for (const name of [research.problem.title, research.build.title, research.pareto.title, sky001Cta.title, team.title, backers.title]) {
+    for (const name of [research.problem.title, research.build.title, research.pareto.title, team.title, backers.title]) {
       expect(heading(name)).toBeInTheDocument()
     }
     for (const step of research.build.steps) expect(heading(step.title)).toBeInTheDocument()
