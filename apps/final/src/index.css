@@ -42,6 +42,10 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  /* Stated, not inherited: the Claude artifact viewer wraps the page in its own body rule (14px,
+     normal line height), which would otherwise shrink every size the page doesn't set itself. */
+  font-size: 1rem;
+  line-height: 1.5;
   letter-spacing: -0.02em;
   overflow-x: clip;
 }
