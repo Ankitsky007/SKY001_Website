@@ -1080,14 +1080,139 @@ const drawConstrain: Draw = (g, time) => {
   g.globalAlpha = 1
 }
 
-const PLUGIN_TAKES = { snap: { draw: drawSnap, still: 5.6, alt: figures.snapAlt }, voxel: { draw: drawVoxels, still: 6.2, alt: figures.voxelAlt }, markup: { draw: drawMarkup, still: 6, alt: figures.markupAlt }, constrain: { draw: drawConstrain, still: 6, alt: figures.constrainAlt } } as const
+// Snap + constrain (Ankit's pick, 2026-10-14): the constraint story, told with live X, Y, Z and
+// angle offsets, axis guides and the XYZ marker from the snap take.
 
-const DRAWS = [drawChain, drawDreams, drawDomains]
-const STILLS = [4 * STEP_S + 0.5, 4.5, 0.6]
+const MIX_PERIOD = 8.6
+
+const drawMix: Draw = (g, time) => {
+  const t = time % MIX_PERIOD
+  const fade = Math.min(span(t, 0, 0.4) + 0.0001, 1 - span(t, MIX_PERIOD - 0.6, MIX_PERIOD))
+  const kX = span(t, 0.8, 1.6)
+  const kY = span(t, 1.7, 2.5)
+  const kB = span(t, 2.8, 3.8)
+  const kF = span(t, 4.1, 5.0)
+  const kA = Math.min(kX, kY)
+  const done = t >= 5.0
+  const P = iso(232, 150, 1)
+  const seat = BASE.h
+  const hover = BASE.h + PIN.h + 4
+  const YAW0 = 0.45
+  const yaw = YAW0 * (1 - kB)
+  const start = { x: 52, y: -58, z: hover + 30 }
+  // where the centre must be for hole A to sit over pin A at the starting angle
+  const holeA0 = turn(-30, 0, YAW0)
+  const aim = { x: PINS[0][0] - holeA0[0], y: PINS[0][1] - holeA0[1] }
+  const holeA = turn(-30, 0, yaw)
+  // X, then Y; after that the bracket turns about hole A
+  const cx = kB > 0 ? PINS[0][0] - holeA[0] : start.x + (aim.x - start.x) * kX
+  const cy = kB > 0 ? PINS[0][1] - holeA[1] : start.y + (aim.y - start.y) * kY
+  const tz = start.z + (hover - start.z) * span(t, 0.8, 2.5) + (seat - hover) * kF
+  const holes = [turn(-30, 0, yaw, cx, cy), turn(30, 0, yaw, cx, cy)]
+  g.globalAlpha = fade
+
+  prism(g, P, BASE.hx, BASE.hy, 0, 0, 0, 0, BASE.h, PLAIN)
+  PINS.forEach(([x, y]) => cylinder(g, P, x, y, PIN.r, BASE.h, BASE.h + PIN.h, PLAIN))
+
+  // the constraint links, grey until solved
+  const pinTop = BASE.h + PIN.h
+  const links: { a: Pt; b: Pt; k: number }[] = [
+    { a: P(holes[0][0], holes[0][1], tz), b: P(PINS[0][0], PINS[0][1], pinTop), k: kA },
+    { a: P(holes[1][0], holes[1][1], tz), b: P(PINS[1][0], PINS[1][1], pinTop), k: kB },
+    { a: P(cx, cy, tz), b: P(cx, cy, BASE.h), k: kF },
+  ]
+  links.forEach(({ a, b, k }, i) => {
+    if (k >= 1 || (i === 2 && kB < 1)) return
+    g.strokeStyle = k > 0 ? BRAND : '#CFCFCF'
+    g.setLineDash([3, 3])
+    g.beginPath()
+    g.moveTo(...a)
+    g.lineTo(...b)
+    g.stroke()
+    g.setLineDash([])
+  })
+
+  // the guide for the axis being solved
+  g.strokeStyle = BRAND
+  g.lineWidth = 1.2
+  if (kX > 0 && kX < 1) partLine(g, P(holes[0][0], holes[0][1], tz), P(PINS[0][0], holes[0][1], tz), 1)
+  if (kY > 0 && kY < 1) partLine(g, P(holes[0][0], holes[0][1], tz), P(holes[0][0], PINS[0][1], tz), 1)
+  if (kB > 0 && kB < 1) {
+    // the arc hole B travels about pin A
+    g.setLineDash([2, 3])
+    g.beginPath()
+    for (let i = 0; i <= 20; i++) {
+      const a = yaw * (1 - i / 20)
+      const [x, y] = turn(60, 0, a, PINS[0][0], PINS[0][1])
+      const p = P(x, y, tz)
+      if (i) g.lineTo(...p)
+      else g.moveTo(...p)
+    }
+    g.stroke()
+    g.setLineDash([])
+  }
+  g.lineWidth = 1
+
+  // the bracket, with its two holes
+  prism(g, P, BRACKET.hx, BRACKET.hy, yaw, cx, cy, tz, tz + BRACKET.h, done ? PLAIN : BLUE)
+  holes.forEach(([x, y]) => {
+    const [hx, hy] = P(x, y, tz + BRACKET.h)
+    g.beginPath()
+    g.ellipse(hx, hy, BRACKET.hole * 1.22, BRACKET.hole * 0.707, 0, 0, Math.PI * 2)
+    g.fillStyle = '#FFFFFF'
+    g.fill()
+    g.strokeStyle = done ? INK : BRAND
+    g.stroke()
+  })
+  if (tz + BRACKET.h < pinTop) PINS.forEach(([x, y]) => cylinder(g, P, x, y, PIN.r, tz + BRACKET.h, pinTop, PLAIN))
+
+  if (done) {
+    const pulse = 1 - span(t, 5.0, 5.8)
+    if (pulse > 0) {
+      g.globalAlpha = fade * pulse
+      const k = 1 + (1 - pulse) * 0.25
+      quad(g, [P(cx - BRACKET.hx * k, cy - BRACKET.hy * k, seat), P(cx + BRACKET.hx * k, cy - BRACKET.hy * k, seat), P(cx + BRACKET.hx * k, cy + BRACKET.hy * k, seat), P(cx - BRACKET.hx * k, cy + BRACKET.hy * k, seat)], null, BRAND)
+      g.globalAlpha = fade
+    }
+    const [mx, my] = P(cx + BRACKET.hx, cy - BRACKET.hy, seat + BRACKET.h)
+    g.fillStyle = BRAND
+    g.fillRect(mx + 8, my - 9, 6, 6)
+    label(g, figures.mated, mx + 18, my - 2, BRAND, 'left', 11)
+  }
+
+  // constraints and degrees of freedom, top left
+  const ks = [kA, kB, kF]
+  figures.constraints.forEach((name, i) => checkRow(g, 26 + i * 16, name, ks[i] >= 1 ? 'done' : ks[i] > 0 ? 'now' : 'todo'))
+  const dof = done ? 0 : kB >= 1 ? 1 : kA >= 1 ? 2 : 6
+  label(g, `${figures.dof} ${dof}`, 16, 84, dof === 0 ? BRAND : INK, 'left', 12)
+  if (done) label(g, figures.constrained, 16, 100, BRAND, 'left', 11)
+
+  // offsets, bottom right, counting down to zero
+  const off: [string, number, number, string][] = [
+    // hole A to pin A, then the bracket's height above its seat and its angle
+    ['ΔX', holes[0][0] - PINS[0][0], kX, ''],
+    ['ΔY', holes[0][1] - PINS[0][1], kY, ''],
+    ['ΔZ', tz - seat, kF, ''],
+    ['Δθ', (yaw * 180) / Math.PI, kB, '°'],
+  ]
+  off.forEach(([name, v, k, unit], i) => {
+    const locked = Math.abs(v) < 0.05
+    const c = locked ? BRAND : k > 0 ? INK : MUTED
+    label(g, `${name} ${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(1)}${unit}`, 384, 190 + i * 16, c, 'right', 11)
+  })
+
+  gizmo(g, 46, 214, { x: kX > 0, y: kY > 0, z: kB > 0 || kF > 0 })
+  g.globalAlpha = 1
+}
+
+const PLUGIN_TAKES = { chain: { draw: drawChain, still: 4 * STEP_S + 0.5, alt: figures.alts[0] }, snap: { draw: drawSnap, still: 5.6, alt: figures.snapAlt }, voxel: { draw: drawVoxels, still: 6.2, alt: figures.voxelAlt }, markup: { draw: drawMarkup, still: 6, alt: figures.markupAlt }, constrain: { draw: drawConstrain, still: 6, alt: figures.constrainAlt } } as const
+
+const DRAWS = [drawMix, drawDreams, drawDomains]
+const STILLS = [6, 4.5, 0.6]
 
 /** The illustration for contrarian point `i`. */
 export function ContrarianFigure({ i }: { i: number }) {
   const take = i === 0 ? PLUGIN_TAKES[new URLSearchParams(window.location.search).get('plugin') as keyof typeof PLUGIN_TAKES] : undefined
   if (take) return <Figure draw={take.draw} still={take.still} label={take.alt} />
-  return <Figure draw={DRAWS[i]} still={STILLS[i]} label={figures.alts[i]} />
+  return <Figure draw={DRAWS[i]} still={STILLS[i]} label={i === 0 ? figures.mixAlt : figures.alts[i]} />
 }

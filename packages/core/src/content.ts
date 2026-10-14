@@ -186,6 +186,7 @@ export const sky001 = {
       voxels: 'Voxels',
       // two other takes on the first point, shown for review with ?plugin=snap or ?plugin=voxel
       snapAlt: 'A part is reasoned into place on a base one axis at a time: it slides along X, then Y, then drops on Z, each axis locking with its offset counting to zero, until the faces mate.',
+      mixAlt: 'A bracket is reasoned onto a base in 3D: hole A slides over pin A along X then Y, the bracket turns about Z until hole B meets pin B, then drops face to face, its X, Y, Z and angle offsets counting to zero and its degrees of freedom from six to zero.',
       markupAlt: 'A turning part is marked up the way an engineer would: its centre axis, length, height, a right angle and the boss diameter are measured one by one.',
       constrainAlt: 'A bracket is mated to a base by constraints: hole to pin, second hole to second pin, then face to face, its degrees of freedom counting down from six to zero.',
       markup: ['Axis', 'Length', 'Height', 'Angle', 'Diameter'],
