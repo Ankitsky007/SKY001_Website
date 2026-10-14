@@ -36,3 +36,6 @@ export const CELLS = Object.fromEntries(
   ]),
 ) as Record<PixelIconName, (readonly [number, number])[]>
 
+
+/** One icon per domain on the SKY-001 page, in the order of `sky001.next.domains`. */
+export const DOMAIN_ICONS: PixelIconName[] = ['pcb', 'aerospace', 'energy', 'protein', 'molecule', 'cua', 'software']

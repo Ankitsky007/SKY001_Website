@@ -1,7 +1,7 @@
 import { sky001 } from '@skyfall/core'
 import { useReducedMotion } from '@skyfall/core/motion'
 import { useEffect, useRef } from 'react'
-import { CELLS, type PixelIconName } from '../lib/pixelIcons'
+import { CELLS, DOMAIN_ICONS, type PixelIconName } from '../lib/pixelIcons'
 
 // Three small looping canvas illustrations for the contrarian points on the SKY-001 page (Ankit's
 // picks, 2026-10-14): a bracket reasoned onto a base in 3D, many designs dreamt at once from one
@@ -298,7 +298,6 @@ const drawDreams: Draw = (g, time) => {
 // 3. One model, many domains: a dotted globe turning, with the page's domains orbiting it.
 // ---------------------------------------------------------------------------------------------
 
-const DOMAIN_ICONS: PixelIconName[] = ['pcb', 'aerospace', 'energy', 'protein', 'molecule', 'cua', 'software']
 const GLOBE = { x: 200, y: 112, r: 58 }
 const ORBIT = { rx: 168, ry: 40, y: 118 }
 
