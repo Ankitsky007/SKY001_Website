@@ -186,6 +186,12 @@ export const sky001 = {
       voxels: 'Voxels',
       // two other takes on the first point, shown for review with ?plugin=snap or ?plugin=voxel
       snapAlt: 'A part is reasoned into place on a base one axis at a time: it slides along X, then Y, then drops on Z, each axis locking with its offset counting to zero, until the faces mate.',
+      markupAlt: 'A turning part is marked up the way an engineer would: its centre axis, length, height, a right angle and the boss diameter are measured one by one.',
+      constrainAlt: 'A bracket is mated to a base by constraints: hole to pin, second hole to second pin, then face to face, its degrees of freedom counting down from six to zero.',
+      markup: ['Axis', 'Length', 'Height', 'Angle', 'Diameter'],
+      constraints: ['Hole A ↔ Pin A', 'Hole B ↔ Pin B', 'Face ↔ Face'],
+      dof: 'DOF',
+      constrained: 'Fully constrained',
       voxelAlt: 'A bracket is built voxel by voxel, one Z layer at a time, on an X, Y, Z grid, showing the model thinking in volume rather than words.',
       alts: [
         'A part is built one decision at a time: sketch, extrude, cut, pattern. At each step a wrong option is tried and rejected before the right one is applied.',

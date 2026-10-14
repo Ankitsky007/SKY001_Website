@@ -811,7 +811,276 @@ const drawVoxels: Draw = (g, time) => {
   g.globalAlpha = 1
 }
 
-const PLUGIN_TAKES = { snap: { draw: drawSnap, still: 5.6, alt: figures.snapAlt }, voxel: { draw: drawVoxels, still: 6.2, alt: figures.voxelAlt } } as const
+
+/** Rotate (x, y) about the origin by `a`, then translate. */
+const turn = (x: number, y: number, a: number, tx = 0, ty = 0) => [tx + x * Math.cos(a) - y * Math.sin(a), ty + x * Math.sin(a) + y * Math.cos(a)] as const
+
+/** A box of half-size (hx, hy) turned by `yaw` about its centre (tx, ty), from z0 to z1; only the sides facing the viewer are drawn. */
+function prism(g: CanvasRenderingContext2D, P: ReturnType<typeof iso>, hx: number, hy: number, yaw: number, tx: number, ty: number, z0: number, z1: number, look: Look) {
+  const local: [number, number][] = [
+    [-hx, -hy],
+    [hx, -hy],
+    [hx, hy],
+    [-hx, hy],
+  ]
+  const c = local.map(([x, y]) => turn(x, y, yaw, tx, ty))
+  const sides = c.map((a, i) => {
+    const b = c[(i + 1) % 4]
+    // outward normal of the edge a→b (the corners run clockwise in plate space)
+    const nx = b[1] - a[1]
+    const ny = -(b[0] - a[0])
+    return { a, b, facing: nx + ny, shade: nx - ny }
+  })
+  sides
+    .filter((sd) => sd.facing > 0.01)
+    .forEach(({ a, b, shade }) => quad(g, [P(a[0], a[1], z0), P(b[0], b[1], z0), P(b[0], b[1], z1), P(a[0], a[1], z1)], shade < 0 ? look.left : look.right, look.line))
+  quad(
+    g,
+    c.map(([x, y]) => P(x, y, z1)),
+    look.top,
+    look.line,
+  )
+}
+
+/** An upright cylinder of radius r at (x, y) from z0 to z1, optionally with a bore of radius `bore`. */
+function cylinder(g: CanvasRenderingContext2D, P: ReturnType<typeof iso>, x: number, y: number, r: number, z0: number, z1: number, look: Look, bore = 0) {
+  const [cx, b] = P(x, y, z0)
+  const [, t] = P(x, y, z1)
+  const rx = r * 1.22
+  const ry = r * 0.707
+  g.beginPath()
+  g.moveTo(cx - rx, t)
+  g.lineTo(cx - rx, b)
+  g.ellipse(cx, b, rx, ry, 0, Math.PI, 0, true)
+  g.lineTo(cx + rx, t)
+  g.closePath()
+  g.fillStyle = look.left
+  g.fill()
+  g.strokeStyle = look.line
+  g.stroke()
+  g.beginPath()
+  g.ellipse(cx, t, rx, ry, 0, 0, Math.PI * 2)
+  g.fillStyle = look.top
+  g.fill()
+  g.stroke()
+  if (bore) {
+    g.beginPath()
+    g.ellipse(cx, t, bore * 1.22, bore * 0.707, 0, 0, Math.PI * 2)
+    g.fillStyle = '#D6D6D6'
+    g.fill()
+    g.stroke()
+  }
+}
+
+/** A line from a to b drawn `k` of the way. */
+function partLine(g: CanvasRenderingContext2D, a: Pt, b: Pt, k: number) {
+  if (k <= 0) return
+  g.beginPath()
+  g.moveTo(...a)
+  g.lineTo(a[0] + (b[0] - a[0]) * k, a[1] + (b[1] - a[1]) * k)
+  g.stroke()
+}
+
+/** A checklist row in the corner: a square that fills blue once found, and its text. */
+function checkRow(g: CanvasRenderingContext2D, y: number, text: string, state: 'todo' | 'now' | 'done') {
+  if (state === 'done') {
+    g.fillStyle = BRAND
+    g.fillRect(16, y - 8, 7, 7)
+  } else {
+    g.strokeStyle = state === 'now' ? INK : GREY
+    g.strokeRect(16.5, y - 7.5, 6, 6)
+  }
+  label(g, text, 30, y, state === 'done' ? BRAND : state === 'now' ? INK : MUTED, 'left', 11)
+}
+
+// Option 3: a turning part, marked up one measurement at a time.
+
+const MARKUP_PERIOD = 8
+const PLATE = { hx: 60, hy: 40, h: 14 }
+const BOSS = { r: 16, h: 16, bore: 7 }
+
+const drawMarkup: Draw = (g, time) => {
+  const t = time % MARKUP_PERIOD
+  const fade = Math.min(span(t, 0, 0.4) + 0.0001, 1 - span(t, MARKUP_PERIOD - 0.6, MARKUP_PERIOD))
+  const yaw = Math.sin(time * 0.5) * 0.3
+  const P = iso(238, 150, 1)
+  const R = (x: number, y: number, z: number) => {
+    const [a, b] = turn(x, y, yaw)
+    return P(a, b, z)
+  }
+  const k = (i: number) => span(t, 0.6 + i * 0.9, 1.3 + i * 0.9)
+  const { hx, hy, h } = PLATE
+  const top = h + BOSS.h
+  g.globalAlpha = fade
+
+  prism(g, P, hx, hy, yaw, 0, 0, 0, h, PLAIN)
+  cylinder(g, P, 0, 0, BOSS.r, h, top, PLAIN, BOSS.bore)
+
+  g.strokeStyle = BRAND
+  g.fillStyle = BRAND
+  g.lineWidth = 1.2
+
+  // 0 · the centre axis
+  g.setLineDash([8, 3, 2, 3])
+  partLine(g, P(0, 0, -10), P(0, 0, top + 26), k(0))
+  g.setLineDash([])
+
+  // 1 · length, along the front edge
+  if (k(1) > 0) {
+    const off = hy + 16
+    g.setLineDash([2, 2])
+    partLine(g, R(-hx, hy + 3, 0), R(-hx, off + 4, 0), k(1))
+    partLine(g, R(hx, hy + 3, 0), R(hx, off + 4, 0), k(1))
+    g.setLineDash([])
+    const a = R(-hx, off, 0)
+    const b = R(hx, off, 0)
+    partLine(g, a, b, k(1))
+    if (k(1) >= 1) {
+      g.fillRect(a[0] - 2, a[1] - 2, 4, 4)
+      g.fillRect(b[0] - 2, b[1] - 2, 4, 4)
+      const m = R(0, off + 12, 0)
+      label(g, String(hx * 2), m[0], m[1] + 8, BRAND, 'center', 11)
+    }
+  }
+
+  // 2 · height, at the right corner
+  if (k(2) > 0) {
+    const a = R(hx + 12, hy, 0)
+    const b = R(hx + 12, hy, h)
+    partLine(g, a, b, k(2))
+    if (k(2) >= 1) {
+      g.fillRect(a[0] - 2, a[1] - 2, 4, 4)
+      g.fillRect(b[0] - 2, b[1] - 2, 4, 4)
+      label(g, String(h), b[0] + 8, (a[1] + b[1]) / 2 + 4, BRAND, 'left', 11)
+    }
+  }
+
+  // 3 · the right angle at the far-right corner of the top
+  if (k(3) > 0) {
+    const r = 14
+    g.beginPath()
+    const n = 16
+    for (let i = 0; i <= n * k(3); i++) {
+      const a = (i / n) * (Math.PI / 2)
+      const p = R(hx - r * Math.cos(a), -hy + r * Math.sin(a), h)
+      if (i) g.lineTo(...p)
+      else g.moveTo(...p)
+    }
+    g.stroke()
+    if (k(3) >= 1) {
+      const p = R(hx - 26, -hy + 10, h)
+      label(g, '90°', p[0], p[1] - 4, BRAND, 'center', 11)
+    }
+  }
+
+  // 4 · the boss diameter, across its top
+  if (k(4) > 0) {
+    const [cx, cy] = P(0, 0, top)
+    const rx = BOSS.r * 1.22
+    partLine(g, [cx - rx, cy] as const, [cx + rx, cy] as const, k(4))
+    if (k(4) >= 1) {
+      g.beginPath()
+      g.moveTo(cx + rx, cy)
+      g.lineTo(cx + rx + 18, cy - 12)
+      g.lineTo(cx + rx + 30, cy - 12)
+      g.stroke()
+      label(g, `Ø ${BOSS.r * 2}`, cx + rx + 33, cy - 8, BRAND, 'left', 11)
+    }
+  }
+  g.lineWidth = 1
+
+  figures.markup.forEach((name, i) => checkRow(g, 26 + i * 16, name, k(i) >= 1 ? 'done' : k(i) > 0 ? 'now' : 'todo'))
+  g.globalAlpha = 1
+}
+
+// Option 4: a bracket mated to a base by constraints, its degrees of freedom counting down.
+
+const CONSTRAIN_PERIOD = 8
+const BASE = { hx: 64, hy: 38, h: 12 }
+const PINS: [number, number][] = [
+  [-30, 0],
+  [30, 0],
+]
+const PIN = { r: 6, h: 14 }
+const BRACKET = { hx: 46, hy: 17, h: 10, hole: 7.5 }
+
+const drawConstrain: Draw = (g, time) => {
+  const t = time % CONSTRAIN_PERIOD
+  const fade = Math.min(span(t, 0, 0.4) + 0.0001, 1 - span(t, CONSTRAIN_PERIOD - 0.6, CONSTRAIN_PERIOD))
+  const kA = span(t, 0.8, 2.0)
+  const kB = span(t, 2.3, 3.5)
+  const kF = span(t, 3.8, 4.8)
+  const done = t >= 4.8
+  const P = iso(226, 150, 1)
+  const seat = BASE.h
+  const hover = BASE.h + PIN.h + 4
+  // start: turned and off to the side, high up
+  const yaw = 0.45 * (1 - kB)
+  const start = { x: 52, y: -58, z: hover + 30 }
+  // hole A is local (-30, 0); once A is solved it sits over pin A and the bracket turns about it
+  const holeA = turn(-30, 0, yaw)
+  const aimX = PINS[0][0] - holeA[0]
+  const aimY = PINS[0][1] - holeA[1]
+  const tx = start.x + (aimX - start.x) * kA
+  const ty = start.y + (aimY - start.y) * kA
+  const tz = start.z + (hover - start.z) * kA + (seat - hover) * kF
+  const holes = [turn(-30, 0, yaw, tx, ty), turn(30, 0, yaw, tx, ty)]
+  g.globalAlpha = fade
+
+  prism(g, P, BASE.hx, BASE.hy, 0, 0, 0, 0, BASE.h, PLAIN)
+  PINS.forEach(([x, y]) => cylinder(g, P, x, y, PIN.r, BASE.h, BASE.h + PIN.h, PLAIN))
+
+  // the constraint links, grey until solved
+  const links: { a: Pt; b: Pt; k: number }[] = [
+    { a: P(holes[0][0], holes[0][1], tz), b: P(PINS[0][0], PINS[0][1], BASE.h + PIN.h), k: kA },
+    { a: P(holes[1][0], holes[1][1], tz), b: P(PINS[1][0], PINS[1][1], BASE.h + PIN.h), k: kB },
+    { a: P(tx, ty, tz), b: P(0, 0, BASE.h), k: kF },
+  ]
+  links.forEach(({ a, b, k }) => {
+    if (k >= 1) return
+    g.strokeStyle = k > 0 ? BRAND : GREY
+    g.setLineDash([3, 3])
+    g.beginPath()
+    g.moveTo(...a)
+    g.lineTo(...b)
+    g.stroke()
+    g.setLineDash([])
+  })
+
+  // the bracket, with its two holes
+  prism(g, P, BRACKET.hx, BRACKET.hy, yaw, tx, ty, tz, tz + BRACKET.h, done ? PLAIN : BLUE)
+  holes.forEach(([x, y]) => {
+    const [cx, cy] = P(x, y, tz + BRACKET.h)
+    g.beginPath()
+    g.ellipse(cx, cy, BRACKET.hole * 1.22, BRACKET.hole * 0.707, 0, 0, Math.PI * 2)
+    g.fillStyle = '#FFFFFF'
+    g.fill()
+    g.strokeStyle = done ? INK : BRAND
+    g.stroke()
+  })
+  // pins showing through the holes once it is seated
+  if (tz + BRACKET.h < BASE.h + PIN.h) PINS.forEach(([x, y]) => cylinder(g, P, x, y, PIN.r, tz + BRACKET.h, BASE.h + PIN.h, PLAIN))
+
+  if (done) {
+    const pulse = 1 - span(t, 4.8, 5.6)
+    if (pulse > 0) {
+      g.globalAlpha = fade * pulse
+      g.strokeStyle = BRAND
+      const grow = 1 + (1 - pulse) * 0.25
+      quad(g, [P(-BRACKET.hx * grow, -BRACKET.hy * grow, seat), P(BRACKET.hx * grow, -BRACKET.hy * grow, seat), P(BRACKET.hx * grow, BRACKET.hy * grow, seat), P(-BRACKET.hx * grow, BRACKET.hy * grow, seat)], null, BRAND)
+      g.globalAlpha = fade
+    }
+  }
+
+  const ks = [kA, kB, kF]
+  figures.constraints.forEach((name, i) => checkRow(g, 26 + i * 16, name, ks[i] >= 1 ? 'done' : ks[i] > 0 ? 'now' : 'todo'))
+  const dof = done ? 0 : kB >= 1 ? 1 : kA >= 1 ? 2 : 6
+  label(g, `${figures.dof} ${dof}`, 16, 84, dof === 0 ? BRAND : INK, 'left', 12)
+  if (done) label(g, figures.constrained, 16, 100, BRAND, 'left', 11)
+  g.globalAlpha = 1
+}
+
+const PLUGIN_TAKES = { snap: { draw: drawSnap, still: 5.6, alt: figures.snapAlt }, voxel: { draw: drawVoxels, still: 6.2, alt: figures.voxelAlt }, markup: { draw: drawMarkup, still: 6, alt: figures.markupAlt }, constrain: { draw: drawConstrain, still: 6, alt: figures.constrainAlt } } as const
 
 const DRAWS = [drawChain, drawDreams, drawDomains]
 const STILLS = [4 * STEP_S + 0.5, 4.5, 0.6]
