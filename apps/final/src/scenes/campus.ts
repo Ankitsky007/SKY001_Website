@@ -311,7 +311,7 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, stil
     }
   }
 
-  /** The dotted ground around the slab, fading out on all sides. */
+  /** The drafting grid around the slab, fading out on all sides. */
   function drawGround(A: number) {
     ground ??= document.createElement('canvas')
     if (ground.width !== cv.width || ground.height !== cv.height) {
@@ -325,18 +325,35 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, stil
     q.clearRect(0, 0, ground.width, ground.height)
     q.setTransform(DPR, 0, 0, DPR, 0, 0)
     const sp = 0.35
-    const n = 18
+    const n = 34
     const y = FLOOR.base
-    q.fillStyle = C.ruleHi
-    for (let i = -n; i <= Math.round(EXT[0] / sp) + n; i++) {
-      for (let j = -n; j <= Math.round(FLOOR.z1 / sp) + n; j++) {
-        const p = P(i * sp, y, j * sp)
-        const major = i % 4 === 0 && j % 4 === 0
-        q.globalAlpha = major ? 1 : 0.7
-        const s = major ? 2 : 1.3
-        q.fillRect(p[0] - s / 2, p[1] - s / 2, s, s)
+    const xa = -M - n * sp
+    const xb = EXT[0] + M + n * sp
+    const za = -M - n * sp
+    const zb = FLOOR.z1 + n * sp
+    const lines = (major: boolean) => {
+      q.beginPath()
+      for (let j = -n; j <= Math.round((EXT[0] + 2 * M) / sp) + n; j++) {
+        if ((j % 4 === 0) !== major) continue
+        const x = -M + j * sp
+        q.moveTo(...P(x, y, za))
+        q.lineTo(...P(x, y, zb))
       }
+      for (let j = -n; j <= Math.round((FLOOR.z1 + M) / sp) + n; j++) {
+        if ((j % 4 === 0) !== major) continue
+        const z = -M + j * sp
+        q.moveTo(...P(xa, y, z))
+        q.lineTo(...P(xb, y, z))
+      }
+      q.stroke()
     }
+    q.strokeStyle = C.ruleHi
+    q.lineWidth = 0.5
+    q.globalAlpha = 0.55
+    lines(false)
+    q.lineWidth = 0.8
+    q.globalAlpha = 0.9
+    lines(true)
     const c = P(EXT[0] / 2, y, FLOOR.z1 / 2)
     const rx = Math.min(W * 0.55, 7.6 * V.s * V.zoom)
     q.globalCompositeOperation = 'destination-in'
