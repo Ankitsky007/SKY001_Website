@@ -89,7 +89,7 @@ function Mission() {
 
 function Problem() {
   return (
-    <Section ground="studio">
+    <Section id="problem" ground="studio">
       <Display>{research.problem.title}</Display>
       <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-[1.3fr_1fr] lg:gap-12">
         <Reveal as="div" stagger={0.08} className="grid gap-8 sm:grid-cols-3 lg:gap-6">
@@ -300,7 +300,7 @@ function Backers() {
 // The logo is the way home, so there is no Home tab; Careers and Contact stay in the footer only.
 const TABS = site.nav
   .filter((n) => n.href !== '#careers' && n.href !== '#contact')
-  .map((n) => ({ label: n.label, href: route(n.href), spy: n.href === '#research' ? { from: '#research', to: '#matters' } : undefined }))
+  .map((n) => ({ label: n.label, href: route(n.href), spy: n.href === '#research' ? { from: '#problem', to: '#matters' } : undefined }))
 
 export function FrontPage() {
   return (
