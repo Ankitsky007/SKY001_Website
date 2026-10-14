@@ -27,10 +27,12 @@ export type CampusPalette = {
   label: string
   /** Soft shadow under the slab. */
   shadow: string
+  /** Background grid lines: the same colour and strength as every other grid on the site. */
+  grid: string
 }
 
-export const CAMPUS_LIGHT: CampusPalette = { bg: '#FFFFFF', carbon: '#F4F5F8', panel: '#FFFFFF', faceL: '#EEF0F5', faceR: '#DFE3EB', rule: '#D9DCE2', ruleHi: '#B7BCC7', paper: '#1A1A1A', muted: '#7A7A7A', blue: '#3E57DA', lift: '#3E57DA', label: '#E6E8EE', shadow: 'rgba(30,40,80,0.16)' }
-export const CAMPUS_DARK: CampusPalette = { bg: '#07080A', carbon: '#111419', panel: '#1B1F27', faceL: '#13161C', faceR: '#0C0E12', rule: '#262A32', ruleHi: '#3A3F4B', paper: '#ECEDEF', muted: '#8B90A0', blue: '#3E57DA', lift: '#6F83F0', label: '#22262E', shadow: 'rgba(0,0,0,0.6)' }
+export const CAMPUS_LIGHT: CampusPalette = { bg: '#FFFFFF', carbon: '#F4F5F8', panel: '#FFFFFF', faceL: '#EEF0F5', faceR: '#DFE3EB', rule: '#D9DCE2', ruleHi: '#B7BCC7', paper: '#1A1A1A', muted: '#7A7A7A', blue: '#3E57DA', lift: '#3E57DA', label: '#E6E8EE', shadow: 'rgba(30,40,80,0.16)', grid: 'rgba(62,87,218,0.1)' }
+export const CAMPUS_DARK: CampusPalette = { bg: '#07080A', carbon: '#111419', panel: '#1B1F27', faceL: '#13161C', faceR: '#0C0E12', rule: '#262A32', ruleHi: '#3A3F4B', paper: '#ECEDEF', muted: '#8B90A0', blue: '#3E57DA', lift: '#6F83F0', label: '#22262E', shadow: 'rgba(0,0,0,0.6)', grid: 'rgba(255,255,255,0.1)' }
 
 type DeptKey = keyof typeof campus.departments
 type Pt = [number, number]
@@ -331,29 +333,22 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, stil
     const xb = EXT[0] + M + n * sp
     const za = -M - n * sp
     const zb = FLOOR.z1 + n * sp
-    const lines = (major: boolean) => {
-      q.beginPath()
-      for (let j = -n; j <= Math.round((EXT[0] + 2 * M) / sp) + n; j++) {
-        if ((j % 4 === 0) !== major) continue
-        const x = -M + j * sp
-        q.moveTo(...P(x, y, za))
-        q.lineTo(...P(x, y, zb))
-      }
-      for (let j = -n; j <= Math.round((FLOOR.z1 + M) / sp) + n; j++) {
-        if ((j % 4 === 0) !== major) continue
-        const z = -M + j * sp
-        q.moveTo(...P(xa, y, z))
-        q.lineTo(...P(xb, y, z))
-      }
-      q.stroke()
+    // one weight and one colour for every line, as on the site's other grids
+    q.beginPath()
+    for (let j = -n; j <= Math.round((EXT[0] + 2 * M) / sp) + n; j++) {
+      const x = -M + j * sp
+      q.moveTo(...P(x, y, za))
+      q.lineTo(...P(x, y, zb))
     }
-    q.strokeStyle = C.ruleHi
-    q.lineWidth = 0.5
-    q.globalAlpha = 0.55
-    lines(false)
-    q.lineWidth = 0.8
-    q.globalAlpha = 0.9
-    lines(true)
+    for (let j = -n; j <= Math.round((FLOOR.z1 + M) / sp) + n; j++) {
+      const z = -M + j * sp
+      q.moveTo(...P(xa, y, z))
+      q.lineTo(...P(xb, y, z))
+    }
+    q.strokeStyle = C.grid
+    q.lineWidth = 1
+    q.globalAlpha = 1
+    q.stroke()
     const c = P(EXT[0] / 2, y, FLOOR.z1 / 2)
     const rx = Math.max(1, Math.min(W * 0.55, 7.6 * V.s * V.zoom))
     q.globalCompositeOperation = 'destination-in'

@@ -33,7 +33,7 @@ function Hero() {
   return (
     <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-28 md:pb-20`}>
       {/* the warp: grid walls in perspective with blue beams running towards the viewer */}
-      <WarpBackground aria-hidden="true" perspective={120} beamsPerSide={4} beamSize={5} beamDuration={4} className="pointer-events-none absolute! inset-0 [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]" />
+      <WarpBackground aria-hidden="true" perspective={120} beamsPerSide={4} beamSize={5} beamDuration={4} gridColor="var(--color-grid)" className="pointer-events-none absolute! inset-0 [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]" />
       {/* the hero rises in line by line on load, like the reveals further down */}
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <NewsCard />
