@@ -43,6 +43,8 @@ export const functions = ['Sales', 'Design', 'Engineering', 'Customer support', 
 
 export const research = {
   mission: {
+    /** Small chapter label above the statement on the final site. */
+    label: 'Mission',
     before: 'Our mission is to build the foundation infrastructure for autonomous enterprise through ',
     emphasis: 'Engineering World Models.',
   },

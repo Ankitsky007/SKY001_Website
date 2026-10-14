@@ -1,5 +1,6 @@
 import { backers, hero, research, showcase, site, sky001Cta, team } from '@skyfall/core'
-import { Reveal } from '@skyfall/core/motion'
+import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
+import { useRef } from 'react'
 import heroClip from '../assets/media/hero.mp4'
 import heroPoster from '../assets/media/s-hero.jpg'
 import { CampusHero } from '../components/CampusHero'
@@ -36,15 +37,40 @@ function ReelBand() {
   )
 }
 
+/**
+ * The mission statement, filled in word by word as it scrolls through the screen (grey to ink, the
+ * emphasis to brand blue), with a chapter label above and a faint live dot field on the right.
+ */
 function Mission() {
+  const ref = useRef<HTMLParagraphElement>(null)
+  const reduced = useReducedMotion()
+  const words = [...research.mission.before.trim().split(' ').map((w) => ({ w, em: false })), ...research.mission.emphasis.split(' ').map((w) => ({ w, em: true }))]
+  useGSAP(
+    () => {
+      if (reduced || !ref.current) return
+      const spans = ref.current.querySelectorAll('[data-word]')
+      gsap.fromTo(spans, { opacity: 0.16 }, { opacity: 1, ease: 'none', stagger: 0.1, scrollTrigger: { trigger: ref.current, start: 'top 80%', end: 'bottom 45%', scrub: 0.4 } })
+    },
+    { dependencies: [reduced], scope: ref },
+  )
   return (
-    <Section id="research">
-      <Reveal>
-        <p className={`${DISPLAY} max-w-[19ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:text-[80px] lg:leading-[0.94]`}>
-          {research.mission.before}
-          <span className="text-brand">{research.mission.emphasis}</span>
-        </p>
-      </Reveal>
+    <Section
+      id="research"
+      field={
+        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-[55%] opacity-40 [mask-image:linear-gradient(to_right,transparent,#000_45%)] md:block">
+          <HalftoneField tone="light" cell={11} />
+        </div>
+      }
+    >
+      <p className={`${LABEL} text-brand`}>[ 01 / {research.mission.label} ]</p>
+      <p ref={ref} className={`${DISPLAY} mt-6 max-w-[19ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[80px] lg:leading-[0.94]`}>
+        {words.map(({ w, em }, i) => (
+          <span key={i} data-word className={em ? 'text-brand' : undefined}>
+            {w}
+            {i < words.length - 1 ? ' ' : ''}
+          </span>
+        ))}
+      </p>
     </Section>
   )
 }

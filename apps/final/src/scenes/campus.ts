@@ -355,7 +355,7 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, stil
     q.globalAlpha = 0.9
     lines(true)
     const c = P(EXT[0] / 2, y, FLOOR.z1 / 2)
-    const rx = Math.min(W * 0.55, 7.6 * V.s * V.zoom)
+    const rx = Math.max(1, Math.min(W * 0.55, 7.6 * V.s * V.zoom))
     q.globalCompositeOperation = 'destination-in'
     q.globalAlpha = 1
     q.save()
@@ -867,7 +867,7 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, stil
     const ys = pts.map((p) => p[1])
     const bw = Math.max(...xs) - Math.min(...xs)
     const bh = Math.max(...ys) - Math.min(...ys)
-    V.s = Math.min((r - l) / bw, (b - t) / bh)
+    V.s = Math.max(1, Math.min((r - l) / bw, (b - t) / bh))
     V.cx = (l + r) / 2 - ((Math.max(...xs) + Math.min(...xs)) / 2) * V.s
     V.cy = (t + b) / 2 - ((Math.max(...ys) + Math.min(...ys)) / 2) * V.s
   }

@@ -1,6 +1,5 @@
 import { ScrollTrigger, SmoothScroll, useLenis } from '@skyfall/core/motion'
 import { useEffect } from 'react'
-import { FxPicker } from './components/FxPicker'
 import { FrontPage } from './pages/FrontPage'
 
 /** In-page links glide with Lenis (offset by the sticky header); bare "#" placeholders do nothing. */
@@ -59,7 +58,6 @@ function App() {
       <AnchorScroll />
       <TriggerRefresh />
       <FrontPage />
-      <FxPicker />
     </SmoothScroll>
   )
 }
