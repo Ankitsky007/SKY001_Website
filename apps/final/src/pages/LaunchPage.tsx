@@ -1,6 +1,6 @@
 import { benchmarks, docCharts, showcase, sky001 } from '@skyfall/core'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
-import { useEffect, useRef, useState } from 'react'
+import { useRef } from 'react'
 import extrudeClip from '../assets/media/extrude.mp4'
 import plansClip from '../assets/media/plans.mp4'
 import restackClip from '../assets/media/restack.mp4'
@@ -100,41 +100,24 @@ function ModelRing() {
 
 // An animated illustration beside each point (Ankit's picks, 2026-10-14): a bracket reasoned onto
 // a base in 3D, many designs dreamt at once, and a globe with the domains in orbit. The point's
-// title sits on the window's band and its number above the text. One
-// point is lit at a time (the first to start): pointing at, focusing or tapping a card lights it.
-// On touch screens, where nothing is pointed at, the card crossing the middle of the screen
-// lights as you scroll.
+// title sits on the window's band and its number above the text. No hover state (Ankit, 2026-10-14).
 function Contrarian() {
   const { contrarian } = sky001
-  const [active, setActive] = useState(0)
-  const list = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const cards = list.current?.querySelectorAll('li')
-    if (!cards || !window.matchMedia('(hover: none)').matches) return
-    const io = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && setActive([...cards].indexOf(e.target as HTMLLIElement))), { rootMargin: '-45% 0px -45% 0px' })
-    cards.forEach((c) => io.observe(c))
-    return () => io.disconnect()
-  }, [])
   return (
     <Section ground="studio">
       <Display>{contrarian.title}</Display>
-      <div ref={list}>
-        <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-10">
-          {contrarian.points.map((p, i) => {
-            const on = i === active
-            return (
-              <li key={p.title} tabIndex={0} className="flex flex-col gap-5 outline-none" onPointerEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}>
-                <Window title={<h3>{p.title}</h3>} accent={on} bodyClassName="bg-paper">
-                  <ContrarianFigure i={i} />
-                </Window>
-                <RuleCol label={<span className={`transition-colors ${on ? 'text-brand' : ''}`}>{String(i + 1).padStart(2, '0')}</span>} className="flex-1">
-                  <p className={SMALL}>{p.body}</p>
-                </RuleCol>
-              </li>
-            )
-          })}
-        </Reveal>
-      </div>
+      <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-10">
+        {contrarian.points.map((p, i) => (
+          <li key={p.title} className="flex flex-col gap-5">
+            <Window title={<h3>{p.title}</h3>} bodyClassName="bg-paper">
+              <ContrarianFigure i={i} />
+            </Window>
+            <RuleCol label={String(i + 1).padStart(2, '0')} className="flex-1">
+              <p className={SMALL}>{p.body}</p>
+            </RuleCol>
+          </li>
+        ))}
+      </Reveal>
     </Section>
   )
 }
