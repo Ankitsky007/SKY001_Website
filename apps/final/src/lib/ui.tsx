@@ -91,11 +91,11 @@ export function Window({ title, accent = false, children, className = '', bodyCl
   )
 }
 
-/** Dotted blue panel that holds a window, with a black tag in the corner and a ruled caption below. */
+/** Dotted grey panel that holds a window, with a black tag in the corner and a ruled caption below. */
 export function Panel({ tag, children, title, caption, className = '', padded = true }: { tag: ReactNode; children: ReactNode; title?: ReactNode; caption?: ReactNode; className?: string; padded?: boolean }) {
   return (
     <figure className={`flex flex-col border-l border-ink ${className}`}>
-      <div className={`dots-blue relative flex-1 ${padded ? 'px-4 pt-12 pb-8 md:px-8 md:pt-14 md:pb-10' : ''}`}>
+      <div className={`dots-grey relative flex-1 ${padded ? 'px-4 pt-12 pb-8 md:px-8 md:pt-14 md:pb-10' : ''}`}>
         <span className="absolute top-0 left-0 z-10 bg-ink px-1.5 py-0.5 font-mono text-xs font-medium tracking-[0.02em] text-white md:text-[13px]">{tag}</span>
         {children}
       </div>

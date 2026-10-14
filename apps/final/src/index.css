@@ -59,9 +59,10 @@ body {
   background-size: 12px 12px;
 }
 /* TypeSafe's halftone panel, in blue: holds terminal windows and charts. */
-@utility dots-blue {
-  background-color: var(--color-tint);
-  background-image: radial-gradient(color-mix(in srgb, var(--color-brand) 38%, transparent) 1px, transparent 1.3px);
+/* Dotted ground behind every chart and figure panel: light grey dots on near-white (Ankit, 2026-10-14). */
+@utility dots-grey {
+  background-color: #fafafa;
+  background-image: radial-gradient(#d4d4d4 1px, transparent 1.3px);
   background-size: 6px 6px;
 }
 @utility grid-dark {
