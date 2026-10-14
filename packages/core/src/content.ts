@@ -389,6 +389,8 @@ export const showcase = {
     title: 'From Images to Design Processes.',
     body: 'Every model on this page came out of the same automatic run.',
     cta: 'Explore in 3D',
+    // the pop-up the explorer opens in
+    viewer: { loading: 'Loading 3D', close: 'Close', previous: 'Previous model', next: 'Next model' },
   },
   disclaimer: 'Final-shot finishes are materials transferred onto the predicted parts; they are not predicted by the model.',
   models: [

@@ -108,3 +108,34 @@ details > summary::-webkit-details-marker {
     transform: translateZ(var(--ring-r)) rotateY(var(--ring-turn));
   }
 }
+
+/* 3D explorer pop-up: rises as a sheet on phones, fades and settles on larger screens. */
+@media (prefers-reduced-motion: no-preference) {
+  .explorer-pop[open] {
+    animation: sheet-up 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .explorer-pop[open]::backdrop {
+    animation: fade-in 0.3s ease-out;
+  }
+  @media (min-width: 640px) {
+    .explorer-pop[open] {
+      animation: pop-in 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+}
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
