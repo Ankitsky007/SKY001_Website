@@ -29,7 +29,7 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
 
   return (
     <>
-      <nav aria-label="Main" className="pointer-events-none fixed inset-x-0 top-0 z-50 hidden px-10 md:block">
+      <nav aria-label="Main" className="pointer-events-none fixed inset-x-0 top-0 z-50 hidden px-10 lg:block">
         <div className="mx-auto flex max-w-[1208px] items-start justify-between">
           <ul className="pointer-events-auto flex items-start font-mono text-[13px] font-medium tracking-[-0.02em] uppercase lg:text-sm">
             <li>
@@ -67,7 +67,7 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
         </div>
       </nav>
 
-      <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-line bg-white pr-3 pl-6 md:hidden">
+      <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-line bg-white pr-3 pl-6 lg:hidden">
         <a href={home} className="flex min-h-11 items-center text-ink" aria-label="Skyfall AI home">
           <SkyfallLogo width={140} />
         </a>
@@ -80,7 +80,7 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
         id="mobile-menu"
         inert={!open}
         data-lenis-prevent
-        className={`fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col justify-between overflow-y-auto bg-white px-6 pt-2 pb-8 transition-[clip-path] duration-500 ease-out-expo md:hidden ${open ? '[clip-path:inset(0_0_0_0)]' : '[clip-path:inset(0_0_100%_0)]'}`}
+        className={`fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col justify-between overflow-y-auto bg-white px-6 pt-2 pb-8 transition-[clip-path] duration-500 ease-out-expo lg:hidden ${open ? '[clip-path:inset(0_0_0_0)]' : '[clip-path:inset(0_0_100%_0)]'}`}
       >
         <ul>
           {tabs.map((tab, i) => (

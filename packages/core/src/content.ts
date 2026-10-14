@@ -473,3 +473,41 @@ export const campus = {
     booked: 'booked since week 0',
   },
 } as const
+
+// ---------------------------------------------------------------------------------------------
+// Enterprise campus hero, final site. Same campus as v7, reworked on 2026-10-14: work is handed
+// between departments in a random order instead of one fixed loop, every hand-off adds a little to
+// MRR, and the log runs on a long floor beside the MRR figure. Hand-off lines reuse the v7 story
+// where they can; `k` is the MRR each hand-off books, in $K. Every figure is still a placeholder,
+// not Skyfall data, and needs the team's sign-off before the page is public.
+// ---------------------------------------------------------------------------------------------
+export const campusFlow = {
+  alt: 'An isometric campus with eight departments: support, product, design, engineering, marketing, sales, finance and operations, with a world model floating above them. Work is handed from department to department in no fixed order, several hand-offs at a time, and each one adds to monthly recurring revenue on a counter at the front. Once, a finance guardrail turns back an oversized discount.',
+  model: 'World model',
+  startMrr: 1.2,
+  handoffs: [
+    { from: 'support', to: 'product', artefact: 'Ticket', log: 'Product · exports moved to P0', k: 2 },
+    { from: 'product', to: 'design', artefact: 'Spec', log: 'Design · 3 flows drafted, 1 picked', k: 2 },
+    { from: 'design', to: 'engineering', artefact: 'Mock', log: 'Engineering · PR merged, exports 6× faster', k: 3 },
+    { from: 'engineering', to: 'marketing', artefact: 'Build', log: 'Marketing · release note to 41 accounts', k: 2 },
+    { from: 'marketing', to: 'sales', artefact: 'Launch', log: 'Sales · 12-site manufacturer asks for a pilot', k: 3 },
+    { from: 'sales', to: 'finance', artefact: 'Contract', log: 'Finance · 38 renewals booked at list price', k: 6 },
+    { from: 'finance', to: 'operations', artefact: 'Forecast', log: 'Operations · capacity scaled +22%', k: 2 },
+    { from: 'operations', to: 'support', artefact: 'Status', log: 'Support · churn risk cleared, 3 cases to a human', k: 3 },
+    { from: 'sales', to: 'design', artefact: 'Brief', log: 'Design · pilot workspace configured', k: 2 },
+    { from: 'engineering', to: 'operations', artefact: 'Release', log: 'Operations · ERP integration deployed', k: 3 },
+    { from: 'marketing', to: 'support', artefact: 'Campaign', log: 'Support · FAQ updated for the launch', k: 1 },
+    { from: 'support', to: 'engineering', artefact: 'Bug', log: 'Engineering · fix shipped, 0 rollbacks', k: 2 },
+    { from: 'finance', to: 'sales', artefact: 'Pricing', log: 'Sales · annual plan offered at list price', k: 3 },
+    { from: 'product', to: 'marketing', artefact: 'Roadmap', log: 'Marketing · case study drafted', k: 2 },
+    { from: 'operations', to: 'finance', artefact: 'Usage', log: 'Finance · usage billed for 12 sites', k: 4 },
+    { from: 'design', to: 'product', artefact: 'Prototype', log: 'Product · pilot scope signed off', k: 2 },
+    { from: 'sales', to: 'operations', artefact: 'Order', log: 'Operations · 12 sites onboarded', k: 4 },
+    { from: 'engineering', to: 'product', artefact: 'Metrics', log: 'Product · exports 6× faster confirmed', k: 1 },
+  ],
+  /** The one hand-off the finance guardrail turns back, once per loop. */
+  guardrail: { from: 'sales', to: 'finance', artefact: '40% off', log: 'Finance guardrail · discount capped at 15%, offer returned', label: 'Guardrail · max discount 15%' },
+  /** What the world model says when it re-plans; it also lights a beam to every department. */
+  modelLines: ['World model · simulating 3 futures, 6 weeks ahead', 'Plan · ship faster exports (best MRR, margin intact)', 'World model · 2 futures, pick: pilot + integration'],
+  labels: { log: 'Operating log', mrr: 'MRR', live: 'Live' },
+} as const
