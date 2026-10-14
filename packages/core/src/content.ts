@@ -176,26 +176,14 @@ export const sky001 = {
     // Labels and descriptions for the three animated illustrations beside the points. The parts
     // and designs in them are drawn in code to explain the idea; they are not SKY-001 output.
     figures: {
-      steps: ['Sketch', 'Extrude', 'Cut', 'Pattern'],
-      step: 'Step',
-      rejected: 'Rejected',
       input: 'Input',
       picked: 'Picked',
       mated: 'Mated',
-      layer: 'Layer',
-      voxels: 'Voxels',
-      // two other takes on the first point, shown for review with ?plugin=snap or ?plugin=voxel
-      snapAlt: 'A part is reasoned into place on a base one axis at a time: it slides along X, then Y, then drops on Z, each axis locking with its offset counting to zero, until the faces mate.',
-      mixAlt: 'A bracket is reasoned onto a base in 3D: hole A slides over pin A along X then Y, the bracket turns about Z until hole B meets pin B, then drops face to face, its X, Y, Z and angle offsets counting to zero and its degrees of freedom from six to zero.',
-      markupAlt: 'A turning part is marked up the way an engineer would: its centre axis, length, height, a right angle and the boss diameter are measured one by one.',
-      constrainAlt: 'A bracket is mated to a base by constraints: hole to pin, second hole to second pin, then face to face, its degrees of freedom counting down from six to zero.',
-      markup: ['Axis', 'Length', 'Height', 'Angle', 'Diameter'],
       constraints: ['Hole A ↔ Pin A', 'Hole B ↔ Pin B', 'Face ↔ Face'],
       dof: 'DOF',
       constrained: 'Fully constrained',
-      voxelAlt: 'A bracket is built voxel by voxel, one Z layer at a time, on an X, Y, Z grid, showing the model thinking in volume rather than words.',
       alts: [
-        'A part is built one decision at a time: sketch, extrude, cut, pattern. At each step a wrong option is tried and rejected before the right one is applied.',
+        'A bracket is reasoned onto a base in 3D: hole A slides over pin A along X then Y, the bracket turns about Z until hole B meets pin B, then drops face to face, its X, Y, Z and angle offsets counting to zero and its degrees of freedom from six to zero.',
         'One input sketch, with fourteen different 3D designs growing out of noise around it at the same moment; one is then picked.',
         'A turning globe with the domains SKY-001 is built for orbiting around it: PCB design, aerospace, energy, protein folding, molecules, computer use agents and enterprise software.',
       ],

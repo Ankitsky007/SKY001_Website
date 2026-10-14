@@ -94,8 +94,9 @@ function ModelRing() {
   )
 }
 
-// An animated illustration beside each point (Ankit's picks, 2026-10-14): a part built one
-// decision at a time, many designs dreamt at once, and a globe with the domains in orbit. One
+// An animated illustration beside each point (Ankit's picks, 2026-10-14): a bracket reasoned onto
+// a base in 3D, many designs dreamt at once, and a globe with the domains in orbit. The point's
+// title sits on the window's band and its number above the text. One
 // point is lit at a time (the first to start): pointing at, focusing or tapping a card lights it.
 // On touch screens, where nothing is pointed at, the card crossing the middle of the screen
 // lights as you scroll.
@@ -119,10 +120,10 @@ function Contrarian() {
             const on = i === active
             return (
               <li key={p.title} tabIndex={0} className="flex flex-col gap-5 outline-none" onPointerEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}>
-                <Window title={null} accent={on} bodyClassName="bg-paper">
+                <Window title={<h3>{p.title}</h3>} accent={on} bodyClassName="bg-paper">
                   <ContrarianFigure i={i} />
                 </Window>
-                <RuleCol label={<h3 className={`transition-colors ${on ? 'text-brand' : ''}`}>{p.title}</h3>} className="flex-1">
+                <RuleCol label={<span className={`transition-colors ${on ? 'text-brand' : ''}`}>{String(i + 1).padStart(2, '0')}</span>} className="flex-1">
                   <p className={SMALL}>{p.body}</p>
                 </RuleCol>
               </li>
