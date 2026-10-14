@@ -16,6 +16,7 @@ import { ParetoFigure, ProblemFigure } from '../figures/front'
 import { startGlobe } from '../scenes/globe'
 import { footerPages, navTabs } from '../lib/nav'
 import { media } from '../lib/media'
+import { SECTOR_TONES } from '../lib/pixelIcons'
 import { HOME, LAUNCH, RESEARCH } from '../lib/routes'
 import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
@@ -202,7 +203,7 @@ function Matters() {
       </Reveal>
       <ul className="mt-10 grid grid-cols-2 border-t border-l border-line md:grid-cols-5 lg:mt-14">
         {m.sectors.map((sector, i) => (
-          <IconCell key={sector} icon={SECTOR_ICONS[i]} className="min-h-40 last:col-span-2 md:min-h-52 md:last:col-span-1">
+          <IconCell key={sector} icon={SECTOR_ICONS[i]} tone={SECTOR_TONES[i]} className="min-h-40 last:col-span-2 md:min-h-52 md:last:col-span-1">
             <span className={`${LABEL} block text-faint`}>[0{i + 1}]</span>
             <span className={`${H3} mt-1 block`}>{sector}</span>
           </IconCell>

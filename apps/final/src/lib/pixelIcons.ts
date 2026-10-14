@@ -40,16 +40,27 @@ export const CELLS = Object.fromEntries(
 /** One icon per domain on the SKY-001 page, in the order of `sky001.next.domains`. */
 export const DOMAIN_ICONS: PixelIconName[] = ['pcb', 'aerospace', 'energy', 'protein', 'molecule', 'cua', 'software']
 
-/**
- * A muted tone per domain for its icon, in the same order (Ankit's palette, 2026-10-14): olive,
- * winkle, arizona, mauve, storm, twang, moss. The pale ghost behind each is the same tone, lighter.
- */
-export const DOMAIN_TONES: { color: string; ghost: string }[] = [
-  { color: '#4A5B46', ghost: '#C9D0C6' },
-  { color: '#97ABC5', ghost: '#DCE3EC' },
-  { color: '#CA8F73', ghost: '#EFD9CE' },
-  { color: '#84565C', ghost: '#DCCACD' },
-  { color: '#6D8C8E', ghost: '#CDD9DA' },
-  { color: '#CDAD91', ghost: '#EFE4DA' },
-  { color: '#A7B89F', ghost: '#E1E8DD' },
-]
+export type Tone = { color: string; ghost: string }
+
+/** A muted tone for a pixel icon: its fill, and a pale ghost of it (the colour mixed 65% towards white). */
+function tone(color: string): Tone {
+  const n = parseInt(color.slice(1), 16)
+  const mix = (c: number) => Math.round(c + (255 - c) * 0.65)
+  const rgb = [n >> 16, (n >> 8) & 255, n & 255].map(mix)
+  return { color, ghost: `rgb(${rgb.join(',')})` }
+}
+
+// Muted tones from Ankit's palette (2026-10-14), one per icon wherever icons stand for fields.
+const OLIVE = tone('#4A5B46')
+const WINKLE = tone('#97ABC5')
+const ARIZONA = tone('#CA8F73')
+const MAUVE = tone('#84565C')
+const STORM = tone('#6D8C8E')
+const TWANG = tone('#CDAD91')
+const MOSS = tone('#A7B89F')
+
+/** Tones for the SKY-001 page's domains, in the order of `sky001.next.domains`. */
+export const DOMAIN_TONES: Tone[] = [OLIVE, WINKLE, ARIZONA, MAUVE, STORM, TWANG, MOSS]
+
+/** Tones for the front page's sectors: industrial, healthcare, chemical, enterprise, and beyond. */
+export const SECTOR_TONES: Tone[] = [STORM, ARIZONA, MOSS, WINKLE, MAUVE]

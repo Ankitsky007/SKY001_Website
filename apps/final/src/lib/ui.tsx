@@ -1,6 +1,7 @@
 import { gsap, prefersReducedMotion, SplitReveal, useGSAP } from '@skyfall/core/motion'
 import { useRef, useState, type ReactNode } from 'react'
 import { PixelIcon, type PixelIconName } from '../components/PixelIcon'
+import type { Tone as IconTone } from './pixelIcons'
 import { scrambleOnHover } from './scramble'
 import { useMedia } from './useMedia'
 
@@ -198,12 +199,13 @@ export function FigCaption({ children, className = '' }: { children: ReactNode; 
  * Bordered cell with a pixel icon that turns blue on hover or keyboard focus. Touch screens have
  * no hover, so the icon is always shown in its blue state there.
  */
-export function IconCell({ icon, children, className = '' }: { icon: PixelIconName; children: ReactNode; className?: string }) {
+export function IconCell({ icon, tone, children, className = '' }: { icon: PixelIconName; tone?: IconTone; children: ReactNode; className?: string }) {
   const canHover = useMedia('(hover: hover)')
   const [over, setOver] = useState(false)
   return (
     <li onPointerEnter={() => setOver(true)} onPointerLeave={() => setOver(false)} className={`group flex flex-col justify-between gap-8 border-r border-b border-line p-5 transition-colors duration-300 hover:bg-studio md:p-6 ${className}`}>
-      <PixelIcon name={icon} active={over || !canHover} className="size-[50px] md:size-16" />
+      {/* with a tone the icon always shows in that colour; without, grey until pointed at */}
+      <PixelIcon name={icon} active={!!tone || over || !canHover} color={tone?.color} ghost={tone?.ghost} className="size-[50px] md:size-16" />
       <div>{children}</div>
     </li>
   )
