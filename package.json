@@ -16,11 +16,12 @@
     "dev:v5": "npm run dev -w @skyfall/v5-hybrid",
     "dev:v6": "npm run dev -w @skyfall/v6-typesafe",
     "dev:v7": "npm run dev -w @skyfall/v7-campus",
-    "build": "npm run build -w @skyfall/v1-black -w @skyfall/v2-aeye -w @skyfall/v3-captain -w @skyfall/v4-light -w @skyfall/v5-hybrid -w @skyfall/v6-typesafe -w @skyfall/v7-campus",
+    "build": "npm run build -w @skyfall/v1-black -w @skyfall/v2-aeye -w @skyfall/v3-captain -w @skyfall/v4-light -w @skyfall/v5-hybrid -w @skyfall/v6-typesafe -w @skyfall/v7-campus -w @skyfall/final",
     "preview": "concurrently -k -n v1,v2,v3,v4,v5,v6,v7 -c blue,green,magenta,cyan,yellow,red,white \"npm run preview -w @skyfall/v1-black\" \"npm run preview -w @skyfall/v2-aeye\" \"npm run preview -w @skyfall/v3-captain\" \"npm run preview -w @skyfall/v4-light\" \"npm run preview -w @skyfall/v5-hybrid\" \"npm run preview -w @skyfall/v6-typesafe\" \"npm run preview -w @skyfall/v7-campus\"",
     "lint": "oxlint",
     "test": "vitest run",
-    "typecheck": "tsc -b packages/core apps/v1-black apps/v2-aeye apps/v3-captain apps/v4-light apps/v5-hybrid apps/v6-typesafe apps/v7-campus"
+    "typecheck": "tsc -b packages/core apps/v1-black apps/v2-aeye apps/v3-captain apps/v4-light apps/v5-hybrid apps/v6-typesafe apps/v7-campus apps/final",
+    "dev:final": "npm run dev -w @skyfall/final"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
