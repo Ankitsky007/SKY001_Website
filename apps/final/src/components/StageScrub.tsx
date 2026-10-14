@@ -188,17 +188,14 @@ function PinnedScrub({ model, title, titleId }: { model: ModelId; title: string;
             </ol>
           </div>
         </div>
-        <div className={`${GUTTER} relative pb-5`}>
-          <div className={`${WRAP} flex items-end justify-between gap-4 lg:justify-end lg:gap-8`}>
-            <p className={`${LABEL} text-muted`} aria-live="polite">
-              {failed ? 'Frames failed to load. Reload to try again.' : loaded > 0 && loaded < 1 ? `Loading frames · ${Math.round(loaded * 100)}%` : `${info.title} · ${info.leaves} parts · depth ${info.depth}`}
+        {/* only while the frames load, or if they fail */}
+        {(failed || (loaded > 0 && loaded < 1)) && (
+          <div className={`${GUTTER} relative pb-5`}>
+            <p className={`${WRAP} ${LABEL} text-muted lg:text-right`} aria-live="polite">
+              {failed ? 'Frames failed to load. Reload to try again.' : `Loading frames · ${Math.round(loaded * 100)}%`}
             </p>
-            <figure className="flex items-center gap-3">
-              <figcaption className={`${LABEL} text-muted`}>Input image</figcaption>
-              <img src={media.input(model)} alt={`Input image of the ${info.title}`} className="size-16 border border-ink object-cover lg:size-20" />
-            </figure>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
