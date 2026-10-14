@@ -13,6 +13,7 @@ import { Clip } from '../components/Clip'
 import { ExplorerGrid } from '../components/Explorer'
 import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
+import { WarpBackground } from '../components/ui/warp-background'
 import { Nav } from '../components/Nav'
 import { NewsCard } from '../components/NewsCard'
 import { Reel } from '../components/Reel'
@@ -31,7 +32,8 @@ function Hero() {
   const { hero, intro } = sky001
   return (
     <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-28 md:pb-20`}>
-      <LineGrid mask="linear-gradient(to bottom, #000 35%, transparent 85%)" />
+      {/* the warp: grid walls in perspective with blue beams running towards the viewer */}
+      <WarpBackground aria-hidden="true" perspective={120} beamsPerSide={4} beamSize={5} beamDuration={4} className="pointer-events-none absolute! inset-0 [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]" />
       {/* the hero rises in line by line on load, like the reveals further down */}
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <NewsCard />
