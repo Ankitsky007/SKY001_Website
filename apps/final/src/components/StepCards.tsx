@@ -9,8 +9,8 @@ const num = (i: number) => `// ${String(i + 1).padStart(3, '0')}`
 /**
  * aeye "how it works" step cards. One progress bar runs across the four cards, tied directly to
  * scroll: it fills as the row scrolls by and empties again on the way back up. A card turns blue
- * once its stretch of the bar is full. On desktop the row pins for a moment so the whole run
- * happens while all four cards are on screen. Reduced motion shows every step complete.
+ * once its stretch of the bar is full. On desktop the whole section pins for a moment, so the run
+ * happens with the heading, intro and cards on screen together. Reduced motion shows every step complete.
  */
 export function StepCards() {
   const steps = research.build.steps
@@ -47,9 +47,11 @@ export function StepCards() {
       const mm = gsap.matchMedia()
       const run = (vars: ScrollTrigger.Vars) =>
         gsap.to(state, { p: n, ease: 'none', onUpdate: () => render(state.p), scrollTrigger: { trigger: el, scrub: 0.3, ...vars } })
-      // desktop: the row holds still in the middle of the screen while the bar crosses it
+      // desktop: the whole section (heading, intro and cards belong together) holds still once the
+      // cards reach the bottom of the screen, while the bar crosses them
+      const section = el.closest('section') ?? el
       mm.add('(min-width: 1024px)', () => {
-        run({ start: 'center 55%', end: '+=110%', pin: true, anticipatePin: 1 })
+        run({ trigger: el, start: 'bottom bottom-=32', end: '+=110%', pin: section, anticipatePin: 1 })
       })
       // stacked cards: the bar fills as the cards pass the middle of the screen
       mm.add('(max-width: 1023.98px)', () => {
