@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 @import '@skyfall/core/styles.css';
+
+/* Small laptops and landscape tablets (1024–1279 wide, under 820 tall): just enough tightening for a
+   hero to fit above the fold. Full desktop sizes are untouched. */
+@custom-variant short-laptop (@media (min-width: 1024px) and (max-width: 1279px) and (max-height: 820px));
 @source '../../../packages/core/src';
 
 /* v6 TypeSafe: TypeSafe's type (huge centred headings in corner ticks, ruled text columns) and

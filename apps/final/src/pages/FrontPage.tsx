@@ -201,9 +201,10 @@ function Matters() {
           <p className={COPY}>{m.body}</p>
         </RuleCol>
       </Reveal>
-      <ul className="mt-10 grid grid-cols-2 border-t border-l border-line md:grid-cols-5 lg:mt-14">
+      {/* two across on phones, 3 + 2 on tablets, all five in a row from desktop */}
+      <ul className="mt-10 grid grid-cols-2 border-t border-l border-line md:grid-cols-6 lg:mt-14 lg:grid-cols-5">
         {m.sectors.map((sector, i) => (
-          <IconCell key={sector} icon={SECTOR_ICONS[i]} tone={SECTOR_TONES[i]} className="min-h-40 last:col-span-2 md:min-h-52 md:last:col-span-1">
+          <IconCell key={sector} icon={SECTOR_ICONS[i]} tone={SECTOR_TONES[i]} className="min-h-40 last:col-span-2 md:col-span-2 md:min-h-52 md:nth-[n+4]:col-span-3 lg:col-span-1 lg:nth-[n+4]:col-span-1">
             <span className={`${LABEL} block text-faint`}>[0{i + 1}]</span>
             <span className={`${H3} mt-1 block`}>{sector}</span>
           </IconCell>
@@ -236,9 +237,10 @@ function Team() {
             <p className="text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base">{team.experience}</p>
           </RuleCol>
         </Reveal>
-        <Reveal as="ul" stagger={0.08} className="grid grid-cols-3 gap-2 self-start md:gap-3">
+        {/* phones: a row that swipes sideways, each founder at a readable size; three across from 640 */}
+        <Reveal as="ul" stagger={0.08} className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-3 self-start overflow-x-auto px-6 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-2 sm:overflow-visible sm:px-0 md:gap-3">
           {team.founders.map((f) => (
-            <li key={f.name}>
+            <li key={f.name} className="w-[64%] shrink-0 snap-start sm:w-auto">
               <Window title={f.note}>
                 <img src={f.photo} alt={f.name} loading="lazy" className="aspect-[4/5] w-full bg-studio object-cover" />
               </Window>

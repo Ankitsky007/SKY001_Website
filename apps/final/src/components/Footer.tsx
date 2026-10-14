@@ -8,6 +8,8 @@ const link = 'flex min-h-11 items-center text-[17px] tracking-[-0.03em] text-bod
 
 /** aeye-style light footer: a boxed grid with the tagline and big wordmark, pages, socials and contact. */
 export function Footer({ pages, note }: { pages: readonly { label: string; href: string }[]; note?: string }) {
+  // contact details show once they are real values, not the content doc's [PLACEHOLDERS]
+  const contact = [site.contactEmail, site.officeAddress].filter((v) => !v.startsWith('['))
   return (
     <footer id="contact" className={`${GUTTER} bg-paper pt-14 pb-[calc(2rem+env(safe-area-inset-bottom,0px))] md:pt-20`}>
       <Reveal className={`${WRAP} grid border border-line lg:grid-cols-2`}>
@@ -21,7 +23,7 @@ export function Footer({ pages, note }: { pages: readonly { label: string; href:
           <SkyfallLogo width={540} className="h-auto w-full max-w-[540px] text-ink" />
         </div>
         <div className="grid lg:grid-rows-[auto_1fr]">
-          <div className="grid border-b border-line md:grid-cols-2">
+          <div className={`grid md:grid-cols-2 ${contact.length > 0 ? 'border-b border-line' : ''}`}>
             <nav aria-label="Footer pages" className="flex flex-col border-b border-line p-6 md:border-r md:border-b-0 md:p-10">
               <span className={heading}>Pages</span>
               <ul className="grid grid-cols-2 gap-x-4 md:grid-cols-1">
@@ -47,11 +49,16 @@ export function Footer({ pages, note }: { pages: readonly { label: string; href:
               ))}
             </div>
           </div>
-          <address className="flex flex-col gap-2 p-6 not-italic md:p-10">
-            <span className={heading}>Get in touch</span>
-            <span className="text-[17px] tracking-[-0.03em] text-body md:text-lg">{site.contactEmail}</span>
-            <span className="text-[17px] tracking-[-0.03em] text-body md:text-lg">{site.officeAddress}</span>
-          </address>
+          {contact.length > 0 && (
+            <address className="flex flex-col gap-2 p-6 not-italic md:p-10">
+              <span className={heading}>Get in touch</span>
+              {contact.map((v) => (
+                <span key={v} className="text-[17px] tracking-[-0.03em] text-body md:text-lg">
+                  {v}
+                </span>
+              ))}
+            </address>
+          )}
         </div>
       </Reveal>
       <div className={`${WRAP} mt-5 flex flex-col gap-2 font-mono text-xs text-muted uppercase md:flex-row md:items-center md:justify-between`}>

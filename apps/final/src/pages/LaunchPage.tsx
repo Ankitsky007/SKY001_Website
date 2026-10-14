@@ -33,21 +33,21 @@ const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 function Hero() {
   const { hero, intro } = sky001
   return (
-    <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-28 md:pb-20`}>
+    <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-28 md:pb-20 short-laptop:pt-20`}>
       {/* the warp: grid walls in perspective with blue beams running towards the viewer */}
       <WarpBackground aria-hidden="true" perspective={120} beamsPerSide={4} beamSize={5} beamDuration={4} gridColor="var(--color-grid)" className="pointer-events-none absolute! inset-0 [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]" />
       {/* the hero rises in line by line on load, like the reveals further down */}
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <NewsCard />
-        <p className="mt-12 text-[15px] font-medium tracking-[-0.02em] md:mt-20 md:text-base">
+        <p className="mt-12 text-[15px] font-medium tracking-[-0.02em] md:mt-20 md:text-base short-laptop:mt-8">
           {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
           {intro.before.replace('SKY-001', 'SKY‑001')}
           {intro.emphasis}
         </p>
-        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[10ch] md:mt-8`}>{hero.title}</h1>
-        <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
+        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[10ch] md:mt-8 short-laptop:mt-5 short-laptop:max-w-[14ch] short-laptop:text-[92px]`}>{hero.title}</h1>
+        <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body short-laptop:mt-6`}>{hero.lede}</p>
         <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
-        <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
+        <div className="mt-8 flex flex-col items-center gap-3 md:mt-12 short-laptop:mt-8">
           <BigLink href={WAITLIST_HREF}>{intro.waitlist.cta.label}</BigLink>
           <TextLink href={VIDEO_HREF} className="border-b-0">
             {intro.video.label}
@@ -106,9 +106,11 @@ function Contrarian() {
   return (
     <Section ground="studio">
       <Display>{contrarian.title}</Display>
-      <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-10">
+      {/* tablets and small laptops: one point per row, its illustration beside its text, so the
+          drawings stay large enough to read; three across from 1100 */}
+      <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-10 md:gap-8 lg:mt-14 lg:gap-10 min-[1100px]:grid-cols-3">
         {contrarian.points.map((p, i) => (
-          <li key={p.title} className="flex flex-col gap-5">
+          <li key={p.title} className="flex flex-col gap-5 md:max-[1099px]:grid md:max-[1099px]:grid-cols-2 md:max-[1099px]:gap-6">
             <Window title={<h3>{p.title}</h3>} bodyClassName="bg-paper">
               <ContrarianFigure i={i} />
             </Window>

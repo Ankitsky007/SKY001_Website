@@ -1,7 +1,7 @@
 import { partnership, site } from '@skyfall/core'
 import type { NavTab } from '../components/Nav'
 import { PARTNERSHIP_HREF } from './partnership'
-import { HOME, LAUNCH, RESEARCH, type Page } from './routes'
+import { LAUNCH, RESEARCH, type Page } from './routes'
 
 /**
  * The top nav, the same on both pages: Research (the research site), SKY-001 and Partnership (a
@@ -18,7 +18,7 @@ export function navTabs(page: Page): NavTab[] {
   return tabs
 }
 
-/** The footer's page links: Research and SKY-001 as in the nav, the rest as sections of the front page. */
+/** The footer's page links: the same three as the top nav (Team, Careers and Contact are hidden for now, 2026-10-14). */
 export function footerPages() {
-  return site.nav.map((n) => ({ label: n.label, href: n.href === '#research' ? RESEARCH : n.href === '#sky-001' ? LAUNCH : n.href === '#contact' ? n.href : `${HOME}${n.href}` }))
+  return navTabs('launch').map(({ label, href }) => ({ label, href }))
 }

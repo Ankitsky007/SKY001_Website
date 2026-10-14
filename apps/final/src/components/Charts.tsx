@@ -2,6 +2,7 @@ import { docCharts } from '@skyfall/core'
 import { gsap, prefersReducedMotion, useGSAP } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import { Window } from '../lib/ui'
+import { useMedia } from '../lib/useMedia'
 
 // The content doc's charts, redrawn with the doc's axes, ticks and labels inside terminal windows.
 // Positions come straight from the values in content; nothing is placed by eye.
@@ -10,8 +11,20 @@ const INK = '#1a1a1a'
 const BRAND = '#3e57da'
 const GRID = '#e0e0e0'
 const AXIS = '#474747'
-const mono = { fontFamily: 'var(--font-mono)', fontSize: 11 } as const
-const sans = { fontFamily: 'var(--font-sans)', fontSize: 12.5, letterSpacing: '-0.01em' } as const
+const MONO = { fontFamily: 'var(--font-mono)', fontSize: 11 } as const
+const SANS = { fontFamily: 'var(--font-sans)', fontSize: 12.5, letterSpacing: '-0.01em' } as const
+
+/**
+ * Chart size and type. On phones the drawing is narrower (so it scales down less) and its type a
+ * little larger, which keeps labels readable at about 9 to 11px on screen; from 640 up it is the
+ * desktop drawing, unchanged.
+ */
+function useChartSize() {
+  const phone = useMedia('(max-width: 639px)')
+  return phone
+    ? { W: 400, H: 340, k: 1.12, mono: { ...MONO, fontSize: 12 }, sans: { ...SANS, fontSize: 13.5 }, phone }
+    : { W: 560, H: 400, k: 1, mono: MONO, sans: SANS, phone }
+}
 
 const usd = (t: number) => (t < 0.01 ? '$0.001' : t < 0.1 ? '$0.01' : t < 1 ? '$0.10' : '$1.00')
 
@@ -37,6 +50,10 @@ const LABEL_SIDE: Record<ParetoKey, Record<string, 'left' | 'right' | 'above' | 
   cad: { 'GPT-6 Astra': 'left', 'Opus 5.5': 'left', 'Gemini 3.8 Flash': 'right', 'Qwen 3.8 Max': 'left', 'Kimi K3': 'right' },
   bim: { 'Gemini 3.8 Flash': 'aboveRight', 'GPT-6 Astra': 'below', 'Opus 5.5': 'above', 'Kimi K3': 'below', 'Qwen 3.8 Max': 'left', 'Grok 4.7': 'right' },
 }
+// The narrower phone drawing crowds two BIM labels, so they move.
+const LABEL_SIDE_PHONE: Partial<Record<ParetoKey, Record<string, 'left' | 'right' | 'above' | 'aboveRight' | 'below'>>> = {
+  bim: { 'Gemini 3.8 Flash': 'below', 'Grok 4.7': 'below' },
+}
 
 /**
  * Doc image 03: accuracy (IoU) against cost per part on a log scale from $0.001 to $1.00.
@@ -46,8 +63,7 @@ export function ParetoScatter({ chart }: { chart: ParetoKey }) {
   const ref = useReveal()
   const { hint, xLabel, yLabel } = docCharts.pareto
   const data = docCharts.pareto[chart]
-  const W = 560
-  const H = 400
+  const { W, H, k, mono, sans, phone } = useChartSize()
   const box = { l: 58, r: 30, t: 14, b: 50 }
   const [y0, y1] = data.yDomain
   const x = (cost: number) => box.l + ((Math.log10(cost) + 3) / 3) * (W - box.l - box.r)
@@ -91,14 +107,14 @@ export function ParetoScatter({ chart }: { chart: ParetoKey }) {
               return (
                 <g key={p.model}>
                   <circle data-pt cx={cx} cy={cy} r="11" fill={BRAND} />
-                  <text x={cx + 18} y={cy + 4.5} fill={BRAND} style={{ ...sans, fontSize: 14, fontWeight: 600 }}>
+                  <text x={cx + 18} y={cy + 4.5} fill={BRAND} style={{ ...sans, fontSize: 14 * k, fontWeight: 600 }}>
                     {p.model}
                     <tspan dx="8">{p.iou}%</tspan>
                   </text>
                 </g>
               )
             }
-            const side = LABEL_SIDE[chart][p.model] ?? 'right'
+            const side = (phone && LABEL_SIDE_PHONE[chart]?.[p.model]) || LABEL_SIDE[chart][p.model] || 'right'
             const lx = side === 'right' ? cx + 13 : side === 'left' ? cx - 13 : side === 'aboveRight' ? cx - 8 : cx - 10
             const ly = side === 'above' || side === 'aboveRight' ? cy - 12 : side === 'below' ? cy + 20 : cy + 4
             return (
@@ -126,8 +142,7 @@ export function VersusLines({ chart }: { chart: VersusKey }) {
   const ref = useReveal()
   const v = docCharts.versus
   const data = v[chart]
-  const W = 560
-  const H = 400
+  const { W, H, k, mono, sans } = useChartSize()
   const box = { l: 58, r: 34, t: 16, b: 62 }
   const [y0, y1] = v.yDomain
   const [x0, x1] = data.xDomain.map(Math.log10)
@@ -185,7 +200,7 @@ export function VersusLines({ chart }: { chart: VersusKey }) {
                 <text x={bx + 12} y={below ? by + 18 : by - 10} fill={INK} style={sans}>
                   Astra
                 </text>
-                <text x={(ax + bx) / 2} y={below ? (ay + by) / 2 + 26 : (ay + by) / 2 - 14} textAnchor="middle" fill={color} style={{ ...sans, fontSize: 15, fontWeight: 600 }}>
+                <text x={(ax + bx) / 2} y={below ? (ay + by) / 2 + 26 : (ay + by) / 2 - 14} textAnchor="middle" fill={color} style={{ ...sans, fontSize: 15 * k, fontWeight: 600 }}>
                   {s.label}
                 </text>
               </g>

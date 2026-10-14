@@ -66,7 +66,7 @@ export function Display({ children, tone = 'light', align = 'center', size = 'lg
           {children}
         </SplitReveal>
       </div>
-      {note && <p className={`mt-4 font-mono text-[10px] tracking-[0.05em] capitalize md:text-xs ${align === 'center' ? 'text-center' : ''} ${tone === 'dark' ? 'text-white/80' : 'text-body'}`}>{note}</p>}
+      {note && <p className={`mt-4 font-mono text-[11px] tracking-[0.05em] capitalize md:text-xs ${align === 'center' ? 'text-center' : ''} ${tone === 'dark' ? 'text-white/80' : 'text-body'}`}>{note}</p>}
     </Ticks>
   )
 }
@@ -75,7 +75,7 @@ export function Display({ children, tone = 'light', align = 'center', size = 'lg
 export function RuleCol({ label, children, tone = 'light', className = '' }: { label?: ReactNode; children: ReactNode; tone?: Tone; className?: string }) {
   return (
     <div className={`flex flex-col justify-between gap-8 border-l pl-2.5 md:gap-12 ${tone === 'dark' ? 'border-white/70' : 'border-ink'} ${className}`}>
-      {label && <div className={`font-mono text-[10px] font-medium tracking-[0.05em] capitalize md:text-[11px] ${tone === 'dark' ? 'text-white/80' : 'text-body'}`}>{label}</div>}
+      {label && <div className={`font-mono text-[11px] font-medium tracking-[0.05em] capitalize ${tone === 'dark' ? 'text-white/80' : 'text-body'}`}>{label}</div>}
       <div>{children}</div>
     </div>
   )
