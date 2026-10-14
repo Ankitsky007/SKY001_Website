@@ -515,3 +515,33 @@ export const campusFlow = {
   modelLines: ['World model · simulating 3 futures, 6 weeks ahead', 'Plan · ship faster exports (best MRR, margin intact)', 'World model · 2 futures, pick: pilot + integration'],
   labels: { log: 'Operating log', mrr: 'MRR', live: 'Live' },
 } as const
+
+// ---------------------------------------------------------------------------------------------
+// Partnership form (final site). Field names, hint and success line as Ankit specified them
+// (2026-10-14); the error and failure lines are working copy for the team to edit.
+// ---------------------------------------------------------------------------------------------
+export const partnership = {
+  nav: 'Partnership',
+  title: 'Partnership',
+  fields: {
+    name: { label: 'Full name' },
+    email: { label: 'Work email' },
+    website: { label: 'Company website' },
+    message: { label: 'How can we help?', placeholder: 'Write your query here...', maxWords: 250 },
+  },
+  submit: 'Submit',
+  sending: 'Sending',
+  required: 'Required',
+  errors: {
+    required: 'This field is required.',
+    email: 'Enter a valid email address, like name@company.com.',
+    website: 'Enter a valid website address, like company.com.',
+    words: 'Keep your message to 250 words or fewer.',
+    failed: 'Your query could not be sent. Check your connection and try again.',
+  },
+  success: {
+    title: 'Thank you',
+    body: 'We have received your query. Our team will reach out to you on the provided email.',
+    close: 'Close',
+  },
+} as const
