@@ -210,7 +210,7 @@ export function PartnershipForm() {
             </button>
           </div>
         ) : (
-          <form noValidate onSubmit={submit} className="flex flex-1 flex-col gap-6 px-6 py-8 sm:px-8">
+          <form noValidate onSubmit={submit} className="flex flex-1 flex-col gap-6 px-6 pt-8 sm:px-8">
             {fieldBlock('name', 'text', 'name')}
             {fieldBlock('email', 'email', 'email')}
             {fieldBlock('website', 'text', 'url')}
@@ -267,7 +267,8 @@ export function PartnershipForm() {
               </p>
             )}
 
-            <div className="mt-auto pt-2 sm:mt-0">
+            {/* the submit bar stays pinned to the bottom of the form while the fields scroll */}
+            <div className="sticky bottom-0 z-10 -mx-6 mt-auto border-t border-line bg-paper px-6 pt-4 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:-mx-8 sm:mt-0 sm:px-8">
               <button
                 type="submit"
                 disabled={status === 'sending'}

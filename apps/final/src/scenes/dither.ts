@@ -1,16 +1,12 @@
-// Dithered illustrations for the partnership form header: a shape is painted in greys on a tiny
+// Dithered illustration for the partnership form header: two half-cubes sliding together and
+// locking into one, with a flash at the seam. Each frame the shape is painted in greys on a tiny
 // canvas (one pixel per dot), then drawn as white dots on the brand blue with an ordered (Bayer)
-// dither, so light areas are dense and dark areas sparse. Two scenes:
-//   handshake: two hands meeting, the dots flying in from scattered positions to form them
-//   cubes:     two half-cubes sliding together and locking into one, with a flash at the seam
-
-export type DitherScene = 'handshake' | 'cubes'
+// dither, so light faces are dense and dark faces sparse.
 
 const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map((v) => (v + 0.5) / 16)
 const DESIGN_W = 280
 const DESIGN_H = 110
 
-const ease = (t: number) => 1 - Math.pow(1 - Math.min(1, Math.max(0, t)), 3)
 const easeInOut = (t: number) => {
   const x = Math.min(1, Math.max(0, t))
   return x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2
@@ -33,47 +29,6 @@ function poly(g: CanvasRenderingContext2D, pts: number[], v: number) {
   for (let i = 0; i < pts.length; i += 2) (i ? g.lineTo : g.moveTo).call(g, pts[i], pts[i + 1])
   g.closePath()
   g.fill()
-}
-
-/** Two hands in a handshake, in design units (280 x 110), lit from the top left. Each piece has a
- * dark outline so the dither leaves a gap between fingers, thumbs and cuffs. */
-function paintHandshake(g: CanvasRenderingContext2D) {
-  const edge = () => {
-    g.strokeStyle = '#000'
-    g.lineWidth = 2.2
-    g.lineJoin = 'round'
-    g.stroke()
-  }
-  const shape = (pts: number[], v: number) => {
-    poly(g, pts, v)
-    edge()
-  }
-  const finger = (x: number, y: number, w: number, h: number, rot: number, v: number) => {
-    g.save()
-    g.translate(x, y)
-    g.rotate(rot)
-    g.fillStyle = grey(v)
-    g.beginPath()
-    g.roundRect(0, -h / 2, w, h, h / 2)
-    g.fill()
-    edge()
-    g.restore()
-  }
-  // forearms in sleeves rising from the bottom corners, with bright cuffs
-  shape([0, 112, 0, 74, 62, 46, 80, 82, 34, 112], 0.5)
-  shape([62, 46, 76, 40, 94, 77, 80, 82], 0.92)
-  shape([280, 112, 280, 74, 218, 46, 200, 82, 246, 112], 0.36)
-  shape([218, 46, 204, 40, 186, 77, 200, 82], 0.74)
-  // the partner's hand from the right, underneath: back of the hand, fingertips showing below
-  shape([206, 40, 152, 34, 146, 80, 192, 80], 0.48)
-  finger(96, 86, 56, 9, -0.05, 0.42)
-  // our hand from the left, on top: back of the hand
-  shape([78, 40, 120, 28, 152, 38, 150, 76, 94, 79], 0.8)
-  // its four fingers wrapping over the partner's hand
-  for (let i = 0; i < 4; i++) finger(132, 42 + i * 9, 52 - i * 4, 8.5, 0.04 + i * 0.02, i % 2 ? 0.78 : 0.94)
-  // the partner's thumb lying over our hand, then our thumb across the top
-  finger(132, 30, 46, 9, 0.1, 0.6)
-  finger(96, 31, 52, 10, -0.14, 1)
 }
 
 /** Two halves of an isometric cube, `gap` design units apart, plus a flash ring at the seam. */
@@ -107,10 +62,8 @@ function paintCubes(g: CanvasRenderingContext2D, gap: number, flash: number, bob
   }
 }
 
-type Dot = { tx: number; ty: number; sx: number; sy: number; d: number }
-
-/** Starts a scene on a canvas; returns stop(). `still` draws the finished picture once. */
-export function startDither(cv: HTMLCanvasElement, scene: DitherScene, still: boolean) {
+/** Starts the illustration on a canvas; returns stop(). `still` draws the finished picture once. */
+export function startDither(cv: HTMLCanvasElement, still: boolean) {
   const context = cv.getContext('2d')
   const off = document.createElement('canvas')
   const oc = off.getContext('2d', { willReadFrequently: true })
@@ -125,7 +78,6 @@ export function startDither(cv: HTMLCanvasElement, scene: DitherScene, still: bo
   let rows = 0
   let raf = 0
   let t0 = performance.now()
-  let dots: Dot[] = []
 
   /** Paint the scene into the one-pixel-per-dot canvas and return its brightness per cell. */
   const sample = (paint: (c: CanvasRenderingContext2D) => void) => {
@@ -161,10 +113,6 @@ export function startDither(cv: HTMLCanvasElement, scene: DitherScene, still: bo
     rows = Math.max(1, Math.floor(H / PITCH))
     off.width = cols
     off.height = rows
-    if (scene === 'handshake') {
-      // each lit cell gets a dot that starts somewhere random and flies home, left to right
-      dots = lit(sample(paintHandshake)).map(([x, y]) => ({ tx: x, ty: y, sx: Math.random() * cols, sy: Math.random() * rows, d: (x / cols) * 0.5 + Math.random() * 0.25 }))
-    }
     t0 = performance.now()
     draw(still ? 99 : 0)
   }
@@ -180,31 +128,18 @@ export function startDither(cv: HTMLCanvasElement, scene: DitherScene, still: bo
     g.fillStyle = 'rgba(255,255,255,0.14)'
     for (let y = 0; y < rows; y += 2) for (let x = 0; x < cols; x += 2) dot(x, y, 1.2)
     g.fillStyle = '#FFFFFF'
-    if (scene === 'handshake') {
-      for (const p of dots) {
-        const k = ease((t - p.d) / 1.1)
-        const x = p.sx + (p.tx - p.sx) * k
-        const y = p.sy + (p.ty - p.sy) * k
-        g.globalAlpha = 0.35 + 0.65 * k
-        dot(x, y, 1.3 + 0.6 * k)
-      }
-      g.globalAlpha = 1
-    } else {
-      // apart, then sliding together, then a flash where they lock, then a slow float
-      const join = easeInOut((t - 0.25) / 1.3)
-      const gap = 70 * (1 - join)
-      const flash = t > 1.55 ? Math.max(0, 1 - (t - 1.55) / 0.9) : 0
-      const bob = t > 2.4 ? Math.sin((t - 2.4) * 1.6) * 1.5 : 0
-      for (const [x, y] of lit(sample((c) => paintCubes(c, gap, flash, bob)))) dot(x, y, 1.9)
-    }
+    // apart, then sliding together, then a flash where they lock, then a slow float
+    const join = easeInOut((t - 0.25) / 1.3)
+    const gap = 70 * (1 - join)
+    const flash = t > 1.55 ? Math.max(0, 1 - (t - 1.55) / 0.9) : 0
+    const bob = t > 2.4 ? Math.sin((t - 2.4) * 1.6) * 1.5 : 0
+    for (const [x, y] of lit(sample((c) => paintCubes(c, gap, flash, bob)))) dot(x, y, 1.9)
   }
 
   const frame = (now: number) => {
     const t = (now - t0) / 1000
     draw(t)
-    // the handshake settles and stops; the cubes keep a gentle float
-    if (scene === 'cubes' || t < 2.2) raf = requestAnimationFrame(frame)
-    else raf = 0
+    raf = requestAnimationFrame(frame)
   }
 
   const ro = new ResizeObserver(resize)
