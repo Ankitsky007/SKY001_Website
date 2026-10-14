@@ -1,5 +1,6 @@
 import { benchmarks, docCharts, showcase, sky001 } from '@skyfall/core'
-import { Reveal } from '@skyfall/core/motion'
+import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
+import { useRef } from 'react'
 import extrudeClip from '../assets/media/extrude.mp4'
 import plansClip from '../assets/media/plans.mp4'
 import restackClip from '../assets/media/restack.mp4'
@@ -56,30 +57,40 @@ function Hero() {
 }
 
 /**
- * Right under the hero: the four models' finished renders on a slowly turning, curved row (from
- * V7). A soft blue glow sits behind the ring and a shadow under it, so the row floats; hover pauses
- * it and a click plays that model's film.
+ * Right under the hero, one section from claim to proof: the intro statement fills in word by word
+ * as it scrolls by (grey to ink, the part after the semicolon to brand blue, as the homepage
+ * mission does), and right below it the four models' renders turn on a curved row (from V7) over a
+ * soft blue glow and a floor shadow. Hover pauses the row; a click plays that model's film.
  */
 function ModelRing() {
-  return (
-    <section aria-label="SKY-001 output" className="relative overflow-hidden bg-paper pt-4 pb-14 md:pt-6 md:pb-20">
-      {/* glow behind the ring, and a floor shadow under it */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-full bg-[radial-gradient(55%_45%_at_50%_42%,rgba(62,87,218,0.14),transparent_75%)]" />
-      <div aria-hidden="true" className="pointer-events-none absolute inset-x-[12%] bottom-10 h-16 rounded-[50%] bg-[radial-gradient(closest-side,rgba(26,26,26,0.12),transparent)] blur-md md:bottom-14" />
-      <p className={`${LABEL} relative text-center text-brand`}>[ SKY-001.Output ]</p>
-      <TiltedModels className="relative mt-6 h-[260px] sm:h-[340px] md:mt-8 lg:h-[420px]" />
-    </section>
+  const statement = useRef<HTMLParagraphElement>(null)
+  const reduced = useReducedMotion()
+  const [claim, rest] = sky001.intro.statement.split(';')
+  const words = [...claim.trim().split(' ').map((w) => ({ w, em: false })), ...(rest ? rest.trim().split(' ').map((w) => ({ w, em: true })) : [])]
+  useGSAP(
+    () => {
+      if (reduced || !statement.current) return
+      gsap.fromTo(statement.current.querySelectorAll('[data-word]'), { opacity: 0.16 }, { opacity: 1, ease: 'none', stagger: 0.1, scrollTrigger: { trigger: statement.current, start: 'top 85%', end: 'bottom 50%', scrub: 0.4 } })
+    },
+    { dependencies: [reduced], scope: statement },
   )
-}
-
-function Intro() {
-  const { intro } = sky001
   return (
-    <Section id="intro">
-      <Reveal>
-        <p className={`${DISPLAY} max-w-[20ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:text-[80px] lg:leading-[0.94]`}>{intro.statement}</p>
-      </Reveal>
-    </Section>
+    <section id="intro" aria-labelledby="intro-statement" className="relative overflow-hidden bg-paper pt-12 pb-14 md:pt-20 md:pb-20">
+      {/* glow behind the row, and a floor shadow under it */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(55%_45%_at_50%_45%,rgba(62,87,218,0.14),transparent_75%)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-[12%] bottom-10 h-16 rounded-[50%] bg-[radial-gradient(closest-side,rgba(26,26,26,0.12),transparent)] blur-md md:bottom-14" />
+      <div className={`relative ${GUTTER}`}>
+        <p id="intro-statement" ref={statement} className={`${DISPLAY} mx-auto max-w-[22ch] text-center text-[32px] leading-[0.98] normal-case sm:text-[48px] lg:text-[64px] lg:leading-[0.95]`}>
+          {words.map(({ w, em }, i) => (
+            <span key={i} data-word className={em ? 'text-brand' : undefined}>
+              {w}
+              {i === words.findIndex((x) => x.em) - 1 ? '; ' : i < words.length - 1 ? ' ' : ''}
+            </span>
+          ))}
+        </p>
+      </div>
+      <TiltedModels className="relative mt-10 h-[260px] sm:h-[340px] md:mt-14 lg:h-[420px]" />
+    </section>
   )
 }
 
@@ -336,7 +347,6 @@ export function LaunchPage() {
       <main>
         <Hero />
         <ModelRing />
-        <Intro />
         <Contrarian />
         <Results />
         <Moment />
