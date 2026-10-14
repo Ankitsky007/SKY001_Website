@@ -83,7 +83,7 @@ export function RuleCol({ label, children, tone = 'light', className = '' }: { l
 /** Terminal window: black (or blue) title bar in mono, white body, hard 1px frame. */
 export function Window({ title, accent = false, children, className = '', bodyClassName = 'bg-paper' }: { title: ReactNode; accent?: boolean; children: ReactNode; className?: string; bodyClassName?: string }) {
   return (
-    <div className={`border border-ink bg-paper text-ink shadow-[3px_3px_0_0_rgba(26,26,26,0.18)] ${className}`}>
+    <div className={`border border-ink bg-paper text-ink ${className}`}>
       <div className={`flex min-h-6 items-center px-1.5 font-mono text-xs font-medium tracking-[0.02em] text-white md:text-[13px] ${accent ? 'bg-brand' : 'bg-ink'}`}>{title}</div>
       <div className={`border-t border-ink ${bodyClassName}`}>{children}</div>
     </div>
