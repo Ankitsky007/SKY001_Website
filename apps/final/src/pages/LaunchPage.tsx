@@ -98,11 +98,7 @@ function ModelRing() {
 // is lit at a time (the first to start): pointing at, focusing or tapping a card lights its icon,
 // whose blue cells assemble in a random order. On touch screens, where nothing is pointed at, the
 // card crossing the middle of the screen lights as you scroll.
-const POINT_ICONS: { icon: PixelIconName; file: string }[] = [
-  { icon: 'plugin', file: 'Pixel.Plug-in' },
-  { icon: 'dream', file: 'Pixel.Dream' },
-  { icon: 'domains', file: 'Pixel.Domains' },
-]
+const POINT_ICONS: PixelIconName[] = ['plugin', 'dream', 'domains']
 
 function Contrarian() {
   const { contrarian } = sky001
@@ -124,9 +120,9 @@ function Contrarian() {
             const on = i === active
             return (
               <li key={p.title} className="flex flex-col gap-5" onPointerEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}>
-                <Window title={POINT_ICONS[i].file} accent={on} bodyClassName="bg-paper">
+                <Window title={null} accent={on} bodyClassName="bg-paper">
                   <button type="button" aria-pressed={on} aria-label={p.title} className="grid aspect-[8/5] w-full cursor-pointer place-items-center">
-                    <PixelIcon name={POINT_ICONS[i].icon} active={on} className="size-28 lg:size-36" />
+                    <PixelIcon name={POINT_ICONS[i]} active={on} className="size-28 lg:size-36" />
                   </button>
                 </Window>
                 <RuleCol label={<h3 className={`transition-colors ${on ? 'text-brand' : ''}`}>{p.title}</h3>} className="flex-1">
