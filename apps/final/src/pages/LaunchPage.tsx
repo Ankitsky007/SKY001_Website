@@ -210,7 +210,7 @@ function Explore() {
   const { explore } = showcase
   return (
     <Section id="explore">
-      <Display note={explore.eyebrow}>{explore.title}</Display>
+      <Display>{explore.title}</Display>
       <Reveal>
         <RuleCol className="mt-10 max-w-[520px]">
           <p className={`${COPY} text-[20px] md:text-[26px]`}>{explore.body}</p>
