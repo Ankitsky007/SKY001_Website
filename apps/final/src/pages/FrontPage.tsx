@@ -13,10 +13,10 @@ import { Reel } from '../components/Reel'
 import { StepCards } from '../components/StepCards'
 import { ParetoFigure, ProblemFigure } from '../figures/front'
 import { media } from '../lib/media'
-import { HOME, LAUNCH } from '../lib/routes'
+import { HOME, LAUNCH, RESEARCH } from '../lib/routes'
 import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Panel, RuleCol, Section, SquareLabel, TextLink, Window, WRAP } from '../lib/ui'
 
-const route = (href: string) => (href === '#sky-001' ? LAUNCH : href)
+const route = (href: string) => (href === '#sky-001' ? LAUNCH : href === '#research' ? RESEARCH : href)
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 
 // The SKY-001 output reel under the hero is hidden for now (Ankit, 2026-10-14); flip to bring it back.
@@ -267,7 +267,7 @@ export function FrontPage() {
     <>
       <Nav home={HOME} tabs={tabs} cta={{ label: hero.primaryCta.label, href: LAUNCH }} />
       <main>
-        <CampusHero launchHref={LAUNCH} />
+        <CampusHero launchHref={LAUNCH} researchHref={RESEARCH} />
         {SHOW_REEL && <ReelBand />}
         <Mission />
         <Problem />

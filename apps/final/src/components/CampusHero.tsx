@@ -12,7 +12,7 @@ import { CAMPUS_DARK, CAMPUS_LIGHT, startCampus } from '../scenes/campus'
  * click one to fly in. On phones the copy stacks above the campus. Reduced motion shows one
  * finished frame. `?campus=dark` (or the review picker) switches to the dark version.
  */
-export function CampusHero({ launchHref }: { launchHref: string }) {
+export function CampusHero({ launchHref, researchHref }: { launchHref: string; researchHref: string }) {
   const reduced = useReducedMotion()
   const tone = useCampusTone()
   const dark = tone === 'dark'
@@ -44,7 +44,7 @@ export function CampusHero({ launchHref }: { launchHref: string }) {
           <ButtonLink href={launchHref} tone={dark ? 'light' : 'dark'}>
             {hero.primaryCta.label}
           </ButtonLink>
-          <TextLink href={hero.secondaryCta.href} tone={dark ? 'dark' : 'light'}>
+          <TextLink href={researchHref} tone={dark ? 'dark' : 'light'}>
             {hero.secondaryCta.label}
           </TextLink>
         </div>
