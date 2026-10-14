@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local-only reference material and tool output, not part of the site
+.vitest/
+Graphs Chart tables visual dierction/
+SKYFALL AI logo/
+Skyfall-Seed-Deck-New-Style.pptx
+_higgsfield/
+font for website/
