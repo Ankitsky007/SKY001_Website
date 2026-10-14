@@ -37,7 +37,7 @@ export function Footer({ pages, note }: { pages: readonly { label: string; href:
             <div className="flex flex-col p-6 md:p-10">
               <span className={heading}>Follow us</span>
               {site.social.map((s) => (
-                <a key={s.label} href={s.href} className={`${link} group gap-3`}>
+                <a key={s.label} href={s.href} target="_blank" rel="noreferrer" className={`${link} group gap-3`}>
                   {s.label}
                   <span aria-hidden="true" className="flex-1 border-t border-dashed border-slash transition-colors group-hover:border-ghost" />
                   <span aria-hidden="true" className="inline-block transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">

@@ -19,8 +19,8 @@ export const site = {
     { label: 'Contact', href: '#contact' },
   ],
   social: [
-    { label: 'X', href: '#' },
-    { label: 'LinkedIn', href: '#' },
+    { label: 'X', href: 'https://x.com/skyfallai' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/skyfallai/posts/' },
   ],
   contactEmail: '[CONTACT EMAIL]',
   officeAddress: '[OFFICE ADDRESS]',
