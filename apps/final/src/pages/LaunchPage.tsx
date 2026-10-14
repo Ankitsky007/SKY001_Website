@@ -12,7 +12,7 @@ import towerClip from '../assets/media/tower.mp4'
 import { ParetoScatter, VersusLines } from '../components/Charts'
 import { Clip } from '../components/Clip'
 import { ExplorerGrid } from '../components/Explorer'
-import { PixelIcon, type PixelIconName } from '../components/PixelIcon'
+import { ContrarianFigure } from '../components/ContrarianFigures'
 import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
 import { WarpBackground } from '../components/ui/warp-background'
@@ -94,12 +94,11 @@ function ModelRing() {
   )
 }
 
-// The v2 page's pixel icon for each point, drawn large as its illustration. As there, one point
-// is lit at a time (the first to start): pointing at, focusing or tapping a card lights its icon,
-// whose blue cells assemble in a random order. On touch screens, where nothing is pointed at, the
-// card crossing the middle of the screen lights as you scroll.
-const POINT_ICONS: PixelIconName[] = ['plugin', 'dream', 'domains']
-
+// An animated illustration beside each point (Ankit's picks, 2026-10-14): a part built one
+// decision at a time, many designs dreamt at once, and a globe with the domains in orbit. One
+// point is lit at a time (the first to start): pointing at, focusing or tapping a card lights it.
+// On touch screens, where nothing is pointed at, the card crossing the middle of the screen
+// lights as you scroll.
 function Contrarian() {
   const { contrarian } = sky001
   const [active, setActive] = useState(0)
@@ -119,11 +118,9 @@ function Contrarian() {
           {contrarian.points.map((p, i) => {
             const on = i === active
             return (
-              <li key={p.title} className="flex flex-col gap-5" onPointerEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}>
+              <li key={p.title} tabIndex={0} className="flex flex-col gap-5 outline-none" onPointerEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}>
                 <Window title={null} accent={on} bodyClassName="bg-paper">
-                  <button type="button" aria-pressed={on} aria-label={p.title} className="grid aspect-[8/5] w-full cursor-pointer place-items-center">
-                    <PixelIcon name={POINT_ICONS[i]} active={on} className="size-28 lg:size-36" />
-                  </button>
+                  <ContrarianFigure i={i} />
                 </Window>
                 <RuleCol label={<h3 className={`transition-colors ${on ? 'text-brand' : ''}`}>{p.title}</h3>} className="flex-1">
                   <p className={SMALL}>{p.body}</p>

@@ -173,6 +173,20 @@ export const sky001 = {
         body: 'As a latent world model, SKY 00-1 learns how physical systems are designed, built and run, in any domain. From engineering to operations, the possibilities are endless.',
       },
     ],
+    // Labels and descriptions for the three animated illustrations beside the points. The parts
+    // and designs in them are drawn in code to explain the idea; they are not SKY-001 output.
+    figures: {
+      steps: ['Sketch', 'Extrude', 'Cut', 'Pattern'],
+      step: 'Step',
+      rejected: 'Rejected',
+      input: 'Input',
+      picked: 'Picked',
+      alts: [
+        'A part is built one decision at a time: sketch, extrude, cut, pattern. At each step a wrong option is tried and rejected before the right one is applied.',
+        'One input sketch, with fourteen different 3D designs growing out of noise around it at the same moment; one is then picked.',
+        'A turning globe with the domains SKY-001 is built for orbiting around it: PCB design, aerospace, energy, protein folding, molecules, computer use agents and enterprise software.',
+      ],
+    },
   },
   pareto: {
     title: 'Designing a New Pareto Frontier with World Models',
