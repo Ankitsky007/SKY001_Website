@@ -311,7 +311,7 @@ function Faq() {
 function Waitlist() {
   const { waitlist, video } = sky001.intro
   return (
-    <Section id="waitlist" field={<LineGrid mask="linear-gradient(to top, #000 20%, transparent 80%)" />}>
+    <Section id="waitlist" field={<LineGrid mask="linear-gradient(to bottom, transparent, #000 30%, #000 calc(100% - 120px), transparent)" />}>
       <div className="flex flex-col items-center text-center">
         <NewsCard />
         <p className="mt-10 text-[15px] font-medium tracking-[-0.02em] md:text-base">{waitlist.title}</p>
