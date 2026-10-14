@@ -1,6 +1,6 @@
 import { backers, hero, research, showcase, site, sky001Cta, team } from '@skyfall/core'
-import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
-import { useRef } from 'react'
+import { gsap, Reveal, ScrollTrigger, useGSAP, useReducedMotion } from '@skyfall/core/motion'
+import { useEffect, useRef } from 'react'
 import heroClip from '../assets/media/hero.mp4'
 import heroPoster from '../assets/media/s-hero.jpg'
 import { CampusHero } from '../components/CampusHero'
@@ -13,6 +13,7 @@ import type { PixelIconName } from '../components/PixelIcon'
 import { Reel } from '../components/Reel'
 import { StepCards } from '../components/StepCards'
 import { ParetoFigure, ProblemFigure } from '../figures/front'
+import { startGlobe } from '../scenes/globe'
 import { media } from '../lib/media'
 import { HOME, LAUNCH, RESEARCH } from '../lib/routes'
 import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Panel, RuleCol, Section, SquareLabel, TextLink, Window, WRAP } from '../lib/ui'
@@ -39,38 +40,47 @@ function ReelBand() {
 
 /**
  * The mission statement, filled in word by word as it scrolls through the screen (grey to ink, the
- * emphasis to brand blue), with a chapter label above and a faint live dot field on the right.
+ * emphasis to brand blue), with a chapter label above and, beside it, a globe of the enterprise's
+ * functions that turns as the section scrolls by.
  */
 function Mission() {
   const ref = useRef<HTMLParagraphElement>(null)
+  const section = useRef<HTMLDivElement>(null)
+  const globe = useRef<HTMLCanvasElement>(null)
+  const turn = useRef(0)
   const reduced = useReducedMotion()
   const words = [...research.mission.before.trim().split(' ').map((w) => ({ w, em: false })), ...research.mission.emphasis.split(' ').map((w) => ({ w, em: true }))]
   useGSAP(
     () => {
+      if (!section.current) return
+      ScrollTrigger.create({ trigger: section.current, start: 'top bottom', end: 'bottom top', onUpdate: (self) => (turn.current = self.progress) })
       if (reduced || !ref.current) return
       const spans = ref.current.querySelectorAll('[data-word]')
       gsap.fromTo(spans, { opacity: 0.16 }, { opacity: 1, ease: 'none', stagger: 0.1, scrollTrigger: { trigger: ref.current, start: 'top 80%', end: 'bottom 45%', scrub: 0.4 } })
     },
-    { dependencies: [reduced], scope: ref },
+    { dependencies: [reduced], scope: section },
   )
+  useEffect(() => {
+    const cv = globe.current
+    if (!cv) return
+    return startGlobe(cv, { progress: () => turn.current, still: reduced })
+  }, [reduced])
   return (
-    <Section
-      id="research"
-      field={
-        <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-0 hidden w-[55%] opacity-40 [mask-image:linear-gradient(to_right,transparent,#000_45%)] md:block">
-          <HalftoneField tone="light" cell={11} />
+    <Section id="research">
+      <div ref={section} className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-12">
+        <div>
+          <p className={`${LABEL} text-brand`}>[ 01 / {research.mission.label} ]</p>
+          <p ref={ref} className={`${DISPLAY} mt-6 max-w-[19ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[clamp(56px,5vw,76px)] lg:leading-[0.94]`}>
+            {words.map(({ w, em }, i) => (
+              <span key={i} data-word className={em ? 'text-brand' : undefined}>
+                {w}
+                {i < words.length - 1 ? ' ' : ''}
+              </span>
+            ))}
+          </p>
         </div>
-      }
-    >
-      <p className={`${LABEL} text-brand`}>[ 01 / {research.mission.label} ]</p>
-      <p ref={ref} className={`${DISPLAY} mt-6 max-w-[19ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[80px] lg:leading-[0.94]`}>
-        {words.map(({ w, em }, i) => (
-          <span key={i} data-word className={em ? 'text-brand' : undefined}>
-            {w}
-            {i < words.length - 1 ? ' ' : ''}
-          </span>
-        ))}
-      </p>
+        <canvas ref={globe} role="img" aria-label={research.mission.globeAlt} className="mx-auto block aspect-square w-full max-w-[420px] sm:max-w-[480px]" />
+      </div>
     </Section>
   )
 }

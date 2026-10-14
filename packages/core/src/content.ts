@@ -45,6 +45,8 @@ export const research = {
   mission: {
     /** Small chapter label above the statement on the final site. */
     label: 'Mission',
+    /** The turning globe beside the statement on the final site. */
+    globeAlt: 'A blue globe with eight stations on it, one for each enterprise function: customer support, product, design, engineering, marketing, sales, finance and operations. As the page scrolls the globe turns, the station facing the front is named, and work arcs from one station to the next.',
     before: 'Our mission is to build the foundation infrastructure for autonomous enterprise through ',
     emphasis: 'Engineering World Models.',
   },
