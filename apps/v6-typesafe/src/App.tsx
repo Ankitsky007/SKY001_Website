@@ -2,7 +2,8 @@ import { VersionSwitcher } from '@skyfall/core'
 import { ScrollTrigger, SmoothScroll, useLenis } from '@skyfall/core/motion'
 import { useEffect } from 'react'
 import { FxPicker } from './components/FxPicker'
-import { FrontPage, LAUNCH } from './pages/FrontPage'
+import { goTo, usePage } from './lib/routes'
+import { FrontPage } from './pages/FrontPage'
 import { LaunchPage } from './pages/LaunchPage'
 
 /** In-page links glide with Lenis (offset by the sticky header); bare "#" placeholders do nothing. */
@@ -18,13 +19,24 @@ function AnchorScroll() {
         e.preventDefault()
         return
       }
+      if (goTo(href)) {
+        e.preventDefault()
+        if (lenis) lenis.scrollTo(0, { immediate: true, force: true })
+        else window.scrollTo(0, 0)
+        return
+      }
       const target = document.querySelector(href)
       if (!target) return
       e.preventDefault()
       const offset = -72
       if (lenis) lenis.scrollTo(target as HTMLElement, { offset, duration: 1.4 })
       else target.scrollIntoView({ behavior: 'smooth' })
-      history.replaceState(null, '', href)
+      // Some embedded viewers refuse address changes; the scroll still happens.
+      try {
+        history.replaceState(null, '', href)
+      } catch {
+        /* ignore */
+      }
     }
     document.addEventListener('click', onClick)
     return () => document.removeEventListener('click', onClick)
@@ -51,12 +63,12 @@ function TriggerRefresh() {
 
 // v6 TypeSafe (TypeSafe type and charts, v5 blue theme, WebGL fields). Two pages in one app: the Skyfall front page at "/" and the SKY-001 launch page at "/sky-001".
 function App() {
-  const launch = typeof window !== 'undefined' && window.location.pathname.replace(/\/$/, '') === LAUNCH
+  const launch = usePage() === 'launch'
   return (
     <SmoothScroll>
       <AnchorScroll />
       <TriggerRefresh />
-      {launch ? <LaunchPage /> : <FrontPage />}
+      {launch ? <LaunchPage key="launch" /> : <FrontPage key="home" />}
       <FxPicker />
       <VersionSwitcher current="v6" />
     </SmoothScroll>

@@ -33,3 +33,4 @@ font for website/
 
 # Shareable artifact build
 apps/final/dist-artifact/
+apps/v6-typesafe/dist-artifact/

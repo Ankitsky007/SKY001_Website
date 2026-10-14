@@ -14,10 +14,9 @@ import { Reel } from '../components/Reel'
 import { StepCards } from '../components/StepCards'
 import { ParetoFigure, ProblemFigure } from '../figures/front'
 import { media } from '../lib/media'
+import { HOME, LAUNCH } from '../lib/routes'
 import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, IconCell, LABEL, Panel, RuleCol, Section, SquareLabel, TextLink, Window, WRAP } from '../lib/ui'
 
-/** The SKY-001 launch page lives at /sky-001 in this version. */
-export const LAUNCH = '/sky-001'
 const route = (href: string) => (href === '#sky-001' ? LAUNCH : href)
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 
@@ -284,7 +283,7 @@ export function FrontPage() {
   const tabs = [{ label: 'Home', href: '#top', current: true }, ...site.nav.map((n) => ({ label: n.label, href: route(n.href) }))]
   return (
     <>
-      <Nav home="/" tabs={tabs} cta={{ label: hero.primaryCta.label, href: LAUNCH }} />
+      <Nav home={HOME} tabs={tabs} cta={{ label: hero.primaryCta.label, href: LAUNCH }} />
       <main>
         <Hero />
         <ReelBand />

@@ -1,7 +1,24 @@
 import { showcase } from '@skyfall/core'
-import { useEffect, useRef, useState } from 'react'
-import { media, type ModelId } from '../lib/media'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
+import { EXPLORER_EXTERNAL, media, type ModelId } from '../lib/media'
 import { Corners, H3, LABEL } from '../lib/ui'
+
+/** One model card: a button that opens the explorer in a dialog, or a plain link out where other sites cannot be embedded. */
+function Card({ id, label, onOpen, children }: { id: ModelId; label: string; onOpen: (id: ModelId) => void; children: ReactNode }) {
+  const cls = 'group relative block w-full cursor-pointer bg-studio text-left'
+  if (EXPLORER_EXTERNAL) {
+    return (
+      <a href={media.explorer(id)} target="_blank" rel="noreferrer" aria-label={label} className={cls}>
+        {children}
+      </a>
+    )
+  }
+  return (
+    <button type="button" onClick={() => onOpen(id)} aria-label={label} className={cls}>
+      {children}
+    </button>
+  )
+}
 
 /**
  * Four model cards. Each opens the research team's interactive 3D explorer (orbit, pull apart,
@@ -24,7 +41,7 @@ export function ExplorerGrid() {
       <ul className="grid border-t border-l border-line sm:grid-cols-2">
         {showcase.models.map((m, i) => (
           <li key={m.id} className="border-r border-b border-line">
-            <button type="button" onClick={() => setOpen(m.id)} aria-label={`${showcase.explore.cta}: ${m.title}`} className="group relative block w-full cursor-pointer bg-studio text-left">
+            <Card id={m.id} label={`${showcase.explore.cta}: ${m.title}`} onOpen={setOpen}>
               <Corners />
               <span className={`${LABEL} absolute top-5 left-5 text-faint transition-colors group-hover:text-brand`}>// 00{i + 1}</span>
               <img src={media.final(m.id)} alt={`${m.title}, refined parts`} loading="lazy" className="aspect-[8/5] w-full object-contain transition-transform duration-500 group-hover:scale-[1.03]" />
@@ -40,7 +57,7 @@ export function ExplorerGrid() {
                 </span>
                 <span aria-hidden="true" className="absolute bottom-0 left-0 h-1 w-0 bg-brand transition-[width] duration-300 group-hover:w-full" />
               </span>
-            </button>
+            </Card>
           </li>
         ))}
       </ul>

@@ -20,6 +20,7 @@ import { Reel } from '../components/Reel'
 import { StageScrub } from '../components/StageScrub'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
 import { media, type ModelId } from '../lib/media'
+import { HOME } from '../lib/routes'
 import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const MODELS = showcase.models.map((m) => m.id) as ModelId[]
@@ -332,7 +333,7 @@ function Waitlist() {
 export function LaunchPage() {
   return (
     <>
-      <Nav home="/" tabs={[{ label: 'SKY-001', href: '#top', current: true }, ...sky001.nav]} cta={sky001.intro.waitlist.cta} />
+      <Nav home={HOME} tabs={[{ label: 'SKY-001', href: '#top', current: true }, ...sky001.nav]} cta={sky001.intro.waitlist.cta} />
       <main>
         <Hero />
         <ReelBand />
@@ -349,7 +350,7 @@ export function LaunchPage() {
         <Faq />
         <Waitlist />
       </main>
-      <Footer pages={[{ label: 'Skyfall AI', href: '/' }, ...sky001.nav]} />
+      <Footer pages={[{ label: 'Skyfall AI', href: HOME }, ...sky001.nav]} />
     </>
   )
 }
