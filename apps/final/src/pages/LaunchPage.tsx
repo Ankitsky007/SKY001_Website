@@ -1,6 +1,6 @@
 import { benchmarks, docCharts, showcase, sky001 } from '@skyfall/core'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import extrudeClip from '../assets/media/extrude.mp4'
 import plansClip from '../assets/media/plans.mp4'
 import restackClip from '../assets/media/restack.mp4'
@@ -12,7 +12,7 @@ import towerClip from '../assets/media/tower.mp4'
 import { ParetoScatter, VersusLines } from '../components/Charts'
 import { Clip } from '../components/Clip'
 import { ExplorerGrid } from '../components/Explorer'
-import { ConstructFigure, ExploreFigure, SketchFigure } from '../components/figures/StageFigures'
+import { PixelIcon, type PixelIconName } from '../components/PixelIcon'
 import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
 import { WarpBackground } from '../components/ui/warp-background'
@@ -94,37 +94,49 @@ function ModelRing() {
   )
 }
 
-// One code-drawn illustration beside each of the three points (from the v2 SKY-001 page): a
-// sequence of CAD steps for "not a plug-in", parallel rollouts for "dream", parts stacking into an
-// assembly for "many domains".
-const POINT_FIGURES = [
-  { Figure: SketchFigure, file: 'Sketch.Extrude.Cut' },
-  { Figure: ExploreFigure, file: 'Rollouts.Parallel' },
-  { Figure: ConstructFigure, file: 'Parts.Assembly' },
+// The v2 page's pixel icon for each point, drawn large as its illustration. As there, one point
+// is lit at a time (the first to start): pointing at, focusing or tapping a card lights its icon,
+// whose blue cells assemble in a random order. On touch screens, where nothing is pointed at, the
+// card crossing the middle of the screen lights as you scroll.
+const POINT_ICONS: { icon: PixelIconName; file: string }[] = [
+  { icon: 'plugin', file: 'Pixel.Plug-in' },
+  { icon: 'dream', file: 'Pixel.Dream' },
+  { icon: 'domains', file: 'Pixel.Domains' },
 ]
-
-function PointFigure({ i }: { i: number }) {
-  const { Figure } = POINT_FIGURES[i]
-  return <Figure />
-}
 
 function Contrarian() {
   const { contrarian } = sky001
+  const [active, setActive] = useState(0)
+  const list = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const cards = list.current?.querySelectorAll('li')
+    if (!cards || !window.matchMedia('(hover: none)').matches) return
+    const io = new IntersectionObserver((entries) => entries.forEach((e) => e.isIntersecting && setActive([...cards].indexOf(e.target as HTMLLIElement))), { rootMargin: '-45% 0px -45% 0px' })
+    cards.forEach((c) => io.observe(c))
+    return () => io.disconnect()
+  }, [])
   return (
     <Section ground="studio">
       <Display>{contrarian.title}</Display>
-      <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-10">
-        {contrarian.points.map((p, i) => (
-          <li key={p.title} className="flex flex-col gap-5">
-            <Window title={POINT_FIGURES[i].file} bodyClassName="bg-paper">
-              <PointFigure i={i} />
-            </Window>
-            <RuleCol label={<h3>{p.title}</h3>} className="flex-1">
-              <p className={SMALL}>{p.body}</p>
-            </RuleCol>
-          </li>
-        ))}
-      </Reveal>
+      <div ref={list}>
+        <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-10">
+          {contrarian.points.map((p, i) => {
+            const on = i === active
+            return (
+              <li key={p.title} className="flex flex-col gap-5" onPointerEnter={() => setActive(i)} onFocus={() => setActive(i)} onClick={() => setActive(i)}>
+                <Window title={POINT_ICONS[i].file} accent={on} bodyClassName="bg-paper">
+                  <button type="button" aria-pressed={on} aria-label={p.title} className="grid aspect-[8/5] w-full cursor-pointer place-items-center">
+                    <PixelIcon name={POINT_ICONS[i].icon} active={on} className="size-28 lg:size-36" />
+                  </button>
+                </Window>
+                <RuleCol label={<h3 className={`transition-colors ${on ? 'text-brand' : ''}`}>{p.title}</h3>} className="flex-1">
+                  <p className={SMALL}>{p.body}</p>
+                </RuleCol>
+              </li>
+            )
+          })}
+        </Reveal>
+      </div>
     </Section>
   )
 }
