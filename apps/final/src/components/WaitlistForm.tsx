@@ -50,7 +50,7 @@ export function WaitlistForm() {
 
   return (
     <ModalShell dialog={dialog} title={W.title} titleId={`${uid}-title`}>
-      <PartnershipArt active={dialog.isOpen} />
+      <PartnershipArt active={dialog.isOpen} scene="queue" />
       {status === 'sent' ? (
         <SuccessPanel title={W.success.title} body={W.success.body} closeLabel={W.success.close} onClose={() => dialog.close()} />
       ) : (
