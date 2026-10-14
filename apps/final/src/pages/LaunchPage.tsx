@@ -228,7 +228,8 @@ function Why() {
   return (
     <Section ground="studio">
       <Display size="md">{sky001.why.title}</Display>
-      <div className="mt-4 lg:mt-6">
+      {/* the globe's canvas has air above the globe itself, so the diagram tucks up under the heading */}
+      <div className="-mt-6 md:-mt-12 lg:-mt-16">
         <WorldModelDiagram />
       </div>
     </Section>

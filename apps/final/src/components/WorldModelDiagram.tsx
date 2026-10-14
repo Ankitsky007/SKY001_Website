@@ -82,9 +82,9 @@ export function WorldModelDiagram() {
           <GlobeStill />
         )}
       </div>
-      <Fan ends={[50]} className="-mt-[130px] h-[190px] sm:hidden" />
-      <Fan ends={[25, 75]} className="-mt-[130px] hidden h-[250px] sm:block md:-mt-[170px] md:h-[290px] lg:hidden" />
-      <Fan ends={[12.5, 37.5, 62.5, 87.5]} className="-mt-[170px] hidden h-[330px] lg:block" />
+      <Fan ends={[50]} className="-mt-[130px] h-[170px] sm:hidden" />
+      <Fan ends={[25, 75]} className="-mt-[130px] hidden h-[210px] sm:block md:-mt-[170px] md:h-[240px] lg:hidden" />
+      <Fan ends={[12.5, 37.5, 62.5, 87.5]} className="-mt-[170px] hidden h-[260px] lg:block" />
       <Reveal as="ol" stagger={0.08} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item, i) => (
           <li key={item.title} className="flex min-h-44 flex-col justify-between gap-6 border border-brand bg-paper p-5 md:min-h-56 md:p-6">
