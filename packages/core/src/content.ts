@@ -115,8 +115,8 @@ export const backers = {
   title: "We're grateful for the support of our investors and advisors",
   investors: ['Fidelity', 'Touring Capital', 'M13', 'Inovia Capital'],
   advisors: [
-    { name: 'François Chollet', affiliations: ['Google', 'Keras', 'NDEA'], x: '#' },
-    { name: 'Naveen Rao', affiliations: ['Intel', 'Databricks'], x: '#' },
+    { name: 'François Chollet', affiliations: ['Google', 'Keras', 'NDEA'], x: 'https://x.com/fchollet' },
+    { name: 'Naveen Rao', affiliations: ['Intel', 'Databricks'], x: 'https://x.com/NaveenGRao' },
   ],
 } as const
 
