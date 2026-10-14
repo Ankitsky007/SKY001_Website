@@ -16,15 +16,14 @@ import { LineGrid } from '../components/LineGrid'
 import { WarpBackground } from '../components/ui/warp-background'
 import { Nav } from '../components/Nav'
 import { NewsCard } from '../components/NewsCard'
-import { Reel } from '../components/Reel'
 import { StageScrub } from '../components/StageScrub'
+import { TiltedModels } from '../components/TiltedModels'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
-import { media, type ModelId } from '../lib/media'
+import { media } from '../lib/media'
 import { footerPages, navTabs } from '../lib/nav'
 import { HOME, VIDEO_HREF, WAITLIST_HREF } from '../lib/routes'
 import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
-const MODELS = showcase.models.map((m) => m.id) as ModelId[]
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 
@@ -56,16 +55,19 @@ function Hero() {
   )
 }
 
-function ReelBand() {
+/**
+ * Right under the hero: the four models' finished renders on a slowly turning, curved row (from
+ * V7). A soft blue glow sits behind the ring and a shadow under it, so the row floats; hover pauses
+ * it and a click plays that model's film.
+ */
+function ModelRing() {
   return (
-    <section className={`bg-studio ${GUTTER} py-6 md:py-10`}>
-      <div className={WRAP}>
-        <Window title="SKY-001.Output" bodyClassName="bg-studio">
-          <div className="px-3 pb-3 md:px-5">
-            <Reel models={MODELS} className="h-[62svh] min-h-[380px]" />
-          </div>
-        </Window>
-      </div>
+    <section aria-label="SKY-001 output" className="relative overflow-hidden bg-paper pt-4 pb-14 md:pt-6 md:pb-20">
+      {/* glow behind the ring, and a floor shadow under it */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 top-0 h-full bg-[radial-gradient(55%_45%_at_50%_42%,rgba(62,87,218,0.14),transparent_75%)]" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-x-[12%] bottom-10 h-16 rounded-[50%] bg-[radial-gradient(closest-side,rgba(26,26,26,0.12),transparent)] blur-md md:bottom-14" />
+      <p className={`${LABEL} relative text-center text-brand`}>[ SKY-001.Output ]</p>
+      <TiltedModels className="relative mt-6 h-[260px] sm:h-[340px] md:mt-8 lg:h-[420px]" />
     </section>
   )
 }
@@ -333,7 +335,7 @@ export function LaunchPage() {
       <Nav home={HOME} tabs={navTabs('launch')} cta={{ label: sky001.intro.waitlist.cta.label, href: WAITLIST_HREF }} />
       <main>
         <Hero />
-        <ReelBand />
+        <ModelRing />
         <Intro />
         <Contrarian />
         <Results />

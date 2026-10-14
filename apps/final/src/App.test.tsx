@@ -83,6 +83,11 @@ describe('SKY-001 page', () => {
     for (const t of ['51× faster', '32× faster']) expect(within(time).getByText(t)).toBeInTheDocument()
   })
 
+  it('offers a film for each of the four models in the turning row', () => {
+    render(<LaunchPage />)
+    for (const m of showcase.models) expect(screen.getByRole('button', { name: `Play the film: ${m.title}` })).toBeInTheDocument()
+  })
+
   it('points the waitlist and launch video links at their pop-ups', () => {
     render(<LaunchPage />)
     for (const a of screen.getAllByRole('link', { name: sky001.intro.waitlist.cta.label, hidden: true })) expect(a).toHaveAttribute('href', '#join-waitlist')
