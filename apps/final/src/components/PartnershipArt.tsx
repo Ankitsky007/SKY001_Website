@@ -1,6 +1,10 @@
-// Header illustration for the partnership form: two isometric blocks on the brand-blue ground,
-// one built out of parts (Skyfall) and one solid (the partner), joined by a bridge that work
-// flows across. Decorative only; drawn in the same line language as the campus hero.
+// Header illustration for the partnership form, on the brand-blue ground. Three versions while the
+// team chooses, picked with ?art= in the URL: 'handshake' (default, dithered hands meeting),
+// 'cubes' (two dithered half-cubes locking into one) and 'bridge' (two isometric blocks joined by a
+// bridge, in the campus hero's line language). Decorative only.
+import { useReducedMotion } from '@skyfall/core/motion'
+import { useEffect, useRef } from 'react'
+import { startDither, type DitherScene } from '../scenes/dither'
 
 const ISO = 0.866
 
@@ -25,7 +29,7 @@ function Box({ x, y, w, h, solid = false }: { x: number; y: number; w: number; h
   )
 }
 
-export function PartnershipArt() {
+function BridgeArt() {
   // a 3 x 3 stack of small blocks on the left, one solid block on the right
   const cells: [number, number, number][] = []
   for (let r = 0; r < 3; r++) for (let c = 0; c < 3; c++) cells.push([r, c, [26, 18, 34, 22, 40, 26, 30, 20, 16][r * 3 + c]])
@@ -76,4 +80,31 @@ export function PartnershipArt() {
       </svg>
     </div>
   )
+}
+
+function DitherArt({ scene, active }: { scene: DitherScene; active: boolean }) {
+  const ref = useRef<HTMLCanvasElement>(null)
+  const reduced = useReducedMotion()
+  useEffect(() => {
+    const cv = ref.current
+    if (!cv || !active) return
+    return startDither(cv, scene, reduced)
+  }, [scene, active, reduced])
+  return (
+    <div aria-hidden="true" className="relative h-40 overflow-hidden bg-brand sm:h-44">
+      <canvas ref={ref} className="absolute inset-0 size-full" />
+    </div>
+  )
+}
+
+type Art = DitherScene | 'bridge'
+const pick = (): Art => {
+  const q = typeof window === 'undefined' ? null : new URLSearchParams(window.location.search).get('art')
+  return q === 'cubes' || q === 'bridge' ? q : 'handshake'
+}
+
+/** The header illustration; `active` restarts its animation each time the form opens. */
+export function PartnershipArt({ active }: { active: boolean }) {
+  const art = pick()
+  return art === 'bridge' ? <BridgeArt /> : <DitherArt scene={art} active={active} />
 }

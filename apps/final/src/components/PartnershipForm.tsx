@@ -46,6 +46,7 @@ export function PartnershipForm() {
   const [tried, setTried] = useState(false)
   const [status, setStatus] = useState<Status>('idle')
   const [trap, setTrap] = useState('')
+  const [isOpen, setIsOpen] = useState(false)
 
   const errors = validate(values)
   const shown = (f: Field) => (tried || touched[f] ? errors[f] : undefined)
@@ -61,6 +62,7 @@ export function PartnershipForm() {
       setStatus('idle')
     }
     d.showModal()
+    setIsOpen(true)
     lenis?.stop()
   }
   const close = () => dialog.current?.close()
@@ -90,7 +92,10 @@ export function PartnershipForm() {
   useEffect(() => {
     const d = dialog.current
     if (!d) return
-    const onClose = () => lenis?.start()
+    const onClose = () => {
+      lenis?.start()
+      setIsOpen(false)
+    }
     d.addEventListener('close', onClose)
     return () => d.removeEventListener('close', onClose)
   }, [lenis])
@@ -187,7 +192,7 @@ export function PartnershipForm() {
             </span>
           </button>
         </header>
-        <PartnershipArt />
+        <PartnershipArt active={isOpen} />
 
 
         {status === 'sent' ? (
