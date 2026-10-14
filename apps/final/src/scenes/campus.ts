@@ -407,7 +407,7 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, stil
     g.font = `500 ${head * 0.7}px ${MONO}`
     g.fillText(`■ ${up(campusFlow.labels.log)}`, 14, head * 0.75)
     const seen = story.logs.filter((l) => T >= l.t)
-    const rows = 3
+    const rows = 4
     const rh = (depth * U - head * 1.35) / rows
     const newest = seen.length ? seen[seen.length - 1] : null
     const slide = newest ? 1 - ease(cl((T - newest.t) / 0.35)) : 0
@@ -420,7 +420,7 @@ export function startCampus(cv: HTMLCanvasElement, { palette: C, textRight, stil
       const y = head * 1.3 + (i - slide) * rh + rh / 2
       const who = up(l.who === 'model' ? campusFlow.model : campus.departments[l.who].name)
       const text = l.text.includes(' · ') ? l.text.slice(l.text.indexOf(' · ') + 3) : l.text
-      let fs = rh * 0.52
+      let fs = rh * 0.42
       g.font = `400 ${fs}px ${MONO}`
       const str = `${who}  ${text}`
       const tw = g.measureText(str).width
