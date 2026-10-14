@@ -23,6 +23,8 @@ const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 
 // The SKY-001 output reel under the hero is hidden for now (Ankit, 2026-10-14); flip to bring it back.
 const SHOW_REEL = false
+// The SKY-001 band is hidden too: the content doc's front page does not introduce SKY-001 (Ankit, 2026-10-14).
+const SHOW_SKY001 = false
 
 function ReelBand() {
   return (
@@ -309,7 +311,7 @@ export function FrontPage() {
         <Problem />
         <Build />
         <Pareto />
-        <Sky001Band />
+        {SHOW_SKY001 && <Sky001Band />}
         <Matters />
         <Team />
         <Backers />
