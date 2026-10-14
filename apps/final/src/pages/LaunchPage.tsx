@@ -12,6 +12,7 @@ import towerClip from '../assets/media/tower.mp4'
 import { ParetoScatter, VersusLines } from '../components/Charts'
 import { Clip } from '../components/Clip'
 import { ExplorerGrid } from '../components/Explorer'
+import { ConstructFigure, ExploreFigure, SketchFigure } from '../components/figures/StageFigures'
 import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
 import { WarpBackground } from '../components/ui/warp-background'
@@ -20,7 +21,6 @@ import { NewsCard } from '../components/NewsCard'
 import { StageScrub } from '../components/StageScrub'
 import { TiltedModels } from '../components/TiltedModels'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
-import { media } from '../lib/media'
 import { footerPages, navTabs } from '../lib/nav'
 import { HOME, VIDEO_HREF, WAITLIST_HREF } from '../lib/routes'
 import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
@@ -94,12 +94,19 @@ function ModelRing() {
   )
 }
 
-// One real showcase render beside each of the three points.
-const POINT_MEDIA: { src: string; alt: string; file: string }[] = [
-  { src: media.poster('arcmate'), alt: 'Welding robot as a clay 3D shape, generated from one image', file: 'Shape.Welding robot' },
-  { src: media.final('tractor'), alt: 'Compact tractor, 92 refined parts', file: 'Parts.Compact tractor' },
-  { src: media.final('jet'), alt: 'Jet engine, 70 refined parts', file: 'Parts.Turbofan' },
+// One code-drawn illustration beside each of the three points (from the v2 SKY-001 page): a
+// sequence of CAD steps for "not a plug-in", parallel rollouts for "dream", parts stacking into an
+// assembly for "many domains".
+const POINT_FIGURES = [
+  { Figure: SketchFigure, file: 'Sketch.Extrude.Cut' },
+  { Figure: ExploreFigure, file: 'Rollouts.Parallel' },
+  { Figure: ConstructFigure, file: 'Parts.Assembly' },
 ]
+
+function PointFigure({ i }: { i: number }) {
+  const { Figure } = POINT_FIGURES[i]
+  return <Figure />
+}
 
 function Contrarian() {
   const { contrarian } = sky001
@@ -109,8 +116,8 @@ function Contrarian() {
       <Reveal as="ul" stagger={0.08} className="mt-10 grid gap-10 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-10">
         {contrarian.points.map((p, i) => (
           <li key={p.title} className="flex flex-col gap-5">
-            <Window title={POINT_MEDIA[i].file} bodyClassName="bg-studio">
-              <img src={POINT_MEDIA[i].src} alt={POINT_MEDIA[i].alt} loading="lazy" className="aspect-[8/5] w-full object-contain" />
+            <Window title={POINT_FIGURES[i].file} bodyClassName="bg-paper">
+              <PointFigure i={i} />
             </Window>
             <RuleCol label={<h3>{p.title}</h3>} className="flex-1">
               <p className={SMALL}>{p.body}</p>
