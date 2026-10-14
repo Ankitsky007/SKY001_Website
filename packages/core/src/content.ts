@@ -181,6 +181,12 @@ export const sky001 = {
       rejected: 'Rejected',
       input: 'Input',
       picked: 'Picked',
+      mated: 'Mated',
+      layer: 'Layer',
+      voxels: 'Voxels',
+      // two other takes on the first point, shown for review with ?plugin=snap or ?plugin=voxel
+      snapAlt: 'A part is reasoned into place on a base one axis at a time: it slides along X, then Y, then drops on Z, each axis locking with its offset counting to zero, until the faces mate.',
+      voxelAlt: 'A bracket is built voxel by voxel, one Z layer at a time, on an X, Y, Z grid, showing the model thinking in volume rather than words.',
       alts: [
         'A part is built one decision at a time: sketch, extrude, cut, pattern. At each step a wrong option is tried and rejected before the right one is applied.',
         'One input sketch, with fourteen different 3D designs growing out of noise around it at the same moment; one is then picked.',

@@ -580,10 +580,245 @@ const drawDomains: Draw = (g, time) => {
   label(g, sky001.next.domains[front.i], GLOBE.x, 238, BRAND, 'center', 12)
 }
 
+
+// ---------------------------------------------------------------------------------------------
+// Not a plug-in, two more takes for review (?plugin=snap, ?plugin=voxel): reasoning in 3D space.
+// ---------------------------------------------------------------------------------------------
+
+type Pt = readonly [number, number]
+
+function quad(g: CanvasRenderingContext2D, pts: Pt[], fill: string | null, stroke: string | null, dash: number[] = []) {
+  g.beginPath()
+  pts.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y)))
+  g.closePath()
+  if (fill) {
+    g.fillStyle = fill
+    g.fill()
+  }
+  if (stroke) {
+    g.setLineDash(dash)
+    g.strokeStyle = stroke
+    g.stroke()
+    g.setLineDash([])
+  }
+}
+
+type Look = { top: string; left: string; right: string; line: string }
+const PLAIN: Look = { top: '#FFFFFF', left: '#EDEDED', right: '#D6D6D6', line: INK }
+const BLUE: Look = { top: '#EEF1FC', left: '#DCE2F8', right: '#B9C3F2', line: BRAND }
+
+/** A solid box from (x0, y0, z0) to (x1, y1, z1), its three visible faces filled. */
+function solid(g: CanvasRenderingContext2D, P: ReturnType<typeof iso>, x0: number, y0: number, z0: number, x1: number, y1: number, z1: number, look: Look) {
+  quad(g, [P(x0, y1, z0), P(x1, y1, z0), P(x1, y1, z1), P(x0, y1, z1)], look.left, look.line)
+  quad(g, [P(x1, y0, z0), P(x1, y1, z0), P(x1, y1, z1), P(x1, y0, z1)], look.right, look.line)
+  quad(g, [P(x0, y0, z1), P(x1, y0, z1), P(x1, y1, z1), P(x0, y1, z1)], look.top, look.line)
+}
+
+/** X, Y and Z arrows from one corner; `lit` axes are blue. */
+function gizmo(g: CanvasRenderingContext2D, x: number, y: number, lit: { x?: boolean; y?: boolean; z?: boolean }) {
+  const L = 30
+  const axes: [string, number, number, boolean | undefined][] = [
+    ['X', 0.866, 0.5, lit.x],
+    ['Y', -0.866, 0.5, lit.y],
+    ['Z', 0, -1, lit.z],
+  ]
+  for (const [name, dx, dy, on] of axes) {
+    const ex = x + dx * L
+    const ey = y + dy * L
+    g.strokeStyle = on ? BRAND : GREY
+    g.lineWidth = on ? 1.8 : 1
+    g.beginPath()
+    g.moveTo(x, y)
+    g.lineTo(ex, ey)
+    g.stroke()
+    g.fillStyle = on ? BRAND : GREY
+    g.fillRect(ex - 2.5, ey - 2.5, 5, 5)
+    label(g, name, x + dx * (L + 11), y + dy * (L + 11) + 4, on ? BRAND : MUTED, 'center', 11)
+  }
+  g.lineWidth = 1
+}
+
+const SNAP_PERIOD = 7.6
+const OFF = { x: 70, y: -55, z: 60 }
+
+const drawSnap: Draw = (g, time) => {
+  const t = time % SNAP_PERIOD
+  const fade = Math.min(span(t, 0, 0.4) + 0.0001, 1 - span(t, SNAP_PERIOD - 0.6, SNAP_PERIOD))
+  const kx = span(t, 0.8, 2.0)
+  const ky = span(t, 2.2, 3.4)
+  const kz = span(t, 3.6, 4.8)
+  const mated = t >= 4.8
+  const dx = OFF.x * (1 - kx)
+  const dy = OFF.y * (1 - ky)
+  const dz = OFF.z * (1 - kz) + Math.sin(t * 3) * 2 * (1 - kx)
+  const P = iso(196, 158, 1)
+  const BASE_H = 14
+  const PART_H = 26
+  g.globalAlpha = fade
+
+  // the base, and where the part has to land on it
+  solid(g, P, -62, -42, 0, 62, 42, BASE_H, PLAIN)
+  if (!mated) quad(g, [P(-20, -20, BASE_H), P(20, -20, BASE_H), P(20, 20, BASE_H), P(-20, 20, BASE_H)], null, BRAND, [3, 3])
+
+  // the guide for the axis being solved
+  const z = BASE_H + dz
+  g.strokeStyle = BRAND
+  g.setLineDash([3, 3])
+  g.beginPath()
+  if (kx < 1) {
+    g.moveTo(...P(dx, dy, z))
+    g.lineTo(...P(0, dy, z))
+  } else if (ky < 1) {
+    g.moveTo(...P(0, dy, z))
+    g.lineTo(...P(0, 0, z))
+  } else if (kz < 1) {
+    g.moveTo(...P(0, 0, z))
+    g.lineTo(...P(0, 0, BASE_H))
+  }
+  g.stroke()
+  g.setLineDash([])
+
+  // the part
+  solid(g, P, dx - 20, dy - 20, z, dx + 20, dy + 20, z + PART_H, mated ? PLAIN : BLUE)
+
+  if (mated) {
+    const pulse = 1 - span(t, 4.8, 5.6)
+    if (pulse > 0) {
+      g.globalAlpha = fade * pulse
+      quad(g, [P(-20 - 14 * (1 - pulse), -20 - 14 * (1 - pulse), BASE_H), P(20 + 14 * (1 - pulse), -20 - 14 * (1 - pulse), BASE_H), P(20 + 14 * (1 - pulse), 20 + 14 * (1 - pulse), BASE_H), P(-20 - 14 * (1 - pulse), 20 + 14 * (1 - pulse), BASE_H)], null, BRAND)
+      g.globalAlpha = fade
+    }
+    const [mx, my] = P(20, -20, BASE_H + PART_H)
+    g.fillStyle = BRAND
+    g.fillRect(mx + 12, my - 9, 6, 6)
+    label(g, figures.mated, mx + 22, my - 2, BRAND, 'left', 11)
+  }
+
+  // offsets per axis, counting down to zero as each one locks
+  const rows: [string, number, boolean, boolean][] = [
+    ['X', dx, kx >= 1, kx > 0 && kx < 1],
+    ['Y', dy, ky >= 1, ky > 0 && ky < 1],
+    ['Z', dz, kz >= 1, kz > 0 && kz < 1],
+  ]
+  rows.forEach(([name, v, locked, active], i) => {
+    const y = 26 + i * 17
+    const c = locked ? BRAND : active ? INK : MUTED
+    if (locked) {
+      g.fillStyle = BRAND
+      g.fillRect(16, y - 8, 7, 7)
+    } else {
+      g.strokeStyle = active ? INK : GREY
+      g.strokeRect(16.5, y - 7.5, 6, 6)
+    }
+    label(g, `Δ${name} ${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(1)}`, 30, y, c, 'left', 12)
+  })
+
+  gizmo(g, 46, 214, { x: kx > 0, y: ky > 0, z: kz > 0 })
+  g.globalAlpha = 1
+}
+
+const NX = 6
+const NY = 5
+const NZ = 5
+const VOX = 14
+/** An L-bracket: a two-voxel-thick base with a bore, and a back wall with a window. */
+const filled = (x: number, y: number, z: number) => {
+  const mid = x >= 2 && x <= 3
+  if (z <= 1) return !(mid && y >= 2 && y <= 3)
+  return y <= 1 && !(mid && z === 3)
+}
+const VOXELS = (() => {
+  const list: [number, number, number][] = []
+  for (let z = 0; z < NZ; z++) for (let y = 0; y < NY; y++) for (let x = 0; x < NX; x++) if (filled(x, y, z)) list.push([x, y, z])
+  return list.sort((a, b) => a[2] - b[2] || a[0] + a[1] - (b[0] + b[1]))
+})()
+const VOXEL_PERIOD = 7.5
+const LAYER_S = 1
+
+const drawVoxels: Draw = (g, time) => {
+  const t = time % VOXEL_PERIOD
+  const fade = Math.min(span(t, 0, 0.3) + 0.0001, 1 - span(t, VOXEL_PERIOD - 0.5, VOXEL_PERIOD))
+  const P0 = iso(212, 166, VOX)
+  const P = (x: number, y: number, z: number) => P0(x - NX / 2, y - NY / 2, z)
+  const layerNow = Math.min(NZ - 1, Math.floor(Math.max(0, t - 0.3) / LAYER_S))
+  const done = t >= 0.3 + NZ * LAYER_S
+  g.globalAlpha = fade
+
+  // the floor grid and the bounding volume
+  g.strokeStyle = '#E6E6E6'
+  for (let x = 0; x <= NX; x++) {
+    g.beginPath()
+    g.moveTo(...P(x, 0, 0))
+    g.lineTo(...P(x, NY, 0))
+    g.stroke()
+  }
+  for (let y = 0; y <= NY; y++) {
+    g.beginPath()
+    g.moveTo(...P(0, y, 0))
+    g.lineTo(...P(NX, y, 0))
+    g.stroke()
+  }
+  quad(g, [P(0, 0, NZ), P(NX, 0, NZ), P(NX, NY, NZ), P(0, NY, NZ)], null, '#D0D0D0', [2, 4])
+  ;[
+    [0, 0],
+    [NX, 0],
+    [NX, NY],
+    [0, NY],
+  ].forEach(([x, y]) => {
+    g.setLineDash([2, 4])
+    g.strokeStyle = '#D0D0D0'
+    g.beginPath()
+    g.moveTo(...P(x, y, 0))
+    g.lineTo(...P(x, y, NZ))
+    g.stroke()
+    g.setLineDash([])
+  })
+
+  // voxels, layer by layer
+  let count = 0
+  const perLayer = new Map<number, number>()
+  const drawList: [number, number, number, number][] = []
+  for (const [x, y, z] of VOXELS) {
+    const idx = perLayer.get(z) ?? 0
+    perLayer.set(z, idx + 1)
+    const total = VOXELS.filter((v) => v[2] === z).length
+    const start = 0.3 + z * LAYER_S + (idx / total) * LAYER_S * 0.75
+    const k = clamp((t - start) / 0.18)
+    if (k <= 0) continue
+    count++
+    drawList.push([x, y, z, k])
+  }
+  drawList
+    .sort((a, b) => a[0] + a[1] + a[2] - (b[0] + b[1] + b[2]) || a[2] - b[2])
+    .forEach(([x, y, z, k]) => {
+      const lift = (1 - k) * 0.8
+      g.globalAlpha = fade * k
+      solid(g, P, x, y, z + lift, x + 1, y + 1, z + 1 + lift, z === layerNow && !done ? BLUE : PLAIN)
+    })
+  g.globalAlpha = fade
+
+  // the plane of the layer being built
+  if (!done && t > 0.3) {
+    const zl = layerNow + 1
+    quad(g, [P(0, 0, zl), P(NX, 0, zl), P(NX, NY, zl), P(0, NY, zl)], null, BRAND, [4, 3])
+    const [lx, ly] = P(NX, 0, zl)
+    label(g, `Z ${zl}`, lx + 8, ly + 4, BRAND, 'left', 11)
+  }
+
+  label(g, `${figures.layer} Z 0${done ? NZ : layerNow + 1} / 0${NZ}`, 16, 26, INK, 'left', 12)
+  label(g, `${figures.voxels} ${String(count).padStart(3, '0')}`, 16, 43, done ? BRAND : MUTED, 'left', 12)
+  gizmo(g, 46, 214, { z: true, x: done, y: done })
+  g.globalAlpha = 1
+}
+
+const PLUGIN_TAKES = { snap: { draw: drawSnap, still: 5.6, alt: figures.snapAlt }, voxel: { draw: drawVoxels, still: 6.2, alt: figures.voxelAlt } } as const
+
 const DRAWS = [drawChain, drawDreams, drawDomains]
 const STILLS = [4 * STEP_S + 0.5, 4.5, 0.6]
 
 /** The illustration for contrarian point `i`. */
 export function ContrarianFigure({ i }: { i: number }) {
+  const take = i === 0 ? PLUGIN_TAKES[new URLSearchParams(window.location.search).get('plugin') as keyof typeof PLUGIN_TAKES] : undefined
+  if (take) return <Figure draw={take.draw} still={take.still} label={take.alt} />
   return <Figure draw={DRAWS[i]} still={STILLS[i]} label={figures.alts[i]} />
 }
