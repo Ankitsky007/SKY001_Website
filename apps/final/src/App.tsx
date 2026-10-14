@@ -1,9 +1,9 @@
 import { ScrollTrigger, SmoothScroll, useLenis } from '@skyfall/core/motion'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { PartnershipForm } from './components/PartnershipForm'
 import { VideoModal } from './components/VideoModal'
 import { WaitlistForm } from './components/WaitlistForm'
-import { currentPage } from './lib/routes'
+import { currentPage, HASH_ROUTES, HOME, LAUNCH } from './lib/routes'
 import { FrontPage } from './pages/FrontPage'
 import { LaunchPage } from './pages/LaunchPage'
 
@@ -59,12 +59,25 @@ function TriggerRefresh() {
 // Final Skyfall site: the front page at "/" and the SKY-001 page at "/sky-001", with the pop-ups
 // (partnership, waitlist, launch video) shared by both.
 function App() {
-  const page = currentPage()
+  const [page, setPage] = useState(currentPage)
+  // hash-routed builds: "#sky-001" and "#home" switch pages; other hashes (sections, pop-ups) don't
+  useEffect(() => {
+    if (!HASH_ROUTES) return
+    const onHash = () => {
+      const h = window.location.hash
+      if (h !== HOME && h !== LAUNCH) return
+      setPage(h === LAUNCH ? 'launch' : 'home')
+      window.scrollTo(0, 0)
+      requestAnimationFrame(() => ScrollTrigger.refresh())
+    }
+    window.addEventListener('hashchange', onHash)
+    return () => window.removeEventListener('hashchange', onHash)
+  }, [])
   return (
     <SmoothScroll>
       <AnchorScroll />
       <TriggerRefresh />
-      {page === 'launch' ? <LaunchPage /> : <FrontPage />}
+      {page === 'launch' ? <LaunchPage key="launch" /> : <FrontPage key="home" />}
       <PartnershipForm />
       <WaitlistForm />
       <VideoModal />
