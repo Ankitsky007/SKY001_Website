@@ -1,5 +1,5 @@
 import { research } from '@skyfall/core'
-import { gsap, prefersReducedMotion, ScrollTrigger, useGSAP } from '@skyfall/core/motion'
+import { gsap, prefersReducedMotion, useGSAP } from '@skyfall/core/motion'
 import { useRef, useState } from 'react'
 import { PixelIcon, type PixelIconName } from './PixelIcon'
 
@@ -7,95 +7,76 @@ const ICONS: PixelIconName[] = ['learn', 'simulate', 'plan', 'guardrails']
 const num = (i: number) => `// ${String(i + 1).padStart(3, '0')}`
 
 /**
- * aeye "how it works" step cards. Progress bars fill in sequence as the cards scroll through the
- * viewport (never un-filling), each card turns blue as its bar starts, and clicking a card jumps
- * the progress to it. Reduced motion shows every step complete.
+ * aeye "how it works" step cards. One progress bar runs across the four cards, tied directly to
+ * scroll: it fills as the row scrolls by and empties again on the way back up. A card turns blue
+ * once its stretch of the bar is full. On desktop the row pins for a moment so the whole run
+ * happens while all four cards are on screen. Reduced motion shows every step complete.
  */
 export function StepCards() {
   const steps = research.build.steps
   const n = steps.length
   const root = useRef<HTMLOListElement>(null)
   const [reached, setReached] = useState(() => (prefersReducedMotion() ? n : 0))
-  const progress = useRef({ p: prefersReducedMotion() ? n : 0, max: 0 })
 
-  const render = () => {
+  const render = (p: number) => {
     const el = root.current
     if (!el) return
-    const p = progress.current.p
     el.querySelectorAll<HTMLElement>('[data-bar]').forEach((bar, i) => {
       const fill = gsap.utils.clamp(0, 1, p - i)
-      bar.style.width = `${fill * 100}%`
-      const tip = bar.nextElementSibling as HTMLElement | null
-      if (tip) tip.style.display = fill > 0 && fill < 0.98 ? 'block' : 'none'
+      bar.style.transform = `scaleX(${fill})`
+      const tip = bar.parentElement?.querySelector<HTMLElement>('[data-tip]')
+      if (tip) {
+        tip.style.left = `calc(${fill * 100}% - 4px)`
+        tip.style.opacity = fill > 0.01 && fill < 0.99 ? '1' : '0'
+      }
     })
-    const next = Math.min(n, Math.ceil(p - 0.02))
+    const next = Math.min(n, Math.floor(p + 0.02))
     setReached((r) => (r === next ? r : next))
   }
-
-  const goTo = (target: number, duration = 0.6) =>
-    gsap.to(progress.current, { p: target, duration, ease: 'power2.out', overwrite: true, onUpdate: render })
 
   useGSAP(
     () => {
       const el = root.current
       if (!el) return
-      render()
-      if (prefersReducedMotion()) return
-      const st = ScrollTrigger.create({
-        trigger: el,
-        start: 'top 80%',
-        end: 'bottom 45%',
-        onUpdate: (self) => {
-          const target = self.progress * n
-          if (target <= progress.current.max) return
-          progress.current.max = target
-          goTo(target, 0.5)
-        },
+      if (prefersReducedMotion()) {
+        render(n)
+        return
+      }
+      render(0)
+      const state = { p: 0 }
+      const mm = gsap.matchMedia()
+      const run = (vars: ScrollTrigger.Vars) =>
+        gsap.to(state, { p: n, ease: 'none', onUpdate: () => render(state.p), scrollTrigger: { trigger: el, scrub: 0.3, ...vars } })
+      // desktop: the row holds still in the middle of the screen while the bar crosses it
+      mm.add('(min-width: 1024px)', () => {
+        run({ start: 'center 55%', end: '+=110%', pin: true, anticipatePin: 1 })
       })
-      return () => st.kill()
+      // stacked cards: the bar fills as the cards pass the middle of the screen
+      mm.add('(max-width: 1023.98px)', () => {
+        run({ start: 'top 70%', end: 'bottom 55%' })
+      })
+      return () => mm.revert()
     },
     { scope: root },
   )
 
-  const select = (i: number) => {
-    progress.current.max = Math.max(progress.current.max, i + 1)
-    if (prefersReducedMotion()) {
-      progress.current.p = i + 1
-      render()
-    } else goTo(i + 1)
-  }
-
   return (
-    <ol ref={root} className="grid gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-4">
+    <ol ref={root} className="grid gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-4 lg:gap-0">
       {steps.map((step, i) => {
         const on = i < reached
         return (
-          <li key={step.key} className="relative flex flex-col border border-line bg-paper transition-colors duration-300 hover:border-faint lg:min-h-[480px]">
-            <button
-              type="button"
-              aria-pressed={on}
-              aria-label={`Step ${i + 1}: ${step.title}`}
-              onClick={() => select(i)}
-              className="absolute inset-0 z-10 cursor-pointer"
-            />
-            {/* Phone: icon beside text. md+: number + body on top, title + icon below the bar. */}
-            <div className="flex gap-4 p-5 md:flex-1 md:flex-col md:justify-between md:gap-10 md:p-6">
-              <PixelIcon name={ICONS[i]} active={on} className="size-[50px] md:hidden" />
-              <div className="flex flex-col gap-1.5 md:h-full md:justify-between md:gap-10">
-                <span className={`text-base tracking-[-0.04em] transition-colors duration-300 md:text-[22px] ${on ? 'text-brand' : 'text-faint'}`}>{num(i)}</span>
-                <h3 className={`text-[22px] leading-[1.15] font-medium tracking-[-0.05em] transition-colors duration-300 md:hidden ${on ? 'text-brand' : 'text-muted'}`}>{step.title}</h3>
-                <p className={`text-[15px] leading-[1.4] tracking-[-0.02em] transition-[color,opacity] duration-300 md:text-base ${on ? 'text-ink' : 'text-muted md:text-ink md:opacity-30'}`}>
-                  {step.body}
-                </p>
-              </div>
+          <li key={step.key} className="relative flex flex-col border border-line bg-paper lg:-ml-px lg:first:ml-0">
+            <div className="flex flex-1 flex-col gap-3 p-5 md:p-6">
+              <span className={`text-base tracking-[-0.04em] transition-colors duration-300 md:text-[22px] ${on ? 'text-brand' : 'text-faint'}`}>{num(i)}</span>
+              <h3 className={`mt-2 text-[24px] leading-[1.1] font-medium tracking-[-0.05em] transition-colors duration-300 md:mt-8 md:text-[28px] ${on ? 'text-brand' : 'text-ink/60'}`}>{step.title}</h3>
+              <p className={`text-[15px] leading-[1.4] tracking-[-0.02em] transition-opacity duration-300 md:text-base ${on ? 'text-ink' : 'text-ink opacity-60'}`}>{step.body}</p>
             </div>
-            <div aria-hidden="true" className="dots flex h-6 items-center gap-[3px] md:h-8 md:gap-1">
-              <span data-bar className="block h-1.5 bg-brand md:h-2" style={{ width: 0 }} />
-              <span className="hidden size-1.5 shrink-0 bg-brand md:size-2" />
+            <div aria-hidden="true" className="dots relative flex h-6 items-center md:h-8">
+              <span data-bar className="block h-1.5 w-full origin-left bg-brand md:h-2" style={{ transform: 'scaleX(0)' }} />
+              <span data-tip className="absolute top-1/2 size-2 -translate-y-1/2 bg-brand opacity-0 shadow-[0_0_0_3px_rgba(62,87,218,0.2)]" />
             </div>
-            <div className="hidden flex-col justify-between gap-6 p-6 md:flex lg:min-h-[236px]">
-              <h3 className={`text-[28px] leading-[1.15] font-medium tracking-[-0.05em] transition-colors duration-300 ${on ? 'text-brand' : 'text-faint'}`}>{step.title}</h3>
-              <PixelIcon name={ICONS[i]} active={on} className="size-20 self-end" />
+            <div className="flex justify-end p-5 md:p-6">
+              <PixelIcon name={ICONS[i]} active={on} className="size-14 md:size-20" />
             </div>
           </li>
         )
