@@ -1,5 +1,6 @@
 import { SkyfallLogo } from '@skyfall/core'
 import { useEffect, useState } from 'react'
+import { NewsTicker } from './NewsTicker'
 import { scrambleOnHover } from '../lib/scramble'
 import { ButtonLink } from '../lib/ui'
 
@@ -17,6 +18,22 @@ const ext = (href: string) => (href.startsWith('http') ? { target: '_blank', rel
 export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]; cta: { label: string; href: string } }) {
   const [spied, setSpied] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
+  // the news ticker sits above the nav until hidden, and stays hidden for the rest of the visit
+  const [ticker, setTicker] = useState(() => {
+    try {
+      return sessionStorage.getItem('skyfall-news-hidden') !== '1'
+    } catch {
+      return true
+    }
+  })
+  const hideTicker = () => {
+    setTicker(false)
+    try {
+      sessionStorage.setItem('skyfall-news-hidden', '1')
+    } catch {
+      /* private mode: hidden for this page only */
+    }
+  }
 
   // Light the tab whose part of the page crosses a line 40% down the screen. Measured from the
   // live layout on every scroll, so pinned sections and late-loading media cannot throw it off.
@@ -54,7 +71,14 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
 
   return (
     <>
-      <nav aria-label="Main" className="pointer-events-none fixed inset-x-0 top-0 z-50 hidden px-10 lg:block">
+      {ticker && (
+        <>
+          <NewsTicker onClose={hideTicker} />
+          {/* holds the ticker's height in the page so nothing starts under it */}
+          <div aria-hidden="true" className="h-9" />
+        </>
+      )}
+      <nav aria-label="Main" className={`pointer-events-none fixed inset-x-0 z-50 hidden px-10 transition-[top] duration-300 lg:block ${ticker ? 'top-9' : 'top-0'}`}>
         <div className="mx-auto flex max-w-[1208px] items-start justify-between">
           <ul className="pointer-events-auto flex items-start font-mono text-[13px] font-medium tracking-[-0.02em] uppercase lg:text-sm">
             <li>
@@ -92,7 +116,7 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
         </div>
       </nav>
 
-      <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b border-line bg-white pr-3 pl-6 lg:hidden">
+      <header className={`sticky z-50 flex h-16 ${ticker ? 'top-9' : 'top-0'} items-center justify-between border-b border-line bg-white pr-3 pl-6 lg:hidden`}>
         <a href={home} className="flex min-h-11 items-center text-ink" aria-label="Skyfall AI home">
           <SkyfallLogo width={140} />
         </a>
@@ -105,7 +129,7 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
         id="mobile-menu"
         inert={!open}
         data-lenis-prevent
-        className={`fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col justify-between overflow-y-auto bg-white px-6 pt-2 pb-8 transition-[clip-path] duration-500 ease-out-expo lg:hidden ${open ? '[clip-path:inset(0_0_0_0)]' : '[clip-path:inset(0_0_100%_0)]'}`}
+        className={`fixed inset-x-0 bottom-0 z-40 ${ticker ? 'top-[100px]' : 'top-16'} flex flex-col justify-between overflow-y-auto bg-white px-6 pt-2 pb-8 transition-[clip-path] duration-500 ease-out-expo lg:hidden ${open ? '[clip-path:inset(0_0_0_0)]' : '[clip-path:inset(0_0_100%_0)]'}`}
       >
         <ul>
           {tabs.map((tab, i) => (

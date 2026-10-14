@@ -33,13 +33,12 @@ const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 function Hero() {
   const { hero, intro } = sky001
   return (
-    <section id="top" className={`relative bg-paper ${GUTTER} pt-8 pb-14 md:pt-12 md:pb-20 lg:pt-[84px] short-laptop:pt-[76px]`}>
+    <section id="top" className={`relative bg-paper ${GUTTER} pt-12 pb-14 md:pt-20 md:pb-20 lg:pt-28 short-laptop:pt-20`}>
       {/* the warp: grid walls in perspective with blue beams running towards the viewer */}
       <WarpBackground aria-hidden="true" perspective={120} beamsPerSide={4} beamSize={5} beamDuration={4} gridColor="var(--color-grid)" className="pointer-events-none absolute! inset-0 [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]" />
       {/* the hero rises in line by line on load, like the reveals further down */}
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
-        <NewsCard />
-        <p className="mt-12 text-[15px] font-medium tracking-[-0.02em] md:mt-20 md:text-base short-laptop:mt-8">
+        <p className="text-[15px] font-medium tracking-[-0.02em] md:text-base">
           {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
           {intro.before.replace('SKY-001', 'SKY‑001')}
           {intro.emphasis}
