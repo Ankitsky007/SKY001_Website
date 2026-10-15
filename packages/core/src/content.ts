@@ -580,6 +580,46 @@ export const waitlistForm = {
   },
 } as const
 
+/**
+ * Blog page chrome (Ankit, 2026-10-15). The posts themselves are verbatim from skyfall.ai/blog
+ * (./blog/posts.ts); the header line and newsletter copy below are drafted for this site.
+ */
+export const blogPage = {
+  nav: 'Blog',
+  label: 'Skyfall Blog',
+  title: 'Blog & Articles',
+  lede: 'Research, essays and notes from the team building world models for the enterprise.',
+  count: 'articles',
+  featured: 'Featured · Latest',
+  readMore: 'Read more',
+  read: 'Read',
+  minRead: 'min read',
+  all: { title: 'All articles', note: 'Newest first' },
+  reader: {
+    back: 'All articles',
+    toc: 'On this page',
+    sections: 'sections',
+    share: 'Share',
+    copy: 'Copy link',
+    copied: 'Copied',
+    newer: 'Newer',
+    older: 'Older',
+    more: 'Keep reading',
+    original: 'Also on skyfall.ai',
+  },
+  newsletter: {
+    label: 'Newsletter',
+    title: 'New research, straight to your inbox',
+    body: "Every time we publish a paper, a benchmark or a note from building SKY-001, we'll send it to you. Nothing else.",
+    email: 'Work email',
+    placeholder: 'you@company.com',
+    submit: 'Subscribe',
+    sending: 'Sending',
+    note: 'One email per new article. Unsubscribe any time.',
+    success: "You're subscribed. We'll email you when the next article goes live.",
+  },
+} as const
+
 export const launchVideo = {
   title: 'Launch video',
   /** Shown under the stand-in clip; remove once the real video is in. */
