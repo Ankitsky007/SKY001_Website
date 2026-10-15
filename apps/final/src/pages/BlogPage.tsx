@@ -318,7 +318,7 @@ function Reader({ post }: { post: BlogPost }) {
     <>
       <Progress />
       <article id="article">
-        <header className={`relative bg-paper ${GUTTER} pt-8 pb-10 md:pt-12`}>
+        <header className={`relative bg-paper ${GUTTER} pt-12 pb-10 md:pt-20 lg:pt-32`}>
           <Reveal stagger={0.08} className={`relative ${WRAP} flex flex-col gap-5 md:gap-6`}>
             <nav aria-label="Breadcrumb" className={`${META} mb-6 gap-x-2.5 md:mb-14`}>
               <a href={BLOG} className="inline-flex min-h-11 items-center gap-2 text-ink hover:text-brand">
