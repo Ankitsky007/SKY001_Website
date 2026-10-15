@@ -1,6 +1,7 @@
 // Reveal hides blocks (visibility) until they scroll into view. Hidden nodes have no accessible
 // name, so headings inside them are matched by their text instead (minus the decorative slashes).
-import { backers, benchmarks, campusFlow, docCharts, hero, research, showcase, sky001, team, waitlistForm } from '@skyfall/core'
+import { backers, benchmarks, blogPage, campusFlow, docCharts, hero, research, showcase, sky001, team, waitlistForm } from '@skyfall/core'
+import { blogPosts } from '@skyfall/core/blog'
 import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import App from './App'
@@ -26,6 +27,24 @@ describe('App routing', () => {
     window.history.replaceState(null, '', '/sky-001')
     render(<App />)
     expect(heading(sky001.hero.title)).toBeInTheDocument()
+  })
+
+  it('shows the blog index at /blog and a full post at /blog/<slug>', async () => {
+    window.history.replaceState(null, '', '/blog')
+    render(<App />)
+    expect(await screen.findByRole('heading', { level: 1, name: blogPage.title, hidden: true })).toBeInTheDocument()
+    for (const p of blogPosts) expect(screen.getAllByRole('link', { name: new RegExp(p.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')), hidden: true })[0]).toHaveAttribute('href', `/blog/${p.slug}`)
+    cleanup()
+    const post = blogPosts[1]
+    window.history.replaceState(null, '', `/blog/${post.slug}`)
+    render(<App />)
+    expect(await screen.findByRole('heading', { level: 1, name: post.title, hidden: true })).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: new RegExp(blogPage.reader.back), hidden: true })[0]).toHaveAttribute('href', '/blog')
+  })
+
+  it('has a Blog tab in the top nav', () => {
+    render(<App />)
+    expect(screen.getAllByRole('link', { name: blogPage.nav, hidden: true })[0]).toHaveAttribute('href', '/blog')
   })
 
   it('opens the waitlist pop-up from Join the waitlist', () => {

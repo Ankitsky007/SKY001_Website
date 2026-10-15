@@ -1,6 +1,6 @@
-# Partnership and waitlist forms → Google Sheet
+# Partnership, waitlist and newsletter forms → Google Sheet
 
-The Partnership and waitlist forms post each submission as JSON to a Google Apps Script web app, which appends a
+The Partnership, waitlist and blog newsletter forms post each submission as JSON to a Google Apps Script web app, which appends a
 row to a Google Sheet. The site reads the web app's URL from `VITE_PARTNERSHIP_ENDPOINT` at build
 time. Without it, the dev server pretends each send worked (so the states can be reviewed) and a
 production build shows the "could not be sent" error.
@@ -23,12 +23,14 @@ Submissions with the hidden anti-spam field filled in are dropped.
 ## Apps Script
 
 Each form writes to its own tab: "Partnership" (time, name, work email, website, message, page)
-and "Waitlist" (time, work email, page).
+"Waitlist" (time, work email, page) and "Newsletter" (time, work email, page) for the blog sign-up.
+If the script is already deployed, add the `newsletter` line and redeploy (Deploy → Manage deployments → Edit → New version).
 
 ```js
 const TABS = {
   partnership: { name: 'Partnership', header: ['Submitted at', 'Full name', 'Work email', 'Company website', 'Message', 'Page'], fields: ['name', 'email', 'website', 'message'] },
   waitlist: { name: 'Waitlist', header: ['Submitted at', 'Work email', 'Page'], fields: ['email'] },
+  newsletter: { name: 'Newsletter', header: ['Submitted at', 'Work email', 'Page'], fields: ['email'] },
 }
 
 function doPost(e) {

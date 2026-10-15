@@ -5,7 +5,7 @@
 // the shareable artifact) that pretends too.
 const ENDPOINT = (import.meta.env.VITE_PARTNERSHIP_ENDPOINT as string | undefined) ?? ''
 
-export type SheetForm = 'partnership' | 'waitlist'
+export type SheetForm = 'partnership' | 'waitlist' | 'newsletter'
 
 export async function sendToSheet(form: SheetForm, fields: Record<string, string>, trap: string) {
   if (!ENDPOINT) {
