@@ -14,7 +14,6 @@ import { GUTTER, LABEL, Ticks, WRAP } from '../lib/ui'
 const TABS = navTabs('blog')
 const META = 'flex flex-wrap items-center gap-x-3.5 gap-y-2 font-mono text-xs font-medium tracking-[-0.02em] text-muted uppercase'
 const Dot = () => <span aria-hidden="true" className="block size-1 bg-faint" />
-const FADE = (at: string) => ({ mask: `radial-gradient(ellipse at ${at}, #000 20%, transparent 72%)` })
 
 function Meta({ post, date = true, className = '' }: { post: BlogPost; date?: boolean; className?: string }) {
   return (
@@ -62,8 +61,10 @@ function PostCard({ post }: { post: BlogPost }) {
     <li className="flex border-r border-b border-line">
       <a
         href={postHref(post.slug)}
-        className="group relative flex w-full flex-col bg-paper outline-offset-[-2px] transition-shadow duration-300 hover:z-10 hover:shadow-[inset_0_0_0_1px_var(--color-brand)]"
+        className="group relative flex w-full flex-col bg-paper outline-offset-[-2px] hover:z-10 focus-visible:z-10"
       >
+        {/* the blue hover frame sits above the thumbnail, so it runs round the whole card */}
+        <span aria-hidden="true" className="pointer-events-none absolute -inset-px z-10 border border-brand opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
         <Thumb post={post} className="aspect-[16/10] border-b border-line" />
         <div className="flex flex-1 flex-col gap-3 p-5 md:p-6">
           <div className={META}>
@@ -124,7 +125,6 @@ function BlogIndex() {
   return (
     <>
       <section className={`relative bg-paper ${GUTTER} pt-10 pb-10 md:pt-16`}>
-        <LineGrid mask={FADE('30% 30%').mask} />
         <Reveal stagger={0.1} className={`relative ${WRAP}`}>
           <Ticks>
             <div className="flex flex-col gap-5 px-1">
@@ -162,7 +162,7 @@ function BlogIndex() {
         </Reveal>
       </section>
 
-      <section className={`bg-studio ${GUTTER} py-16 md:py-24`}>
+      <section className={`bg-paper ${GUTTER} pb-16 md:pb-24`}>
         <div className={WRAP}>
           <SectionHead title={B.all.title}>
             <span className={`${LABEL} text-muted`}>
@@ -296,7 +296,6 @@ function Reader({ post }: { post: BlogPost }) {
       <Progress />
       <article id="article">
         <header className={`relative bg-paper ${GUTTER} pt-8 pb-10 md:pt-12`}>
-          <LineGrid mask={FADE('20% 20%').mask} />
           <Reveal stagger={0.08} className={`relative ${WRAP} flex flex-col gap-5 md:gap-6`}>
             <nav aria-label="Breadcrumb" className={`${META} gap-x-2.5`}>
               <a href={BLOG} className="inline-flex min-h-11 items-center gap-2 text-ink hover:text-brand">
@@ -373,7 +372,7 @@ function Reader({ post }: { post: BlogPost }) {
         </div>
       </article>
 
-      <section className={`bg-studio ${GUTTER} py-16 md:py-24`}>
+      <section className={`bg-paper ${GUTTER} pb-16 md:pb-24`}>
         <div className={WRAP}>
           <SectionHead title={B.reader.more}>
             <a href={BLOG} className="inline-flex min-h-11 items-center gap-2 border-b border-ink font-mono text-[13px] font-semibold uppercase hover:border-brand hover:text-brand">
