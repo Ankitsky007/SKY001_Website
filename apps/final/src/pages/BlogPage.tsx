@@ -324,8 +324,6 @@ function Reader({ post }: { post: BlogPost }) {
               <a href={BLOG} className="inline-flex min-h-11 items-center gap-2 text-ink hover:text-brand">
                 <span aria-hidden="true">←</span> {B.reader.back}
               </a>
-              <span aria-hidden="true">/</span>
-              <span>{post.author}</span>
             </nav>
             <Meta post={post} />
             <h1 className="max-w-[20ch] text-[38px] leading-none font-medium tracking-[-0.045em] text-balance sm:text-[56px] lg:text-[76px] lg:leading-[0.94]">{post.title}</h1>
