@@ -4,5 +4,9 @@
   "installCommand": "cd ../.. && npm install --no-audit --no-fund",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "rewrites": [{ "source": "/sky-001", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/sky-001", "destination": "/index.html" },
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/blog/:slug", "destination": "/index.html" }
+  ]
 }

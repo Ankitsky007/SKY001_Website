@@ -1,11 +1,14 @@
 import { ScrollTrigger, SmoothScroll, useLenis } from '@skyfall/core/motion'
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { PartnershipForm } from './components/PartnershipForm'
 import { VideoModal } from './components/VideoModal'
 import { WaitlistForm } from './components/WaitlistForm'
-import { currentPage, HASH_ROUTES, HOME, LAUNCH } from './lib/routes'
+import { currentRoute, HASH_ROUTES, isPageHash } from './lib/routes'
 import { FrontPage } from './pages/FrontPage'
 import { LaunchPage } from './pages/LaunchPage'
+
+// The blog carries every post's full text, so it loads only when someone opens it.
+const BlogPage = lazy(() => import('./pages/BlogPage'))
 
 /** In-page links glide with Lenis (offset by the sticky header); bare "#" placeholders do nothing. */
 function AnchorScroll() {
@@ -20,7 +23,14 @@ function AnchorScroll() {
         e.preventDefault()
         return
       }
-      const target = document.querySelector(href)
+      // page links ("#blog/<slug>" in hash builds) are not sections
+      if (HASH_ROUTES && isPageHash(href)) return
+      let target: Element | null = null
+      try {
+        target = document.querySelector(href)
+      } catch {
+        return
+      }
       if (!target) return
       e.preventDefault()
       // clear the nav, and the news ticker above it while it shows
@@ -57,17 +67,17 @@ function TriggerRefresh() {
   return null
 }
 
-// Final Skyfall site: the front page at "/" and the SKY-001 page at "/sky-001", with the pop-ups
-// (partnership, waitlist, launch video) shared by both.
+// Final Skyfall site: the front page at "/", the SKY-001 page at "/sky-001" and the blog at "/blog"
+// (each post at "/blog/<slug>"), with the pop-ups (partnership, waitlist, launch video) shared by all.
 function App() {
-  const [page, setPage] = useState(currentPage)
-  // hash-routed builds: "#sky-001" and "#home" switch pages; other hashes (sections, pop-ups) don't
+  const [route, setRoute] = useState(currentRoute)
+  const { page, post } = route
+  // hash-routed builds: "#sky-001", "#home", "#blog" and "#blog/<slug>" switch pages; other hashes (sections, pop-ups) don't
   useEffect(() => {
     if (!HASH_ROUTES) return
     const onHash = () => {
-      const h = window.location.hash
-      if (h !== HOME && h !== LAUNCH) return
-      setPage(h === LAUNCH ? 'launch' : 'home')
+      if (!isPageHash(window.location.hash)) return
+      setRoute(currentRoute())
       window.scrollTo(0, 0)
       requestAnimationFrame(() => ScrollTrigger.refresh())
     }
@@ -78,7 +88,15 @@ function App() {
     <SmoothScroll>
       <AnchorScroll />
       <TriggerRefresh />
-      {page === 'launch' ? <LaunchPage key="launch" /> : <FrontPage key="home" />}
+      {page === 'launch' ? (
+        <LaunchPage key="launch" />
+      ) : page === 'blog' ? (
+        <Suspense fallback={<div className="min-h-screen" />}>
+          <BlogPage key={post ?? 'index'} post={post} />
+        </Suspense>
+      ) : (
+        <FrontPage key="home" />
+      )}
       <PartnershipForm />
       <WaitlistForm />
       <VideoModal />

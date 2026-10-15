@@ -605,7 +605,6 @@ export const blogPage = {
     newer: 'Newer',
     older: 'Older',
     more: 'Keep reading',
-    original: 'Also on skyfall.ai',
   },
   newsletter: {
     label: 'Newsletter',
