@@ -276,7 +276,8 @@ details > summary::-webkit-details-marker {
   color: var(--color-ink);
   font-style: italic;
 }
-.blog-prose img {
+.blog-prose img,
+.blog-prose video {
   display: block;
   width: 100%;
   height: auto;
@@ -284,6 +285,6 @@ details > summary::-webkit-details-marker {
   border: 1px solid var(--color-line);
   background: var(--color-studio);
 }
-.blog-prose img + img {
+.blog-prose :is(img, video) + :is(img, video) {
   margin-top: -0.8em;
 }

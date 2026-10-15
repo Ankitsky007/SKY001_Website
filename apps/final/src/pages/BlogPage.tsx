@@ -1,7 +1,7 @@
 import { blogPage as B, hero } from '@skyfall/core'
 import { blogPosts, type BlogPost } from '@skyfall/core/blog'
 import { Reveal, useLenis } from '@skyfall/core/motion'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react'
 import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
 import { Nav } from '../components/Nav'
@@ -12,6 +12,9 @@ import { scrambleOnHover } from '../lib/scramble'
 import { GUTTER, LABEL, Ticks, WRAP } from '../lib/ui'
 
 const TABS = navTabs('blog')
+// Blog media lives in the site's public folder; the base keeps paths right in the relative artifact build too.
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path}`
+
 const META = 'flex flex-wrap items-center gap-x-3.5 gap-y-2 font-mono text-xs font-medium tracking-[-0.02em] text-muted uppercase'
 const Dot = () => <span aria-hidden="true" className="block size-1 bg-faint" />
 
@@ -50,7 +53,7 @@ function Chips({ chips }: { chips: readonly string[] }) {
 function Thumb({ post, className = '' }: { post: BlogPost; className?: string }) {
   return (
     <div className={`relative overflow-hidden bg-studio ${className}`}>
-      <img src={post.hero} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover object-left transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]" />
+      <img src={asset(post.thumb)} alt="" loading="lazy" decoding="async" className="absolute inset-0 size-full object-cover object-left transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]" />
     </div>
   )
 }
@@ -171,6 +174,28 @@ function BlogIndex() {
   )
 }
 
+/** The article's looping clips (the published GIFs) play while on screen and pause off it; reduced motion leaves them still. */
+function useLoopsInView(ref: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const videos = [...(ref.current?.querySelectorAll('video') ?? [])]
+    if (!videos.length || typeof IntersectionObserver === 'undefined') return
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          const v = e.target as HTMLVideoElement
+          if (!e.isIntersecting) v.pause()
+          else if (still) v.preload = 'metadata'
+          else v.play().catch(() => {})
+        }
+      },
+      { rootMargin: '200px 0px' },
+    )
+    for (const v of videos) io.observe(v)
+    return () => io.disconnect()
+  }, [ref])
+}
+
 /** Lights the heading the reader is in: the last one whose top has passed a line a quarter down the screen. */
 function useActiveHeading(ids: readonly string[]) {
   const [active, setActive] = useState(ids[0])
@@ -259,6 +284,9 @@ function Reader({ post }: { post: BlogPost }) {
   const newer = blogPosts[i - 1]
   const older = blogPosts[i + 1]
   const more = blogPosts.filter((p) => p !== post).slice(0, 3)
+  const html = useMemo(() => post.html.replaceAll('src="blog-media/', `src="${asset('blog-media/')}`), [post])
+  const body = useRef<HTMLDivElement>(null)
+  useLoopsInView(body)
 
   const go = (id: string) => {
     const el = document.getElementById(id)
@@ -307,7 +335,7 @@ function Reader({ post }: { post: BlogPost }) {
 
         <div className={GUTTER}>
           <figure className={`${WRAP} border border-line bg-paper`}>
-            <img src={post.hero} alt={post.heroAlt} className="block h-auto w-full" />
+            <img src={asset(post.hero)} alt={post.heroAlt} className="block h-auto w-full" />
             {post.caption && <figcaption className="border-t border-line px-4 py-3 font-mono text-xs text-muted uppercase">{post.caption}</figcaption>}
           </figure>
         </div>
@@ -340,7 +368,7 @@ function Reader({ post }: { post: BlogPost }) {
                   {open && <div className="border-t border-line px-4 py-3">{toc}</div>}
                 </div>
               )}
-              <div className="blog-prose max-w-[680px]" dangerouslySetInnerHTML={{ __html: post.html }} />
+              <div ref={body} className="blog-prose max-w-[680px]" dangerouslySetInnerHTML={{ __html: html }} />
               <div className="mt-12 max-w-[680px] lg:hidden">
                 <Share post={post} />
               </div>
