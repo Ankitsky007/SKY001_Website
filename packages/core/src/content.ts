@@ -589,7 +589,6 @@ export const blogPage = {
   label: 'Skyfall Blog',
   title: 'Blog & Articles',
   lede: 'Research, essays and notes from the team building world models for the enterprise.',
-  count: 'articles',
   featured: 'Featured · Latest',
   readMore: 'Read more',
   read: 'Read',

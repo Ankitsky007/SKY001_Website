@@ -130,12 +130,7 @@ function BlogIndex() {
             <div className="flex flex-col gap-5 px-1">
               <span className={`${LABEL} text-brand`}>/ {B.label}</span>
               <h1 className="text-[46px] leading-[0.92] font-medium tracking-[-0.045em] sm:text-[84px] lg:text-[120px] lg:leading-[0.86]">{B.title}</h1>
-              <div className="flex flex-wrap items-end justify-between gap-4">
-                <p className="max-w-[44ch] text-lg leading-[1.4] text-body md:text-xl">{B.lede}</p>
-                <span className={`${LABEL} text-muted`}>
-                  {String(blogPosts.length).padStart(2, '0')} {B.count}
-                </span>
-              </div>
+              <p className="max-w-[44ch] text-lg leading-[1.4] text-body md:text-xl">{B.lede}</p>
             </div>
           </Ticks>
         </Reveal>
