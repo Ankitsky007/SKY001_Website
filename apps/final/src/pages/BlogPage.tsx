@@ -320,9 +320,16 @@ function Reader({ post }: { post: BlogPost }) {
       <article id="article">
         <header className={`relative bg-paper ${GUTTER} pt-12 pb-10 md:pt-20 lg:pt-32`}>
           <Reveal stagger={0.08} className={`relative ${WRAP} flex flex-col gap-5 md:gap-6`}>
-            <nav aria-label="Breadcrumb" className={`${META} mb-6 gap-x-2.5 md:mb-14`}>
-              <a href={BLOG} className="inline-flex min-h-11 items-center gap-2 text-ink hover:text-brand">
-                <span aria-hidden="true">←</span> {B.reader.back}
+            <nav aria-label="Breadcrumb" className="mb-6 md:mb-14">
+              <a
+                href={BLOG}
+                onPointerEnter={scrambleOnHover}
+                className="group inline-flex h-11 items-center gap-3 border border-ink bg-paper px-4 font-mono text-[13px] font-semibold tracking-[-0.02em] text-ink uppercase transition-colors duration-300 hover:border-brand hover:bg-brand hover:text-white md:text-sm"
+              >
+                <span aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-x-1">
+                  ←
+                </span>
+                <span data-scramble>{B.reader.back}</span>
               </a>
             </nav>
             <Meta post={post} />
