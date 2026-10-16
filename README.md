@@ -1,9 +1,10 @@
 # Skyfall AI website
 
-Three design versions of the Skyfall AI company page, each in its own folder with its own dev server, sharing one content and motion core. Once a version is picked, it becomes the production site.
+Design versions of the Skyfall AI company site, each in its own folder with its own dev server, sharing one content and motion core. **The finalised direction is `apps/final`**: the front page, the SKY-001 page and the Blog. v1 to v7 are the earlier explorations it grew from.
 
 | Version | Folder | Dev server |
 | --- | --- | --- |
+| **Final** · the chosen direction: front page at `/`, SKY-001 at `/sky-001`, Blog at `/blog` (each post at `/blog/<slug>`) | `apps/final` | http://localhost:5178 |
 | v1 · Black (line-diagram hero) | `apps/v1-black` | http://localhost:5171 |
 | v2 · aeye style (light) | `apps/v2-aeye` | http://localhost:5172 |
 | v3 · Captain style (blue) | `apps/v3-captain` | http://localhost:5173 |
@@ -18,7 +19,8 @@ Requires Node 22+.
 
 ```bash
 npm install
-npm run dev        # all three versions at once (ports 5171, 5172, 5173)
+npm run dev:final  # the final site (port 5178)
+npm run dev        # v1 to v7 at once (ports 5171 to 5177)
 npm run dev:v1     # or just one version
 npm run dev:v2
 npm run dev:v3
