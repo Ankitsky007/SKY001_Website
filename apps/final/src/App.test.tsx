@@ -74,7 +74,7 @@ describe('Front page', () => {
 
   it('links to the launch page and shows founders and stats', () => {
     render(<FrontPage />)
-    for (const link of screen.getAllByRole('link', { name: hero.primaryCta.label, hidden: true })) expect(link).toHaveAttribute('href', '/sky-001')
+    for (const link of screen.getAllByRole('link', { name: 'SKY-001', hidden: true })) expect(link).toHaveAttribute('href', '/sky-001')
     for (const f of team.founders) expect(screen.getByAltText(f.name)).toBeInTheDocument()
     for (const s of team.stats) expect(screen.getByText(s.label)).toBeInTheDocument()
     for (const sector of research.matters.sectors) expect(screen.getByText(sector)).toBeInTheDocument()
@@ -84,7 +84,7 @@ describe('Front page', () => {
 describe('SKY-001 page', () => {
   it('renders the doc sections in order', () => {
     render(<LaunchPage />)
-    const names = [sky001.contrarian.title, sky001.pareto.title, sky001.stages.title, benchmarks.bim.title, showcase.explore.title, sky001.why.title, sky001.next.title, sky001.team.title, sky001.faq.title]
+    const names = [sky001.contrarian.title, sky001.pareto.title, sky001.stages.title, benchmarks.bim.title, sky001.why.title, sky001.next.title, sky001.faq.title]
     const found = names.map(heading)
     for (let i = 1; i < found.length; i++) expect(found[i - 1].compareDocumentPosition(found[i]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     for (const s of sky001.stages.items) expect(heading(s.title)).toBeInTheDocument()

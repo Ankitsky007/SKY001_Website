@@ -1,4 +1,4 @@
-import { benchmarks, docCharts, showcase, sky001 } from '@skyfall/core'
+import { benchmarks, docCharts, sky001 } from '@skyfall/core'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import extrudeClip from '../assets/media/extrude.mp4'
@@ -11,7 +11,6 @@ import towerPoster from '../assets/media/s-tower.jpg'
 import towerClip from '../assets/media/tower.mp4'
 import { ParetoScatter, VersusLines } from '../components/Charts'
 import { Clip } from '../components/Clip'
-import { ExplorerGrid } from '../components/Explorer'
 import { ContrarianFigure } from '../components/ContrarianFigures'
 import { PixelIcon } from '../components/PixelIcon'
 import { DOMAIN_ICONS, DOMAIN_TONES, type PixelIconName } from '../lib/pixelIcons'
@@ -19,7 +18,6 @@ import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
 import { WarpBackground } from '../components/ui/warp-background'
 import { Nav } from '../components/Nav'
-import { NewsCard } from '../components/NewsCard'
 import { StageScrub } from '../components/StageScrub'
 import { TiltedModels } from '../components/TiltedModels'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
@@ -220,24 +218,6 @@ function Bim() {
   )
 }
 
-function Explore() {
-  const { explore } = showcase
-  return (
-    <Section id="explore">
-      <Display>{explore.title}</Display>
-      <Reveal>
-        <RuleCol className="mt-10 max-w-[520px]">
-          <p className={`${COPY} text-[20px] md:text-[26px]`}>{explore.body}</p>
-        </RuleCol>
-      </Reveal>
-      <div className="mt-10 lg:mt-14">
-        <ExplorerGrid />
-      </div>
-      <p className="mt-4 font-mono text-[11px] text-muted md:text-xs">{showcase.disclaimer}</p>
-    </Section>
-  )
-}
-
 function Why() {
   return (
     <Section ground="studio">
@@ -286,24 +266,6 @@ function Next() {
   )
 }
 
-function Team() {
-  const { team } = sky001
-  return (
-    <Section ground="studio">
-      <Display size="md">{team.title}</Display>
-      <Reveal>
-        <dl className="mt-10 grid gap-8 md:grid-cols-3 md:gap-6 lg:mt-14 lg:gap-12">
-          {team.groups.map((g) => (
-            <RuleCol key={g.label} label={<dt>{g.label}</dt>}>
-              <dd className={`${DISPLAY} text-[28px] leading-[1] sm:text-[36px]`}>{g.names}</dd>
-            </RuleCol>
-          ))}
-        </dl>
-      </Reveal>
-    </Section>
-  )
-}
-
 function Faq() {
   const { faq } = sky001
   return (
@@ -335,8 +297,7 @@ function Waitlist() {
   return (
     <Section id="waitlist" field={<LineGrid mask="linear-gradient(to bottom, transparent, #000 30%, #000 calc(100% - 120px), transparent)" />}>
       <div className="flex flex-col items-center text-center">
-        <NewsCard />
-        <p className="mt-10 text-[15px] font-medium tracking-[-0.02em] md:text-base">{waitlist.title}</p>
+        <p className="text-[15px] font-medium tracking-[-0.02em] md:text-base">{waitlist.title}</p>
         <h2 className={`${H1} mt-6 max-w-[11ch]`}>{waitlist.body}</h2>
         <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
           <ButtonLink href={WAITLIST_HREF}>{waitlist.cta.label}</ButtonLink>
@@ -361,10 +322,8 @@ export function LaunchPage() {
         <Moment />
         <Stages />
         <Bim />
-        <Explore />
         <Why />
         <Next />
-        <Team />
         <Faq />
         <Waitlist />
       </main>
