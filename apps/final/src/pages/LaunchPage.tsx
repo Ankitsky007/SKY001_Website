@@ -1,18 +1,11 @@
-import { benchmarks, benchmarkStory, sky001 } from '@skyfall/core'
+import { benchmarkStory, sky001 } from '@skyfall/core'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useEffect, useRef, useState } from 'react'
-import extrudeClip from '../assets/media/extrude.mp4'
-import plansClip from '../assets/media/plans.mp4'
-import restackClip from '../assets/media/restack.mp4'
-import extrudePoster from '../assets/media/s-extrude.jpg'
-import plansPoster from '../assets/media/s-plans.jpg'
-import restackPoster from '../assets/media/s-restack.jpg'
 import cadBenchmarkClip from '../assets/media/cad-benchmark.mp4'
 import cadBenchmarkPoster from '../assets/media/s-cad-benchmark.jpg'
 import towerPoster from '../assets/media/s-tower.jpg'
 import towerClip from '../assets/media/tower.mp4'
 import { BenchmarkBlock } from '../components/BenchmarkStory'
-import { Clip } from '../components/Clip'
 import { ContrarianFigure } from '../components/ContrarianFigures'
 import { PixelIcon } from '../components/PixelIcon'
 import { DOMAIN_ICONS, DOMAIN_TONES, type PixelIconName } from '../lib/pixelIcons'
@@ -25,7 +18,7 @@ import { TiltedModels } from '../components/TiltedModels'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
 import { footerPages, navTabs } from '../lib/nav'
 import { HOME, VIDEO_HREF, WAITLIST_HREF } from '../lib/routes'
-import { BigLink, ButtonLink, DISPLAY, Display, GUTTER, H1, H3, LABEL, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
+import { BigLink, ButtonLink, DISPLAY, Display, GUTTER, H1, LABEL, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
@@ -185,37 +178,6 @@ function Stages() {
   )
 }
 
-const BIM_CLIPS = [
-  { src: plansClip, poster: plansPoster, label: 'SKY-001 output: floor plan candidates for one level, one selected', hud: 'Floor plan candidates' },
-  { src: extrudeClip, poster: extrudePoster, label: 'SKY-001 output: a floor plan extruded into a 3D level', hud: 'Plan to 3D' },
-  { src: restackClip, poster: restackPoster, label: 'SKY-001 output: levels stacked into a building', hud: 'Level by level' },
-]
-
-function Bim() {
-  const bimHeadline = benchmarkStory.models[1].claims[0]
-  return (
-    <Section id="bim" ground="night">
-      <Display tone="dark" align="left" note={bimHeadline.detail}>
-        {benchmarks.bim.title}
-      </Display>
-      <div className="mt-10 grid gap-3 lg:grid-cols-[1.6fr_1fr]">
-        <Reveal>
-          <Clip src={towerClip} poster={towerPoster} label="SKY-001 output: a 36-level tower built level by level" hud="BIM / 36 levels" />
-        </Reveal>
-        <RuleCol tone="dark" label={benchmarks.bim.cases} className="py-2">
-          <span className={`${DISPLAY} block text-[88px] leading-[0.85] text-brand-lift lg:text-[150px]`}>{bimHeadline.value}</span>
-          <span className={`${H3} mt-2 block`}>{bimHeadline.label}</span>
-        </RuleCol>
-      </div>
-      <Reveal as="div" stagger={0.08} className="mt-3 grid gap-3 md:grid-cols-3">
-        {BIM_CLIPS.map((c) => (
-          <Clip key={c.hud} {...c} />
-        ))}
-      </Reveal>
-    </Section>
-  )
-}
-
 function Why() {
   return (
     <Section ground="studio">
@@ -318,7 +280,6 @@ export function LaunchPage() {
         <Contrarian />
         <Benchmarks />
         <Stages />
-        <Bim />
         <Why />
         <Next />
         <Faq />
