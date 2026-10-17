@@ -18,7 +18,7 @@ import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
 import { WarpBackground } from '../components/ui/warp-background'
 import { Nav } from '../components/Nav'
-import { StageScrub } from '../components/StageScrub'
+import { StageVideos } from '../components/StageVideos'
 import { TiltedModels } from '../components/TiltedModels'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
 import { footerPages, navTabs } from '../lib/nav'
@@ -203,8 +203,10 @@ function Moment() {
 
 function Stages() {
   return (
-    <section id="how" aria-labelledby="how-title" className="bg-studio">
-      <StageScrub model="jaguar" title={sky001.stages.title} titleId="how-title" />
+    <section id="how" aria-labelledby="how-title" className={`bg-studio ${GUTTER} py-16 md:py-24 lg:py-28`}>
+      <div className={WRAP}>
+        <StageVideos titleId="how-title" />
+      </div>
     </section>
   )
 }

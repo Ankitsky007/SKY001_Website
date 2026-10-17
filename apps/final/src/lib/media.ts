@@ -1,4 +1,4 @@
-// Showcase media (reels, frame sequences, renders) is served by the research
+// Showcase media (reels, posters, renders) is served by the research
 // team's showcase bucket. Override with VITE_MEDIA_BASE once it moves to a production host.
 const DEFAULT_BASE = 'https://pub-911937f44c474bb0bbc394f23b6bce46.r2.dev/apple'
 
@@ -11,6 +11,4 @@ export const media = {
   poster: (id: ModelId) => `${MEDIA_BASE}/seq/${id}_poster.webp`,
   final: (id: ModelId) => `${MEDIA_BASE}/seq/${id}_final.webp`,
   input: (id: ModelId) => `${MEDIA_BASE}/img/in_${id}.webp`,
-  seqMeta: (id: ModelId) => `${MEDIA_BASE}/seq/${id}.json`,
-  seqFrames: (id: ModelId) => `${MEDIA_BASE}/seq/${id}.bin`,
 }
