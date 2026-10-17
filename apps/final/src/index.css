@@ -149,22 +149,6 @@ details > summary::-webkit-details-marker {
   }
 }
 
-/* News ticker: two identical tracks slide left by one track's width, then repeat. */
-@media (prefers-reduced-motion: no-preference) {
-  .ticker-track {
-    animation: ticker 60s linear infinite;
-  }
-  .ticker:hover .ticker-track,
-  .ticker:focus-visible .ticker-track {
-    animation-play-state: paused;
-  }
-}
-@keyframes ticker {
-  to {
-    transform: translateX(-100%);
-  }
-}
-
 /* Blog article body: the published HTML from skyfall.ai/blog, set in the site's type. */
 .blog-prose {
   color: var(--color-body);

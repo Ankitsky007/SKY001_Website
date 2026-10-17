@@ -1,4 +1,4 @@
-import { backers, hero, research, showcase, sky001Cta, team } from '@skyfall/core'
+import { backers, research, showcase, sky001Cta, team } from '@skyfall/core'
 import { gsap, Reveal, ScrollTrigger, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useEffect, useRef } from 'react'
 import heroClip from '../assets/media/hero.mp4'
@@ -306,7 +306,7 @@ const TABS = navTabs('home')
 export function FrontPage() {
   return (
     <>
-      <Nav home={HOME} tabs={TABS} cta={{ label: hero.primaryCta.label, href: LAUNCH }} />
+      <Nav home={HOME} tabs={TABS} />
       <main>
         <CampusHero launchHref={LAUNCH} researchHref={RESEARCH} />
         {SHOW_REEL && <ReelBand />}

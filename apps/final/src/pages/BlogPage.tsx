@@ -1,4 +1,4 @@
-import { blogPage as B, hero } from '@skyfall/core'
+import { blogPage as B } from '@skyfall/core'
 import { blogPosts, type BlogPost } from '@skyfall/core/blog'
 import { Reveal, useLenis } from '@skyfall/core/motion'
 import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react'
@@ -7,7 +7,7 @@ import { LineGrid } from '../components/LineGrid'
 import { Nav } from '../components/Nav'
 import { NewsletterForm } from '../components/NewsletterForm'
 import { footerPages, navTabs } from '../lib/nav'
-import { BLOG, HOME, LAUNCH, postHref } from '../lib/routes'
+import { BLOG, HOME, postHref } from '../lib/routes'
 import { scrambleOnHover } from '../lib/scramble'
 import { GUTTER, LABEL, Ticks, WRAP } from '../lib/ui'
 
@@ -223,7 +223,7 @@ function useActiveHeading(ids: readonly string[]) {
   return active
 }
 
-/** A thin blue bar along the bottom of the screen that fills as the article is read (the top edge belongs to the ticker and nav). */
+/** A thin blue bar along the bottom of the screen that fills as the article is read (the top edge belongs to the nav). */
 function Progress() {
   const [p, setP] = useState(0)
   useEffect(() => {
@@ -291,7 +291,7 @@ function Reader({ post }: { post: BlogPost }) {
   const go = (id: string) => {
     const el = document.getElementById(id)
     if (!el) return
-    const offset = document.querySelector('.ticker') ? -120 : -84
+    const offset = -84
     if (lenis) lenis.scrollTo(el, { offset, duration: 1.2 })
     else el.scrollIntoView({ behavior: 'smooth' })
     setOpen(false)
@@ -425,7 +425,7 @@ export default function BlogPage({ post: slug }: { post?: string }) {
   }, [post])
   return (
     <>
-      <Nav home={HOME} tabs={TABS} cta={{ label: hero.primaryCta.label, href: LAUNCH }} />
+      <Nav home={HOME} tabs={TABS} />
       <main>
         {post ? <Reader post={post} /> : <BlogIndex />}
         <Newsletter />

@@ -1,8 +1,6 @@
 import { SkyfallLogo } from '@skyfall/core'
 import { useEffect, useState } from 'react'
-import { NewsTicker } from './NewsTicker'
 import { scrambleOnHover } from '../lib/scramble'
-import { ButtonLink } from '../lib/ui'
 
 /** A nav tab. `spy` lights it while the page is between those two sections (ids), so a tab that links elsewhere can still mark its part of the page. */
 export type NavTab = { label: string; href: string; current?: boolean; spy?: { from: string; to?: string } }
@@ -11,30 +9,13 @@ const ext = (href: string) => (href.startsWith('http') ? { target: '_blank', rel
 
 /**
  * aeye boxed nav. md+: a row of white tabs hangs from the top edge, the current one is the tall
- * blue tab wrapped in `< >`, and the call to action sits on the right. Tabs that point at a section
+ * blue tab wrapped in `< >`. Tabs that point at a section
  * of this page light up while that section is in the middle of the screen. Phones: a white header
  * with a menu sheet.
  */
-export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]; cta: { label: string; href: string } }) {
+export function Nav({ home, tabs }: { home: string; tabs: readonly NavTab[] }) {
   const [spied, setSpied] = useState<string | null>(null)
   const [open, setOpen] = useState(false)
-  // the news ticker sits above the nav until hidden, and stays hidden for the rest of the visit
-  const [ticker, setTicker] = useState(() => {
-    try {
-      return sessionStorage.getItem('skyfall-news-hidden') !== '1'
-    } catch {
-      return true
-    }
-  })
-  const hideTicker = () => {
-    setTicker(false)
-    try {
-      sessionStorage.setItem('skyfall-news-hidden', '1')
-    } catch {
-      /* private mode: hidden for this page only */
-    }
-  }
-
   // Light the tab whose part of the page crosses a line 40% down the screen. Measured from the
   // live layout on every scroll, so pinned sections and late-loading media cannot throw it off.
   useEffect(() => {
@@ -71,15 +52,8 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
 
   return (
     <>
-      {ticker && (
-        <>
-          <NewsTicker onClose={hideTicker} />
-          {/* holds the ticker's height in the page so nothing starts under it */}
-          <div aria-hidden="true" className="h-9" />
-        </>
-      )}
-      <nav aria-label="Main" className={`pointer-events-none fixed inset-x-0 z-50 hidden px-10 transition-[top] duration-300 lg:block ${ticker ? 'top-9' : 'top-0'}`}>
-        <div className="mx-auto flex max-w-[1208px] items-start justify-between">
+      <nav aria-label="Main" className={`pointer-events-none fixed inset-x-0 z-50 hidden px-10 top-0 lg:block`}>
+        <div className="mx-auto flex max-w-[1208px] items-start">
           <ul className="pointer-events-auto flex items-start font-mono text-[13px] font-medium tracking-[-0.02em] uppercase lg:text-sm">
             <li>
               <a href={home} aria-label="Skyfall AI home" className="flex h-11 items-center border-r border-b border-l border-night-mid bg-white px-3.5 text-ink">
@@ -105,18 +79,10 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
               )
             })}
           </ul>
-          <a
-            href={cta.href}
-            onPointerEnter={scrambleOnHover}
-            className="group pointer-events-auto flex h-11 items-center gap-3 border border-t-0 border-night-mid bg-white px-4 font-mono text-[14px] font-semibold tracking-[-0.02em] text-ink uppercase transition-colors duration-300 hover:text-brand lg:px-5 lg:text-[15px]"
-          >
-            <span aria-hidden="true" className="block size-2 bg-brand transition-transform duration-300 group-hover:-rotate-180" />
-            <span data-scramble>{cta.label}</span>
-          </a>
         </div>
       </nav>
 
-      <header className={`sticky z-50 flex h-16 ${ticker ? 'top-9' : 'top-0'} items-center justify-between border-b border-line bg-white pr-3 pl-6 lg:hidden`}>
+      <header className={`sticky top-0 z-50 flex h-16 items-center justify-between border-b border-line bg-white pr-3 pl-6 lg:hidden`}>
         <a href={home} className="flex min-h-11 items-center text-ink" aria-label="Skyfall AI home">
           <SkyfallLogo width={140} />
         </a>
@@ -129,7 +95,7 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
         id="mobile-menu"
         inert={!open}
         data-lenis-prevent
-        className={`fixed inset-x-0 bottom-0 z-40 ${ticker ? 'top-[100px]' : 'top-16'} flex flex-col justify-between overflow-y-auto bg-white px-6 pt-2 pb-8 transition-[clip-path] duration-500 ease-out-expo lg:hidden ${open ? '[clip-path:inset(0_0_0_0)]' : '[clip-path:inset(0_0_100%_0)]'}`}
+        className={`fixed inset-x-0 top-16 bottom-0 z-40 flex flex-col overflow-y-auto bg-white px-6 pt-2 pb-8 transition-[clip-path] duration-500 ease-out-expo lg:hidden ${open ? '[clip-path:inset(0_0_0_0)]' : '[clip-path:inset(0_0_100%_0)]'}`}
       >
         <ul>
           {tabs.map((tab, i) => (
@@ -143,11 +109,6 @@ export function Nav({ home, tabs, cta }: { home: string; tabs: readonly NavTab[]
             </li>
           ))}
         </ul>
-        <div onClick={() => setOpen(false)}>
-          <ButtonLink href={cta.href} className="w-full">
-            {cta.label}
-          </ButtonLink>
-        </div>
       </div>
     </>
   )

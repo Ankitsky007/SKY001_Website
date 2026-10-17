@@ -352,7 +352,7 @@ function Waitlist() {
 export function LaunchPage() {
   return (
     <>
-      <Nav home={HOME} tabs={navTabs('launch')} cta={{ label: sky001.intro.waitlist.cta.label, href: WAITLIST_HREF }} />
+      <Nav home={HOME} tabs={navTabs('launch')} />
       <main>
         <Hero />
         <ModelRing />

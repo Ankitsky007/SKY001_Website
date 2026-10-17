@@ -33,8 +33,8 @@ function AnchorScroll() {
       }
       if (!target) return
       e.preventDefault()
-      // clear the nav, and the news ticker above it while it shows
-      const offset = document.querySelector('.ticker') ? -108 : -72
+      // clear the nav
+      const offset = -72
       if (lenis) lenis.scrollTo(target as HTMLElement, { offset, duration: 1.4 })
       else target.scrollIntoView({ behavior: 'smooth' })
       // Some embedded viewers refuse address changes; the scroll still happens.
