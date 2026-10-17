@@ -1,6 +1,6 @@
 import { benchmarks, docCharts, sky001 } from '@skyfall/core'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import extrudeClip from '../assets/media/extrude.mp4'
 import plansClip from '../assets/media/plans.mp4'
 import restackClip from '../assets/media/restack.mp4'
@@ -28,12 +28,34 @@ import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, LABEL, 
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 
+/** The middle of `el`, in px down from the top of `box`. Layout offsets, so the reveal's slide-in does not move it. */
+function middleWithin(el: HTMLElement, box: HTMLElement) {
+  let top = el.offsetHeight / 2
+  for (let n: HTMLElement | null = el; n && n !== box; n = n.offsetParent as HTMLElement | null) top += n.offsetTop
+  return top
+}
+
 function Hero() {
   const { hero, intro } = sky001
+  // the warp's squares meet on the middle of the headline (Ankit, 2026-10-17), on every screen size
+  const section = useRef<HTMLElement>(null)
+  const title = useRef<HTMLHeadingElement>(null)
+  const [originY, setOriginY] = useState<number>()
+  useEffect(() => {
+    const box = section.current
+    const h1 = title.current
+    if (!box || !h1) return
+    const measure = () => setOriginY(middleWithin(h1, box))
+    const ro = new ResizeObserver(measure)
+    ro.observe(box)
+    ro.observe(h1)
+    document.fonts?.ready.then(measure)
+    return () => ro.disconnect()
+  }, [])
   return (
-    <section id="top" className={`relative bg-paper ${GUTTER} pt-12 pb-14 md:pt-20 md:pb-20 lg:pt-28 short-laptop:pt-20`}>
+    <section ref={section} id="top" className={`relative bg-paper ${GUTTER} pt-12 pb-14 md:pt-20 md:pb-20 lg:pt-28 short-laptop:pt-20`}>
       {/* the warp: grid walls in perspective with blue beams running towards the viewer */}
-      <WarpBackground aria-hidden="true" perspective={120} beamsPerSide={4} beamSize={5} beamDuration={4} gridColor="var(--color-grid)" className="pointer-events-none absolute! inset-0 [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]" />
+      <WarpBackground aria-hidden="true" perspective={120} originY={originY} beamsPerSide={4} beamSize={5} beamDuration={4} gridColor="var(--color-grid)" className="pointer-events-none absolute! inset-0 [mask-image:linear-gradient(to_bottom,#000_70%,transparent)]" />
       {/* the hero rises in line by line on load, like the reveals further down */}
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <p className="text-[15px] font-medium tracking-[-0.02em] md:text-base">
@@ -41,7 +63,7 @@ function Hero() {
           {intro.before.replace('SKY-001', 'SKY‑001')}
           {intro.emphasis}
         </p>
-        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[10ch] md:mt-8 short-laptop:mt-5 short-laptop:max-w-[14ch] short-laptop:text-[92px]`}>{hero.title}</h1>
+        <h1 ref={title} data-grid-avoid className={`${H1} mt-6 max-w-[10ch] md:mt-8 short-laptop:mt-5 short-laptop:max-w-[14ch] short-laptop:text-[92px]`}>{hero.title}</h1>
         <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body short-laptop:mt-6`}>{hero.lede}</p>
         <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
         <div className="mt-8 flex flex-col items-center gap-3 md:mt-12 short-laptop:mt-8">

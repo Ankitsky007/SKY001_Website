@@ -4,7 +4,8 @@
 // re-renders do not reshuffle them, the default frame (border, radius, padding) is left to the
 // caller, and reduced motion gets the grid without the beams. The grid cell is one fixed size in
 // pixels on all four walls (the original sized it as a percentage of each wall, so the side walls,
-// which are as long as the hero is tall, got smaller cells than the top and bottom ones).
+// which are as long as the hero is tall, got smaller cells than the top and bottom ones). `originY`
+// moves the vanishing point, so the tunnel can centre on something other than the box's middle.
 import { useReducedMotion } from '@skyfall/core/motion'
 import { motion } from 'motion/react'
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type HTMLAttributes, type ReactNode } from 'react'
@@ -19,6 +20,8 @@ interface WarpBackgroundProps extends HTMLAttributes<HTMLDivElement> {
   beamDelayMin?: number
   beamDuration?: number
   gridColor?: string
+  /** Where the walls meet, down from the top of the box in px (the vanishing point). Default: the middle. */
+  originY?: number
 }
 
 function Beam({ width, x, delay, duration }: { width: string; x: string; delay: number; duration: number }) {
@@ -38,7 +41,7 @@ function Beam({ width, x, delay, duration }: { width: string; x: string; delay: 
 const WALL =
   'absolute [transform-style:preserve-3d] [container-type:inline-size] [height:100cqmax] [background:linear-gradient(var(--grid-color)_0_1px,_transparent_1px_var(--cell))_0_0_/var(--cell)_var(--cell),linear-gradient(90deg,_var(--grid-color)_0_1px,_transparent_1px_var(--cell))_0_0_/var(--cell)_var(--cell)]'
 
-export function WarpBackground({ children, perspective = 100, className, beamsPerSide = 3, beamSize = 5, beamDelayMax = 3, beamDelayMin = 0, beamDuration = 3, gridColor = 'var(--color-line)', ...props }: WarpBackgroundProps) {
+export function WarpBackground({ children, perspective = 100, className, beamsPerSide = 3, beamSize = 5, beamDelayMax = 3, beamDelayMin = 0, beamDuration = 3, gridColor = 'var(--color-line)', originY, ...props }: WarpBackgroundProps) {
   const reduced = useReducedMotion()
   const box = useRef<HTMLDivElement>(null)
   const [size, setSize] = useState({ w: 0, h: 0 })
@@ -67,7 +70,7 @@ export function WarpBackground({ children, perspective = 100, className, beamsPe
     <div className={cn('relative', className)} {...props}>
       <div
         ref={box}
-        style={{ '--perspective': `${perspective}px`, '--grid-color': gridColor, '--cell': `${cell}px` } as CSSProperties}
+        style={{ '--perspective': `${perspective}px`, '--grid-color': gridColor, '--cell': `${cell}px`, perspectiveOrigin: originY === undefined ? undefined : `50% ${originY}px` } as CSSProperties}
         className="pointer-events-none absolute top-0 left-0 size-full overflow-hidden [clip-path:inset(0)] [container-type:size] [perspective:var(--perspective)] [transform-style:preserve-3d]"
       >
         <div className={`${WALL} [width:100cqi] [transform-origin:50%_0%] [transform:rotateX(-90deg)]`}>{beams(sides.top, 'top')}</div>
