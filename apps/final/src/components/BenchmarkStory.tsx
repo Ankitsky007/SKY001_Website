@@ -15,18 +15,24 @@ export function BarChart({ rows, metric, tag }: { rows: readonly StoryRow[]; met
   const max = metric === 'iou' ? 100 : axisMax(Math.max(...rows.map((r) => metricValue(r, metric) ?? 0)))
   const ticks = [0, max / 2, max]
 
+  // Each chart builds itself from zero when it scrolls into view: bars grow out of the axis while their values count up (Ankit, 2026-10-17).
   useGSAP(
     () => {
       if (reduced || !box.current) return
-      gsap.from(box.current.querySelectorAll('[data-bar]'), {
-        scaleX: 0,
-        duration: 1.1,
-        ease: 'power3.out',
-        stagger: 0.05,
-        scrollTrigger: { trigger: box.current, start: 'top 85%', once: true },
+      const bars = box.current.querySelectorAll<HTMLElement>('[data-bar]')
+      const values = box.current.querySelectorAll<HTMLElement>('[data-value]')
+      const failed = box.current.querySelectorAll<HTMLElement>('[data-failed]')
+      const tl = gsap.timeline({ scrollTrigger: { trigger: box.current, start: 'top 75%', once: true } })
+      tl.from(bars, { scaleX: 0, duration: 1.4, ease: 'power3.out', stagger: 0.08 }, 0)
+      values.forEach((el, i) => {
+        const end = Number(el.dataset.value)
+        const state = { n: 0 }
+        el.textContent = formatValue(0, metric)
+        tl.to(state, { n: end, duration: 1.4, ease: 'power3.out', onUpdate: () => (el.textContent = formatValue(state.n, metric)), onComplete: () => (el.textContent = formatValue(end, metric)) }, i * 0.08)
       })
+      tl.from(failed, { autoAlpha: 0, duration: 0.4 }, '-=0.4')
     },
-    { scope: box, dependencies: [reduced] },
+    { scope: box, dependencies: [reduced, metric] },
   )
 
   return (
@@ -49,12 +55,12 @@ export function BarChart({ rows, metric, tag }: { rows: readonly StoryRow[]; met
                 <span className="truncate">{r.model}</span>
                 <span className="relative h-2.5">
                   {v === null ? (
-                    <span className="absolute inset-y-[-3px] left-0 border border-line px-1 font-mono text-[10px] leading-none text-muted uppercase">{benchmarkStory.failed}</span>
+                    <span data-failed className="absolute inset-y-[-3px] left-0 border border-line px-1 font-mono text-[10px] leading-none text-muted uppercase">{benchmarkStory.failed}</span>
                   ) : (
                     <span data-bar className={`absolute inset-y-0 left-0 origin-left ${r.ours ? 'bg-brand' : 'bg-bar'}`} style={{ width: `${Math.max((v / max) * 100, 0.6)}%` }} />
                   )}
                 </span>
-                <span className="text-right font-mono text-xs tabular-nums md:text-[13px]">{v === null ? '–' : valueText(r, metric)}</span>
+                <span data-value={v ?? undefined} className="text-right font-mono text-xs tabular-nums md:text-[13px]">{v === null ? '–' : valueText(r, metric)}</span>
               </li>
             )
           })}
@@ -75,10 +81,14 @@ export function BarChart({ rows, metric, tag }: { rows: readonly StoryRow[]; met
   )
 }
 
+function formatValue(v: number, metric: Metric) {
+  if (v === 0) return metric === 'iou' ? '0%' : '0'
+  return metric === 'iou' ? `${v.toFixed(1)}%` : formatRate(v)
+}
+
 function valueText(r: StoryRow, metric: Metric) {
   const v = metricValue(r, metric)
-  if (v === null) return benchmarkStory.failed
-  return metric === 'iou' ? `${v.toFixed(1)}%` : formatRate(v)
+  return v === null ? benchmarkStory.failed : formatValue(v, metric)
 }
 
 /** Phones and tablets: one chart at a time behind Speed / Cost / IoU tabs. */
