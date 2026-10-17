@@ -106,7 +106,35 @@ export function StageVideos({ titleId }: { titleId: string }) {
             className="absolute inset-0 size-full object-cover"
           />
         </figure>
-        <ol className="flex flex-col">
+        {/* below 1280px: four tabs under the video (Ankit, 2026-10-17); the playing one is the solid blue tab,
+            with a bar along its bottom that fills as the film plays, and only its stage's text shows */}
+        <div className="-mt-5 xl:hidden">
+          <div className="flex border-t border-l border-line bg-paper">
+            {STAGES.map((s, i) => {
+              const on = i === active
+              return (
+                <button
+                  key={s.key}
+                  type="button"
+                  aria-current={on ? 'step' : undefined}
+                  aria-label={`${s.label}: ${s.title}`}
+                  onClick={() => choose(i)}
+                  className={`relative flex min-h-11 flex-1 cursor-pointer items-center justify-center border-r border-b px-1 font-mono text-xs tracking-[-0.02em] uppercase transition-colors duration-300 sm:text-[13px] ${on ? 'border-brand bg-brand font-semibold text-white' : 'border-line font-medium text-muted hover:bg-studio'}`}
+                >
+                  {on ? `<${s.label}>` : s.label}
+                  {on && (
+                    <span aria-hidden="true" className="absolute inset-x-0 bottom-0 h-[3px] bg-white/35">
+                      <span className="block h-full origin-left bg-white" style={{ transform: `scaleX(${progress})` }} />
+                    </span>
+                  )}
+                </button>
+              )
+            })}
+          </div>
+          <h3 className="mt-6 text-[22px] leading-[1.15] font-medium tracking-[-0.03em] text-ink md:text-[26px]">{STAGES[active].title}</h3>
+          <p className="mt-3 text-[15px] leading-[1.45] tracking-[-0.01em] text-body md:text-base">{STAGES[active].body}</p>
+        </div>
+        <ol className="hidden flex-col xl:flex">
           {STAGES.map((s, i) => {
             const on = i === active
             const fill = i < active ? 1 : on ? progress : 0
