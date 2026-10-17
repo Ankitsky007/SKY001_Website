@@ -8,8 +8,9 @@ export type NavTab = { label: string; href: string; current?: boolean; spy?: { f
 const ext = (href: string) => (href.startsWith('http') ? { target: '_blank', rel: 'noreferrer' } : {})
 
 /**
- * aeye boxed nav. md+: a row of white tabs hangs from the top edge, the current one is the tall
- * blue tab wrapped in `< >`. Tabs that point at a section
+ * Full-width rail (Ankit picked option B, 2026-10-17). Desktop: a white bar across the top with a
+ * hairline under it, the logo on the left and the tabs on the right; the current tab is a solid blue
+ * block wrapped in `< >`. Tabs that point at a section
  * of this page light up while that section is in the middle of the screen. Phones: a white header
  * with a menu sheet.
  */
@@ -52,25 +53,23 @@ export function Nav({ home, tabs }: { home: string; tabs: readonly NavTab[] }) {
 
   return (
     <>
-      <nav aria-label="Main" className={`pointer-events-none fixed inset-x-0 z-50 hidden px-10 top-0 lg:block`}>
-        <div className="mx-auto flex max-w-[1208px] items-start">
-          <ul className="pointer-events-auto flex items-start font-mono text-[13px] font-medium tracking-[-0.02em] uppercase lg:text-sm">
-            <li>
-              <a href={home} aria-label="Skyfall AI home" className="flex h-11 items-center border-r border-b border-l border-night-mid bg-white px-3.5 text-ink">
-                <SkyfallLogo width={118} />
-              </a>
-            </li>
-            {tabs.map((tab) => {
+      <nav aria-label="Main" className="fixed inset-x-0 top-0 z-50 hidden h-14 border-b border-line bg-white px-10 lg:block">
+        <div className="mx-auto flex h-full max-w-[1208px] items-stretch justify-between">
+          <a href={home} aria-label="Skyfall AI home" className="flex items-center text-ink">
+            <SkyfallLogo width={132} />
+          </a>
+          <ul className="flex font-mono text-sm font-medium tracking-[-0.02em] uppercase">
+            {tabs.map((tab, i) => {
               const active = isActive(tab)
               return (
-                <li key={tab.label}>
+                <li key={tab.label} className="flex">
                   <a
                     href={tab.href}
                     {...ext(tab.href)}
                     aria-current={active ? 'location' : undefined}
                     onPointerEnter={scrambleOnHover}
-                    className={`flex items-center px-2.5 transition-[height,background-color,color] duration-300 ease-out-expo lg:px-3.5 ${
-                      active ? 'h-[52px] bg-brand font-semibold text-white' : 'h-11 border-r border-b border-night-mid bg-white text-ink hover:bg-line'
+                    className={`flex items-center border-r border-line px-[22px] transition-colors duration-300 ease-out-expo ${i === 0 ? 'border-l' : ''} ${
+                      active ? 'border-brand bg-brand font-semibold text-white' : 'bg-white text-ink hover:bg-studio'
                     }`}
                   >
                     <span data-scramble>{active ? `<${tab.label}>` : tab.label}</span>
