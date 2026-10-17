@@ -55,6 +55,8 @@ describe('App routing', () => {
     fireEvent.click(screen.getAllByRole('link', { name: sky001.intro.waitlist.cta.label, hidden: true })[0])
     const open = [...document.querySelectorAll('dialog')].find((d) => d.open)
     expect(open?.textContent).toContain(waitlistForm.title)
+    // the partnership form's fields
+    for (const f of ['name', 'email', 'website', 'message']) expect(open?.querySelector(`[name="${f}"]`)).not.toBeNull()
   })
 })
 

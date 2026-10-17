@@ -569,10 +569,8 @@ export const partnership = {
 // ---------------------------------------------------------------------------------------------
 export const waitlistForm = {
   title: 'Join the waitlist',
-  email: 'Work email',
   submit: 'Submit',
   sending: 'Sending',
-  required: 'Required',
   success: {
     title: 'Thank you',
     body: 'We have received your information and will mail you the necessary details.',

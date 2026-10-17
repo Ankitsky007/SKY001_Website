@@ -23,13 +23,13 @@ Submissions with the hidden anti-spam field filled in are dropped.
 ## Apps Script
 
 Each form writes to its own tab: "Partnership" (time, name, work email, website, message, page)
-"Waitlist" (time, work email, page) and "Newsletter" (time, work email, page) for the blog sign-up.
-If the script is already deployed, add the `newsletter` line and redeploy (Deploy → Manage deployments → Edit → New version).
+"Waitlist" (time, name, work email, website, message, page) and "Newsletter" (time, work email, page) for the blog sign-up.
+If the script is already deployed, update the `waitlist` line (it now takes the partnership form's fields, 2026-10-17), add the `newsletter` line and redeploy (Deploy → Manage deployments → Edit → New version).
 
 ```js
 const TABS = {
   partnership: { name: 'Partnership', header: ['Submitted at', 'Full name', 'Work email', 'Company website', 'Message', 'Page'], fields: ['name', 'email', 'website', 'message'] },
-  waitlist: { name: 'Waitlist', header: ['Submitted at', 'Work email', 'Page'], fields: ['email'] },
+  waitlist: { name: 'Waitlist', header: ['Submitted at', 'Full name', 'Work email', 'Company website', 'Message', 'Page'], fields: ['name', 'email', 'website', 'message'] },
   newsletter: { name: 'Newsletter', header: ['Submitted at', 'Work email', 'Page'], fields: ['email'] },
 }
 
