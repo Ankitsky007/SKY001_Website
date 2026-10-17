@@ -1,4 +1,4 @@
-import { benchmarks, docCharts, sky001 } from '@skyfall/core'
+import { benchmarks, benchmarkStory, sky001 } from '@skyfall/core'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useEffect, useRef, useState } from 'react'
 import extrudeClip from '../assets/media/extrude.mp4'
@@ -7,9 +7,11 @@ import restackClip from '../assets/media/restack.mp4'
 import extrudePoster from '../assets/media/s-extrude.jpg'
 import plansPoster from '../assets/media/s-plans.jpg'
 import restackPoster from '../assets/media/s-restack.jpg'
+import cadBenchmarkClip from '../assets/media/cad-benchmark.mp4'
+import cadBenchmarkPoster from '../assets/media/s-cad-benchmark.jpg'
 import towerPoster from '../assets/media/s-tower.jpg'
 import towerClip from '../assets/media/tower.mp4'
-import { ParetoScatter, VersusLines } from '../components/Charts'
+import { BenchmarkBlock } from '../components/BenchmarkStory'
 import { Clip } from '../components/Clip'
 import { ContrarianFigure } from '../components/ContrarianFigures'
 import { PixelIcon } from '../components/PixelIcon'
@@ -23,7 +25,7 @@ import { TiltedModels } from '../components/TiltedModels'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
 import { footerPages, navTabs } from '../lib/nav'
 import { HOME, VIDEO_HREF, WAITLIST_HREF } from '../lib/routes'
-import { BigLink, ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
+import { BigLink, ButtonLink, DISPLAY, Display, GUTTER, H1, H3, LABEL, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
@@ -143,60 +145,32 @@ function Contrarian() {
   )
 }
 
-function Results() {
-  const { pareto } = docCharts
-  return (
-    <Section id="results">
-      <Display size="md" align="left" note={`${pareto.cad.title} / ${pareto.bim.title}`}>
-        {sky001.pareto.title}
-      </Display>
-      <Reveal>
-        <RuleCol className="mt-10 max-w-[560px]">
-          <p className={`${COPY} text-[20px] md:text-[26px]`}>{sky001.pareto.body}</p>
-        </RuleCol>
-      </Reveal>
-      <div className="mt-12 grid gap-x-6 gap-y-10 lg:mt-16 lg:grid-cols-2">
-        <Panel tag="3D CAD" title={pareto.cad.title} caption={`${pareto.yLabel} against ${pareto.xLabel.toLowerCase()}. ${pareto.hint}.`}>
-          <ParetoScatter chart="cad" />
-        </Panel>
-        <Panel tag="BIM" title={pareto.bim.title} caption={`${pareto.yLabel} against ${pareto.xLabel.toLowerCase()}. ${pareto.hint}.`}>
-          <ParetoScatter chart="bim" />
-        </Panel>
-      </div>
-    </Section>
-  )
+const STORY_CLIPS = {
+  cad: { src: cadBenchmarkClip, poster: cadBenchmarkPoster, tone: 'native-light' as const },
+  // stand-in until the BIM benchmark video exists
+  bim: { src: towerClip, poster: towerPoster, tone: 'dark' as const },
 }
 
-function Moment() {
+/** The claim once at the top, then per model: blue claim, the video under it, the three charts under that (Ankit, 2026-10-17). */
+function Benchmarks() {
   const { moment } = sky001
   return (
-    <Section ground="blue" field={<LineGrid tone="blue" mask="linear-gradient(to bottom, #000 40%, transparent 75%)" />}>
-      <Display tone="dark" align="left" note={moment.eyebrow}>
+    <Section id="results">
+      <Display size="md" align="left" note={moment.eyebrow}>
         {moment.before}
         {moment.emphasis}
         {moment.after}
       </Display>
       <Reveal>
-        <RuleCol tone="dark" label={moment.versus} className="mt-10 max-w-[620px]">
+        <RuleCol label={moment.versus} className="mt-10 max-w-[560px]">
           <p className={COPY}>{moment.body}</p>
         </RuleCol>
       </Reveal>
-      <div className="mt-12 grid gap-6 lg:mt-16 lg:grid-cols-2">
-        <VersusLines chart="cost" />
-        <VersusLines chart="time" />
-      </div>
-      <dl className="mt-12 grid gap-8 md:grid-cols-3 md:gap-6 lg:mt-16 lg:gap-12">
-        {benchmarks.headline.map((h) => (
-          <RuleCol key={h.detail} tone="dark" label={<dt>{h.detail}</dt>}>
-            <dd>
-              <span className={`${DISPLAY} block text-[88px] leading-[0.85] sm:text-[104px] lg:text-[150px]`}>
-                <CountUp value={h.value} />
-              </span>
-              <span className={`${H3} mt-2 block`}>{h.label}</span>
-            </dd>
-          </RuleCol>
+      <div className="mt-12 flex flex-col gap-16 md:gap-20 lg:mt-16 lg:gap-24">
+        {benchmarkStory.models.map((m) => (
+          <BenchmarkBlock key={m.key} story={m} clip={STORY_CLIPS[m.key]} />
         ))}
-      </dl>
+      </div>
     </Section>
   )
 }
@@ -218,7 +192,7 @@ const BIM_CLIPS = [
 ]
 
 function Bim() {
-  const bimHeadline = benchmarks.headline[2]
+  const bimHeadline = benchmarkStory.models[1].claims[0]
   return (
     <Section id="bim" ground="night">
       <Display tone="dark" align="left" note={bimHeadline.detail}>
@@ -342,8 +316,7 @@ export function LaunchPage() {
         <Hero />
         <ModelRing />
         <Contrarian />
-        <Results />
-        <Moment />
+        <Benchmarks />
         <Stages />
         <Bim />
         <Why />

@@ -1,12 +1,13 @@
 // Reveal hides blocks (visibility) until they scroll into view. Hidden nodes have no accessible
 // name, so headings inside them are matched by their text instead (minus the decorative slashes).
-import { backers, benchmarks, blogPage, campusFlow, docCharts, hero, research, showcase, sky001, team, waitlistForm } from '@skyfall/core'
+import { backers, benchmarkStory, blogPage, campusFlow, hero, research, showcase, sky001, team, waitlistForm } from '@skyfall/core'
 import { blogPosts } from '@skyfall/core/blog'
-import { cleanup, fireEvent, render, screen, within } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import App from './App'
 import { FrontPage } from './pages/FrontPage'
 import { LaunchPage } from './pages/LaunchPage'
+import { axisMax, formatRate, metricValue } from './lib/benchmarkRates'
 
 function heading(text: string) {
   const found = screen.getAllByRole('heading', { hidden: true }).find((h) => h.textContent?.replace(/^\/|\/$/g, '') === text)
@@ -86,22 +87,47 @@ describe('Front page', () => {
 describe('SKY-001 page', () => {
   it('renders the doc sections in order', () => {
     render(<LaunchPage />)
-    const names = [sky001.contrarian.title, sky001.pareto.title, sky001.stages.title, benchmarks.bim.title, sky001.why.title, sky001.next.title, sky001.faq.title]
+    const { moment } = sky001
+    const names = [sky001.contrarian.title, `${moment.before}${moment.emphasis}${moment.after}`, sky001.stages.title, sky001.why.title, sky001.next.title, sky001.faq.title]
     const found = names.map(heading)
     for (let i = 1; i < found.length; i++) expect(found[i - 1].compareDocumentPosition(found[i]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     for (const s of sky001.stages.items) expect(heading(s.title)).toBeInTheDocument()
   })
 
-  it('redraws the four doc charts with the doc axes and values', () => {
+  it('draws the six benchmark charts with SKY-001 first in each', () => {
     render(<LaunchPage />)
-    const { pareto, versus } = docCharts
-    const cad = screen.getByRole('img', { name: new RegExp(`^${pareto.cad.title}`), hidden: true })
-    for (const tick of ['0%', '25%', '50%', '75%', '100%', '$0.001', '$0.01', '$0.10', '$1.00']) expect(within(cad).getByText(tick)).toBeInTheDocument()
-    expect(within(cad).getByText('79.7%')).toBeInTheDocument()
-    const cost = screen.getByRole('img', { name: new RegExp(`^${versus.cost.title}`), hidden: true })
-    for (const t of ['150× cheaper', '50× cheaper']) expect(within(cost).getByText(t)).toBeInTheDocument()
-    const time = screen.getByRole('img', { name: new RegExp(`^${versus.time.title}`), hidden: true })
-    for (const t of ['51× faster', '32× faster']) expect(within(time).getByText(t)).toBeInTheDocument()
+    for (const m of benchmarkStory.models) {
+      for (const metric of ['speed', 'cost', 'iou'] as const) {
+        const name = `${benchmarkStory.charts[metric].title}, ${m.tag}: `
+        const charts = screen.getAllByRole('img', { hidden: true }).filter((el) => el.getAttribute('aria-label')?.startsWith(name))
+        expect(charts.length).toBeGreaterThan(0)
+        for (const c of charts) expect(c.getAttribute('aria-label')).toMatch(/: SKY-001 /)
+      }
+    }
+    const cadIou = screen.getAllByRole('img', { hidden: true }).find((el) => el.getAttribute('aria-label')?.startsWith('Accuracy (IoU), 3D CAD: '))
+    expect(cadIou?.getAttribute('aria-label')).toContain('Grok 4.7 Failed')
+  })
+
+  it('states claims that match the benchmark numbers', () => {
+    for (const m of benchmarkStory.models) {
+      const ours = m.rows.find((r) => r.ours)!
+      const astra = m.rows.find((r) => r.model === 'GPT-6 Astra')!
+      const bestLlm = Math.max(...m.rows.filter((r) => !r.ours).map((r) => r.iou ?? 0))
+      const [speed, cost, iou] = m.claims
+      expect(speed.value).toBe(`${Math.round(astra.seconds / ours.seconds)}×`)
+      expect(cost.value).toBe(`${Math.round(astra.cost / ours.cost)}×`)
+      expect(iou.value).toBe(`${ours.iou}%`)
+      expect(iou.detail).toContain(`${bestLlm}%`)
+      for (const c of m.claims) expect(c.detail).not.toMatch(/Astra/)
+    }
+  })
+
+  it('rates speed and cost so the biggest bar is the best', () => {
+    expect(formatRate(metricValue(benchmarkStory.models[0].rows[0], 'speed')!)).toBe('923')
+    expect(formatRate(metricValue(benchmarkStory.models[1].rows[0], 'speed')!)).toBe('2,951')
+    expect(formatRate(metricValue(benchmarkStory.models[1].rows[0], 'cost')!)).toBe('422')
+    expect(formatRate(metricValue(benchmarkStory.models[0].rows[5], 'speed')!)).toBe('8.20')
+    expect([923, 200, 2951, 422].map(axisMax)).toEqual([1000, 200, 3000, 500])
   })
 
   it('offers a film for each of the four models in the turning row', () => {

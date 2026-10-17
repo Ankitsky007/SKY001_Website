@@ -198,7 +198,7 @@ export const sky001 = {
     before: 'Frontier Accuracy at ',
     emphasis: '1/150th',
     after: ' the cost of LLMs',
-    body: 'Our world model beats GPT-6 Astra because LLMs are autoregressive in nature and not designed for visual reasoning. Our approach is undoubtedly the best path for scale compared to LLMs and a game changer for the AI industry.',
+    body: 'Our world model beats LLMs because LLMs are autoregressive in nature and not designed for visual reasoning. Our approach is undoubtedly the best path for scale compared to LLMs and a game changer for the AI industry.',
     versus: 'World Models vs. LLMs',
   },
   stages: {
@@ -320,6 +320,67 @@ export const benchmarks = {
     { value: '51×', label: 'faster', detail: '3D Construction · 3.9 s vs 199 s' },
     { value: '150×', label: 'lower cost', detail: '3D Construction · $0.005 vs $0.75' },
     { value: '32×', label: 'faster', detail: 'BIM Construction · 4.5 s vs 144.4 s' },
+  ],
+} as const
+
+// ---------------------------------------------------------------------------------------------
+// Benchmark story on the SKY-001 page: per model, a claim, a video and three bar charts.
+// Numbers are exactly those in Ankit's two benchmark table images (2026-10-17), which replace the
+// older BIM figures above. Claims are ratios against GPT-6 Astra's numbers, worded "LLMs" (Ankit).
+// Speed and cost are drawn as samples per hour (3600 / seconds) and samples per $1 (1 / cost).
+// ---------------------------------------------------------------------------------------------
+export type StoryRow = { model: string; ours: boolean; iou: number | null; seconds: number; cost: number }
+
+export const benchmarkStory = {
+  charts: {
+    speed: { tab: 'Speed', title: 'Speed, samples per hour', note: 'samples per hour = 3,600 ÷ seconds per sample' },
+    cost: { tab: 'Cost', title: 'Cost, samples per $1', note: 'samples per $1 = 1 ÷ cost per sample' },
+    iou: { tab: 'IoU', title: 'Accuracy (IoU)', note: 'IoU: overlap with the reference (%)' },
+  },
+  failed: 'Failed',
+  models: [
+    {
+      key: 'cad',
+      tag: '3D CAD',
+      title: '3D Construction World Model',
+      clip: '3D CAD / same input, 4 models',
+      clipLabel: 'The same input image built into 3D CAD by SKY-001, GPT-6 Astra, Claude Opus 5.5 and Claude Fable 5.1',
+      claims: [
+        { value: '51×', label: 'faster', detail: '3.9 s vs 199 s' },
+        { value: '150×', label: 'lower cost', detail: '$0.005 vs $0.75' },
+        { value: '79.7%', label: 'accuracy', detail: 'IoU · LLMs best 79.1%' },
+      ],
+      rows: [
+        { model: 'SKY-001', ours: true, iou: 79.7, seconds: 3.9, cost: 0.005 },
+        { model: 'GPT-6 Astra', ours: false, iou: 79.1, seconds: 199, cost: 0.75 },
+        { model: 'Opus 5.5', ours: false, iou: 69.4, seconds: 110, cost: 0.31 },
+        { model: 'Gemini 3.8 Flash', ours: false, iou: 54.7, seconds: 112, cost: 0.08 },
+        { model: 'Qwen 3.8 Max', ours: false, iou: 34.4, seconds: 764, cost: 0.3 },
+        { model: 'Kimi K3', ours: false, iou: 9.5, seconds: 439, cost: 0.13 },
+        { model: 'Grok 4.7', ours: false, iou: null, seconds: 1250, cost: 0.59 },
+      ] as StoryRow[],
+    },
+    {
+      key: 'bim',
+      tag: 'BIM',
+      title: 'BIM Construction World Model',
+      clip: 'BIM / 36 levels',
+      clipLabel: 'SKY-001 output: a 36-level tower built level by level',
+      claims: [
+        { value: '118×', label: 'faster', detail: '1.22 s vs 144.4 s' },
+        { value: '188×', label: 'lower cost', detail: '$0.00237 vs $0.4465' },
+        { value: '43.6%', label: 'accuracy', detail: 'IoU · LLMs best 42.3%' },
+      ],
+      rows: [
+        { model: 'SKY-001', ours: true, iou: 43.6, seconds: 1.22, cost: 0.00237 },
+        { model: 'GPT-6 Astra', ours: false, iou: 40.6, seconds: 144.4, cost: 0.4465 },
+        { model: 'Opus 5.5', ours: false, iou: 34.4, seconds: 113.1, cost: 0.276 },
+        { model: 'Gemini 3.8 Flash', ours: false, iou: 42.3, seconds: 345.4, cost: 0.2185 },
+        { model: 'Qwen 3.8 Max', ours: false, iou: 28.8, seconds: 254.5, cost: 0.111 },
+        { model: 'Kimi K3', ours: false, iou: 33.7, seconds: 114.0, cost: 0.27 },
+        { model: 'Grok 4.7', ours: false, iou: 28.2, seconds: 592.3, cost: 0.305 },
+      ] as StoryRow[],
+    },
   ],
 } as const
 
