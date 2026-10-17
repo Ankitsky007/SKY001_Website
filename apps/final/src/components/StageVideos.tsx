@@ -84,8 +84,12 @@ export function StageVideos({ titleId }: { titleId: string }) {
       <h2 id={titleId} className={`${DISPLAY} text-[30px] leading-none sm:text-[40px] lg:text-[48px]`}>
         {sky001.stages.title}
       </h2>
-      <div ref={box} className="mt-10 grid items-center gap-8 md:mt-12 lg:grid-cols-[minmax(0,380px)_minmax(0,1fr)] lg:gap-12">
-        <figure className="relative overflow-hidden border border-ink bg-black lg:order-last">
+      {/* side by side from 1280px, the video and the stage list exactly as tall as each other: the list's
+          stages share out the video's height, and if the list is the taller one the video fills it */}
+      <div ref={box} className="mt-10 grid gap-8 md:mt-12 xl:grid-cols-[minmax(0,330px)_minmax(0,1fr)] xl:gap-10">
+        <figure className="relative overflow-hidden border border-ink bg-black xl:order-last">
+          {/* holds the 16:9 shape; the video covers whatever height the row ends up */}
+          <div aria-hidden="true" className="aspect-video" />
           <video
             key={clip.src}
             ref={video}
@@ -99,7 +103,7 @@ export function StageVideos({ titleId }: { titleId: string }) {
             onPlay={follow}
             onPause={unfollow}
             onEnded={next}
-            className="block aspect-video w-full object-cover"
+            className="absolute inset-0 size-full object-cover"
           />
         </figure>
         <ol className="flex flex-col">
@@ -107,12 +111,12 @@ export function StageVideos({ titleId }: { titleId: string }) {
             const on = i === active
             const fill = i < active ? 1 : on ? progress : 0
             return (
-              <li key={s.key} className="relative">
+              <li key={s.key} className="relative xl:grow">
                 {/* one rail down the list: each stage's piece fills blue as its film plays */}
                 <span aria-hidden="true" className="absolute inset-y-0 left-0 w-[3px] bg-line">
                   <span className="block w-full origin-top bg-brand" style={{ height: '100%', transform: `scaleY(${fill})` }} />
                 </span>
-                <p className={`${LABEL} flex items-center gap-2.5 pt-4 pl-6 md:pt-5 md:pl-7 ${on ? 'text-brand' : 'text-faint'}`}>
+                <p className={`${LABEL} flex items-center gap-2.5 pt-4 pl-6 md:pt-5 md:pl-7 xl:pt-0 ${on ? 'text-brand' : 'text-faint'}`}>
                   <span aria-hidden="true" className={`block size-2 ${on ? 'bg-brand' : 'bg-line'}`} />
                   {s.label}
                 </p>
@@ -122,15 +126,15 @@ export function StageVideos({ titleId }: { titleId: string }) {
                     type="button"
                     aria-current={on ? 'step' : undefined}
                     onClick={() => choose(i)}
-                    className={`mt-2 block w-full cursor-pointer text-left font-medium tracking-[-0.03em] transition-colors duration-300 after:absolute after:inset-0 ${on ? 'text-[22px] leading-[1.15] text-ink md:text-[26px]' : 'text-[19px] leading-[1.2] text-faint hover:text-muted md:text-[20px]'}`}
+                    className={`mt-2 block w-full xl:mt-1.5 cursor-pointer text-left font-medium tracking-[-0.03em] transition-colors duration-300 after:absolute after:inset-0 ${on ? 'text-[22px] leading-[1.15] text-ink md:text-[26px] xl:text-[22px]' : 'text-[19px] leading-[1.2] text-faint hover:text-muted md:text-[20px] xl:text-[17px]'}`}
                   >
                     {s.title}
                   </button>
                 </h3>
                 {/* every stage's text is in the page; only the current one is open */}
-                <div className={`grid pb-4 pl-6 transition-[grid-template-rows] duration-500 ease-out-expo md:pb-5 md:pl-7 ${on ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                <div className={`grid pb-4 pl-6 transition-[grid-template-rows] duration-500 ease-out-expo md:pb-5 md:pl-7 xl:pb-0 ${on ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
                   <div className="overflow-hidden">
-                    <p className="pt-3 text-[15px] leading-[1.45] tracking-[-0.01em] text-body md:text-base">{s.body}</p>
+                    <p className="pt-3 text-[15px] leading-[1.45] tracking-[-0.01em] text-body md:text-base xl:pt-2 xl:text-[15px] xl:leading-[1.4]">{s.body}</p>
                   </div>
                 </div>
               </li>
