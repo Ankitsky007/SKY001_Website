@@ -18,7 +18,7 @@ import { TiltedModels } from '../components/TiltedModels'
 import { WorldModelDiagram } from '../components/WorldModelDiagram'
 import { footerPages, navTabs } from '../lib/nav'
 import { HOME, VIDEO_HREF, WAITLIST_HREF } from '../lib/routes'
-import { ButtonLink, DISPLAY, Display, GUTTER, H1, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
+import { ButtonLink, DISPLAY, Display, GUTTER, H1, LABEL, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
@@ -48,6 +48,65 @@ function Hero() {
   )
 }
 
+// Heading options above the model row (Ankit, 2026-10-18), previewed with ?ring=1 to ?ring=6. No value keeps today's heading.
+const RING_OPTION = typeof window === 'undefined' ? 0 : Number(new URLSearchParams(window.location.search).get('ring')) || 0
+
+function RingHeading({ option, text }: { option: number; text: string }) {
+  const at = text.indexOf('Design')
+  const lead = at > 0 ? text.slice(0, at).trim() : text
+  const tail = at > 0 ? text.slice(at) : ''
+  switch (option) {
+    // 1 Two-tone: the lead in ink, "Design & Engineering." in brand blue
+    case 1:
+      return (
+        <h2 id="intro-statement" className={`${DISPLAY} mx-auto max-w-[22ch] text-center text-[32px] leading-[0.98] normal-case sm:text-[48px] lg:text-[64px] lg:leading-[0.95]`}>
+          {lead} <span className="text-brand">{tail}</span>
+        </h2>
+      )
+    // 2 Bracket label: a small mono label in brackets, like the section labels further down
+    case 2:
+      return (
+        <h2 id="intro-statement" className={`${LABEL} text-center text-[13px] text-brand md:text-sm`}>
+          [ {text} ]
+        </h2>
+      )
+    // 3 Blue chip: a filled brand-blue tag with the square, centred over the row
+    case 3:
+      return (
+        <h2 id="intro-statement" className="flex justify-center">
+          <span className={`${LABEL} inline-flex min-h-11 items-center gap-3 bg-brand px-5 text-[13px] text-white md:text-sm`}>
+            <span aria-hidden="true" className="block size-2 bg-white" />
+            {text}
+          </span>
+        </h2>
+      )
+    // 4 Ruled header: a mono label on the left and a hairline running to the right edge
+    case 4:
+      return (
+        <h2 id="intro-statement" className={`${WRAP} flex items-center gap-4`}>
+          <span aria-hidden="true" className="block size-2 shrink-0 bg-brand" />
+          <span className={`${LABEL} shrink-0 text-[13px] text-ink md:text-sm`}>{text}</span>
+          <span aria-hidden="true" className="h-px flex-1 bg-line" />
+        </h2>
+      )
+    // 5 Pixel stop: the lead small in mono, "Design & Engineering." large in Geist Pixel blue
+    case 5:
+      return (
+        <h2 id="intro-statement" className="flex flex-col items-center gap-3 text-center">
+          <span className={`${LABEL} text-[13px] text-muted md:text-sm`}>{lead}</span>
+          <span className="font-pixel text-[36px] leading-none text-brand sm:text-[56px] lg:text-[80px]">{tail}</span>
+        </h2>
+      )
+    // 6 Medium line: one quieter line of sans copy, smaller than today's display size
+    default:
+      return (
+        <h2 id="intro-statement" className={`${DISPLAY} mx-auto text-center text-[24px] leading-[1.05] normal-case sm:text-[32px] lg:text-[40px]`}>
+          {text}
+        </h2>
+      )
+  }
+}
+
 /**
  * Right under the hero, one section from claim to proof: the intro statement fills in word by word
  * as it scrolls by (grey to ink, the part after the semicolon to brand blue, as the homepage
@@ -75,14 +134,18 @@ function ModelRing() {
       {/* the white fades into the next section's grey, so the two run together */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-b from-transparent to-studio md:h-48" />
       <div className={`relative ${GUTTER}`}>
-        <p id="intro-statement" ref={statement} className={`${DISPLAY} mx-auto max-w-[22ch] text-center text-[32px] leading-[0.98] normal-case sm:text-[48px] lg:text-[64px] lg:leading-[0.95]`}>
-          {words.map(({ w, em }, i) => (
-            <span key={i} data-word className={em ? 'text-brand' : undefined}>
-              {w}
-              {i === words.findIndex((x) => x.em) - 1 ? '; ' : i < words.length - 1 ? ' ' : ''}
-            </span>
-          ))}
-        </p>
+        {RING_OPTION === 0 ? (
+          <p id="intro-statement" ref={statement} className={`${DISPLAY} mx-auto max-w-[22ch] text-center text-[32px] leading-[0.98] normal-case sm:text-[48px] lg:text-[64px] lg:leading-[0.95]`}>
+            {words.map(({ w, em }, i) => (
+              <span key={i} data-word className={em ? 'text-brand' : undefined}>
+                {w}
+                {i === words.findIndex((x) => x.em) - 1 ? '; ' : i < words.length - 1 ? ' ' : ''}
+              </span>
+            ))}
+          </p>
+        ) : (
+          <RingHeading option={RING_OPTION} text={sky001.hero.note} />
+        )}
       </div>
       <TiltedModels className="relative mt-10 h-[260px] sm:h-[340px] md:mt-14 lg:h-[420px]" />
     </section>
