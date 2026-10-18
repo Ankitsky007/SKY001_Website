@@ -1,19 +1,21 @@
-import { benchmarkStory, type StoryRow } from '@skyfall/core/v8'
-import { axisMax, formatRate, METRICS, metricValue, type Metric } from '../lib/benchmarkRates'
+import { benchmarkRaw, benchmarkStory, type StoryRow } from '@skyfall/core/v8'
+import { formatLike, METRICS, metricValue, RATE_METRICS, type Metric } from '../lib/benchmarkRates'
+import { RateChart, RateTabs } from './RateChart'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useId, useRef, useState } from 'react'
 import { LineGrid } from './LineGrid'
 import { Clip } from './Clip'
 import { CountUp, DISPLAY, H3, LABEL, RuleCol, Window } from '../lib/ui'
 
-/** One horizontal bar chart, best first. SKY-001's bar is blue, the rest grey; a failed run reads "Failed" with no bar. */
-export function BarChart({ rows, metric, tag }: { rows: readonly StoryRow[]; metric: Metric; tag: string }) {
-  const meta = benchmarkStory.charts[metric]
+/** One horizontal bar chart in the table's own units and row order, as Ankit's chart image (2026-10-18). SKY-001's row is blue on a tint; "–" has no bar. */
+export function BarChart({ rows, labels, model, metric, tag }: { rows: readonly StoryRow[]; labels: readonly (readonly string[])[]; model: ModelKey; metric: Metric; tag: string }) {
+  const meta = benchmarkRaw.charts[metric]
+  const col = METRICS.indexOf(metric)
+  const axis = benchmarkRaw.axes[model][metric]
+  const tickLabels = benchmarkRaw.ticks[model][metric]
+  const max = axis[axis.length - 1]
   const reduced = useReducedMotion()
   const box = useRef<HTMLDivElement>(null)
-  const sorted = [...rows].sort((a, b) => (metricValue(b, metric) ?? -1) - (metricValue(a, metric) ?? -1))
-  const max = metric === 'iou' ? 100 : axisMax(Math.max(...rows.map((r) => metricValue(r, metric) ?? 0)))
-  const ticks = [0, max / 2, max]
 
   // Each chart builds itself from zero when it scrolls into view: bars grow out of the axis while their values count up (Ankit, 2026-10-17).
   useGSAP(
@@ -21,16 +23,15 @@ export function BarChart({ rows, metric, tag }: { rows: readonly StoryRow[]; met
       if (reduced || !box.current) return
       const bars = box.current.querySelectorAll<HTMLElement>('[data-bar]')
       const values = box.current.querySelectorAll<HTMLElement>('[data-value]')
-      const failed = box.current.querySelectorAll<HTMLElement>('[data-failed]')
       const tl = gsap.timeline({ scrollTrigger: { trigger: box.current, start: 'top 75%', once: true } })
       tl.from(bars, { scaleX: 0, duration: 1.4, ease: 'power3.out', stagger: 0.08 }, 0)
       values.forEach((el, i) => {
+        const label = el.dataset.label ?? ''
         const end = Number(el.dataset.value)
         const state = { n: 0 }
-        el.textContent = formatValue(0, metric)
-        tl.to(state, { n: end, duration: 1.4, ease: 'power3.out', onUpdate: () => (el.textContent = formatValue(state.n, metric)), onComplete: () => (el.textContent = formatValue(end, metric)) }, i * 0.08)
+        el.textContent = formatLike(label, 0)
+        tl.to(state, { n: end, duration: 1.4, ease: 'power3.out', onUpdate: () => (el.textContent = formatLike(label, state.n)), onComplete: () => (el.textContent = label) }, i * 0.08)
       })
-      tl.from(failed, { autoAlpha: 0, duration: 0.4 }, '-=0.4')
     },
     { scope: box, dependencies: [reduced, metric] },
   )
@@ -39,61 +40,50 @@ export function BarChart({ rows, metric, tag }: { rows: readonly StoryRow[]; met
     <Window
       title={
         <span className="flex w-full justify-between gap-2">
-          <span>{meta.title}</span>
+          <span>
+            {meta.title} {meta.arrow}
+          </span>
           <span className="text-white/70">{tag}</span>
         </span>
       }
       className="h-full"
       bodyClassName="bg-paper px-3 pt-3 pb-3 md:px-4"
     >
-      <div ref={box} role="img" aria-label={`${meta.title}, ${tag}: ${sorted.map((r) => `${r.model} ${valueText(r, metric)}`).join(', ')}`}>
+      <div ref={box} role="img" aria-label={`${meta.title}, ${tag}, ${meta.note.toLowerCase()}: ${rows.map((r, i) => `${r.model} ${labels[i][col]}`).join(', ')}`}>
         <ul aria-hidden="true">
-          {sorted.map((r) => {
+          {rows.map((r, i) => {
             const v = metricValue(r, metric)
+            const label = labels[i][col]
             return (
-              <li key={r.model} className={`grid min-h-8 grid-cols-[minmax(0,7.5rem)_1fr_3.5rem] items-center gap-2 border-b border-line text-[13px] tracking-[-0.02em] md:text-sm ${r.ours ? 'font-medium text-brand' : ''}`}>
+              <li key={r.model} className={`grid min-h-8 grid-cols-[minmax(0,7.5rem)_1fr_4.5rem] items-center gap-2 border-b border-line text-[13px] tracking-[-0.02em] md:text-sm ${r.ours ? '-mx-3 bg-tint px-3 font-medium text-brand md:-mx-4 md:px-4' : ''}`}>
                 <span className="truncate">{r.model}</span>
-                <span className="relative h-2.5">
-                  {v === null ? (
-                    <span data-failed className="absolute inset-y-[-3px] left-0 border border-line px-1 font-mono text-[10px] leading-none text-muted uppercase">{benchmarkStory.failed}</span>
-                  ) : (
-                    <span data-bar className={`absolute inset-y-0 left-0 origin-left ${r.ours ? 'bg-brand' : 'bg-bar'}`} style={{ width: `${Math.max((v / max) * 100, 0.6)}%` }} />
-                  )}
+                <span className="relative h-2.5">{v !== null && <span data-bar className={`absolute inset-y-0 left-0 origin-left ${r.ours ? 'bg-brand' : 'bg-bar'}`} style={{ width: `${Math.max((v / max) * 100, 0.6)}%` }} />}</span>
+                <span data-value={v ?? undefined} data-label={label} className="text-right font-mono text-xs tabular-nums md:text-[13px]">
+                  {label}
                 </span>
-                <span data-value={v ?? undefined} className="text-right font-mono text-xs tabular-nums md:text-[13px]">{v === null ? '–' : valueText(r, metric)}</span>
               </li>
             )
           })}
         </ul>
-        <div aria-hidden="true" className="grid grid-cols-[minmax(0,7.5rem)_1fr_3.5rem] gap-2 pt-1.5">
+        <div aria-hidden="true" className="grid grid-cols-[minmax(0,7.5rem)_1fr_4.5rem] gap-2 pt-1.5">
           <span />
           <span className="relative h-4 font-mono text-[10px] text-muted md:text-[11px]">
-            {ticks.map((t, i) => (
-              <span key={t} className={`absolute top-0 ${i === 0 ? 'left-0' : i === 1 ? 'left-1/2 -translate-x-1/2' : 'right-0'}`}>
-                {metric === 'iou' ? `${t}%` : t.toLocaleString('en-US')}
+            {axis.map((t, i) => (
+              <span key={t} className={`absolute top-0 ${i === 0 ? 'left-0' : '-translate-x-1/2'}`} style={i === 0 ? undefined : { left: `${(t / max) * 100}%` }}>
+                {tickLabels[i]}
               </span>
             ))}
           </span>
         </div>
-        <p aria-hidden="true" className="mt-2 font-mono text-[10px] text-muted md:text-[11px]">{meta.note}</p>
+        <p aria-hidden="true" className="mt-2 font-mono text-[10px] font-medium text-brand md:text-[11px]">{meta.note}</p>
       </div>
     </Window>
   )
 }
 
-function formatValue(v: number, metric: Metric) {
-  if (v === 0) return metric === 'iou' ? '0%' : '0'
-  return metric === 'iou' ? `${v.toFixed(1)}%` : formatRate(v)
-}
-
-function valueText(r: StoryRow, metric: Metric) {
-  const v = metricValue(r, metric)
-  return v === null ? benchmarkStory.failed : formatValue(v, metric)
-}
-
-/** Phones and tablets: one chart at a time behind Speed / Cost / IoU tabs. */
-function ChartTabs({ rows, tag }: { rows: readonly StoryRow[]; tag: string }) {
-  const [metric, setMetric] = useState<Metric>('speed')
+/** Phones and tablets: one chart at a time behind IoU / Time / Cost tabs. */
+function ChartTabs({ rows, labels, model, tag }: { rows: readonly StoryRow[]; labels: readonly (readonly string[])[]; model: ModelKey; tag: string }) {
+  const [metric, setMetric] = useState<Metric>('iou')
   const id = useId()
   return (
     <div className="lg:hidden">
@@ -108,17 +98,18 @@ function ChartTabs({ rows, tag }: { rows: readonly StoryRow[]; tag: string }) {
             onClick={() => setMetric(m)}
             className={`min-h-11 text-[15px] tracking-[-0.02em] transition-colors ${i > 0 ? 'border-l border-ink' : ''} ${metric === m ? 'bg-ink text-white' : 'bg-paper text-ink hover:bg-studio'}`}
           >
-            {benchmarkStory.charts[m].tab}
+            {benchmarkRaw.charts[m].tab}
           </button>
         ))}
       </div>
       <div role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-${metric}`}>
-        <BarChart key={metric} rows={rows} metric={metric} tag={tag} />
+        <BarChart key={metric} rows={rows} labels={labels} model={model} metric={metric} tag={tag} />
       </div>
     </div>
   )
 }
 
+type ModelKey = keyof typeof benchmarkRaw.labels
 type Story = (typeof benchmarkStory.models)[number]
 
 /** One model: the blue claim, the video right under it, then the three charts that back the claim. */
@@ -142,14 +133,30 @@ export function BenchmarkBlock({ story, clip }: { story: Story; clip: { src: str
         </dl>
       </div>
       <Clip src={clip.src} poster={clip.poster} label={story.clipLabel} tone={clip.tone} chip={story.clip} className="border-t-0" />
-      <Reveal as="div" stagger={0.08} className="mt-3 hidden gap-3 lg:grid lg:grid-cols-3">
-        {METRICS.map((m) => (
-          <BarChart key={m} rows={story.rows} metric={m} tag={story.tag} />
-        ))}
-      </Reveal>
-      <div className="mt-3">
-        <ChartTabs rows={story.rows} tag={story.tag} />
-      </div>
+      {/* 3D CAD is drawn in the table's own units, as Ankit's CAD chart image (2026-10-18); BIM keeps the rate charts for now. */}
+      {story.key === 'cad' ? (
+        <>
+          <Reveal as="div" stagger={0.08} className="mt-3 hidden gap-3 lg:grid lg:grid-cols-3">
+            {METRICS.map((m) => (
+              <BarChart key={m} rows={story.rows} labels={benchmarkRaw.labels[story.key]} model={story.key} metric={m} tag={story.tag} />
+            ))}
+          </Reveal>
+          <div className="mt-3">
+            <ChartTabs rows={story.rows} labels={benchmarkRaw.labels[story.key]} model={story.key} tag={story.tag} />
+          </div>
+        </>
+      ) : (
+        <>
+          <Reveal as="div" stagger={0.08} className="mt-3 hidden gap-3 lg:grid lg:grid-cols-3">
+            {RATE_METRICS.map((m) => (
+              <RateChart key={m} rows={story.rows} metric={m} tag={story.tag} />
+            ))}
+          </Reveal>
+          <div className="mt-3">
+            <RateTabs rows={story.rows} tag={story.tag} />
+          </div>
+        </>
+      )}
     </article>
   )
 }

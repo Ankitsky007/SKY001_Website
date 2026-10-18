@@ -385,6 +385,48 @@ export const benchmarkStory = {
 } as const
 
 // ---------------------------------------------------------------------------------------------
+// The same six charts drawn in the table's own units, exactly as Ankit's CAD chart image (2026-10-18):
+// IoU (higher is better), time and cost per sample (lower is better), rows in table order. Labels
+// are the table's text, character for character. Used by v8; apps/final keeps the flipped rates above.
+// ---------------------------------------------------------------------------------------------
+export const benchmarkRaw = {
+  charts: {
+    iou: { tab: 'IoU', title: 'IoU', arrow: '↑', note: 'Higher is better' },
+    time: { tab: 'Time', title: 'Time / sample', arrow: '↓', note: 'Lower is better' },
+    cost: { tab: 'Cost', title: 'Cost / sample', arrow: '↓', note: 'Lower is better' },
+  },
+  axes: {
+    cad: { iou: [0, 50, 100], time: [0, 650, 1300], cost: [0, 0.4, 0.8] },
+    bim: { iou: [0, 50, 100], time: [0, 300, 600], cost: [0, 0.25, 0.5] },
+  },
+  ticks: {
+    cad: { iou: ['0%', '50%', '100%'], time: ['0s', '650s', '1300s'], cost: ['$0', '$0.4', '$0.8'] },
+    bim: { iou: ['0%', '50%', '100%'], time: ['0s', '300s', '600s'], cost: ['$0', '$0.25', '$0.5'] },
+  },
+  /** Per model, in table order: the IoU, time and cost text as printed in the table ("–" where there is no value). */
+  labels: {
+    cad: [
+      ['79.7%', '3.9 s', '$0.005'],
+      ['79.1%', '199 s', '$0.75'],
+      ['69.4%', '110 s', '$0.31'],
+      ['54.7%', '112 s', '$0.08'],
+      ['34.4%', '764 s', '$0.30'],
+      ['9.5%', '439 s', '$0.13'],
+      ['–', '1,250 s', '$0.59'],
+    ],
+    bim: [
+      ['43.6%', '1.22 s', '$0.00237'],
+      ['40.6%', '144.4 s', '$0.4465'],
+      ['34.4%', '113.1 s', '$0.2760'],
+      ['42.3%', '345.4 s', '$0.2185'],
+      ['28.8%', '254.5 s', '$0.1110'],
+      ['33.7%', '114.0 s', '$0.2700'],
+      ['28.2%', '592.3 s', '$0.3050'],
+    ],
+  },
+} as const
+
+// ---------------------------------------------------------------------------------------------
 // The four charts embedded in the content doc ("SKY PAGE" images 03 and 04), as data, so a page can
 // redraw them with the same axes. Labels are the doc's. Values are the research team's figures
 // behind those images (benchmark deck and source notes, 28 Sep 2026); the BIM dollar costs are the

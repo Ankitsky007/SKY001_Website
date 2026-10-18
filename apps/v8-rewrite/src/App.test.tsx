@@ -1,13 +1,13 @@
 // Reveal hides blocks (visibility) until they scroll into view. Hidden nodes have no accessible
 // name, so headings inside them are matched by their text instead (minus the decorative slashes).
-import { backers, benchmarkStory, blogPage, hero, research, showcase, sky001, team, waitlistForm } from '@skyfall/core/v8'
+import { backers, benchmarkRaw, benchmarkStory, blogPage, hero, research, showcase, sky001, team, waitlistForm } from '@skyfall/core/v8'
 import { blogPosts } from '@skyfall/core/blog'
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it } from 'vitest'
 import App from './App'
 import { FrontPage } from './pages/FrontPage'
 import { LaunchPage } from './pages/LaunchPage'
-import { axisMax, formatRate, metricValue } from './lib/benchmarkRates'
+import { formatLike, metricValue } from './lib/benchmarkRates'
 
 function heading(text: string) {
   const found = screen.getAllByRole('heading', { hidden: true }).find((h) => h.textContent?.replace(/^\/|\/$/g, '') === text)
@@ -95,18 +95,18 @@ describe('SKY-001 page', () => {
     for (const s of sky001.stages.items) expect(heading(s.title)).toBeInTheDocument()
   })
 
-  it('draws the six benchmark charts with SKY-001 first in each', () => {
+  it('draws 3D CAD in the table units and order, and BIM as rates for now', () => {
     render(<LaunchPage />)
-    for (const m of benchmarkStory.models) {
-      for (const metric of ['speed', 'cost', 'iou'] as const) {
-        const name = `${benchmarkStory.charts[metric].title}, ${m.tag}: `
-        const charts = screen.getAllByRole('img', { hidden: true }).filter((el) => el.getAttribute('aria-label')?.startsWith(name))
-        expect(charts.length).toBeGreaterThan(0)
-        for (const c of charts) expect(c.getAttribute('aria-label')).toMatch(/: SKY-001 /)
-      }
+    const labels = () => screen.getAllByRole('img', { hidden: true }).map((el) => el.getAttribute('aria-label') ?? '')
+    for (const metric of ['iou', 'time', 'cost'] as const) {
+      const charts = labels().filter((l) => l.startsWith(`${benchmarkRaw.charts[metric].title}, 3D CAD, `))
+      expect(charts.length).toBeGreaterThan(0)
+      for (const c of charts) expect(c).toMatch(/: SKY-001 /)
     }
-    const cadIou = screen.getAllByRole('img', { hidden: true }).find((el) => el.getAttribute('aria-label')?.startsWith('Accuracy (IoU), 3D CAD: '))
-    expect(cadIou?.getAttribute('aria-label')).toContain('Grok 4.7 Failed')
+    expect(labels().find((l) => l.startsWith('Time / sample, 3D CAD, '))).toContain('SKY-001 3.9 s, GPT-6 Astra 199 s')
+    expect(labels().find((l) => l.startsWith('IoU, 3D CAD, '))).toContain('Grok 4.7 –')
+    expect(labels().some((l) => l.startsWith('Time / sample, BIM, '))).toBe(false)
+    for (const metric of ['speed', 'cost', 'iou'] as const) expect(labels().some((l) => l.startsWith(`${benchmarkStory.charts[metric].title}, BIM: SKY-001 `))).toBe(true)
   })
 
   it('states claims that match the benchmark numbers', () => {
@@ -123,12 +123,18 @@ describe('SKY-001 page', () => {
     }
   })
 
-  it('rates speed and cost so the biggest bar is the best', () => {
-    expect(formatRate(metricValue(benchmarkStory.models[0].rows[0], 'speed')!)).toBe('923')
-    expect(formatRate(metricValue(benchmarkStory.models[1].rows[0], 'speed')!)).toBe('2,951')
-    expect(formatRate(metricValue(benchmarkStory.models[1].rows[0], 'cost')!)).toBe('422')
-    expect(formatRate(metricValue(benchmarkStory.models[0].rows[5], 'speed')!)).toBe('8.20')
-    expect([923, 200, 2951, 422].map(axisMax)).toEqual([1000, 200, 3000, 500])
+  it('labels every bar with the table text for its own number', () => {
+    for (const m of benchmarkStory.models) {
+      m.rows.forEach((r, i) => {
+        const [iou, time, cost] = benchmarkRaw.labels[m.key][i]
+        expect(iou).toBe(r.iou === null ? '–' : `${r.iou}%`)
+        expect(Number(time.replace(/[ s,]/g, ''))).toBe(r.seconds)
+        expect(Number(cost.replace('$', ''))).toBe(r.cost)
+      })
+    }
+    expect(formatLike('1,250 s', 625)).toBe('625 s')
+    expect(formatLike('$0.00237', 0.001)).toBe('$0.00100')
+    expect(metricValue(benchmarkStory.models[0].rows[0], 'time')).toBe(3.9)
   })
 
   it('offers a film for each of the four models in the turning row', () => {
