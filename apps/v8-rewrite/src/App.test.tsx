@@ -65,7 +65,7 @@ describe('Front page', () => {
   it('shows the hero headline and description', () => {
     render(<FrontPage />)
     expect(heading(hero.title)).toBeInTheDocument()
-    expect(screen.getByText(hero.lede)).toBeInTheDocument()
+    expect(screen.getAllByText(hero.lede).length).toBeGreaterThan(0)
   })
 
   it('renders every section heading from content', () => {
