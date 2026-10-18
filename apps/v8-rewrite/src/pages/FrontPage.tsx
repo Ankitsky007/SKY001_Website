@@ -308,6 +308,8 @@ function Backers() {
           </li>
         ))}
       </ul>
+      {/* option C, at option B's size (Ankit, 2026-10-18) */}
+      <p className="mt-8 text-center text-xl font-medium tracking-[-0.04em] text-muted md:text-2xl">{backers.more}</p>
     </Section>
   )
 }

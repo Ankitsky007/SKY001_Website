@@ -5,7 +5,7 @@
 // SKY-001, and the SKY-001 title stays as the doc has it. Sections the rewrite does not cover keep
 // the shared copy. The exports below shadow the same names from ./index.
 // ---------------------------------------------------------------------------------------------
-import { hero as baseHero, research as baseResearch, site as baseSite, sky001 as baseSky001, team as baseTeam } from './content'
+import { backers as baseBackers, hero as baseHero, research as baseResearch, site as baseSite, sky001 as baseSky001, team as baseTeam } from './content'
 
 export * from './index'
 
@@ -87,6 +87,11 @@ export const team = {
   ],
   experienceLabel: 'Our teams bring experience from',
   experienceFrom: ['Microsoft', 'University of Toronto', 'MILA', 'Vector Institute', 'AMII', 'YCombinator'],
+} as const
+
+export const backers = {
+  ...baseBackers,
+  more: 'And many others.',
 } as const
 
 export const sky001 = {
