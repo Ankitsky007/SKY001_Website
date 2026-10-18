@@ -1,4 +1,4 @@
-import { backers, hero, research, sky001Cta, team } from '@skyfall/core/v8'
+import { backers, hero, research, sky001, sky001Cta, team } from '@skyfall/core/v8'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import heroClip from '../assets/media/hero.mp4'
@@ -16,7 +16,7 @@ import { StepCards } from '../components/StepCards'
 import { ParetoFigure } from '../figures/front'
 import { footerPages, navTabs } from '../lib/nav'
 import { SECTOR_TONES } from '../lib/pixelIcons'
-import { HOME, LAUNCH, RESEARCH } from '../lib/routes'
+import { HOME, LAUNCH, RESEARCH, VIDEO_HREF } from '../lib/routes'
 import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const route = (href: string) => (href === '#sky-001' ? LAUNCH : href === '#research' ? RESEARCH : href)
@@ -40,7 +40,8 @@ function Hero() {
         <p className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
         <div className="mt-8 flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row md:mt-12">
           <ButtonLink href={LAUNCH}>{hero.primaryCta.label}</ButtonLink>
-          <TextLink href={RESEARCH}>{hero.secondaryCta.label}</TextLink>
+          {/* opens the launch video pop-up, as on the SKY-001 page (Ankit, 2026-10-18) */}
+          <TextLink href={VIDEO_HREF}>{sky001.intro.video.label}</TextLink>
         </div>
       </Reveal>
     </section>
