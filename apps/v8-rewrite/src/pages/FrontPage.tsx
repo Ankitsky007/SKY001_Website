@@ -82,9 +82,9 @@ function Mission() {
   return (
     <Section id="research">
       <p className={`${LABEL} text-brand`}>[ {research.mission.label} ]</p>
-      {/* option B (Ankit, 2026-10-18): the lead line in a ruled column on the left, the statement on the right */}
-      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)] lg:items-end lg:gap-12">
-        <RuleCol label={<span aria-hidden="true" className="block size-2 bg-brand" />}>
+      {/* option B (Ankit, 2026-10-18): the lead line in a ruled column on the left, its top level with the statement on the right */}
+      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)] lg:items-start lg:gap-12">
+        <RuleCol label={<span aria-hidden="true" className="block size-2 bg-brand" />} className="justify-start! gap-4! lg:mt-2">
           <p className={`${COPY} text-[20px] md:text-[26px]`}>{research.mission.lead}</p>
         </RuleCol>
         <p ref={ref} className={`${DISPLAY} max-w-[20ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:text-[clamp(52px,4.6vw,68px)] lg:leading-[0.96]`}>

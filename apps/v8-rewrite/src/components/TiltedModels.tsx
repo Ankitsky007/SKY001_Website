@@ -89,7 +89,7 @@ export function TiltedModels({ className = '' }: { className?: string }) {
                 >
                   <img src={media.final(m.id)} alt="" loading="lazy" draggable={false} className="size-full object-contain" />
                   <span className={`${LABEL} absolute top-2 left-2.5 text-muted`}>
-                    <span className="text-ink">{m.kind}</span> / {m.leaves} parts
+                    <span className="text-ink">{m.kind}</span>
                   </span>
                   <span className="absolute inset-0 grid place-items-center bg-studio/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100 group-focus-visible:opacity-100">
                     <span className={`${LABEL} flex items-center gap-2.5 bg-ink px-4 py-3 text-white transition-colors group-hover:bg-brand`}>
@@ -112,13 +112,13 @@ export function TiltedModels({ className = '' }: { className?: string }) {
             <div className="flex items-center justify-between gap-4 border-b border-ink bg-paper pl-4">
               <p className={`${LABEL} flex min-w-0 items-center gap-2.5 text-ink`}>
                 <span aria-hidden="true" className="block size-2 shrink-0 bg-brand" />
-                <span className="truncate">{film.title}</span> <span className="text-faint">/</span> <span className="shrink-0 text-muted">{film.leaves} parts</span>
+                <span className="truncate">{film.title}</span>
               </p>
               <button type="button" onClick={() => setOpen(null)} className={`${LABEL} inline-flex h-12 shrink-0 cursor-pointer items-center bg-ink px-5 text-white hover:bg-brand`}>
                 Close ×
               </button>
             </div>
-            <video key={film.id} src={media.reel(film.id)} poster={media.poster(film.id)} aria-label={`${film.title}: from one image to ${film.leaves} parts`} autoPlay loop muted playsInline controls className="block aspect-[8/5] w-full bg-studio" />
+            <video key={film.id} src={media.reel(film.id)} poster={media.poster(film.id)} aria-label={`${film.title}: from one image to a 3D model`} autoPlay loop muted playsInline controls className="block aspect-[8/5] w-full bg-studio" />
           </div>
         )}
       </dialog>
