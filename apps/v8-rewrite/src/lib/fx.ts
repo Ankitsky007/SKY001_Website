@@ -1,0 +1,79 @@
+import { useSyncExternalStore } from 'react'
+
+/** The backgrounds on offer. Pick one with `?fx=<id>` or the review picker. */
+export const FX = [
+  { id: 'dots', label: 'Dots', mode: 0 },
+  { id: 'contours', label: 'Contours', mode: 1 },
+  { id: 'cells', label: 'Grid cells', mode: 2 },
+  { id: 'floor', label: 'Floor grid', mode: 3 },
+  { id: 'dither', label: 'Dither cloud', mode: 4 },
+  // Hero-only experiments (DOM and 2D canvas, not WebGL). Other sections keep the contours while one is on.
+  { id: 'warp', label: 'Warp', mode: 1 },
+  { id: 'pulse', label: 'Grid pulse', mode: 1 },
+] as const
+
+export type FxId = (typeof FX)[number]['id']
+
+const DEFAULT: FxId = 'contours'
+const listeners = new Set<() => void>()
+
+function read(): FxId {
+  if (typeof window === 'undefined') return DEFAULT
+  const q = new URLSearchParams(window.location.search).get('fx')
+  return FX.some((f) => f.id === q) ? (q as FxId) : DEFAULT
+}
+
+/** Switch the background and keep the choice in the URL so the link can be shared. */
+export function setFx(id: FxId) {
+  const url = new URL(window.location.href)
+  url.searchParams.set('fx', id)
+  try {
+    window.history.replaceState(null, '', url)
+  } catch {
+    /* some embedded viewers refuse address changes */
+  }
+  listeners.forEach((l) => l())
+}
+
+export function useFx() {
+  const id = useSyncExternalStore(
+    (l) => {
+      listeners.add(l)
+      return () => listeners.delete(l)
+    },
+    read,
+    () => DEFAULT,
+  )
+  return FX.find((f) => f.id === id)!
+}
+
+export type CampusTone = 'light' | 'dark'
+
+function readTone(): CampusTone {
+  if (typeof window === 'undefined') return 'light'
+  return new URLSearchParams(window.location.search).get('campus') === 'dark' ? 'dark' : 'light'
+}
+
+/** Light or dark version of the front-page campus hero, kept in the URL as `?campus=dark`. */
+export function setCampusTone(tone: CampusTone) {
+  const url = new URL(window.location.href)
+  if (tone === 'dark') url.searchParams.set('campus', 'dark')
+  else url.searchParams.delete('campus')
+  try {
+    window.history.replaceState(null, '', url)
+  } catch {
+    /* some embedded viewers refuse address changes */
+  }
+  listeners.forEach((l) => l())
+}
+
+export function useCampusTone() {
+  return useSyncExternalStore(
+    (l) => {
+      listeners.add(l)
+      return () => listeners.delete(l)
+    },
+    readTone,
+    () => 'light' as CampusTone,
+  )
+}
