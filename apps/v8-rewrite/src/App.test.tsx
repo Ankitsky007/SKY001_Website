@@ -62,7 +62,7 @@ describe('App routing', () => {
 })
 
 describe('Front page', () => {
-  it('shows the hero headline, with the description in the mission section', () => {
+  it('shows the hero headline and description', () => {
     render(<FrontPage />)
     expect(heading(hero.title)).toBeInTheDocument()
     expect(screen.getAllByText(hero.lede).length).toBeGreaterThan(0)

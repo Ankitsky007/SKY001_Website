@@ -28,8 +28,7 @@ const SHOW_SKY001 = false
 
 /**
  * Front-page hero: the Grid cells field behind the headline and buttons, centred and set large, as
- * on the SKY-001 page (Ankit, 2026-10-18). The copy sits in the middle of the first screen; the
- * description line now lives in the mission section instead.
+ * on the SKY-001 page (Ankit, 2026-10-18). The copy sits in the middle of the first screen.
  */
 function Hero() {
   return (
@@ -37,7 +36,8 @@ function Hero() {
       <HeroGrid />
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <h1 className={`${H1} max-w-[13ch] lg:text-[136px]`}>{hero.title}</h1>
-        <div className="mt-10 flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row md:mt-14">
+        <p className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
+        <div className="mt-8 flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row md:mt-12">
           <ButtonLink href={LAUNCH}>{hero.primaryCta.label}</ButtonLink>
           <TextLink href={RESEARCH}>{hero.secondaryCta.label}</TextLink>
         </div>
@@ -67,7 +67,7 @@ function ReelBand() {
  */
 /**
  * The mission statement, filled in word by word as it scrolls through the screen (grey to ink, the
- * emphasis to brand blue), beside the lead line, with a chapter label above. The globe was removed (Ankit, 2026-10-18).
+ * emphasis to brand blue), with a chapter label above. The globe was removed (Ankit, 2026-10-18).
  */
 function Mission() {
   const ref = useRef<HTMLParagraphElement>(null)
@@ -84,20 +84,14 @@ function Mission() {
   return (
     <Section id="research">
       <p className={`${LABEL} text-brand`}>[ {research.mission.label} ]</p>
-      {/* option B (Ankit, 2026-10-18): the lead line in a ruled column on the left, level with the statement's last line */}
-      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)] lg:items-end lg:gap-12">
-        <RuleCol label={<span aria-hidden="true" className="block size-2 bg-brand" />}>
-          <p className={`${COPY} text-[20px] md:text-[26px]`}>{research.mission.lead}</p>
-        </RuleCol>
-        <p ref={ref} className={`${DISPLAY} max-w-[20ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:text-[clamp(52px,4.6vw,68px)] lg:leading-[0.96]`}>
-          {words.map(({ w, em }, i) => (
-            <span key={i} data-word className={em ? 'text-brand' : undefined}>
-              {w}
-              {i < words.length - 1 ? ' ' : ''}
-            </span>
-          ))}
-        </p>
-      </div>
+      <p ref={ref} className={`${DISPLAY} mt-6 max-w-[22ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[clamp(56px,5vw,76px)] lg:leading-[0.94]`}>
+        {words.map(({ w, em }, i) => (
+          <span key={i} data-word className={em ? 'text-brand' : undefined}>
+            {w}
+            {i < words.length - 1 ? ' ' : ''}
+          </span>
+        ))}
+      </p>
     </Section>
   )
 }
