@@ -177,10 +177,9 @@ function Next() {
           </RuleCol>
         </Reveal>
         <Reveal className="flex flex-col justify-between gap-8">
-          <ul className="grid grid-cols-2 border-t border-l border-line sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
-            {next.domains.map((d, i) => (
-              <DomainCell key={d} name={d} icon={DOMAIN_ICONS[i]} tone={DOMAIN_TONES[i]} />
-            ))}
+          {/* six domains in a 3 by 2 grid, without molecule design (Ankit, 2026-10-18); two across on phones */}
+          <ul className="grid grid-cols-2 border-t border-l border-line sm:grid-cols-3">
+            {next.domains.map((d, i) => (d === 'Molecule design' ? null : <DomainCell key={d} name={d} icon={DOMAIN_ICONS[i]} tone={DOMAIN_TONES[i]} />))}
           </ul>
           <RuleCol label="[02]">
             <p className={`${COPY} text-[20px] text-brand md:text-[26px]`}>{next.closing}</p>
