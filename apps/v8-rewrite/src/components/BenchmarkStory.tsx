@@ -1,6 +1,5 @@
 import { benchmarkRaw, benchmarkStory, type StoryRow } from '@skyfall/core/v8'
-import { formatLike, METRICS, metricValue, RATE_METRICS, type Metric } from '../lib/benchmarkRates'
-import { RateChart, RateTabs } from './RateChart'
+import { formatLike, METRICS, metricValue, type Metric } from '../lib/benchmarkRates'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useId, useRef, useState } from 'react'
 import { LineGrid } from './LineGrid'
@@ -8,9 +7,8 @@ import { Clip } from './Clip'
 import { CountUp, DISPLAY, H3, LABEL, RuleCol, Window } from '../lib/ui'
 
 /** One horizontal bar chart in the table's own units and row order, as Ankit's chart image (2026-10-18). SKY-001's row is blue on a tint; "–" has no bar. */
-export function BarChart({ rows, labels, model, metric, tag }: { rows: readonly StoryRow[]; labels: readonly (readonly string[])[]; model: ModelKey; metric: Metric; tag: string }) {
-  const meta = benchmarkRaw.charts[metric]
-  const col = METRICS.indexOf(metric)
+export function BarChart({ rows, labels, model, metric, tag }: { rows: readonly StoryRow[]; labels: readonly string[]; model: ModelKey; metric: Metric; tag: string }) {
+  const meta = { ...benchmarkRaw.charts[metric], ...(model === 'bim' && metric !== 'iou' ? { title: benchmarkRaw.titles.bim[metric] } : {}) }
   const axis = benchmarkRaw.axes[model][metric]
   const tickLabels = benchmarkRaw.ticks[model][metric]
   const max = axis[axis.length - 1]
@@ -49,11 +47,11 @@ export function BarChart({ rows, labels, model, metric, tag }: { rows: readonly 
       className="h-full"
       bodyClassName="bg-paper px-3 pt-3 pb-3 md:px-4"
     >
-      <div ref={box} role="img" aria-label={`${meta.title}, ${tag}, ${meta.note.toLowerCase()}: ${rows.map((r, i) => `${r.model} ${labels[i][col]}`).join(', ')}`}>
+      <div ref={box} role="img" aria-label={`${meta.title}, ${tag}, ${meta.note.toLowerCase()}: ${rows.map((r, i) => `${r.model} ${labels[i]}`).join(', ')}`}>
         <ul aria-hidden="true">
           {rows.map((r, i) => {
             const v = metricValue(r, metric)
-            const label = labels[i][col]
+            const label = labels[i]
             return (
               <li key={r.model} className={`grid min-h-8 grid-cols-[minmax(0,7.5rem)_1fr_4.5rem] items-center gap-2 border-b border-line text-[13px] tracking-[-0.02em] md:text-sm ${r.ours ? '-mx-3 bg-tint px-3 font-medium text-brand md:-mx-4 md:px-4' : ''}`}>
                 <span className="truncate">{r.model}</span>
@@ -82,13 +80,16 @@ export function BarChart({ rows, labels, model, metric, tag }: { rows: readonly 
 }
 
 /** Phones and tablets: one chart at a time behind IoU / Time / Cost tabs. */
-function ChartTabs({ rows, labels, model, tag }: { rows: readonly StoryRow[]; labels: readonly (readonly string[])[]; model: ModelKey; tag: string }) {
-  const [metric, setMetric] = useState<Metric>('iou')
+function ChartTabs({ story }: { story: Story }) {
+  const model = story.key
+  const tag = story.tag
+  const metrics = benchmarkRaw.metrics[model]
+  const [metric, setMetric] = useState<Metric>(metrics[0])
   const id = useId()
   return (
     <div className="lg:hidden">
       <div role="tablist" aria-label={`${tag} charts`} className="grid grid-cols-3 border-x border-t border-ink">
-        {METRICS.map((m, i) => (
+        {metrics.map((m, i) => (
           <button
             key={m}
             role="tab"
@@ -103,7 +104,7 @@ function ChartTabs({ rows, labels, model, tag }: { rows: readonly StoryRow[]; la
         ))}
       </div>
       <div role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-${metric}`}>
-        <BarChart key={metric} rows={rows} labels={labels} model={model} metric={metric} tag={tag} />
+        <BarChart key={metric} rows={rowsFor(story, metric)} labels={labelsFor(story, metric)} model={model} metric={metric} tag={tag} />
       </div>
     </div>
   )
@@ -111,6 +112,17 @@ function ChartTabs({ rows, labels, model, tag }: { rows: readonly StoryRow[]; la
 
 type ModelKey = keyof typeof benchmarkRaw.labels
 type Story = (typeof benchmarkStory.models)[number]
+
+/** 3D CAD's rows are the story's own. BIM's time and cost come from its floor-plan table; its IoU from the earlier BIM benchmark (Ankit, 2026-10-18). */
+function rowsFor(story: Story, metric: Metric): readonly StoryRow[] {
+  return story.key === 'bim' && metric !== 'iou' ? benchmarkRaw.rows.bim : story.rows
+}
+
+/** The table text for each row of one chart. */
+function labelsFor(story: Story, metric: Metric): readonly string[] {
+  if (story.key === 'bim' && metric === 'iou') return benchmarkRaw.iouLabels.bim
+  return benchmarkRaw.labels[story.key].map((row) => row[METRICS.indexOf(metric)])
+}
 
 /** One model: the blue claim, the video right under it, then the three charts that back the claim. */
 export function BenchmarkBlock({ story, clip }: { story: Story; clip: { src: string; poster: string; tone: 'dark' | 'native-light' } }) {
@@ -133,30 +145,15 @@ export function BenchmarkBlock({ story, clip }: { story: Story; clip: { src: str
         </dl>
       </div>
       <Clip src={clip.src} poster={clip.poster} label={story.clipLabel} tone={clip.tone} chip={story.clip} className="border-t-0" />
-      {/* 3D CAD is drawn in the table's own units, as Ankit's CAD chart image (2026-10-18); BIM keeps the rate charts for now. */}
-      {story.key === 'cad' ? (
-        <>
-          <Reveal as="div" stagger={0.08} className="mt-3 hidden gap-3 lg:grid lg:grid-cols-3">
-            {METRICS.map((m) => (
-              <BarChart key={m} rows={story.rows} labels={benchmarkRaw.labels[story.key]} model={story.key} metric={m} tag={story.tag} />
-            ))}
-          </Reveal>
-          <div className="mt-3">
-            <ChartTabs rows={story.rows} labels={benchmarkRaw.labels[story.key]} model={story.key} tag={story.tag} />
-          </div>
-        </>
-      ) : (
-        <>
-          <Reveal as="div" stagger={0.08} className="mt-3 hidden gap-3 lg:grid lg:grid-cols-3">
-            {RATE_METRICS.map((m) => (
-              <RateChart key={m} rows={story.rows} metric={m} tag={story.tag} />
-            ))}
-          </Reveal>
-          <div className="mt-3">
-            <RateTabs rows={story.rows} tag={story.tag} />
-          </div>
-        </>
-      )}
+      {/* Both models are drawn in their tables' own units (Ankit, 2026-10-18): IoU, time and cost. */}
+      <Reveal as="div" stagger={0.08} className={`mt-3 hidden gap-3 lg:grid lg:grid-cols-3`}>
+        {benchmarkRaw.metrics[story.key].map((m) => (
+          <BarChart key={m} rows={rowsFor(story, m)} labels={labelsFor(story, m)} model={story.key} metric={m} tag={story.tag} />
+        ))}
+      </Reveal>
+      <div className="mt-3">
+        <ChartTabs story={story} />
+      </div>
     </article>
   )
 }

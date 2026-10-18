@@ -5,7 +5,7 @@
 // SKY-001, and the SKY-001 title stays as the doc has it. Sections the rewrite does not cover keep
 // the shared copy. The exports below shadow the same names from ./index.
 // ---------------------------------------------------------------------------------------------
-import { backers as baseBackers, hero as baseHero, research as baseResearch, site as baseSite, sky001 as baseSky001, team as baseTeam } from './content'
+import { backers as baseBackers, benchmarkStory as baseBenchmarkStory, hero as baseHero, research as baseResearch, site as baseSite, sky001 as baseSky001, team as baseTeam } from './content'
 
 export * from './index'
 
@@ -129,4 +129,18 @@ export const sky001 = {
     ...baseSky001.moment,
     body: 'Our World Model significantly outperforms LLMs because LLMs are autoregressive in nature and not designed for Visual Reasoning. Our approach is the best path to scale compared to LLMs and a game changer for the AI industry.',
   },
+} as const
+
+// BIM's speed and cost claims come from the floor-plan table (1,000 held-out plans, Ankit, 2026-10-18),
+// as that table prints them: 117× faster and 211× cheaper than GPT-6 Astra. The accuracy claim is unchanged.
+const [baseCad, baseBim] = baseBenchmarkStory.models
+export const benchmarkStory = {
+  ...baseBenchmarkStory,
+  models: [
+    baseCad,
+    {
+      ...baseBim,
+      claims: [{ value: '117×', label: 'faster', detail: '0.94 s vs 110.1 s' }, { value: '211×', label: 'lower cost', detail: '$0.0016 vs $0.330' }, baseBim.claims[2]],
+    },
+  ],
 } as const
