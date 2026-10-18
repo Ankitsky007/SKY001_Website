@@ -278,9 +278,6 @@ function Team() {
           <LogoRow names={team.experienceFrom} />
         </div>
       </Reveal>
-      <div id="careers" className="mt-8">
-        <TextLink href={team.careersCta.href}>{team.careersCta.label}</TextLink>
-      </div>
     </Section>
   )
 }

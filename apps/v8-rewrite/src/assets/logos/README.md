@@ -14,6 +14,9 @@ for this purpose, unaltered, and check each one's brand guidelines before launch
   (downloaded 2026-10-13 with Ankit's OK), recoloured from its purple to ink. Original in `originals/mila.svg`.
 - `maluuba.png`, `microsoft.png`, `university-of-waterloo.png`, `y-combinator.png`, `vector-institute.png`:
   monochrome ink on a transparent background, made from the files in `originals/` (Ankit, 2026-10-13).
+- `university-of-toronto.png`, `amii.png`: monochrome ink on a transparent background, made from the
+  files Ankit supplied on 2026-10-18 (in `originals/`).
+- `ycombinator.png`: a copy of `y-combinator.png` so the rewrite's "YCombinator" spelling finds it.
 - `originals/`: the files exactly as supplied, kept for later use. Not bundled into the site.
 - `originals/mila-university-NOT-mila-quebec.png` is the logo of Mila University, a different
   organisation from Mila, the Quebec AI Institute named in the content doc. It is not used.
