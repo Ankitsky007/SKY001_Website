@@ -7,6 +7,7 @@ import { HeroGrid } from '../components/HeroGrid'
 import { Clip } from '../components/Clip'
 import { Footer } from '../components/Footer'
 import { HalftoneField } from '../components/HalftoneField'
+import { LineGrid } from '../components/LineGrid'
 import { LogoRow } from '../components/LogoRow'
 import { Nav } from '../components/Nav'
 import type { PixelIconName } from '../components/PixelIcon'
@@ -61,18 +62,13 @@ function ReelBand() {
 }
 
 /**
- * The mission statement, filled in word by word as it scrolls through the screen (grey to ink, the
- * emphasis to brand blue), with a chapter label above and, beside it, a globe of the enterprise's
- * functions that turns as the section scrolls by.
- */
-/**
- * The mission statement, filled in word by word as it scrolls through the screen (grey to ink, the
- * emphasis to brand blue), with a chapter label above. The globe was removed (Ankit, 2026-10-18).
+ * The mission statement in white on the logo-blue band, each word brightening as it scrolls through
+ * the screen, with a chapter label above. The globe was removed (Ankit, 2026-10-18).
  */
 function Mission() {
   const ref = useRef<HTMLParagraphElement>(null)
   const reduced = useReducedMotion()
-  const words = [...research.mission.before.trim().split(' ').map((w) => ({ w, em: false })), ...research.mission.emphasis.split(' ').map((w) => ({ w, em: true }))]
+  const words = `${research.mission.before.trim()} ${research.mission.emphasis}`.split(' ')
   useGSAP(
     () => {
       if (reduced || !ref.current) return
@@ -82,11 +78,12 @@ function Mission() {
     { dependencies: [reduced], scope: ref },
   )
   return (
-    <Section id="research">
-      <p className={`${LABEL} text-brand`}>[ {research.mission.label} ]</p>
+    // option B (Ankit, 2026-10-18): the logo-blue band with the line grid, the statement in white
+    <Section id="research" ground="blue" field={<LineGrid tone="blue" cell={56} mask="none" />}>
+      <p className={`${LABEL} text-white`}>[ {research.mission.label} ]</p>
       <p ref={ref} className={`${DISPLAY} mt-6 max-w-[22ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[clamp(56px,5vw,76px)] lg:leading-[0.94]`}>
-        {words.map(({ w, em }, i) => (
-          <span key={i} data-word className={em ? 'text-brand' : undefined}>
+        {words.map((w, i) => (
+          <span key={i} data-word>
             {w}
             {i < words.length - 1 ? ' ' : ''}
           </span>
