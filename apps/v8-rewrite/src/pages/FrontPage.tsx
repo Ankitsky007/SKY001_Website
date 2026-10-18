@@ -226,7 +226,10 @@ function Matters() {
       <ul className="mt-10 grid grid-cols-2 border-t border-l border-line md:grid-cols-6 lg:mt-14 lg:grid-cols-5">
         {m.sectors.map((sector, i) => (
           <IconCell key={sector} icon={SECTOR_ICONS[i]} tone={SECTOR_TONES[i]} className="min-h-40 last:col-span-2 md:col-span-2 md:min-h-52 md:nth-[n+4]:col-span-3 lg:col-span-1 lg:nth-[n+4]:col-span-1">
-            <span className={`${LABEL} block text-faint`}>[0{i + 1}]</span>
+            {/* "And beyond" is not a sector of its own, so it carries no number; the blank keeps its title level (Ankit, 2026-10-18) */}
+            <span aria-hidden={i === m.sectors.length - 1 || undefined} className={`${LABEL} block text-faint ${i === m.sectors.length - 1 ? 'invisible' : ''}`}>
+              [0{i + 1}]
+            </span>
             <span className={`${H3} mt-1 block`}>{sector}</span>
           </IconCell>
         ))}
