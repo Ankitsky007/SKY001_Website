@@ -26,16 +26,18 @@ const SHOW_REEL = false
 // The SKY-001 band is hidden too: the content doc's front page does not introduce SKY-001 (Ankit, 2026-10-14).
 const SHOW_SKY001 = false
 
-/** Front-page hero: the Grid cells field behind the copy, centred and set large, as on the SKY-001 page (Ankit, 2026-10-18). */
+/**
+ * Front-page hero: the Grid cells field behind the headline and buttons, centred and set large, as
+ * on the SKY-001 page (Ankit, 2026-10-18). The copy sits in the middle of the first screen; the
+ * description line now lives in the mission section instead.
+ */
 function Hero() {
   return (
-    // the headline starts below the strongest rows of squares so it reads cleanly (Ankit, 2026-10-18)
-    <section id="top" className={`relative overflow-hidden bg-paper ${GUTTER} pt-48 pb-14 md:pt-56 md:pb-20 lg:pt-72`}>
+    <section id="top" className={`relative flex min-h-[calc(100svh-4rem)] flex-col justify-center overflow-hidden bg-paper ${GUTTER} py-20 lg:min-h-svh lg:pt-14`}>
       <HeroGrid />
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <h1 className={`${H1} max-w-[13ch] lg:text-[136px]`}>{hero.title}</h1>
-        <p className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
-        <div className="mt-8 flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row md:mt-12">
+        <div className="mt-10 flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row md:mt-14">
           <ButtonLink href={LAUNCH}>{hero.primaryCta.label}</ButtonLink>
           <TextLink href={RESEARCH}>{hero.secondaryCta.label}</TextLink>
         </div>
