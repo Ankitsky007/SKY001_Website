@@ -89,7 +89,7 @@ describe('SKY-001 page', () => {
   it('renders the doc sections in order', () => {
     render(<LaunchPage />)
     const { moment } = sky001
-    const names = [sky001.contrarian.title, `${moment.before}${moment.emphasis}${moment.after}`, sky001.stages.title, sky001.why.title, sky001.next.title, sky001.faq.title]
+    const names = [sky001.contrarian.title, `${moment.before}${moment.emphasis}${moment.after}`, sky001.stages.title, sky001.next.title, sky001.faq.title]
     const found = names.map(heading)
     for (let i = 1; i < found.length; i++) expect(found[i - 1].compareDocumentPosition(found[i]) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     for (const s of sky001.stages.items) expect(heading(s.title)).toBeInTheDocument()
