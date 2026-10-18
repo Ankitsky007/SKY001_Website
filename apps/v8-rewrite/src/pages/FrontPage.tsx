@@ -65,7 +65,7 @@ function ReelBand() {
  */
 /**
  * The mission statement, filled in word by word as it scrolls through the screen (grey to ink, the
- * emphasis to brand blue), with a chapter label above. The globe beside it was removed (Ankit, 2026-10-18).
+ * emphasis to brand blue), beside the lead line, with a chapter label above. The globe was removed (Ankit, 2026-10-18).
  */
 function Mission() {
   const ref = useRef<HTMLParagraphElement>(null)
@@ -82,14 +82,20 @@ function Mission() {
   return (
     <Section id="research">
       <p className={`${LABEL} text-brand`}>[ {research.mission.label} ]</p>
-      <p ref={ref} className={`${DISPLAY} mt-6 max-w-[22ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[clamp(56px,5vw,76px)] lg:leading-[0.94]`}>
-        {words.map(({ w, em }, i) => (
-          <span key={i} data-word className={em ? 'text-brand' : undefined}>
-            {w}
-            {i < words.length - 1 ? ' ' : ''}
-          </span>
-        ))}
-      </p>
+      {/* option B (Ankit, 2026-10-18): the lead line in a ruled column on the left, the statement on the right */}
+      <div className="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.7fr)] lg:items-end lg:gap-12">
+        <RuleCol label={<span aria-hidden="true" className="block size-2 bg-brand" />}>
+          <p className={`${COPY} text-[20px] md:text-[26px]`}>{research.mission.lead}</p>
+        </RuleCol>
+        <p ref={ref} className={`${DISPLAY} max-w-[20ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:text-[clamp(52px,4.6vw,68px)] lg:leading-[0.96]`}>
+          {words.map(({ w, em }, i) => (
+            <span key={i} data-word className={em ? 'text-brand' : undefined}>
+              {w}
+              {i < words.length - 1 ? ' ' : ''}
+            </span>
+          ))}
+        </p>
+      </div>
     </Section>
   )
 }

@@ -19,6 +19,8 @@ export const research = {
   ...baseResearch,
   mission: {
     ...baseResearch.mission,
+    /** The line beside the mission statement (the doc puts the two together). */
+    lead: 'We’re enabling the future where an entire business can operate autonomously.',
     before: 'Our mission is to create a future where businesses are run autonomously through ',
     emphasis: 'Enterprise World Models.',
   },
