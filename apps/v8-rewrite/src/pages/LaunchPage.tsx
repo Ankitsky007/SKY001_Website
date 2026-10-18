@@ -57,7 +57,8 @@ function Hero() {
 function ModelRing() {
   const statement = useRef<HTMLParagraphElement>(null)
   const reduced = useReducedMotion()
-  const [claim, rest] = sky001.intro.statement.split(';')
+  // the hero's note now heads the model row in place of the intro statement (Ankit, 2026-10-18)
+  const [claim, rest] = sky001.hero.note.split(';')
   const words = [...claim.trim().split(' ').map((w) => ({ w, em: false })), ...(rest ? rest.trim().split(' ').map((w) => ({ w, em: true })) : [])]
   useGSAP(
     () => {
