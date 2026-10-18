@@ -5,9 +5,15 @@
 // SKY-001, and the SKY-001 title stays as the doc has it. Sections the rewrite does not cover keep
 // the shared copy. The exports below shadow the same names from ./index.
 // ---------------------------------------------------------------------------------------------
-import { hero as baseHero, research as baseResearch, sky001 as baseSky001, team as baseTeam } from './content'
+import { hero as baseHero, research as baseResearch, site as baseSite, sky001 as baseSky001, team as baseTeam } from './content'
 
 export * from './index'
+
+export const site = {
+  ...baseSite,
+  // capital A and E (Ankit, 2026-10-18)
+  tagline: 'Engineering World Models for the Autonomous Enterprise.',
+} as const
 
 export const hero = {
   ...baseHero,
