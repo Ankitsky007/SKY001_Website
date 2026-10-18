@@ -1,6 +1,6 @@
-import { backers, research, showcase, sky001Cta, team } from '@skyfall/core/v8'
-import { gsap, Reveal, ScrollTrigger, useGSAP, useReducedMotion } from '@skyfall/core/motion'
-import { useEffect, useRef } from 'react'
+import { backers, research, sky001Cta, team } from '@skyfall/core/v8'
+import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
+import { useRef } from 'react'
 import heroClip from '../assets/media/hero.mp4'
 import heroPoster from '../assets/media/s-hero.jpg'
 import { CampusHero } from '../components/CampusHero'
@@ -12,10 +12,8 @@ import { Nav } from '../components/Nav'
 import type { PixelIconName } from '../components/PixelIcon'
 import { Reel } from '../components/Reel'
 import { StepCards } from '../components/StepCards'
-import { ParetoFigure, ProblemFigure } from '../figures/front'
-import { startGlobe } from '../scenes/globe'
+import { ParetoFigure } from '../figures/front'
 import { footerPages, navTabs } from '../lib/nav'
-import { media } from '../lib/media'
 import { SECTOR_TONES } from '../lib/pixelIcons'
 import { HOME, LAUNCH, RESEARCH } from '../lib/routes'
 import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
@@ -47,44 +45,33 @@ function ReelBand() {
  * emphasis to brand blue), with a chapter label above and, beside it, a globe of the enterprise's
  * functions that turns as the section scrolls by.
  */
+/**
+ * The mission statement, filled in word by word as it scrolls through the screen (grey to ink, the
+ * emphasis to brand blue), with a chapter label above. The globe beside it was removed (Ankit, 2026-10-18).
+ */
 function Mission() {
   const ref = useRef<HTMLParagraphElement>(null)
-  const section = useRef<HTMLDivElement>(null)
-  const globe = useRef<HTMLCanvasElement>(null)
-  const turn = useRef(0)
   const reduced = useReducedMotion()
   const words = [...research.mission.before.trim().split(' ').map((w) => ({ w, em: false })), ...research.mission.emphasis.split(' ').map((w) => ({ w, em: true }))]
   useGSAP(
     () => {
-      if (!section.current) return
-      ScrollTrigger.create({ trigger: section.current, start: 'top bottom', end: 'bottom top', onUpdate: (self) => (turn.current = self.progress) })
       if (reduced || !ref.current) return
       const spans = ref.current.querySelectorAll('[data-word]')
       gsap.fromTo(spans, { opacity: 0.16 }, { opacity: 1, ease: 'none', stagger: 0.1, scrollTrigger: { trigger: ref.current, start: 'top 80%', end: 'bottom 45%', scrub: 0.4 } })
     },
-    { dependencies: [reduced], scope: section },
+    { dependencies: [reduced], scope: ref },
   )
-  useEffect(() => {
-    const cv = globe.current
-    if (!cv) return
-    return startGlobe(cv, { progress: () => turn.current, still: reduced })
-  }, [reduced])
   return (
     <Section id="research">
-      <div ref={section} className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,420px)] lg:gap-12">
-        <div>
-          <p className={`${LABEL} text-brand`}>[ {research.mission.label} ]</p>
-          <p ref={ref} className={`${DISPLAY} mt-6 max-w-[19ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[clamp(56px,5vw,76px)] lg:leading-[0.94]`}>
-            {words.map(({ w, em }, i) => (
-              <span key={i} data-word className={em ? 'text-brand' : undefined}>
-                {w}
-                {i < words.length - 1 ? ' ' : ''}
-              </span>
-            ))}
-          </p>
-        </div>
-        <canvas ref={globe} role="img" aria-label={research.mission.globeAlt} className="mx-auto block aspect-square w-full max-w-[420px] sm:max-w-[480px]" />
-      </div>
+      <p className={`${LABEL} text-brand`}>[ {research.mission.label} ]</p>
+      <p ref={ref} className={`${DISPLAY} mt-6 max-w-[22ch] text-[34px] leading-[0.98] normal-case sm:text-[56px] lg:mt-8 lg:text-[clamp(56px,5vw,76px)] lg:leading-[0.94]`}>
+        {words.map(({ w, em }, i) => (
+          <span key={i} data-word className={em ? 'text-brand' : undefined}>
+            {w}
+            {i < words.length - 1 ? ' ' : ''}
+          </span>
+        ))}
+      </p>
     </Section>
   )
 }
@@ -94,37 +81,26 @@ function Problem() {
   return (
     <Section id="problem" ground="studio">
       <Display>{p.title}</Display>
-      <div className="mt-10 grid gap-10 lg:mt-14 lg:grid-cols-[1.3fr_1fr] lg:gap-12">
-        <div>
-          {/* the rewrite's three numbered problems, then the two lines on why next-token prediction falls short */}
-          <Reveal as="ol" stagger={0.08} className="grid gap-8 sm:grid-cols-3 lg:gap-6">
-            {p.points.map((point, i) => (
-              <li key={point.title} className="flex">
-                <RuleCol label={`[0${i + 1}]`}>
-                  <h3 className="text-[19px] leading-[1.15] font-medium tracking-[-0.03em] md:text-xl">{point.title}</h3>
-                  <p className="mt-3 text-[15px] leading-[1.3] tracking-[-0.02em] text-body md:text-base">{point.body}</p>
-                </RuleCol>
-              </li>
+      <div className="mt-10 lg:mt-14">
+        {/* the rewrite's three numbered problems, then the two lines on why next-token prediction falls short */}
+        <Reveal as="ol" stagger={0.08} className="grid gap-8 sm:grid-cols-3 lg:gap-6">
+          {p.points.map((point, i) => (
+            <li key={point.title} className="flex">
+              <RuleCol label={`[0${i + 1}]`} className="w-full justify-start! gap-6! md:gap-8!">
+                <h3 className="text-[19px] leading-[1.15] font-medium tracking-[-0.03em] md:text-xl">{point.title}</h3>
+                <p className="mt-3 text-[15px] leading-[1.3] tracking-[-0.02em] text-body md:text-base">{point.body}</p>
+              </RuleCol>
+            </li>
+          ))}
+        </Reveal>
+        <Reveal className="mt-10">
+          <RuleCol label="[04]">
+            {p.paragraphs.map((para, i) => (
+              <p key={para.slice(0, 24)} className={`${COPY} ${i ? 'mt-4' : ''}`}>
+                {para}
+              </p>
             ))}
-          </Reveal>
-          <Reveal className="mt-10">
-            <RuleCol label="[04]">
-              {p.paragraphs.map((para, i) => (
-                <p key={para.slice(0, 24)} className={`${COPY} ${i ? 'mt-4' : ''}`}>
-                  {para}
-                </p>
-              ))}
-            </RuleCol>
-          </Reveal>
-        </div>
-        <Reveal>
-          <Panel tag="Fig.01" title={research.mission.emphasis.replace('.', '')} caption="A chain of tokens against a connected enterprise.">
-            <Window title="Enterprise.Graph">
-              <div className="p-3 md:p-5">
-                <ProblemFigure />
-              </div>
-            </Window>
-          </Panel>
+          </RuleCol>
         </Reveal>
       </div>
     </Section>
@@ -224,16 +200,6 @@ function Matters() {
             <span className={`${LABEL} block text-faint`}>[0{i + 1}]</span>
             <span className={`${H3} mt-1 block`}>{sector}</span>
           </IconCell>
-        ))}
-      </ul>
-      <ul className="grid grid-cols-2 border-l border-line lg:grid-cols-4">
-        {showcase.models.map((model) => (
-          <li key={model.id} className="border-r border-b border-line bg-studio">
-            <img src={media.final(model.id)} alt={`${model.title}, SKY-001 output`} loading="lazy" className="aspect-[8/5] w-full object-contain" />
-            <p className={`${LABEL} border-t border-line bg-paper px-3 py-2.5 text-muted`}>
-              <span className="text-ink">{model.kind}</span> <span className="text-faint">/</span> {model.leaves} parts
-            </p>
-          </li>
         ))}
       </ul>
     </Section>
