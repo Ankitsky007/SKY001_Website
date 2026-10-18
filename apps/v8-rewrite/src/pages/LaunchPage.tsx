@@ -15,7 +15,6 @@ import { HeroGrid } from '../components/HeroGrid'
 import { Nav } from '../components/Nav'
 import { StageVideos } from '../components/StageVideos'
 import { TiltedModels } from '../components/TiltedModels'
-import { WorldModelDiagram } from '../components/WorldModelDiagram'
 import { footerPages, navTabs } from '../lib/nav'
 import { HOME, VIDEO_HREF, WAITLIST_HREF } from '../lib/routes'
 import { ButtonLink, DISPLAY, Display, GUTTER, H1, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
@@ -156,18 +155,6 @@ function Stages() {
   )
 }
 
-function Why() {
-  return (
-    <Section ground="studio">
-      <Display size="md">{sky001.why.title}</Display>
-      {/* the globe's canvas has air above the globe itself, so the diagram tucks up under the heading */}
-      <div className="-mt-6 md:-mt-12 lg:-mt-16">
-        <WorldModelDiagram />
-      </div>
-    </Section>
-  )
-}
-
 /** One domain: its pixel icon, in the domain's own muted tone, over its name. */
 function DomainCell({ name, icon, tone }: { name: string; icon: PixelIconName; tone: { color: string; ghost: string } }) {
   return (
@@ -258,7 +245,6 @@ export function LaunchPage() {
         <Contrarian />
         <Benchmarks />
         <Stages />
-        <Why />
         <Next />
         <Faq />
         <Waitlist />
