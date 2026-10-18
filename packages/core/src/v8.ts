@@ -140,6 +140,10 @@ export const benchmarkStory = {
     baseCad,
     {
       ...baseBim,
+      // the BIM film is now the four-model floor-plan run, not the tower (Ankit, 2026-10-18); no chip,
+      // as a centred one would cover the film's own top-right panel label
+      clip: '',
+      clipLabel: 'SKY-001, GPT-6 Astra, Claude Opus 5.5 and Gemini 3.8 Flash drawing the same floor plans side by side, then their final runtime and cost',
       claims: [{ value: '117×', label: 'faster', detail: '0.94 s vs 110.1 s' }, { value: '211×', label: 'lower cost', detail: '$0.0016 vs $0.330' }, baseBim.claims[2]],
     },
   ],

@@ -3,8 +3,8 @@ import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import cadBenchmarkClip from '../assets/media/cad-benchmark.mp4'
 import cadBenchmarkPoster from '../assets/media/s-cad-benchmark.jpg'
-import towerPoster from '../assets/media/s-tower.jpg'
-import towerClip from '../assets/media/tower.mp4'
+import bimBenchmarkClip from '../assets/media/bim-benchmark.mp4'
+import bimBenchmarkPoster from '../assets/media/s-bim-benchmark.jpg'
 import { BenchmarkBlock } from '../components/BenchmarkStory'
 import { ContrarianFigure } from '../components/ContrarianFigures'
 import { PixelIcon } from '../components/PixelIcon'
@@ -117,8 +117,8 @@ function Contrarian() {
 
 const STORY_CLIPS = {
   cad: { src: cadBenchmarkClip, poster: cadBenchmarkPoster, tone: 'native-light' as const },
-  // stand-in until the BIM benchmark video exists
-  bim: { src: towerClip, poster: towerPoster, tone: 'dark' as const },
+  // the team's BIM benchmark film, with its model name changed to SKY-001 (Ankit, 2026-10-18)
+  bim: { src: bimBenchmarkClip, poster: bimBenchmarkPoster, tone: 'dark' as const },
 }
 
 /** The claim once at the top, then per model: blue claim, the video under it, the three charts under that (Ankit, 2026-10-17). */
