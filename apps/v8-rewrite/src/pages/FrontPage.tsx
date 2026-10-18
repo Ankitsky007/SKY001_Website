@@ -111,7 +111,7 @@ function Problem() {
           ))}
         </Reveal>
         <Reveal className="mt-10">
-          <RuleCol label="[04]">
+          <RuleCol>
             {p.paragraphs.map((para, i) => (
               <p key={para.slice(0, 24)} className={`${COPY} ${i ? 'mt-4' : ''}`}>
                 {para}
