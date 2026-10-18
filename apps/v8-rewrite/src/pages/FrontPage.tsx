@@ -1,9 +1,9 @@
-import { backers, research, sky001Cta, team } from '@skyfall/core/v8'
+import { backers, hero, research, sky001Cta, team } from '@skyfall/core/v8'
 import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import heroClip from '../assets/media/hero.mp4'
 import heroPoster from '../assets/media/s-hero.jpg'
-import { CampusHero } from '../components/CampusHero'
+import { HeroGrid } from '../components/HeroGrid'
 import { Clip } from '../components/Clip'
 import { Footer } from '../components/Footer'
 import { HalftoneField } from '../components/HalftoneField'
@@ -16,7 +16,7 @@ import { ParetoFigure } from '../figures/front'
 import { footerPages, navTabs } from '../lib/nav'
 import { SECTOR_TONES } from '../lib/pixelIcons'
 import { HOME, LAUNCH, RESEARCH } from '../lib/routes'
-import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
+import { ButtonLink, CountUp, DISPLAY, Display, GUTTER, H1, H3, IconCell, LABEL, Panel, RuleCol, Section, TextLink, Window, WRAP } from '../lib/ui'
 
 const route = (href: string) => (href === '#sky-001' ? LAUNCH : href === '#research' ? RESEARCH : href)
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
@@ -25,6 +25,23 @@ const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SHOW_REEL = false
 // The SKY-001 band is hidden too: the content doc's front page does not introduce SKY-001 (Ankit, 2026-10-14).
 const SHOW_SKY001 = false
+
+/** Front-page hero: the Grid cells field behind the copy, centred and set large, as on the SKY-001 page (Ankit, 2026-10-18). */
+function Hero() {
+  return (
+    <section id="top" className={`relative overflow-hidden bg-paper ${GUTTER} pt-14 pb-14 md:pt-24 md:pb-20 lg:pt-32`}>
+      <HeroGrid />
+      <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
+        <h1 className={`${H1} max-w-[13ch] lg:text-[136px]`}>{hero.title}</h1>
+        <p className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
+        <div className="mt-8 flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row md:mt-12">
+          <ButtonLink href={LAUNCH}>{hero.primaryCta.label}</ButtonLink>
+          <TextLink href={RESEARCH}>{hero.secondaryCta.label}</TextLink>
+        </div>
+      </Reveal>
+    </section>
+  )
+}
 
 function ReelBand() {
   return (
@@ -293,7 +310,7 @@ export function FrontPage() {
     <>
       <Nav home={HOME} tabs={TABS} />
       <main>
-        <CampusHero launchHref={LAUNCH} researchHref={RESEARCH} />
+        <Hero />
         {SHOW_REEL && <ReelBand />}
         <Mission />
         <Problem />

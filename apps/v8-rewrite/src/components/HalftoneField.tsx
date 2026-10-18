@@ -13,11 +13,11 @@ const MASK = {
 } as const
 
 /**
- * Live field behind a section: one WebGL shader with several looks (see lib/fx.ts), all drifting
+ * Live field behind a section: one WebGL shader with several looks (see lib/fx.ts; `mode` fixes one), all drifting
  * with slow noise and reacting to the pointer. Purely decorative. Without WebGL2 (and while the three.js chunk loads)
  * it is a static CSS dot grid in the same colour; reduced motion renders one still frame.
  */
-export function HalftoneField({ tone = 'light', fade = 'none', cell = 9, className = '' }: { tone?: FieldTone; fade?: keyof typeof FADE; cell?: number; className?: string }) {
+export function HalftoneField({ tone = 'light', fade = 'none', cell = 9, mode, className = '' }: { tone?: FieldTone; fade?: keyof typeof FADE; cell?: number; mode?: number; className?: string }) {
   const fx = useFx()
   const [webgl] = useState(() => typeof document !== 'undefined' && hasWebGL2())
   const still = (
@@ -36,7 +36,7 @@ export function HalftoneField({ tone = 'light', fade = 'none', cell = 9, classNa
     <div aria-hidden="true" className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
       {webgl ? (
         <Suspense fallback={still}>
-          <HalftoneScene key={fx.id} tone={tone} fade={FADE[fade]} cell={cell} mode={fx.mode} fallback={still} className="size-full" />
+          <HalftoneScene key={fx.id} tone={tone} fade={FADE[fade]} cell={cell} mode={mode ?? fx.mode} fallback={still} className="size-full" />
         </Suspense>
       ) : (
         still
