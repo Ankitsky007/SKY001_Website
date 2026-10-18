@@ -23,22 +23,64 @@ import { BigLink, ButtonLink, DISPLAY, Display, GUTTER, H1, LABEL, RuleCol, Sect
 const COPY = 'text-[17px] leading-[1.25] tracking-[-0.02em] md:text-[19px]'
 const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 
+// Hero options for text legibility (Ankit, 2026-10-18), previewed with ?hero=1 to ?hero=6. No value keeps today's hero.
+// 1 Clear centre: the cells fade out in a soft oval behind the copy.
+// 2 Grid band: the cells sit in a short band above the copy, which starts below them.
+// 3 Side columns: the cells run down both edges and leave the centre column clear.
+// 4 Paper blocks: each headline line sits on a paper-white block over the cells.
+// 5 Quiet grid: the cells drop to a third of their strength, so ink always reads.
+// 6 Split: copy on the left, cells on the right (above the copy on phones).
+const HERO_OPTION = typeof window === 'undefined' ? 0 : Number(new URLSearchParams(window.location.search).get('hero')) || 0
+
+function HeroField({ option }: { option: number }) {
+  switch (option) {
+    case 1:
+      return <HeroGrid className="h-[300px] md:h-[440px]" mask="radial-gradient(ellipse 46% 62% at 50% 62%, transparent 45%, #000 85%)" />
+    case 2:
+      return <HeroGrid className="h-[120px] md:h-[176px]" />
+    case 3:
+      return <HeroGrid className="h-full" mask="linear-gradient(to right, #000 4%, transparent 24%, transparent 76%, #000 96%)" />
+    case 5:
+      return <HeroGrid className="h-[300px] md:h-[440px]" opacity={0.32} />
+    case 6:
+      return (
+        <>
+          <HeroGrid className="h-[180px] md:hidden" />
+          <HeroGrid className="hidden h-full md:block" mask="linear-gradient(to right, transparent 46%, #000 70%)" />
+        </>
+      )
+    default:
+      return <HeroGrid />
+  }
+}
+
 function Hero() {
   const { hero, intro } = sky001
+  const option = HERO_OPTION
+  const split = option === 6
+  const block = option === 4 ? 'bg-paper [box-decoration-break:clone] px-[0.12em]' : ''
+  const align = split ? 'items-center text-center md:items-start md:text-left' : 'items-center text-center'
+  const pad = option === 2 ? 'pt-[152px] md:pt-[216px] lg:pt-[232px]' : split ? 'pt-[208px] md:pt-24 lg:pt-32' : 'pt-14 md:pt-24 lg:pt-32'
   return (
-    <section id="top" className={`relative overflow-hidden bg-paper ${GUTTER} pt-14 pb-14 md:pt-24 md:pb-20 lg:pt-32`}>
-      <HeroGrid />
+    <section id="top" className={`relative overflow-hidden bg-paper ${GUTTER} ${pad} pb-14 md:pb-20`}>
+      <HeroField option={option} />
       {/* the hero rises in line by line on load, like the reveals further down */}
-      <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
+      <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col ${align}`}>
         <p className="text-[15px] font-medium tracking-[-0.02em] md:text-base">
-          {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
-          {intro.before.replace('SKY-001', 'SKY‑001')}
-          {intro.emphasis}
+          <span className={block}>
+            {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
+            {intro.before.replace('SKY-001', 'SKY‑001')}
+            {intro.emphasis}
+          </span>
         </p>
-        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[12ch] md:mt-8 lg:text-[136px]`}>{hero.title}</h1>
-        <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
-        <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
-        <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
+        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[12ch] md:mt-8 ${split ? 'lg:text-[112px]' : 'lg:text-[136px]'}`}>
+          {block ? <span className={block}>{hero.title}</span> : hero.title}
+        </h1>
+        <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body`}>
+          {block ? <span className={block}>{hero.lede}</span> : hero.lede}
+        </p>
+        <p className={`${LABEL} mt-3 text-brand`}>{block ? <span className={block}>{hero.note}</span> : hero.note}</p>
+        <div className={`mt-8 flex flex-col gap-3 md:mt-12 ${split ? 'items-center md:items-start' : 'items-center'}`}>
           <BigLink href={WAITLIST_HREF}>{intro.waitlist.cta.label}</BigLink>
           <TextLink href={VIDEO_HREF} className="border-b-0">
             {intro.video.label}

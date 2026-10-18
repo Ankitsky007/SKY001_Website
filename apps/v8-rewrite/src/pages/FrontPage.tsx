@@ -171,7 +171,7 @@ function Pareto() {
           </Panel>
         </Reveal>
         <Reveal className="flex">
-          <RuleCol label="[01]" className="lg:min-h-full">
+          <RuleCol label={<span aria-hidden="true" className="block size-2 bg-brand" />} className="lg:min-h-full">
             <p className={`${COPY} max-w-[30ch] text-[20px] md:text-[26px]`}>{research.pareto.body}</p>
           </RuleCol>
         </Reveal>
@@ -212,7 +212,7 @@ function Matters() {
     <Section id="matters">
       <Display align="left">{m.title}</Display>
       <Reveal className="mt-10 grid gap-8 md:grid-cols-2 lg:mt-14 lg:gap-12">
-        <RuleCol label="[01]">
+        <RuleCol label={<span aria-hidden="true" className="block size-2 bg-brand" />}>
           <p className={`${COPY} text-[20px] md:text-[26px]`}>
             {m.description.before}
             <span className="text-brand">{m.description.emphasis}</span>
