@@ -27,7 +27,7 @@ const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 // 1 Clear centre: the cells fade out in a soft oval behind the copy.
 // 2 Grid band: the cells sit in a short band above the copy, which starts below them.
 // 3 Side columns: the cells run down both edges and leave the centre column clear.
-// 4 Paper blocks: each headline line sits on a paper-white block over the cells.
+// 4 Paper card: the copy sits on a paper-white card with a hairline border, over a taller field of cells.
 // 5 Quiet grid: the cells drop to a third of their strength, so ink always reads.
 // 6 Split: copy on the left, cells on the right (above the copy on phones).
 const HERO_OPTION = typeof window === 'undefined' ? 0 : Number(new URLSearchParams(window.location.search).get('hero')) || 0
@@ -40,6 +40,8 @@ function HeroField({ option }: { option: number }) {
       return <HeroGrid className="h-[120px] md:h-[176px]" />
     case 3:
       return <HeroGrid className="h-full" mask="linear-gradient(to right, #000 4%, transparent 24%, transparent 76%, #000 96%)" />
+    case 4:
+      return <HeroGrid className="h-[78%]" />
     case 5:
       return <HeroGrid className="h-[300px] md:h-[440px]" opacity={0.32} />
     case 6:
@@ -58,28 +60,26 @@ function Hero() {
   const { hero, intro } = sky001
   const option = HERO_OPTION
   const split = option === 6
-  const block = option === 4 ? 'bg-paper [box-decoration-break:clone] px-[0.12em]' : ''
+  const card = option === 4 ? 'mx-auto max-w-[1080px] border border-line bg-paper px-5 py-10 md:px-16 md:py-14' : ''
   const align = split ? 'items-center text-center md:items-start md:text-left' : 'items-center text-center'
   const pad = option === 2 ? 'pt-[152px] md:pt-[216px] lg:pt-[232px]' : split ? 'pt-[208px] md:pt-24 lg:pt-32' : 'pt-14 md:pt-24 lg:pt-32'
   return (
     <section id="top" className={`relative overflow-hidden bg-paper ${GUTTER} ${pad} pb-14 md:pb-20`}>
       <HeroField option={option} />
       {/* the hero rises in line by line on load, like the reveals further down */}
-      <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col ${align}`}>
+      <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col ${align} ${card}`}>
         <p className="text-[15px] font-medium tracking-[-0.02em] md:text-base">
-          <span className={block}>
-            {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
-            {intro.before.replace('SKY-001', 'SKY‑001')}
-            {intro.emphasis}
-          </span>
+          {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
+          {intro.before.replace('SKY-001', 'SKY‑001')}
+          {intro.emphasis}
         </p>
         <h1 data-grid-avoid className={`${H1} mt-6 max-w-[12ch] md:mt-8 ${split ? 'lg:text-[112px]' : 'lg:text-[136px]'}`}>
-          {block ? <span className={block}>{hero.title}</span> : hero.title}
+          {hero.title}
         </h1>
         <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body`}>
-          {block ? <span className={block}>{hero.lede}</span> : hero.lede}
+          {hero.lede}
         </p>
-        <p className={`${LABEL} mt-3 text-brand`}>{block ? <span className={block}>{hero.note}</span> : hero.note}</p>
+        <p className={`${LABEL} mt-3 text-brand`}>{hero.note}</p>
         <div className={`mt-8 flex flex-col gap-3 md:mt-12 ${split ? 'items-center md:items-start' : 'items-center'}`}>
           <BigLink href={WAITLIST_HREF}>{intro.waitlist.cta.label}</BigLink>
           <TextLink href={VIDEO_HREF} className="border-b-0">
