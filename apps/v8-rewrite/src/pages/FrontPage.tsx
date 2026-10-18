@@ -33,7 +33,7 @@ const SHOW_SKY001 = false
  */
 function Hero() {
   return (
-    <section id="top" className={`relative flex min-h-[calc(100svh-4rem)] flex-col justify-center overflow-hidden bg-paper ${GUTTER} py-20 lg:min-h-svh lg:pt-14`}>
+    <section id="top" className={`relative flex min-h-[calc(100svh-4rem)] flex-col justify-center overflow-hidden bg-paper ${GUTTER} pt-28 pb-20 md:pt-36 lg:min-h-svh lg:pt-48`}>
       <HeroGrid />
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
         <h1 className={`${H1} max-w-[13ch] lg:text-[136px]`}>{hero.title}</h1>
