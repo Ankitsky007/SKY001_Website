@@ -63,11 +63,12 @@ export function StepCards() {
   )
 
   return (
-    <ol ref={root} className="grid gap-2 md:grid-cols-2 md:gap-3 lg:grid-cols-4 lg:gap-0">
+    // phones: the four cards side by side in a row that swipes sideways, so they don't lengthen the page (Ankit, 2026-10-18)
+    <ol ref={root} className="-mx-6 flex snap-x snap-mandatory scroll-px-6 gap-2 overflow-x-auto px-6 [scrollbar-width:none] md:mx-0 md:grid md:grid-cols-2 md:gap-3 md:overflow-visible md:px-0 lg:grid-cols-4 lg:gap-0 [&::-webkit-scrollbar]:hidden">
       {steps.map((step, i) => {
         const on = i < reached
         return (
-          <li key={step.key} className="relative flex flex-col border border-line bg-paper lg:-ml-px lg:first:ml-0">
+          <li key={step.key} className="relative flex w-[78%] shrink-0 snap-start flex-col border border-line bg-paper md:w-auto lg:-ml-px lg:first:ml-0">
             <div className="flex flex-1 flex-col gap-3 p-5 md:p-6">
               <span className={`text-base tracking-[-0.04em] transition-colors duration-300 md:text-[22px] ${on ? 'text-brand' : 'text-faint'}`}>{num(i)}</span>
               <h3 className={`mt-2 text-[24px] leading-[1.1] font-medium tracking-[-0.05em] transition-colors duration-300 md:mt-8 md:text-[28px] ${on ? 'text-brand' : 'text-ink/60'}`}>{step.title}</h3>

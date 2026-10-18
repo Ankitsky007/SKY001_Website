@@ -68,7 +68,7 @@ function ModelRing() {
     { dependencies: [reduced], scope: statement },
   )
   return (
-    <section id="intro" aria-labelledby="intro-statement" className="relative overflow-hidden bg-paper pt-12 pb-14 md:pt-20 md:pb-20">
+    <section id="intro" aria-labelledby="intro-statement" className="relative overflow-hidden bg-paper pt-2 pb-0 md:pt-20 md:pb-20">
       {/* glow behind the row, and a floor shadow under it */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 bottom-0 h-[70%] bg-[radial-gradient(55%_45%_at_50%_45%,rgba(62,87,218,0.14),transparent_75%)]" />
       <div aria-hidden="true" className="pointer-events-none absolute inset-x-[12%] bottom-10 h-16 rounded-[50%] bg-[radial-gradient(closest-side,rgba(26,26,26,0.12),transparent)] blur-md md:bottom-14" />
@@ -84,7 +84,7 @@ function ModelRing() {
           ))}
         </p>
       </div>
-      <TiltedModels className="relative mt-10 h-[260px] sm:h-[340px] md:mt-14 lg:h-[420px]" />
+      <TiltedModels className="relative mt-0 h-[190px] sm:h-[340px] md:mt-14 lg:h-[420px]" />
     </section>
   )
 }
@@ -95,7 +95,7 @@ function ModelRing() {
 function Contrarian() {
   const { contrarian } = sky001
   return (
-    <Section ground="studio">
+    <Section ground="studio" className="max-md:pt-8">
       <Display>{contrarian.title}</Display>
       {/* tablets and small laptops: one point per row, its illustration beside its text, so the
           drawings stay large enough to read; three across from 1100 */}
