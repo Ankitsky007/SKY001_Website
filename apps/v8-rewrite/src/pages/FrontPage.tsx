@@ -10,7 +10,7 @@ import { HalftoneField } from '../components/HalftoneField'
 import { LineGrid } from '../components/LineGrid'
 import { LogoRow } from '../components/LogoRow'
 import { Nav } from '../components/Nav'
-import type { PixelIconName } from '../components/PixelIcon'
+import { PixelIcon, type PixelIconName } from '../components/PixelIcon'
 import { Reel } from '../components/Reel'
 import { StepCards } from '../components/StepCards'
 import { ParetoFigure } from '../figures/front'
@@ -93,33 +93,45 @@ function Mission() {
   )
 }
 
+const PROBLEM_ICONS: PixelIconName[] = ['plan', 'simulate', 'energy']
+
+/**
+ * Option A (Ankit, 2026-10-18): the three problems as framed cards, each with a pixel icon, then the
+ * two closing lines behind a blue rule, the last one in blue. The closing lines carry no number.
+ */
 function Problem() {
   const p = research.problem
   return (
     <Section id="problem" ground="studio">
       <Display>{p.title}</Display>
-      <div className="mt-10 lg:mt-14">
-        {/* the rewrite's three numbered problems, then the two lines on why next-token prediction falls short */}
-        <Reveal as="ol" stagger={0.08} className="grid gap-8 sm:grid-cols-3 lg:gap-6">
-          {p.points.map((point, i) => (
-            <li key={point.title} className="flex">
-              <RuleCol label={`[0${i + 1}]`} className="w-full justify-start! gap-6! md:gap-8!">
-                <h3 className="text-[19px] leading-[1.15] font-medium tracking-[-0.03em] md:text-xl">{point.title}</h3>
-                <p className="mt-3 text-[15px] leading-[1.3] tracking-[-0.02em] text-body md:text-base">{point.body}</p>
-              </RuleCol>
-            </li>
-          ))}
-        </Reveal>
-        <Reveal className="mt-10">
-          <RuleCol>
-            {p.paragraphs.map((para, i) => (
-              <p key={para.slice(0, 24)} className={`${COPY} ${i ? 'mt-4' : ''}`}>
-                {para}
-              </p>
-            ))}
-          </RuleCol>
-        </Reveal>
-      </div>
+      <Reveal as="ol" stagger={0.08} className="mt-10 grid gap-4 md:grid-cols-3 lg:mt-14">
+        {p.points.map((point, i) => (
+          <li key={point.title} className="flex">
+            <Window
+              className="w-full"
+              title={
+                <span className="flex w-full justify-between gap-3 py-1">
+                  <span>Problem.0{i + 1}</span>
+                  <span>[0{i + 1}]</span>
+                </span>
+              }
+            >
+              <div className="px-5 pt-6 pb-7 md:px-6">
+                <PixelIcon name={PROBLEM_ICONS[i]} active className="size-11" />
+                <h3 className="mt-6 text-[22px] leading-[1.15] font-medium tracking-[-0.03em] md:text-2xl">{point.title}</h3>
+                <p className="mt-3 text-[15px] leading-[1.45] tracking-[-0.01em] text-body">{point.body}</p>
+              </div>
+            </Window>
+          </li>
+        ))}
+      </Reveal>
+      <Reveal className="mt-12 max-w-[980px] border-l-[3px] border-brand pl-5 lg:mt-14">
+        {p.paragraphs.map((para, i) => (
+          <p key={para.slice(0, 24)} className={`text-[20px] leading-[1.25] tracking-[-0.03em] md:text-[26px] lg:text-[28px] ${i ? 'mt-4 text-brand' : ''}`}>
+            {para}
+          </p>
+        ))}
+      </Reveal>
     </Section>
   )
 }
