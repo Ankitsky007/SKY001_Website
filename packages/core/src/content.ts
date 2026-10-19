@@ -129,7 +129,7 @@ export const sky001Cta = {
 
 // ---------------------------------------------------------------------------------------------
 // SKY-001 launch page. Copy is verbatim from the content doc tab "SKY PAGE" (captured 2026-10-12),
-// including its typos and its "SKY 00-1" spelling, until the team signs off edits.
+// including its typos, until the team signs off edits. "SKY 00-1" and "Sky-001" are written SKY-001 (Ankit, 2026-10-19).
 // ---------------------------------------------------------------------------------------------
 export const sky001 = {
   // Technical report, partnerships and the launch video have no link targets in the doc yet.
@@ -142,7 +142,7 @@ export const sky001 = {
     // Date is from the content owner's Loom ("most likely"), not from the doc.
     date: 'October 19, 2026',
     label: 'Skyfall News',
-    title: 'Skyfall AI announces SKY 00-1, a Latent World Model',
+    title: 'Skyfall AI announces SKY-001, a Latent World Model',
     cta: { label: 'Read more', href: 'https://temple-greene-saves-theorem.trycloudflare.com/' },
   },
   hero: {
@@ -166,11 +166,11 @@ export const sky001 = {
       },
       {
         title: 'First Model that can Dream',
-        body: 'We built a new type of world model with a new architecture for the non-molithic era. SKY 00-1 is designed for the next generation of AI that can ‘dream’ anything in the physical world. We believe we cannot build something that we can’t dream about. SKY 00-1 is a general engineer that can dream from product concept to factory',
+        body: 'We built a new type of world model with a new architecture for the non-molithic era. SKY-001 is designed for the next generation of AI that can ‘dream’ anything in the physical world. We believe we cannot build something that we can’t dream about. SKY-001 is a general engineer that can dream from product concept to factory',
       },
       {
         title: 'One Model, Many Domains',
-        body: 'As a latent world model, SKY 00-1 learns how physical systems are designed, built and run, in any domain. From engineering to operations, the possibilities are endless.',
+        body: 'As a latent world model, SKY-001 learns how physical systems are designed, built and run, in any domain. From engineering to operations, the possibilities are endless.',
       },
     ],
     // Labels and descriptions for the three animated illustrations beside the points. The parts
@@ -202,7 +202,7 @@ export const sky001 = {
     versus: 'World Models vs. LLMs',
   },
   stages: {
-    title: 'How Sky-001 beats Prompt-Based Methods Step-By-Step',
+    title: 'How SKY-001 beats Prompt-Based Methods Step-By-Step',
     items: [
       {
         key: 'explore',
@@ -242,13 +242,13 @@ export const sky001 = {
   },
   next: {
     title: 'Reinventing the physical economy with world models',
-    body: 'Today, SKY 00-1 is a hierarchical visual world model that plans and designs the assembly of engineered objects. By pairing it with a vision-language-action (VLA) agent in the next phase, we transition from plan generation to physical execution. Beyond manufacturing, SKY 00-1 is designed to become the underlying blueprint for complex physical design, spanning PCB design, Aerospace engineering, Energy and Power systems, Protein folding, Molecule design, Computer Use Agents, Enterprise Software and beyond.',
+    body: 'Today, SKY-001 is a hierarchical visual world model that plans and designs the assembly of engineered objects. By pairing it with a vision-language-action (VLA) agent in the next phase, we transition from plan generation to physical execution. Beyond manufacturing, SKY-001 is designed to become the underlying blueprint for complex physical design, spanning PCB design, Aerospace engineering, Energy and Power systems, Protein folding, Molecule design, Computer Use Agents, Enterprise Software and beyond.',
     domains: ['PCB design', 'Aerospace engineering', 'Energy and Power systems', 'Protein folding', 'Molecule design', 'Computer Use Agents', 'Enterprise Software'],
-    closing: 'Wherever structure, constraints, and sequence matter, SKY 00-1 plans and powers the build.',
+    closing: 'Wherever structure, constraints, and sequence matter, SKY-001 plans and powers the build.',
   },
   // Names are placeholders in the doc ("Haoye, Zichen, Mike (TBD)", "Pavan et. al").
   team: {
-    title: 'The team behind SKY 00-1',
+    title: 'The team behind SKY-001',
     groups: [
       { label: 'Core contributors', names: 'Haoye, Zichen, Mike (TBD)' },
       { label: 'Full team', names: 'Pavan et. al' },
@@ -263,7 +263,7 @@ export const sky001 = {
       { q: 'Is SKY-001 just another Language-based model?', a: "No, SKY-001 is World Model Based and doesn’t do next-token prediction like LLMs. Given a prompt or 2D sketch, it uses a hierarchical composer which decides what the design is made of, separates them hierarchically and it generates the whole design for you part-by-part." },
       { q: 'Why are World Models better for physical object design?', a: "LLMs are autoregressive and were not designed for visual reasoning. Engineering design, by contrast, is a complex process that requires a model to reason about geometry, form latent-space abstractions, and plan over long horizons, since most designs involve hundreds of thousands of steps which World Models are suitable for." },
       { q: 'Can SKY-001 build a physical object?', a: "Not yet. Currently, SKY-001 is a Spatial World Model which can only produce a visual design plan that shows the design, the elements it breaks into, and the steps to build each one. However, as the next step, we plan to ground that in software where a VLA agent can then build the object." },
-      { q: 'How do I get access to Sky-001?', a: "Join the waitlist to be the first to hear when it goes public." },
+      { q: 'How do I get access to SKY-001?', a: "Join the waitlist to be the first to hear when it goes public." },
       { q: 'What is SKY-001 good at?', a: "SKY-001 excels at designing complex real-world objects with hundreds of thousands of parts, where getting the structure, constraints, and sequence right drives cost, speed, and design accuracy. It delivers frontier-level accuracy at 100 times the speed and 1/150th the cost of LLMs." },
       { q: 'What else can we design with SKY-001?', a: "We envision SKY-001 as the foundation model for designing any complex physical objects from PCBs, aerospace systems, and energy and power systems to proteins, molecules, computer-use agents, and much more." },
       { q: 'I have further questions. How to contact the team?', a: "Email us at info@skyfall.ai" },
