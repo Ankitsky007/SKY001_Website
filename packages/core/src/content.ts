@@ -255,22 +255,18 @@ export const sky001 = {
       { label: 'Leadership', names: 'Sumit, Kaheer, Sam' },
     ],
   },
-  // The doc's answers are writer's notes, not final copy; they are shown as written.
+  // FAQ copy from Ankit, 19 Oct 2026.
   faq: {
     title: 'What you might be wondering',
     items: [
-      { q: 'What are SKY models and SKY-001?', a: 'Foundation world models' },
-      { q: 'How is SKY related to autonomous businesses?', a: '' },
-      { q: 'Is SKY-001 just another LLM-foundation model?', a: 'No, explain difference' },
-      {
-        q: 'Why are World Models better for physical object design?',
-        a: 'Better at long-term planning. Actually understands the world + simulation. Better for real automation due to little to zero human input. Needs different type of AI.',
-      },
-      { q: 'Can SKY-001 build a physical object?', a: 'Not yet, eventually we will have a VLA agent' },
-      { q: 'How do I get access to Sky-001?', a: 'Join waitlist to be the first to hear when it goes public' },
-      { q: 'What is Sky-001 good at?', a: 'Great for designing complex objects that require long term planning' },
-      { q: 'What else can we design with SKY-001?', a: 'Applies to numerous sectors: robotics, drug discovery, PCB design, BIM etc..' },
-      { q: 'I have further questions. How to contact the team?', a: 'team email E.G. hello@sky001.ai' },
+      { q: 'What is SKY-001?', a: "SKY-001 is the first Engineering World Model that breaks a complex physical object into manageable parts and keeps them consistent across hundreds or thousands of construction steps. It enables you to visualize any physical object in the real-world just like a ‘General Engineer’." },
+      { q: 'Is SKY-001 just another Language-based model?', a: "No, SKY-001 is World Model Based and doesn’t do next-token prediction like LLMs. Given a prompt or 2D sketch, it uses a hierarchical composer which decides what the design is made of, separates them hierarchically and it generates the whole design for you part-by-part." },
+      { q: 'Why are World Models better for physical object design?', a: "LLMs are autoregressive and were not designed for visual reasoning. Engineering design, by contrast, is a complex process that requires a model to reason about geometry, form latent-space abstractions, and plan over long horizons, since most designs involve hundreds of thousands of steps which World Models are suitable for." },
+      { q: 'Can SKY-001 build a physical object?', a: "Not yet. Currently, SKY-001 is a Spatial World Model which can only produce a visual design plan that shows the design, the elements it breaks into, and the steps to build each one. However, as the next step, we plan to ground that in software where a VLA agent can then build the object." },
+      { q: 'How do I get access to Sky-001?', a: "Join the waitlist to be the first to hear when it goes public." },
+      { q: 'What is SKY-001 good at?', a: "SKY-001 excels at designing complex real-world objects with hundreds of thousands of parts, where getting the structure, constraints, and sequence right drives cost, speed, and design accuracy. It delivers frontier-level accuracy at 100 times the speed and 1/150th the cost of LLMs." },
+      { q: 'What else can we design with SKY-001?', a: "We envision SKY-001 as the foundation model for designing any complex physical objects from PCBs, aerospace systems, and energy and power systems to proteins, molecules, computer-use agents, and much more." },
+      { q: 'I have further questions. How to contact the team?', a: "Email us at info@skyfall.ai" },
     ],
   },
 } as const
