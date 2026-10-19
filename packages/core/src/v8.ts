@@ -98,7 +98,7 @@ export const sky001 = {
   ...baseSky001,
   hero: {
     ...baseSky001.hero,
-    title: 'The First Engineering World Model',
+    title: 'SKY-001: The First World Model for Engineering',
     lede: 'Accelerating innovations in the physical economy with world models',
     note: 'Our first stop is Design & Engineering.',
   },
