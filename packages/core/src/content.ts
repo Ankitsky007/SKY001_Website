@@ -226,7 +226,7 @@ export const sky001 = {
         key: 'construct',
         label: 'Stage 4',
         title: '3D Construction World Model',
-        body: 'Finally, it assembles all the parts, layer by layer again, in hierarchical order into a complete 3D assembly that you can visualize immediately in standard CAD software',
+        body: 'Finally, it assembles all the parts, layer by layer again, in hierarchical order into a complete 3D assembly that you can visualize immediately in standard 3D asset viewer',
       },
     ],
   },
