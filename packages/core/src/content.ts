@@ -242,7 +242,7 @@ export const sky001 = {
   },
   next: {
     title: 'Reinventing the physical economy with world models',
-    body: 'Today, SKY-001 is a hierarchical visual world model that plans and designs the assembly of engineered objects. By pairing it with a vision-language-action (VLA) agent in the next phase, we transition from plan generation to physical execution. Beyond manufacturing, SKY-001 is designed to become the underlying blueprint for complex physical design, spanning PCB design, Aerospace engineering, Energy and Power systems, Protein folding, Molecule design, Computer Use Agents, Enterprise Software and beyond.',
+    body: 'Today, SKY-001 is a hierarchical visual world model that plans and designs the assembly of engineered objects. Beyond manufacturing, SKY-001 is designed to become the underlying blueprint for complex physical design, spanning PCB design, Aerospace engineering, Energy and Power systems, Protein folding, Molecule design, Computer Use Agents, Enterprise Software and beyond.',
     domains: ['PCB design', 'Aerospace engineering', 'Energy and Power systems', 'Protein folding', 'Molecule design', 'Computer Use Agents', 'Enterprise Software'],
     closing: 'Wherever structure, constraints, and sequence matter, SKY-001 plans and powers the build.',
   },
