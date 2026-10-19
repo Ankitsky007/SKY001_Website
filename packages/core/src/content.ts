@@ -208,7 +208,7 @@ export const sky001 = {
         key: 'explore',
         label: 'Stage 1',
         title: 'Parallel Explorations Through World Modeling',
-        body: 'Our model converts a 2D sketch or text prompt into several rough 3D assets at once. This lets you instantly explore different visual directions and pick the best foundation before diving into details.',
+        body: 'Our model converts a 2D image or text prompt into several rough 3D assets at once. This lets you instantly explore different visual directions and pick the best foundation before diving into details.',
       },
       {
         key: 'decompose',
@@ -260,7 +260,7 @@ export const sky001 = {
     title: 'What you might be wondering',
     items: [
       { q: 'What is SKY-001?', a: "SKY-001 is the first Engineering World Model that breaks a complex physical object into manageable parts and keeps them consistent across hundreds or thousands of construction steps. It enables you to visualize any physical object in the real-world just like a ‘General Engineer’." },
-      { q: 'Is SKY-001 just another Language-based model?', a: "No, SKY-001 is World Model Based and doesn’t do next-token prediction like LLMs. Given a prompt or 2D sketch, it uses a hierarchical composer which decides what the design is made of, separates them hierarchically and it generates the whole design for you part-by-part." },
+      { q: 'Is SKY-001 just another Language-based model?', a: "No, SKY-001 is World Model Based and doesn’t do next-token prediction like LLMs. Given a prompt or 2D image, it uses a hierarchical composer which decides what the design is made of, separates them hierarchically and it generates the whole design for you part-by-part." },
       { q: 'Why are World Models better for physical object design?', a: "LLMs are autoregressive and were not designed for visual reasoning. Engineering design, by contrast, is a complex process that requires a model to reason about geometry, form latent-space abstractions, and plan over long horizons, since most designs involve hundreds of thousands of steps which World Models are suitable for." },
       { q: 'Can SKY-001 build a physical object?', a: "Not yet. Currently, SKY-001 is a Spatial World Model which can only produce a visual design plan that shows the design, the elements it breaks into, and the steps to build each one. However, as the next step, we plan to ground that in software where a VLA agent can then build the object." },
       { q: 'How do I get access to SKY-001?', a: "Join the waitlist to be the first to hear when it goes public." },
