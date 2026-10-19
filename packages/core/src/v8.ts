@@ -104,9 +104,9 @@ export const sky001 = {
   },
   intro: {
     ...baseSky001.intro,
-    // the line above the SKY-001 headline, in capitals (Ankit, 2026-10-19)
-    before: 'INTRODUCING SKY-001',
-    emphasis: '',
+    // the line above the SKY-001 headline, in capitals, shown as a bracket tag with the name in blue (Ankit, 2026-10-19)
+    before: 'INTRODUCING ',
+    emphasis: 'SKY-001',
   },
   contrarian: {
     ...baseSky001.contrarian,

@@ -28,16 +28,30 @@ const SMALL = 'text-[15px] leading-[1.3] tracking-[-0.02em] md:text-base'
 
 function Hero() {
   const { hero, intro } = sky001
+  const reduced = useReducedMotion()
+  const tag = useRef<HTMLParagraphElement>(null)
+  // the brackets slide in from either side once the line has risen in (Ankit picked the bracket tag, 2026-10-19)
+  useGSAP(
+    () => {
+      if (reduced || !tag.current) return
+      gsap.from('[data-bracket]', { x: (i) => (i === 0 ? -28 : 28), opacity: 0, duration: 0.9, ease: 'power3.out', delay: 0.45 })
+    },
+    { scope: tag, dependencies: [reduced] },
+  )
   return (
     <section id="top" className={`relative overflow-hidden bg-paper ${GUTTER} pt-14 pb-14 md:pt-24 md:pb-20 lg:pt-32`}>
       {/* "Clear centre" (Ankit picked it from six options, 2026-10-18): the cells fade out in a soft oval behind the copy */}
       <HeroGrid className="h-[300px] md:h-[440px]" mask="radial-gradient(ellipse 46% 62% at 50% 62%, transparent 45%, #000 85%)" />
       {/* the hero rises in line by line on load, like the reveals further down */}
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
-        <p className="text-[15px] font-medium tracking-[-0.02em] md:text-base">
-          {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
-          {intro.before.replace('SKY-001', 'SKY‑001')}
-          {intro.emphasis}
+        <p ref={tag} className="flex items-center gap-3 font-mono text-[13px] font-medium tracking-[0.08em] uppercase md:gap-4 md:text-[15px]">
+          <span data-bracket aria-hidden="true">[</span>
+          <span>
+            {intro.before}
+            {/* Non-breaking hyphen keeps "SKY-001" on one line. */}
+            <span className="text-brand">{intro.emphasis.replace('SKY-001', 'SKY‑001')}</span>
+          </span>
+          <span data-bracket aria-hidden="true">]</span>
         </p>
         <h1 data-grid-avoid className={`${H1} mt-6 max-w-[12ch] md:mt-8 lg:text-[136px]`}>{hero.title}</h1>
         <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
