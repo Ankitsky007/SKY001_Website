@@ -3,6 +3,8 @@ import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import cadBenchmarkClip from '../assets/media/cad-benchmark.mp4'
 import cadBenchmarkPoster from '../assets/media/s-cad-benchmark.jpg'
+import cadSpeedClip from '../assets/media/cad-speed.mp4'
+import cadSpeedPoster from '../assets/media/s-cad-speed.jpg'
 import bimBenchmarkClip from '../assets/media/bim-benchmark.mp4'
 import bimBenchmarkPoster from '../assets/media/s-bim-benchmark.jpg'
 import { BenchmarkBlock } from '../components/BenchmarkStory'
@@ -116,7 +118,8 @@ function Contrarian() {
 }
 
 const STORY_CLIPS = {
-  cad: { src: cadBenchmarkClip, poster: cadBenchmarkPoster, tone: 'native-light' as const },
+  // Accuracy (the Jaguar E-Type run) and Speed (four models timed on one part, laid out on a 16:9 grid) (Ankit, 2026-10-19)
+  cad: { src: cadBenchmarkClip, poster: cadBenchmarkPoster, tone: 'native-light' as const, second: { src: cadSpeedClip, poster: cadSpeedPoster } },
   // the team's BIM benchmark film, with its model name changed to SKY-001 (Ankit, 2026-10-18)
   bim: { src: bimBenchmarkClip, poster: bimBenchmarkPoster, tone: 'dark' as const },
 }
