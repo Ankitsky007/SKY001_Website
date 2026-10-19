@@ -644,10 +644,14 @@ const drawMix: Draw = (g, time) => {
     ['ΔZ', tz - seat, kF, ''],
     ['Δθ', (yaw * 180) / Math.PI, kB, '°'],
   ]
+  // left-aligned from a fixed start, so the readout stays put while the numbers count down (Ankit, 2026-10-19);
+  // the start leaves room for the widest reading, two digits and a degree sign, before the right edge
+  g.font = `500 11px ${MONO}`
+  const x0 = 384 - g.measureText('ΔX +00.0°').width
   off.forEach(([name, v, k, unit], i) => {
     const locked = Math.abs(v) < 0.05
     const c = locked ? BRAND : k > 0 ? INK : MUTED
-    label(g, `${name} ${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(1)}${unit}`, 384, 190 + i * 16, c, 'right', 11)
+    label(g, `${name} ${v >= 0 ? '+' : '−'}${Math.abs(v).toFixed(1)}${unit}`, x0, 190 + i * 16, c, 'left', 11)
   })
 
   gizmo(g, 46, 214, { x: kX > 0, y: kY > 0, z: kB > 0 || kF > 0 })
