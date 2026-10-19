@@ -105,24 +105,21 @@ describe('SKY-001 page', () => {
     }
     expect(labels().find((l) => l.startsWith('Time / sample, 3D CAD, '))).toContain('SKY-001 3.9 s, GPT-6 Astra 199 s')
     expect(labels().find((l) => l.startsWith('IoU, 3D CAD, '))).toContain('Grok 4.7 –')
-    expect(labels().find((l) => l.startsWith('Time / plan, BIM, '))).toContain('SKY-001 0.94 s, GPT-6 Astra 110.1 s, Claude Opus 5.5 78.7 s, Gemini 3.8 Flash 269.9 s')
-    expect(labels().find((l) => l.startsWith('Cost / plan, BIM, '))).toContain('SKY-001 $0.0016, GPT-6 Astra $0.330')
-    expect(labels().find((l) => l.startsWith('IoU, BIM, '))).toContain('SKY-001 43.6%, GPT-6 Astra 40.6%, Opus 5.5 34.4%, Gemini 3.8 Flash 42.3%, Qwen 3.8 Max 28.8%, Kimi K3 33.7%, Grok 4.7 28.2%')
+    expect(labels().find((l) => l.startsWith('IoU, 3D CAD, '))).toContain('Claude Opus 5.5 69.4%')
+    expect(labels().find((l) => l.startsWith('Time / plan, BIM, '))).toContain('SKY-001 1.22 s, GPT-6 Astra 144.6 s, Claude Opus 5.5 113.2 s, Gemini 3.8 Flash 346.2 s, Qwen 3.8 Max 255.3 s, Kimi K3 113.9 s, Grok 4.7 592.1 s')
+    expect(labels().find((l) => l.startsWith('Cost / plan, BIM, '))).toContain('SKY-001 $0.0024, GPT-6 Astra $0.446, Claude Opus 5.5 $0.276, Gemini 3.8 Flash $0.218, Qwen 3.8 Max $0.111, Kimi K3 $0.270, Grok 4.7 $0.305')
+    expect(labels().find((l) => l.startsWith('IoU, BIM, '))).toContain('SKY-001 43.6%, GPT-6 Astra 40.6%, Claude Opus 5.5 34.4%, Gemini 3.8 Flash 42.3%, Qwen 3.8 Max 28.8%, Kimi K3 33.7%, Grok 4.7 28.2%')
+    expect(labels().join(' ')).not.toMatch(/(?<!Claude )Opus 5\.5/)
   })
 
   it('states claims that match the benchmark numbers', () => {
     for (const m of benchmarkStory.models) {
-      // BIM's speed and cost claims are the floor-plan table's; its accuracy claim is from the earlier BIM benchmark.
-      const timed = m.key === 'bim' ? benchmarkRaw.rows.bim : m.rows
       const ours = m.rows.find((r) => r.ours)!
-      const oursTimed = timed.find((r) => r.ours)!
-      const astra = timed.find((r) => r.model === 'GPT-6 Astra')!
+      const astra = m.rows.find((r) => r.model === 'GPT-6 Astra')!
       const bestLlm = Math.max(...m.rows.filter((r) => !r.ours).map((r) => r.iou ?? 0))
       const [speed, cost, iou] = m.claims
-      expect(speed.value).toBe(`${Math.round(astra.seconds / oursTimed.seconds)}×`)
-      // the BIM table prints 211× from unrounded costs; its rounded $0.330 / $0.0016 gives 206×
-      if (m.key === 'bim') expect(Math.abs(parseFloat(cost.value) / (astra.cost / oursTimed.cost) - 1)).toBeLessThan(0.03)
-      else expect(cost.value).toBe(`${Math.round(astra.cost / oursTimed.cost)}×`)
+      expect(speed.value).toBe(`${Math.round(astra.seconds / ours.seconds)}×`)
+      expect(cost.value).toBe(`${Math.round(astra.cost / ours.cost)}×`)
       expect(iou.value).toBe(`${ours.iou}%`)
       expect(iou.detail).toContain(`${bestLlm}%`)
       for (const c of m.claims) expect(c.detail).not.toMatch(/Astra/)
@@ -131,15 +128,13 @@ describe('SKY-001 page', () => {
 
   it('labels every bar with the table text for its own number', () => {
     for (const m of benchmarkStory.models) {
-      const rows = m.key === 'bim' ? benchmarkRaw.rows.bim : m.rows
-      rows.forEach((r, i) => {
+      m.rows.forEach((r, i) => {
         const [iou, time, cost] = benchmarkRaw.labels[m.key][i]
         expect(iou).toBe(r.iou === null ? '–' : `${r.iou}%`)
         expect(Number(time.replace(/[ s,]/g, ''))).toBe(r.seconds)
         expect(Number(cost.replace('$', ''))).toBe(r.cost)
       })
     }
-    benchmarkStory.models[1].rows.forEach((r, i) => expect(benchmarkRaw.iouLabels.bim[i]).toBe(`${r.iou}%`))
     expect(formatLike('1,250 s', 625)).toBe('625 s')
     expect(formatLike('$0.00237', 0.001)).toBe('$0.00100')
     expect(metricValue(benchmarkStory.models[0].rows[0], 'time')).toBe(3.9)

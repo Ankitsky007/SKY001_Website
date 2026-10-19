@@ -5,7 +5,7 @@
 // SKY-001, and the SKY-001 title stays as the doc has it. Sections the rewrite does not cover keep
 // the shared copy. The exports below shadow the same names from ./index.
 // ---------------------------------------------------------------------------------------------
-import { backers as baseBackers, benchmarkStory as baseBenchmarkStory, hero as baseHero, research as baseResearch, site as baseSite, sky001 as baseSky001, team as baseTeam } from './content'
+import { backers as baseBackers, benchmarkStory as baseBenchmarkStory, hero as baseHero, research as baseResearch, site as baseSite, sky001 as baseSky001, team as baseTeam, type StoryRow } from './content'
 
 export * from './index'
 
@@ -131,20 +131,30 @@ export const sky001 = {
   },
 } as const
 
-// BIM's speed and cost claims come from the floor-plan table (1,000 held-out plans, Ankit, 2026-10-18),
-// as that table prints them: 117× faster and 211× cheaper than GPT-6 Astra. The accuracy claim is unchanged.
+// The charts name Opus as "Claude Opus 5.5" (Ankit, 2026-10-19). BIM's rows, and its speed and cost claims
+// against GPT-6 Astra, are the research team's BIM table (Ankit, 2026-10-19): 144.6 ÷ 1.22 = 119×, 0.446 ÷ 0.0024 = 186×.
 const [baseCad, baseBim] = baseBenchmarkStory.models
+const claudeOpus = (rows: readonly StoryRow[]) => rows.map((r) => (r.model === 'Opus 5.5' ? { ...r, model: 'Claude Opus 5.5' } : r))
 export const benchmarkStory = {
   ...baseBenchmarkStory,
   models: [
-    baseCad,
+    { ...baseCad, rows: claudeOpus(baseCad.rows) },
     {
       ...baseBim,
+      rows: claudeOpus([
+        { model: 'SKY-001', ours: true, iou: 43.6, seconds: 1.22, cost: 0.0024 },
+        { model: 'GPT-6 Astra', ours: false, iou: 40.6, seconds: 144.6, cost: 0.446 },
+        { model: 'Opus 5.5', ours: false, iou: 34.4, seconds: 113.2, cost: 0.276 },
+        { model: 'Gemini 3.8 Flash', ours: false, iou: 42.3, seconds: 346.2, cost: 0.218 },
+        { model: 'Qwen 3.8 Max', ours: false, iou: 28.8, seconds: 255.3, cost: 0.111 },
+        { model: 'Kimi K3', ours: false, iou: 33.7, seconds: 113.9, cost: 0.27 },
+        { model: 'Grok 4.7', ours: false, iou: 28.2, seconds: 592.1, cost: 0.305 },
+      ]),
       // the BIM film is now the four-model floor-plan run, not the tower (Ankit, 2026-10-18); no chip,
       // as a centred one would cover the film's own top-right panel label
       clip: '',
       clipLabel: 'SKY-001, GPT-6 Astra, Claude Opus 5.5 and Gemini 3.8 Flash drawing the same floor plans side by side, then their final runtime and cost',
-      claims: [{ value: '117×', label: 'faster', detail: '0.94 s vs 110.1 s' }, { value: '211×', label: 'lower cost', detail: '$0.0016 vs $0.330' }, baseBim.claims[2]],
+      claims: [{ value: '119×', label: 'faster', detail: '1.22 s vs 144.6 s' }, { value: '186×', label: 'lower cost', detail: '$0.0024 vs $0.446' }, baseBim.claims[2]],
     },
   ],
 } as const

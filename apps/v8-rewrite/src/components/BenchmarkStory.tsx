@@ -104,7 +104,7 @@ function ChartTabs({ story }: { story: Story }) {
         ))}
       </div>
       <div role="tabpanel" id={`${id}-panel`} aria-labelledby={`${id}-${metric}`}>
-        <BarChart key={metric} rows={rowsFor(story, metric)} labels={labelsFor(story, metric)} model={model} metric={metric} tag={tag} />
+        <BarChart key={metric} rows={story.rows} labels={labelsFor(story, metric)} model={model} metric={metric} tag={tag} />
       </div>
     </div>
   )
@@ -113,14 +113,8 @@ function ChartTabs({ story }: { story: Story }) {
 type ModelKey = keyof typeof benchmarkRaw.labels
 type Story = (typeof benchmarkStory.models)[number]
 
-/** 3D CAD's rows are the story's own. BIM's time and cost come from its floor-plan table; its IoU from the earlier BIM benchmark (Ankit, 2026-10-18). */
-function rowsFor(story: Story, metric: Metric): readonly StoryRow[] {
-  return story.key === 'bim' && metric !== 'iou' ? benchmarkRaw.rows.bim : story.rows
-}
-
 /** The table text for each row of one chart. */
 function labelsFor(story: Story, metric: Metric): readonly string[] {
-  if (story.key === 'bim' && metric === 'iou') return benchmarkRaw.iouLabels.bim
   return benchmarkRaw.labels[story.key].map((row) => row[METRICS.indexOf(metric)])
 }
 
@@ -148,7 +142,7 @@ export function BenchmarkBlock({ story, clip }: { story: Story; clip: { src: str
       {/* Both models are drawn in their tables' own units (Ankit, 2026-10-18): IoU, time and cost. */}
       <Reveal as="div" stagger={0.08} className={`mt-3 hidden gap-3 lg:grid lg:grid-cols-3`}>
         {benchmarkRaw.metrics[story.key].map((m) => (
-          <BarChart key={m} rows={rowsFor(story, m)} labels={labelsFor(story, m)} model={story.key} metric={m} tag={story.tag} />
+          <BarChart key={m} rows={story.rows} labels={labelsFor(story, m)} model={story.key} metric={m} tag={story.tag} />
         ))}
       </Reveal>
       <div className="mt-3">

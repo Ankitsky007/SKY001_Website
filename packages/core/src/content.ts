@@ -391,30 +391,18 @@ export const benchmarkRaw = {
     time: { tab: 'Time', title: 'Time / sample', arrow: '↓', note: 'Lower is better' },
     cost: { tab: 'Cost', title: 'Cost / sample', arrow: '↓', note: 'Lower is better' },
   },
-  /** Which charts each model shows. BIM's IoU is the earlier BIM benchmark (seven models); its time and cost are the floor-plan table (Ankit, 2026-10-18). */
   metrics: { cad: ['iou', 'time', 'cost'], bim: ['iou', 'time', 'cost'] },
-  /** BIM IoU as the earlier BIM table prints it, in that table's order (benchmarkStory BIM rows). */
-  iouLabels: { bim: ['43.6%', '40.6%', '34.4%', '42.3%', '28.8%', '33.7%', '28.2%'] },
   /** Chart titles where a model's table names the unit differently. */
   titles: { bim: { time: 'Time / plan', cost: 'Cost / plan' } },
-  /** BIM: 1,000 held-out floor plans (Swiss + IFC), mean per plan. Table order. */
-  rows: {
-    bim: [
-      { model: 'SKY-001', ours: true, iou: null, seconds: 0.94, cost: 0.0016 },
-      { model: 'GPT-6 Astra', ours: false, iou: null, seconds: 110.1, cost: 0.33 },
-      { model: 'Claude Opus 5.5', ours: false, iou: null, seconds: 78.7, cost: 0.191 },
-      { model: 'Gemini 3.8 Flash', ours: false, iou: null, seconds: 269.9, cost: 0.146 },
-    ],
-  },
   axes: {
     cad: { iou: [0, 50, 100], time: [0, 650, 1300], cost: [0, 0.4, 0.8] },
-    bim: { iou: [0, 50, 100], time: [0, 150, 300], cost: [0, 0.2, 0.4] },
+    bim: { iou: [0, 50, 100], time: [0, 300, 600], cost: [0, 0.25, 0.5] },
   },
   ticks: {
     cad: { iou: ['0%', '50%', '100%'], time: ['0s', '650s', '1300s'], cost: ['$0', '$0.4', '$0.8'] },
-    bim: { iou: ['0%', '50%', '100%'], time: ['0s', '150s', '300s'], cost: ['$0', '$0.2', '$0.4'] },
+    bim: { iou: ['0%', '50%', '100%'], time: ['0s', '300s', '600s'], cost: ['$0', '$0.25', '$0.5'] },
   },
-  /** Per model, in table order: the IoU, time and cost text as printed in the table ("–" where there is no value; BIM has no IoU). */
+  /** Per model, in table order: the IoU, time and cost text as printed in the table ("–" where there is no value). */
   labels: {
     cad: [
       ['79.7%', '3.9 s', '$0.005'],
@@ -425,11 +413,15 @@ export const benchmarkRaw = {
       ['9.5%', '439 s', '$0.13'],
       ['–', '1,250 s', '$0.59'],
     ],
+    // the research team's BIM table (Ankit, 2026-10-19)
     bim: [
-      ['–', '0.94 s', '$0.0016'],
-      ['–', '110.1 s', '$0.330'],
-      ['–', '78.7 s', '$0.191'],
-      ['–', '269.9 s', '$0.146'],
+      ['43.6%', '1.22 s', '$0.0024'],
+      ['40.6%', '144.6 s', '$0.446'],
+      ['34.4%', '113.2 s', '$0.276'],
+      ['42.3%', '346.2 s', '$0.218'],
+      ['28.8%', '255.3 s', '$0.111'],
+      ['33.7%', '113.9 s', '$0.270'],
+      ['28.2%', '592.1 s', '$0.305'],
     ],
   },
 } as const
