@@ -104,8 +104,9 @@ export const sky001 = {
   },
   intro: {
     ...baseSky001.intro,
-    before: 'Introducing SKY-001, ',
-    emphasis: 'the first ‘AI General Engineer’',
+    // the line above the SKY-001 headline, in capitals (Ankit, 2026-10-19)
+    before: 'INTRODUCING SKY-001',
+    emphasis: '',
   },
   contrarian: {
     ...baseSky001.contrarian,
