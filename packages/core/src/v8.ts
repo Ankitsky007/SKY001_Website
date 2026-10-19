@@ -145,7 +145,7 @@ export const benchmarkStory = {
       // two films side by side on desktop, tabs on phones; each named by a black bar, so no chip (Ankit, 2026-10-19)
       clip: '',
       views: [
-        { label: 'Accuracy', clipLabel: baseCad.clipLabel },
+        { label: 'Accuracy', clipLabel: 'SKY-001, GPT-6 Astra, Gemini 4 Argon and Claude Fable 5.1 building the same car, motorbike and engine parts from one input image' },
         { label: 'Speed', clipLabel: 'SKY-001, GPT-6 Astra, Claude Fable 5.1 and Gemini 4 building the same 3D CAD part, each with its running time' },
       ],
     },

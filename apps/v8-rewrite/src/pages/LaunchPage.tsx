@@ -1,8 +1,8 @@
 import { benchmarkStory, sky001 } from '@skyfall/core/v8'
 import { gsap, Reveal, SplitReveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useRef } from 'react'
-import cadBenchmarkClip from '../assets/media/cad-benchmark.mp4'
-import cadBenchmarkPoster from '../assets/media/s-cad-benchmark.jpg'
+import cadAccuracyClip from '../assets/media/cad-accuracy.mp4'
+import cadAccuracyPoster from '../assets/media/s-cad-accuracy.jpg'
 import cadSpeedClip from '../assets/media/cad-speed.mp4'
 import cadSpeedPoster from '../assets/media/s-cad-speed.jpg'
 import bimAccuracyClip from '../assets/media/bim-accuracy.mp4'
@@ -137,8 +137,9 @@ function Contrarian() {
 }
 
 const STORY_CLIPS = {
-  // Accuracy (the Jaguar E-Type run) and Speed (four models timed on one part, laid out on a 16:9 grid) (Ankit, 2026-10-19)
-  cad: { src: cadBenchmarkClip, poster: cadBenchmarkPoster, tone: 'native-light' as const, second: { src: cadSpeedClip, poster: cadSpeedPoster } },
+  // Accuracy (four models building the same car, motorbike and engine parts, swapped in by Ankit 2026-10-19) and
+  // Speed (four models timed on one part, laid out on a 16:9 grid)
+  cad: { src: cadAccuracyClip, poster: cadAccuracyPoster, tone: 'native-light' as const, second: { src: cadSpeedClip, poster: cadSpeedPoster } },
   // BIM Accuracy (four models side by side) and Speed (the timed run, cut when all four finish, sped up to 30 s) (Ankit, 2026-10-19)
   bim: { src: bimAccuracyClip, poster: bimAccuracyPoster, tone: 'native-light' as const, second: { src: bimSpeedClip, poster: bimSpeedPoster } },
 }
