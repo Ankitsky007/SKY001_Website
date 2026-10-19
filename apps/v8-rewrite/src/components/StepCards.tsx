@@ -10,7 +10,7 @@ const num = (i: number) => `// ${String(i + 1).padStart(3, '0')}`
  * aeye "how it works" step cards. One progress bar runs across the four cards, tied directly to
  * scroll: it fills as the row scrolls by and empties again on the way back up. A card turns blue
  * once its stretch of the bar is full. On desktop the whole section pins for a moment, so the run
- * happens with the heading, intro and cards on screen together. Reduced motion shows every step complete.
+ * happens with the heading, intro and cards on screen together. Phones and reduced motion show every step complete.
  */
 export function StepCards() {
   const steps = research.build.steps
@@ -53,9 +53,13 @@ export function StepCards() {
       mm.add('(min-width: 1024px)', () => {
         run({ trigger: el, start: 'bottom bottom-=32', end: '+=110%', pin: section, anticipatePin: 1 })
       })
-      // stacked cards: the bar fills as the cards pass the middle of the screen
-      mm.add('(max-width: 1023.98px)', () => {
+      // tablets, cards stacked two by two: the bar fills as the cards pass the middle of the screen
+      mm.add('(min-width: 768px) and (max-width: 1023.98px)', () => {
         run({ start: 'top 70%', end: 'bottom 55%' })
+      })
+      // phones, cards in a sideways row: no scroll run, every card shows complete and blue at once (Ankit, 2026-10-19)
+      mm.add('(max-width: 767.98px)', () => {
+        render(n)
       })
       return () => mm.revert()
     },

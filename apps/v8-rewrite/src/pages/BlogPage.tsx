@@ -1,6 +1,6 @@
 import { blogPage as B } from '@skyfall/core/v8'
 import { blogPosts, type BlogPost } from '@skyfall/core/blog'
-import { Reveal, useLenis } from '@skyfall/core/motion'
+import { Reveal, SplitReveal, useLenis } from '@skyfall/core/motion'
 import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react'
 import { Footer } from '../components/Footer'
 import { LineGrid } from '../components/LineGrid'
@@ -99,7 +99,9 @@ function CardGrid({ posts }: { posts: readonly BlogPost[] }) {
 function SectionHead({ title, children }: { title: string; children?: ReactNode }) {
   return (
     <div className="mb-7 flex items-end justify-between gap-4 border-b border-ink pb-4">
-      <h2 className="text-[30px] leading-none font-medium tracking-[-0.045em] md:text-[44px]">{title}</h2>
+      <SplitReveal as="h2" className="text-[30px] leading-none font-medium tracking-[-0.045em] md:text-[44px]">
+        {title}
+      </SplitReveal>
       {children}
     </div>
   )
@@ -112,7 +114,9 @@ function Newsletter() {
       <Reveal className={`relative ${WRAP} grid border border-line bg-paper lg:grid-cols-2`}>
         <div className="flex flex-col gap-4 border-b border-line p-6 md:p-10 lg:border-r lg:border-b-0">
           <span className={`${LABEL} text-brand`}>/ {B.newsletter.label}</span>
-          <h2 className="max-w-[14ch] text-[34px] leading-[0.98] font-medium tracking-[-0.045em] md:text-[56px]">{B.newsletter.title}</h2>
+          <SplitReveal as="h2" className="max-w-[14ch] text-[34px] leading-[0.98] font-medium tracking-[-0.045em] md:text-[56px]">
+            {B.newsletter.title}
+          </SplitReveal>
           <p className="max-w-[44ch] text-[17px] leading-[1.45] text-body">{B.newsletter.body}</p>
         </div>
         <div className="flex flex-col justify-center p-6 md:p-10">
@@ -128,15 +132,18 @@ function BlogIndex() {
   return (
     <>
       <section className={`relative bg-paper ${GUTTER} pt-10 pb-10 md:pt-16`}>
-        <Reveal stagger={0.1} className={`relative ${WRAP}`}>
+        <div className={`relative ${WRAP}`}>
           <Ticks>
-            <div className="flex flex-col gap-5 px-1">
+            {/* the label and lede fade up in turn while the headline rises in line by line on load (Ankit, 2026-10-19) */}
+            <Reveal stagger={0.1} className="flex flex-col gap-5 px-1">
               <span className={`${LABEL} text-brand`}>/ {B.label}</span>
-              <h1 className="text-[46px] leading-[0.92] font-medium tracking-[-0.045em] sm:text-[84px] lg:text-[120px] lg:leading-[0.86]">{B.title}</h1>
+              <SplitReveal as="h1" immediate delay={0.25} className="text-[46px] leading-[0.92] font-medium tracking-[-0.045em] sm:text-[84px] lg:text-[120px] lg:leading-[0.86]">
+                {B.title}
+              </SplitReveal>
               <p className="max-w-[44ch] text-lg leading-[1.4] text-body md:text-xl">{B.lede}</p>
-            </div>
+            </Reveal>
           </Ticks>
-        </Reveal>
+        </div>
       </section>
 
       <section className={`bg-paper ${GUTTER} pb-16 md:pb-24`}>
@@ -149,7 +156,9 @@ function BlogIndex() {
             <Thumb post={feat} className="aspect-[16/10] border-b border-line lg:aspect-auto lg:min-h-[440px] lg:border-r lg:border-b-0" />
             <div className="flex flex-col gap-5 p-6 md:p-10">
               <Meta post={feat} />
-              <h2 className="text-[30px] leading-[1.05] font-medium tracking-[-0.045em] transition-colors duration-300 group-hover:text-brand md:text-[42px]">{feat.title}</h2>
+              <SplitReveal as="h2" className="text-[30px] leading-[1.05] font-medium tracking-[-0.045em] transition-colors duration-300 group-hover:text-brand md:text-[42px]">
+                {feat.title}
+              </SplitReveal>
               <p className="line-clamp-4 text-base leading-[1.5] text-body">{feat.excerpt}</p>
               <Chips chips={feat.chips} />
               <span onPointerEnter={scrambleOnHover} className="mt-auto inline-flex min-h-11 w-fit items-center gap-2.5 border-b border-ink font-mono text-sm font-semibold uppercase transition-colors group-hover:border-brand group-hover:text-brand">
@@ -333,7 +342,9 @@ function Reader({ post }: { post: BlogPost }) {
               </a>
             </nav>
             <Meta post={post} />
-            <h1 className="max-w-[20ch] text-[38px] leading-none font-medium tracking-[-0.045em] text-balance sm:text-[56px] lg:text-[76px] lg:leading-[0.94]">{post.title}</h1>
+            <SplitReveal as="h1" immediate delay={0.25} className="max-w-[20ch] text-[38px] leading-none font-medium tracking-[-0.045em] text-balance sm:text-[56px] lg:text-[76px] lg:leading-[0.94]">
+              {post.title}
+            </SplitReveal>
             <Chips chips={post.chips} />
           </Reveal>
         </header>

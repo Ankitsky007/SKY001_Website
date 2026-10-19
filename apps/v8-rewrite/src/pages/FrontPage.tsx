@@ -1,5 +1,5 @@
 import { backers, hero, research, sky001, sky001Cta, team } from '@skyfall/core/v8'
-import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
+import { gsap, Reveal, SplitReveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import heroClip from '../assets/media/hero.mp4'
 import heroPoster from '../assets/media/s-hero.jpg'
@@ -36,7 +36,10 @@ function Hero() {
     <section id="top" className={`relative flex min-h-[calc(100svh-4rem)] flex-col justify-center overflow-hidden bg-paper ${GUTTER} pt-28 pb-20 md:pt-36 lg:min-h-svh lg:pt-48`}>
       <HeroGrid />
       <Reveal stagger={0.12} delay={0.15} className={`relative z-10 ${WRAP} flex flex-col items-center text-center`}>
-        <h1 className={`${H1} max-w-[13ch] lg:text-[136px]`}>{hero.title}</h1>
+        {/* every big title rises in line by line; the headline plays on load (Ankit, 2026-10-19) */}
+        <SplitReveal as="h1" immediate delay={0.25} className={`${H1} max-w-[13ch] lg:text-[136px]`}>
+          {hero.title}
+        </SplitReveal>
         <p className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
         <div className="mt-8 flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row md:mt-12">
           <ButtonLink href={LAUNCH}>{hero.primaryCta.label}</ButtonLink>

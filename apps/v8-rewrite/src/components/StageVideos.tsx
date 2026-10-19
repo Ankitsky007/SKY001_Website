@@ -1,5 +1,5 @@
 import { sky001 } from '@skyfall/core/v8'
-import { useReducedMotion } from '@skyfall/core/motion'
+import { SplitReveal, useReducedMotion } from '@skyfall/core/motion'
 import { useEffect, useRef, useState } from 'react'
 import constructClip from '../assets/media/stage-construct.mp4'
 import decomposeClip from '../assets/media/stage-decompose.mp4'
@@ -81,9 +81,9 @@ export function StageVideos({ titleId }: { titleId: string }) {
 
   return (
     <>
-      <h2 id={titleId} className={`${DISPLAY} text-[30px] leading-none sm:text-[40px] lg:text-[48px]`}>
+      <SplitReveal as="h2" id={titleId} className={`${DISPLAY} text-[30px] leading-none sm:text-[40px] lg:text-[48px]`}>
         {sky001.stages.title}
-      </h2>
+      </SplitReveal>
       {/* side by side from 1280px, the video and the stage list exactly as tall as each other: the list's
           stages share out the video's height, and if the list is the taller one the video fills it */}
       <div ref={box} className="mt-10 grid gap-8 md:mt-12 xl:grid-cols-[minmax(0,330px)_minmax(0,1fr)] xl:gap-10">

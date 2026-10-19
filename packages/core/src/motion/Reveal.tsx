@@ -23,7 +23,8 @@ export function Reveal({ children, as: Tag = 'div', className, delay = 0, y = 24
     () => {
       const el = ref.current
       if (!el || prefersReducedMotion()) return
-      const targets = stagger ? Array.from(el.children) : el
+      // children that run their own line reveal (SplitReveal) are left out of the stagger
+      const targets = stagger ? Array.from(el.children).filter((c) => !c.hasAttribute('data-split-reveal')) : el
       gsap.from(targets, {
         autoAlpha: 0,
         y,

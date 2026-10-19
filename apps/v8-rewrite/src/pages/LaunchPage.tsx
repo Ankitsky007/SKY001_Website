@@ -1,5 +1,5 @@
 import { benchmarkStory, sky001 } from '@skyfall/core/v8'
-import { gsap, Reveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
+import { gsap, Reveal, SplitReveal, useGSAP, useReducedMotion } from '@skyfall/core/motion'
 import { useRef } from 'react'
 import cadBenchmarkClip from '../assets/media/cad-benchmark.mp4'
 import cadBenchmarkPoster from '../assets/media/s-cad-benchmark.jpg'
@@ -53,7 +53,10 @@ function Hero() {
           </span>
           <span data-bracket aria-hidden="true">]</span>
         </p>
-        <h1 data-grid-avoid className={`${H1} mt-6 max-w-[12ch] md:mt-8 lg:text-[136px]`}>{hero.title}</h1>
+        {/* every big title rises in line by line; the headline plays on load (Ankit, 2026-10-19) */}
+        <SplitReveal as="h1" immediate delay={0.25} data={{ 'grid-avoid': '' }} className={`${H1} mt-6 max-w-[12ch] md:mt-8 lg:text-[136px]`}>
+          {hero.title}
+        </SplitReveal>
         <p data-grid-avoid className={`${COPY} mt-8 max-w-[38ch] text-body`}>{hero.lede}</p>
         {/* the same pair as the front page hero: a filled button and an underlined link (Ankit, 2026-10-18) */}
         <div className="mt-8 flex flex-col items-center gap-x-6 gap-y-3 sm:flex-row md:mt-12">
@@ -241,7 +244,9 @@ function Waitlist() {
     <Section id="waitlist" field={<LineGrid mask="linear-gradient(to bottom, transparent, #000 30%, #000 calc(100% - 120px), transparent)" />}>
       <div className="flex flex-col items-center text-center">
         <p className="text-[15px] font-medium tracking-[-0.02em] md:text-base">{waitlist.title}</p>
-        <h2 className={`${H1} mt-6 max-w-[11ch]`}>{waitlist.body}</h2>
+        <SplitReveal as="h2" className={`${H1} mt-6 max-w-[11ch]`}>
+          {waitlist.body}
+        </SplitReveal>
         <div className="mt-8 flex flex-col items-center gap-3 md:mt-12">
           <ButtonLink href={WAITLIST_HREF}>{waitlist.cta.label}</ButtonLink>
           <TextLink href={VIDEO_HREF} className="border-b-0">
