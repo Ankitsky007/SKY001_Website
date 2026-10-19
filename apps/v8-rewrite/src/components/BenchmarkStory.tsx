@@ -123,7 +123,7 @@ type StoryClip = { src: string; poster: string; tone: ClipTone; second?: { src: 
 type ClipView = { readonly label: string; readonly clipLabel: string }
 
 /** Two films for one model: side by side under black bars on desktop, one at a time behind tabs on phones and tablets (Ankit, 2026-10-19). */
-function ClipViews({ views, clips, tone }: { views: readonly ClipView[]; clips: readonly { src: string; poster: string }[]; tone: ClipTone }) {
+function ClipViews({ title, views, clips, tone }: { title: string; views: readonly ClipView[]; clips: readonly { src: string; poster: string }[]; tone: ClipTone }) {
   const [active, setActive] = useState(0)
   const id = useId()
   return (
@@ -136,7 +136,7 @@ function ClipViews({ views, clips, tone }: { views: readonly ClipView[]; clips: 
         ))}
       </div>
       <div className="lg:hidden">
-        <div role="tablist" aria-label="Films" className="grid grid-cols-2 border-x border-ink">
+        <div role="tablist" aria-label={`${title} films`} className="grid grid-cols-2 border-x border-ink">
           {views.map((v, i) => (
             <button
               key={v.label}
@@ -181,7 +181,7 @@ export function BenchmarkBlock({ story, clip }: { story: Story; clip: StoryClip 
         </dl>
       </div>
       {'views' in story && clip.second ? (
-        <ClipViews views={story.views} clips={[clip, clip.second]} tone={clip.tone} />
+        <ClipViews title={story.title} views={story.views} clips={[clip, clip.second]} tone={clip.tone} />
       ) : (
         <Clip src={clip.src} poster={clip.poster} label={story.clipLabel} tone={clip.tone} chip={story.clip} className="border-t-0" />
       )}

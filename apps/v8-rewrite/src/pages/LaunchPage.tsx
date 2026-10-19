@@ -5,8 +5,10 @@ import cadBenchmarkClip from '../assets/media/cad-benchmark.mp4'
 import cadBenchmarkPoster from '../assets/media/s-cad-benchmark.jpg'
 import cadSpeedClip from '../assets/media/cad-speed.mp4'
 import cadSpeedPoster from '../assets/media/s-cad-speed.jpg'
-import bimBenchmarkClip from '../assets/media/bim-benchmark.mp4'
-import bimBenchmarkPoster from '../assets/media/s-bim-benchmark.jpg'
+import bimAccuracyClip from '../assets/media/bim-accuracy.mp4'
+import bimAccuracyPoster from '../assets/media/s-bim-accuracy.jpg'
+import bimSpeedClip from '../assets/media/bim-speed.mp4'
+import bimSpeedPoster from '../assets/media/s-bim-speed.jpg'
 import { BenchmarkBlock } from '../components/BenchmarkStory'
 import { ContrarianFigure } from '../components/ContrarianFigures'
 import { PixelIcon } from '../components/PixelIcon'
@@ -120,8 +122,8 @@ function Contrarian() {
 const STORY_CLIPS = {
   // Accuracy (the Jaguar E-Type run) and Speed (four models timed on one part, laid out on a 16:9 grid) (Ankit, 2026-10-19)
   cad: { src: cadBenchmarkClip, poster: cadBenchmarkPoster, tone: 'native-light' as const, second: { src: cadSpeedClip, poster: cadSpeedPoster } },
-  // the team's BIM benchmark film, with its model name changed to SKY-001 (Ankit, 2026-10-18)
-  bim: { src: bimBenchmarkClip, poster: bimBenchmarkPoster, tone: 'dark' as const },
+  // BIM Accuracy (four models side by side) and Speed (the timed run, cut when all four finish, sped up to 30 s) (Ankit, 2026-10-19)
+  bim: { src: bimAccuracyClip, poster: bimAccuracyPoster, tone: 'native-light' as const, second: { src: bimSpeedClip, poster: bimSpeedPoster } },
 }
 
 /** The claim once at the top, then per model: blue claim, the video under it, the three charts under that (Ankit, 2026-10-17). */

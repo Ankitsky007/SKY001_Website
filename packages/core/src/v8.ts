@@ -159,10 +159,13 @@ export const benchmarkStory = {
         { model: 'Kimi K3', ours: false, iou: 33.7, seconds: 113.9, cost: 0.27 },
         { model: 'Grok 4.7', ours: false, iou: 28.2, seconds: 592.1, cost: 0.305 },
       ]),
-      // the BIM film is now the four-model floor-plan run, not the tower (Ankit, 2026-10-18); no chip,
-      // as a centred one would cover the film's own top-right panel label
+      // Accuracy and Speed films, as in 3D CAD (Ankit, 2026-10-19); each named by a black bar, so no chip
       clip: '',
-      clipLabel: 'SKY-001, GPT-6 Astra, Claude Opus 5.5 and Gemini 3.8 Flash drawing the same floor plans side by side, then their final runtime and cost',
+      clipLabel: 'SKY-001, GPT-6 Astra, Claude Fable 5.1 and Muse Wonder 1.0 drawing the same floor plan side by side',
+      views: [
+        { label: 'Accuracy', clipLabel: 'SKY-001, GPT-6 Astra, Claude Fable 5.1 and Muse Wonder 1.0 drawing the same floor plan side by side' },
+        { label: 'Speed', clipLabel: 'SKY-001, GPT-6 Astra, Claude Fable 5.1 and Muse Wonder 1.0 timed on the same floor plan, until all four finish' },
+      ],
       claims: [{ value: '119×', label: 'faster', detail: '1.22 s vs 144.6 s' }, { value: '186×', label: 'lower cost', detail: '$0.0024 vs $0.446' }, baseBim.claims[2]],
     },
   ],
